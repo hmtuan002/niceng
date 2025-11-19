@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học từ vựng - Niceng</title>
+    <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: #202020;
+            background-color: #fff;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            color: #ffde59;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info span {
+            cursor: pointer;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .pop-up {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pop-up.active {
+            display: flex;
+        }
+
+        .pop-up > div {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        #stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #stats > div {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            width: 30%;
+        }
+
+        #green {
+            background-color: #4CAF50;
+        }
+
+        #blue {
+            background-color: #2196F3;
+        }
+
+        #yellow {
+            background-color: #FFC107;
+        }
+
+        .number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 25px;
+            background-color: #1e90ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #buttons a:hover {
+            background-color: #1e87f1;
+        }
+
+        #card-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .card-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-item:last-child {
+            border-bottom: none;
+        }
+
+        .card-item button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 20px auto;
+        }
+
+        .card > div {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card.flipped > div {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .front {
+            background-color: white;
+        }
+
+        .back {
+            background-color: #f9f9f9;
+            transform: rotateY(180deg);
+        }
+
+        .back-actions {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .back-actions p {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        #right {
+            background-color: #4CAF50;
+        }
+
+        #wrong {
+            background-color: #f44336;
+        }
+
+        #attention-reveal, #attention-drag {
+            text-align: center;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #alert {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navigation a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .navigation span {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="top-bar">
+            <div class="logo">
+                <img src="https://learnenglishwithaurora.github.io/aurora.svg" alt="Niceng">
+                <h1>Niceng</h1>
+            </div>
+            <div class="user-info">
+                <span id="logout" class="material-symbols-outlined">logout</span>
+            </div>
+        </div>
+
+        <div class="pop-up" id="add-menu">
+            <span id="close-add-menu" class="material-symbols-outlined close">close</span>
+            <div>
+                <h2>Thêm từ mới</h2>
+                <input type="text" placeholder="Từ tiếng Anh" id="word" />
+                <input type="text" placeholder="Nghĩa tiếng Việt" id="meaning" />
+                <input type="text" placeholder="Ví dụ (tiếng Anh)" id="example" />
+                <button type="button" id="submit">Thêm từ</button>
+            </div>
+        </div>
+
+        <div class="pop-up" id="card-list-menu">
+            <span id="close-card-list-menu" class="material-symbols-outlined close">close</span>
+            <div>
+                <h2>Danh sách từ vựng</h2>
+                <div id="card-list"></div>
+            </div>
+        </div>
+
+        <div class="pop-up" id="learn-menu">
+            <span id="close-learn-menu" class="material-symbols-outlined close">close</span>
+            <div>
+                <span id="attention-reveal">Bấm vào thẻ để xem đáp án</span>
+                <span id="attention-drag">Kéo thẻ sang trái hoặc phải</span>
+                <div class="card" id="flashcard">
+                    <div>
+                        <div class="front">
+                            <!-- Content will be filled by JavaScript -->
+                        </div>
+                        <div class="back">
+                            <!-- Content will be filled by JavaScript -->
+                            <div class="back-actions">
+                                <p id="wrong">Học lại</p>
+                                <p id="right">Đã nhớ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="content">
+            <div>
+                <div>
+                    <img src="https://learnenglishwithaurora.github.io/homepage/flashcard.svg" alt="" style="width: 60%;">
+                </div>
+                <div id="stats">
+                    <div id="green">
+                        <p class="number">0</p>
+                        <p>Từ cần học</p>
+                    </div>
+                    <div id="blue">
+                        <p class="number">0</p>
+                        <p>Từ đã biết</p>
+                    </div>
+                    <div id="yellow">
+                        <p class="number">0</p>
+                        <p>Từ đã thuộc</p>
+                    </div>
+                </div>
+                <div id="buttons">
+                    <div>
+                        <a id="start">Bắt đầu!</a>
+                    </div>
+                    <div>
+                        <a id="list">
+                            <span class="material-symbols-outlined">view_carousel</span>
+                        </a>
+                    </div>
+                    <div>
+                        <a id="add">
+                            <span class="material-symbols-outlined">add</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="alert">
+                Đã xóa từ này khỏi bộ thẻ.
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a title="Menu chính">
+                <span class="material-symbols-outlined" style="color: #213547;">home</span>
+                Trang chính
+            </a>
+            <a href="#" id="library-link" title="Xem thêm các bài đọc và các từ vựng">
+                <span class="material-symbols-outlined">local_library</span>
+                Thư viện
+            </a>
+            <a href="#" id="admin-link" title="Quản trị (chỉ dành cho admin)" style="display: none;">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+                Quản trị
+            </a>
+            <a href="#" id="profile-link" title="Quản lý tài khoản">
+                <span class="material-symbols-outlined">person</span>
+                Tài khoản
+            </a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBc55gGulDbOCgGp2USL_HXeVLwqqXFTTU",
+            authDomain: "niceng-c235d.firebaseapp.com",
+            projectId: "niceng-c235d",
+            storageBucket: "niceng-c235d.firebasestorage.app",
+            messagingSenderId: "532991375524",
+            appId: "1:532991375524:web:699b2e9f5b1bf727d68e31",
+            measurementId: "G-PDZ20PLN86"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Global variables
+        let userCards = [];
+        let currentCardIndex = 0;
+        let cardsToLearn = [];
+        let isAdmin = false;
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Check if user is admin
+                db.collection('users').doc(user.uid).get().then((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        isAdmin = userData.role === 'admin';
+                        
+                        if (isAdmin) {
+                            document.getElementById('admin-link').style.display = 'flex';
+                        }
+                    }
+                    
+                    // Load user's cards
+                    loadUserCards();
+                });
+            } else {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Load user's flash cards
+        function loadUserCards() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            db.collection('users').doc(user.uid).collection('cards')
+                .onSnapshot((snapshot) => {
+                    userCards = [];
+                    snapshot.forEach((doc) => {
+                        userCards.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    updateStats();
+                    updateCardList();
+                });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const toLearn = userCards.filter(card => card.status === 'learning' || !card.status).length;
+            const known = userCards.filter(card => card.status === 'known').length;
+            const mastered = userCards.filter(card => card.status === 'mastered').length;
+            
+            document.querySelector('#green .number').textContent = toLearn;
+            document.querySelector('#blue .number').textContent = known;
+            document.querySelector('#yellow .number').textContent = mastered;
+        }
+
+        // Update card list in popup
+        function updateCardList() {
+            const cardList = document.getElementById('card-list');
+            cardList.innerHTML = '';
+            
+            userCards.forEach(card => {
+                const cardItem = document.createElement('div');
+                cardItem.className = 'card-item';
+                cardItem.innerHTML = `
+                    <div>
+                        <strong>${card.word}</strong>: ${card.meaning}
+                        ${card.example ? `<br><small>${card.example}</small>` : ''}
+                    </div>
+                    <button class="delete-card" data-id="${card.id}">Xóa</button>
+                `;
+                cardList.appendChild(cardItem);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-card').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const cardId = e.target.getAttribute('data-id');
+                    deleteCard(cardId);
+                });
+            });
+        }
+
+        // Delete a card
+        function deleteCard(cardId) {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').doc(cardId).delete()
+                .then(() => {
+                    showAlert('Đã xóa từ này khỏi bộ thẻ.');
+                })
+                .catch((error) => {
+                    console.error('Error deleting card: ', error);
+                });
+        }
+
+        // Show alert message
+        function showAlert(message) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Add new card
+        document.getElementById('submit').addEventListener('click', () => {
+            const word = document.getElementById('word').value;
+            const meaning = document.getElementById('meaning').value;
+            const example = document.getElementById('example').value;
+            
+            if (!word || !meaning) {
+                alert('Vui lòng nhập từ và nghĩa!');
+                return;
+            }
+            
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').add({
+                word: word,
+                meaning: meaning,
+                example: example,
+                status: 'learning',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                document.getElementById('word').value = '';
+                document.getElementById('meaning').value = '';
+                document.getElementById('example').value = '';
+                document.getElementById('add-menu').classList.remove('active');
+                showAlert('Đã thêm từ mới!');
+            })
+            .catch((error) => {
+                console.error('Error adding card: ', error);
+            });
+        });
+
+        // Start learning
+        document.getElementById('start').addEventListener('click', () => {
+            if (userCards.length === 0) {
+                alert('Bạn chưa có thẻ nào để học! Hãy thêm một số thẻ trước.');
+                return;
+            }
+            
+            // Filter cards that need to be learned
+            cardsToLearn = userCards.filter(card => card.status === 'learning' || !card.status);
+            
+            if (cardsToLearn.length === 0) {
+                alert('Tất cả các thẻ của bạn đã được học!');
+                return;
+            }
+            
+            // Shuffle cards
+            shuffleArray(cardsToLearn);
+            currentCardIndex = 0;
+            
+            // Show first card
+            showCard();
+            document.getElementById('learn-menu').classList.add('active');
+            document.getElementById('attention-reveal').style.display = 'block';
+            document.getElementById('attention-drag').style.display = 'none';
+        });
+
+        // Show current card
+        function showCard() {
+            if (currentCardIndex >= cardsToLearn.length) {
+                // All cards learned
+                document.getElementById('learn-menu').classList.remove('active');
+                alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
+                return;
+            }
+            
+            const card = cardsToLearn[currentCardIndex];
+            const flashcard = document.getElementById('flashcard');
+            
+            // Reset card flip
+            flashcard.classList.remove('flipped');
+            
+            // Set front content
+            const front = flashcard.querySelector('.front');
+            front.innerHTML = `<h1>${card.word}</h1>`;
+            
+            // Set back content
+            const back = flashcard.querySelector('.back');
+            back.innerHTML = `
+                <h1>${card.meaning}</h1>
+                ${card.example ? `<p>${card.example}</p>` : ''}
+                <div class="back-actions">
+                    <p id="wrong">Học lại</p>
+                    <p id="right">Đã nhớ</p>
+                </div>
+            `;
+            
+            // Add event listeners to action buttons
+            back.querySelector('#right').addEventListener('click', () => markCardAsKnown());
+            back.querySelector('#wrong').addEventListener('click', () => markCardAsLearning());
+        }
+
+        // Mark card as known
+        function markCardAsKnown() {
+            const card = cardsToLearn[currentCardIndex];
+            const user = auth.currentUser;
+            
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
+                status: 'known'
+            })
+            .then(() => {
+                currentCardIndex++;
+                showCard();
+            })
+            .catch((error) => {
+                console.error('Error updating card: ', error);
+            });
+        }
+
+        // Mark card as still learning
+        function markCardAsLearning() {
+            const card = cardsToLearn[currentCardIndex];
+            const user = auth.currentUser;
+            
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
+                status: 'learning'
+            })
+            .then(() => {
+                // Move current card to the end of the list
+                cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
+                showCard();
+            })
+            .catch((error) => {
+                console.error('Error updating card: ', error);
+            });
+        }
+
+        // Shuffle array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Event listeners for popups
+        document.getElementById('add').addEventListener('click', () => {
+            document.getElementById('add-menu').classList.add('active');
+        });
+
+        document.getElementById('list').addEventListener('click', () => {
+            document.getElementById('card-list-menu').classList.add('active');
+        });
+
+        document.getElementById('close-add-menu').addEventListener('click', () => {
+            document.getElementById('add-menu').classList.remove('active');
+        });
+
+        document.getElementById('close-card-list-menu').addEventListener('click', () => {
+            document.getElementById('card-list-menu').classList.remove('active');
+        });
+
+        document.getElementById('close-learn-menu').addEventListener('click', () => {
+            document.getElementById('learn-menu').classList.remove('active');
+        });
+
+        // Flashcard flip on click
+        document.getElementById('flashcard').addEventListener('click', (e) => {
+            if (!e.target.closest('.back-actions')) {
+                document.getElementById('flashcard').classList.toggle('flipped');
+                document.getElementById('attention-reveal').style.display = 'none';
+                document.getElementById('attention-drag').style.display = 'block';
+            }
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+
+        // Navigation links
+        document.getElementById('admin-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'admin.html';
+        });
+
+        document.getElementById('library-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            // In a real app, this would navigate to the library page
+            alert('Tính năng thư viện sẽ sớm có mặt!');
+        });
+
+        document.getElementById('profile-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            // In a real app, this would navigate to the profile page
+            alert('Tính năng hồ sơ sẽ sớm có mặt!');
+        });
+    </script>
+</body>
+</html>
