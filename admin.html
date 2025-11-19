@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản trị - Niceng</title>
+    <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        :root {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: #202020;
+            background-color: #fff;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo h1 {
+            color: #ffde59;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info span {
+            cursor: pointer;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #1e90ff;
+            color: #1e90ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #1e90ff;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stat-label {
+            margin: 5px 0 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="top-bar">
+            <div class="logo">
+                <img src="https://learnenglishwithaurora.github.io/aurora.svg" alt="Niceng">
+                <h1>Niceng - Quản trị</h1>
+            </div>
+            <div class="user-info">
+                <a href="main.html" class="material-symbols-outlined">home</a>
+                <span id="logout" class="material-symbols-outlined">logout</span>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="tabs">
+                <div class="tab active" data-tab="dashboard">Tổng quan</div>
+                <div class="tab" data-tab="categories">Chủ đề</div>
+                <div class="tab" data-tab="cards">Thẻ từ vựng</div>
+                <div class="tab" data-tab="users">Người dùng</div>
+            </div>
+
+            <div id="dashboard" class="tab-content active">
+                <h2>Tổng quan hệ thống</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <p class="stat-number" id="total-users">0</p>
+                        <p class="stat-label">Tổng người dùng</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-number" id="total-cards">0</p>
+                        <p class="stat-label">Tổng thẻ từ vựng</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-number" id="total-categories">0</p>
+                        <p class="stat-label">Tổng chủ đề</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-number" id="active-today">0</p>
+                        <p class="stat-label">Người dùng hoạt động hôm nay</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="categories" class="tab-content">
+                <h2>Quản lý chủ đề</h2>
+                <form id="category-form">
+                    <div class="form-group">
+                        <label for="category-name">Tên chủ đề</label>
+                        <input type="text" id="category-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">Mô tả</label>
+                        <textarea id="category-description"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm chủ đề</button>
+                </form>
+
+                <div id="categories-list">
+                    <!-- Categories will be loaded here -->
+                </div>
+            </div>
+
+            <div id="cards" class="tab-content">
+                <h2>Quản lý thẻ từ vựng</h2>
+                <form id="card-form">
+                    <div class="form-group">
+                        <label for="card-word">Từ tiếng Anh</label>
+                        <input type="text" id="card-word" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-meaning">Nghĩa tiếng Việt</label>
+                        <input type="text" id="card-meaning" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card-example">Ví dụ (tiếng Anh)</label>
+                        <input type="text" id="card-example">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-category">Chủ đề</label>
+                        <select id="card-category" required>
+                            <option value="">Chọn chủ đề</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Thêm thẻ</button>
+                </form>
+
+                <div id="cards-list">
+                    <!-- Cards will be loaded here -->
+                </div>
+            </div>
+
+            <div id="users" class="tab-content">
+                <h2>Quản lý người dùng</h2>
+                <div id="users-list">
+                    <!-- Users will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBc55gGulDbOCgGp2USL_HXeVLwqqXFTTU",
+            authDomain: "niceng-c235d.firebaseapp.com",
+            projectId: "niceng-c235d",
+            storageBucket: "niceng-c235d.firebasestorage.app",
+            messagingSenderId: "532991375524",
+            appId: "1:532991375524:web:699b2e9f5b1bf727d68e31",
+            measurementId: "G-PDZ20PLN86"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Check if user is admin
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.collection('users').doc(user.uid).get().then((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        if (userData.role !== 'admin') {
+                            // Redirect to main page if not admin
+                            window.location.href = 'main.html';
+                        } else {
+                            // Load admin data
+                            loadDashboard();
+                            loadCategories();
+                            loadCards();
+                            loadUsers();
+                        }
+                    } else {
+                        window.location.href = 'main.html';
+                    }
+                });
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+
+        // Load dashboard statistics
+        function loadDashboard() {
+            // Total users
+            db.collection('users').get().then(snapshot => {
+                document.getElementById('total-users').textContent = snapshot.size;
+                
+                // Active users today (simplified - in a real app, you'd track login activity)
+                document.getElementById('active-today').textContent = snapshot.size;
+            });
+            
+            // Total categories
+            db.collection('categories').get().then(snapshot => {
+                document.getElementById('total-categories').textContent = snapshot.size;
+            });
+            
+            // Total cards (across all users)
+            // This is a simplified approach - in a real app, you might want to track this differently
+            db.collectionGroup('cards').get().then(snapshot => {
+                document.getElementById('total-cards').textContent = snapshot.size;
+            });
+        }
+
+        // Load categories
+        function loadCategories() {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = '';
+            
+            db.collection('categories').get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const category = doc.data();
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'card';
+                    categoryElement.innerHTML = `
+                        <h3>${category.name}</h3>
+                        <p>${category.description || 'Không có mô tả'}</p>
+                        <div class="card-actions">
+                            <button class="btn-danger delete-category" data-id="${doc.id}">Xóa</button>
+                        </div>
+                    `;
+                    categoriesList.appendChild(categoryElement);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-category').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const categoryId = e.target.getAttribute('data-id');
+                        if (confirm('Bạn có chắc chắn muốn xóa chủ đề này?')) {
+                            deleteCategory(categoryId);
+                        }
+                    });
+                });
+                
+                // Populate category dropdown for cards
+                const categoryDropdown = document.getElementById('card-category');
+                categoryDropdown.innerHTML = '<option value="">Chọn chủ đề</option>';
+                snapshot.forEach(doc => {
+                    const category = doc.data();
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = category.name;
+                    categoryDropdown.appendChild(option);
+                });
+            });
+        }
+
+        // Add new category
+        document.getElementById('category-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('category-name').value;
+            const description = document.getElementById('category-description').value;
+            
+            db.collection('categories').add({
+                name: name,
+                description: description,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                document.getElementById('category-form').reset();
+                loadCategories();
+                loadDashboard();
+            })
+            .catch((error) => {
+                console.error('Error adding category: ', error);
+            });
+        });
+
+        // Delete category
+        function deleteCategory(categoryId) {
+            db.collection('categories').doc(categoryId).delete()
+                .then(() => {
+                    loadCategories();
+                    loadDashboard();
+                })
+                .catch((error) => {
+                    console.error('Error deleting category: ', error);
+                });
+        }
+
+        // Load cards
+        function loadCards() {
+            const cardsList = document.getElementById('cards-list');
+            cardsList.innerHTML = '';
+            
+            db.collection('systemCards').get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const card = doc.data();
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'card';
+                    cardElement.innerHTML = `
+                        <h3>${card.word} - ${card.meaning}</h3>
+                        ${card.example ? `<p>Ví dụ: ${card.example}</p>` : ''}
+                        <p>Chủ đề: ${card.categoryName || 'Không có'}</p>
+                        <div class="card-actions">
+                            <button class="btn-danger delete-card" data-id="${doc.id}">Xóa</button>
+                        </div>
+                    `;
+                    cardsList.appendChild(cardElement);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-card').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const cardId = e.target.getAttribute('data-id');
+                        if (confirm('Bạn có chắc chắn muốn xóa thẻ này?')) {
+                            deleteCard(cardId);
+                        }
+                    });
+                });
+            });
+        }
+
+        // Add new card
+        document.getElementById('card-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const word = document.getElementById('card-word').value;
+            const meaning = document.getElementById('card-meaning').value;
+            const example = document.getElementById('card-example').value;
+            const categoryId = document.getElementById('card-category').value;
+            const categoryName = document.getElementById('card-category').options[document.getElementById('card-category').selectedIndex].text;
+            
+            db.collection('systemCards').add({
+                word: word,
+                meaning: meaning,
+                example: example,
+                categoryId: categoryId,
+                categoryName: categoryName,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                document.getElementById('card-form').reset();
+                loadCards();
+                loadDashboard();
+            })
+            .catch((error) => {
+                console.error('Error adding card: ', error);
+            });
+        });
+
+        // Delete card
+        function deleteCard(cardId) {
+            db.collection('systemCards').doc(cardId).delete()
+                .then(() => {
+                    loadCards();
+                    loadDashboard();
+                })
+                .catch((error) => {
+                    console.error('Error deleting card: ', error);
+                });
+        }
+
+        // Load users
+        function loadUsers() {
+            const usersList = document.getElementById('users-list');
+            usersList.innerHTML = '';
+            
+            db.collection('users').get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const userElement = document.createElement('div');
+                    userElement.className = 'card';
+                    userElement.innerHTML = `
+                        <h3>${user.name || 'Không có tên'}</h3>
+                        <p>Email: ${user.email}</p>
+                        <p>Vai trò: ${user.role || 'user'}</p>
+                        <p>Ngày tham gia: ${user.createdAt ? user.createdAt.toDate().toLocaleDateString('vi-VN') : 'Không rõ'}</p>
+                        <div class="card-actions">
+                            ${user.role !== 'admin' ? 
+                                `<button class="btn-success make-admin" data-id="${doc.id}">Thành admin</button>` : 
+                                '<button class="btn-danger remove-admin" data-id="${doc.id}">Bỏ admin</button>'
+                            }
+                        </div>
+                    `;
+                    usersList.appendChild(userElement);
+                });
+                
+                // Add event listeners to role buttons
+                document.querySelectorAll('.make-admin').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const userId = e.target.getAttribute('data-id');
+                        if (confirm('Bạn có chắc chắn muốn cấp quyền admin cho người dùng này?')) {
+                            updateUserRole(userId, 'admin');
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.remove-admin').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const userId = e.target.getAttribute('data-id');
+                        if (confirm('Bạn có chắc chắn muốn bỏ quyền admin của người dùng này?')) {
+                            updateUserRole(userId, 'user');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Update user role
+        function updateUserRole(userId, role) {
+            db.collection('users').doc(userId).update({
+                role: role
+            })
+            .then(() => {
+                loadUsers();
+            })
+            .catch((error) => {
+                console.error('Error updating user role: ', error);
+            });
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
