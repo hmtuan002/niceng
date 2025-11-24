@@ -268,6 +268,7 @@
         /* Form Styles */
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
         input {
@@ -538,6 +539,57 @@
             margin-bottom: 5px;
         }
 
+        /* Voice button styles */
+        .voice-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .voice-btn:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+            color: #FFA500;
+        }
+
+        .word-with-voice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .example-with-voice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Test pronunciation button */
+        .test-pronunciation-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .test-pronunciation-btn:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+            color: #FFA500;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
@@ -599,6 +651,15 @@
             .nav-item span {
                 font-size: 20px;
             }
+
+            .word-with-voice {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .voice-btn {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -621,6 +682,9 @@
                 <h2>Thêm từ mới</h2>
                 <div class="form-group">
                     <input type="text" placeholder="Từ tiếng Anh" id="word" />
+                    <button class="test-pronunciation-btn" id="test-pronunciation" title="Kiểm tra phát âm">
+                        <span class="material-symbols-outlined">volume_up</span>
+                    </button>
                 </div>
                 <div class="form-group">
                     <input type="text" placeholder="Nghĩa tiếng Việt" id="meaning" />
@@ -801,6 +865,41 @@
             }
         });
 
+        // Text-to-Speech function
+        function speakText(text, rate = 0.8, pitch = 1) {
+            // Check if browser supports SpeechSynthesis
+            if (!('speechSynthesis' in window)) {
+                alert('Trình duyệt của bạn không hỗ trợ chức năng đọc văn bản. Vui lòng sử dụng Chrome, Edge hoặc Safari mới nhất.');
+                return;
+            }
+
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+
+            // Create speech utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = rate;
+            utterance.pitch = pitch;
+            utterance.volume = 1;
+
+            // Speak the text
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Function to create voice button
+        function createVoiceButton(word) {
+            const button = document.createElement('button');
+            button.className = 'voice-btn';
+            button.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
+            button.title = 'Nghe phát âm';
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                speakText(word);
+            });
+            return button;
+        }
+
         // Load user's flash cards
         function loadUserCards() {
             const user = auth.currentUser;
@@ -930,10 +1029,26 @@
             userCards.forEach(card => {
                 const cardItem = document.createElement('div');
                 cardItem.className = 'card-item';
+                
+                const wordContainer = document.createElement('div');
+                wordContainer.style.display = 'flex';
+                wordContainer.style.alignItems = 'center';
+                wordContainer.style.gap = '10px';
+                wordContainer.innerHTML = `<strong>${card.word}</strong>`;
+                wordContainer.appendChild(createVoiceButton(card.word));
+                
                 cardItem.innerHTML = `
                     <div>
-                        <strong>${card.word}</strong>: ${card.meaning}
-                        ${card.example ? `<br><small>Ví dụ: ${card.example}</small>` : ''}
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                            ${wordContainer.outerHTML}
+                            <span>: ${card.meaning}</span>
+                        </div>
+                        ${card.example ? `
+                            <div class="example-with-voice">
+                                <small>Ví dụ: ${card.example}</small>
+                                ${createVoiceButton(card.example).outerHTML}
+                            </div>
+                        ` : ''}
                         ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
                     </div>
                     <button class="delete-card" data-id="${card.id}">Xóa</button>
@@ -1008,6 +1123,16 @@
             });
         });
 
+        // Test pronunciation button
+        document.getElementById('test-pronunciation').addEventListener('click', () => {
+            const word = document.getElementById('word').value;
+            if (word.trim()) {
+                speakText(word.trim());
+            } else {
+                alert('Vui lòng nhập từ tiếng Anh trước khi kiểm tra phát âm!');
+            }
+        });
+
         // Start learning
         document.getElementById('start').addEventListener('click', () => {
             if (userCards.length === 0) {
@@ -1049,24 +1174,45 @@
             // Reset card flip
             flashcard.classList.remove('flipped');
             
-            // Set front content
+            // Set front content with voice button
             const front = flashcard.querySelector('.front');
-            front.innerHTML = `<h1>${card.word}</h1>`;
+            const wordContainer = document.createElement('div');
+            wordContainer.className = 'word-with-voice';
+            wordContainer.innerHTML = `<h1>${card.word}</h1>`;
+            wordContainer.appendChild(createVoiceButton(card.word));
+            front.innerHTML = '';
+            front.appendChild(wordContainer);
             
             // Set back content
             const back = flashcard.querySelector('.back');
-            back.innerHTML = `
-                <h1>${card.meaning}</h1>
-                ${card.example ? `<p>${card.example}</p>` : ''}
+            const backContent = document.createElement('div');
+            backContent.innerHTML = `
+                <div class="word-with-voice">
+                    <h1>${card.meaning}</h1>
+                </div>
+                ${card.example ? `<div class="example-with-voice"><p>${card.example}</p></div>` : ''}
                 <div class="back-actions">
                     <p id="wrong">Học lại</p>
                     <p id="right">Đã nhớ</p>
                 </div>
             `;
             
+            // Add voice button for example sentence if exists
+            if (card.example) {
+                const exampleContainer = backContent.querySelector('.example-with-voice');
+                const exampleVoiceBtn = createVoiceButton(card.example);
+                exampleContainer.appendChild(exampleVoiceBtn);
+            }
+            
+            back.innerHTML = '';
+            back.appendChild(backContent);
+            
             // Add event listeners to action buttons
             back.querySelector('#right').addEventListener('click', () => markCardAsKnown());
             back.querySelector('#wrong').addEventListener('click', () => markCardAsLearning());
+            
+            // Auto-play pronunciation when card is shown (optional)
+            // setTimeout(() => speakText(card.word), 500);
         }
 
         // Mark card as known
