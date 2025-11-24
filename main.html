@@ -306,7 +306,7 @@
         }
 
         /* Card List */
-        #card-list {
+        #card-list, #mastered-list {
             max-height: 400px;
             overflow-y: auto;
         }
@@ -590,6 +590,26 @@
             color: #FFA500;
         }
 
+        /* Tab styles */
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #FFA500;
+            color: #FFA500;
+            font-weight: 600;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
@@ -700,7 +720,12 @@
             <div class="pop-up-content">
                 <span id="close-card-list-menu" class="material-symbols-outlined close">close</span>
                 <h2>Danh sách từ vựng của bạn</h2>
+                <div class="tab-container">
+                    <div class="tab active" id="tab-learning">Từ đang học</div>
+                    <div class="tab" id="tab-mastered">Từ đã thuộc</div>
+                </div>
                 <div id="card-list"></div>
+                <div id="mastered-list" style="display: none;"></div>
             </div>
         </div>
 
@@ -719,6 +744,28 @@
                             <div class="back-actions">
                                 <p id="wrong">Học lại</p>
                                 <p id="right">Đã nhớ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pop-up" id="review-menu">
+            <div class="pop-up-content">
+                <span id="close-review-menu" class="material-symbols-outlined close">close</span>
+                <span id="attention-reveal-review">Bấm vào thẻ để xem đáp án</span>
+                <span id="attention-drag-review">Kéo thẻ sang trái hoặc phải</span>
+                <div class="card" id="review-flashcard">
+                    <div class="card-inner">
+                        <div class="front">
+                            <!-- Content will be filled by JavaScript -->
+                        </div>
+                        <div class="back">
+                            <!-- Content will be filled by JavaScript -->
+                            <div class="back-actions">
+                                <p id="review-wrong">Cần ôn lại</p>
+                                <p id="review-right">Đã thuộc</p>
                             </div>
                         </div>
                     </div>
@@ -766,6 +813,10 @@
                         <span class="material-symbols-outlined">play_arrow</span>
                         Bắt đầu học
                     </button>
+                    <button class="action-btn" id="review">
+                        <span class="material-symbols-outlined">refresh</span>
+                        Ôn tập
+                    </button>
                     <button class="action-btn" id="library">
                         <span class="material-symbols-outlined">local_library</span>
                         Thư viện
@@ -781,10 +832,6 @@
                     <button class="action-btn" id="admin" style="display: none;">
                         <span class="material-symbols-outlined">admin_panel_settings</span>
                         Quản trị
-                    </button>
-                    <button class="action-btn" id="stats-btn">
-                        <span class="material-symbols-outlined">analytics</span>
-                        Thống kê
                     </button>
                 </div>
             </div>
@@ -837,6 +884,7 @@
         let userCards = [];
         let currentCardIndex = 0;
         let cardsToLearn = [];
+        let cardsToReview = [];
         let isAdmin = false;
 
         // Check authentication state
@@ -860,10 +908,121 @@
                     loadLibraryCategories();
                 });
             } else {
-                // Redirect to login if not authenticated
-                window.location.href = 'login.html';
+                // If not authenticated, show a simple login form
+                showLoginForm();
             }
         });
+
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('content').innerHTML = `
+                <div class="dashboard">
+                    <div class="welcome-section">
+                        <div class="flashcard-icon"></div>
+                        <h2>Chào mừng đến với Niceng</h2>
+                        <p>Vui lòng đăng nhập để tiếp tục</p>
+                    </div>
+                    <div style="max-width: 400px; width: 100%;">
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" id="login-email" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Mật khẩu" id="login-password" />
+                        </div>
+                        <button type="button" id="login-btn" class="btn">Đăng nhập</button>
+                        <p style="margin-top: 20px; text-align: center;">
+                            <a href="#" id="register-link">Chưa có tài khoản? Đăng ký ngay</a>
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('login-btn').addEventListener('click', loginUser);
+            document.getElementById('register-link').addEventListener('click', showRegisterForm);
+        }
+
+        // Show register form
+        function showRegisterForm() {
+            document.getElementById('content').innerHTML = `
+                <div class="dashboard">
+                    <div class="welcome-section">
+                        <div class="flashcard-icon"></div>
+                        <h2>Đăng ký tài khoản mới</h2>
+                        <p>Tạo tài khoản để bắt đầu học từ vựng</p>
+                    </div>
+                    <div style="max-width: 400px; width: 100%;">
+                        <div class="form-group">
+                            <input type="text" placeholder="Tên hiển thị" id="register-name" />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" id="register-email" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Mật khẩu" id="register-password" />
+                        </div>
+                        <button type="button" id="register-btn" class="btn">Đăng ký</button>
+                        <p style="margin-top: 20px; text-align: center;">
+                            <a href="#" id="login-link">Đã có tài khoản? Đăng nhập ngay</a>
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('register-btn').addEventListener('click', registerUser);
+            document.getElementById('login-link').addEventListener('click', showLoginForm);
+        }
+
+        // Login user
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Vui lòng nhập email và mật khẩu!');
+                return;
+            }
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // User logged in successfully
+                    location.reload();
+                })
+                .catch((error) => {
+                    alert('Đăng nhập thất bại: ' + error.message);
+                });
+        }
+
+        // Register user
+        function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (!name || !email || !password) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    
+                    // Save user data to Firestore
+                    return db.collection('users').doc(user.uid).set({
+                        name: name,
+                        email: email,
+                        role: 'user',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => {
+                    alert('Đăng ký thành công!');
+                    location.reload();
+                })
+                .catch((error) => {
+                    alert('Đăng ký thất bại: ' + error.message);
+                });
+        }
 
         // Text-to-Speech function
         function speakText(text, rate = 0.8, pitch = 1) {
@@ -1019,42 +1178,98 @@
         // Update card list in popup
         function updateCardList() {
             const cardList = document.getElementById('card-list');
+            const masteredList = document.getElementById('mastered-list');
+            
             cardList.innerHTML = '';
+            masteredList.innerHTML = '';
             
             if (userCards.length === 0) {
                 cardList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có thẻ nào. Hãy thêm thẻ mới hoặc chọn từ thư viện!</p>';
+                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
                 return;
             }
             
-            userCards.forEach(card => {
-                const cardItem = document.createElement('div');
-                cardItem.className = 'card-item';
-                
-                const wordContainer = document.createElement('div');
-                wordContainer.style.display = 'flex';
-                wordContainer.style.alignItems = 'center';
-                wordContainer.style.gap = '10px';
-                wordContainer.innerHTML = `<strong>${card.word}</strong>`;
-                wordContainer.appendChild(createVoiceButton(card.word));
-                
-                cardItem.innerHTML = `
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                            ${wordContainer.outerHTML}
-                            <span>: ${card.meaning}</span>
-                        </div>
-                        ${card.example ? `
-                            <div class="example-with-voice">
-                                <small>Ví dụ: ${card.example}</small>
-                                ${createVoiceButton(card.example).outerHTML}
+            // Cards to learn
+            const learningCards = userCards.filter(card => card.status === 'learning' || !card.status);
+            const knownCards = userCards.filter(card => card.status === 'known');
+            const masteredCards = userCards.filter(card => card.status === 'mastered');
+            
+            if (learningCards.length === 0 && knownCards.length === 0) {
+                cardList.innerHTML = '<p style="text-align: center; color: #666;">Tất cả các từ của bạn đã được học!</p>';
+            } else {
+                [...learningCards, ...knownCards].forEach(card => {
+                    const cardItem = document.createElement('div');
+                    cardItem.className = 'card-item';
+                    
+                    const wordContainer = document.createElement('div');
+                    wordContainer.style.display = 'flex';
+                    wordContainer.style.alignItems = 'center';
+                    wordContainer.style.gap = '10px';
+                    wordContainer.innerHTML = `<strong>${card.word}</strong>`;
+                    
+                    // Create voice button and add event listener
+                    const voiceBtn = createVoiceButton(card.word);
+                    wordContainer.appendChild(voiceBtn);
+                    
+                    cardItem.innerHTML = `
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                                ${wordContainer.outerHTML}
+                                <span>: ${card.meaning}</span>
                             </div>
-                        ` : ''}
-                        ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
-                    </div>
-                    <button class="delete-card" data-id="${card.id}">Xóa</button>
-                `;
-                cardList.appendChild(cardItem);
-            });
+                            ${card.example ? `
+                                <div class="example-with-voice">
+                                    <small>Ví dụ: ${card.example}</small>
+                                    ${createVoiceButton(card.example).outerHTML}
+                                </div>
+                            ` : ''}
+                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
+                            ${card.status === 'known' ? '<br><small style="color: #2196F3;">(Đã biết)</small>' : ''}
+                        </div>
+                        <button class="delete-card" data-id="${card.id}">Xóa</button>
+                    `;
+                    cardList.appendChild(cardItem);
+                });
+            }
+            
+            // Mastered cards
+            if (masteredCards.length === 0) {
+                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
+            } else {
+                masteredCards.forEach(card => {
+                    const cardItem = document.createElement('div');
+                    cardItem.className = 'card-item';
+                    
+                    const wordContainer = document.createElement('div');
+                    wordContainer.style.display = 'flex';
+                    wordContainer.style.alignItems = 'center';
+                    wordContainer.style.gap = '10px';
+                    wordContainer.innerHTML = `<strong>${card.word}</strong>`;
+                    
+                    // Create voice button and add event listener
+                    const voiceBtn = createVoiceButton(card.word);
+                    wordContainer.appendChild(voiceBtn);
+                    
+                    cardItem.innerHTML = `
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                                ${wordContainer.outerHTML}
+                                <span>: ${card.meaning}</span>
+                            </div>
+                            ${card.example ? `
+                                <div class="example-with-voice">
+                                    <small>Ví dụ: ${card.example}</small>
+                                    ${createVoiceButton(card.example).outerHTML}
+                                </div>
+                            ` : ''}
+                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
+                            <br><small style="color: #4CAF50;">(Đã thuộc)</small>
+                        </div>
+                        <button class="delete-card" data-id="${card.id}">Xóa</button>
+                    `;
+                    masteredList.appendChild(cardItem);
+                });
+            }
             
             // Add event listeners to delete buttons
             document.querySelectorAll('.delete-card').forEach(button => {
@@ -1159,7 +1374,33 @@
             document.getElementById('attention-drag').style.display = 'none';
         });
 
-        // Show current card
+        // Start review
+        document.getElementById('review').addEventListener('click', () => {
+            if (userCards.length === 0) {
+                alert('Bạn chưa có thẻ nào để ôn tập! Hãy thêm một số thẻ trước.');
+                return;
+            }
+            
+            // Filter cards that are known (not mastered yet)
+            cardsToReview = userCards.filter(card => card.status === 'known');
+            
+            if (cardsToReview.length === 0) {
+                alert('Bạn chưa có từ nào để ôn tập! Hãy học một số từ trước.');
+                return;
+            }
+            
+            // Shuffle cards
+            shuffleArray(cardsToReview);
+            currentCardIndex = 0;
+            
+            // Show first card
+            showReviewCard();
+            document.getElementById('review-menu').classList.add('active');
+            document.getElementById('attention-reveal-review').style.display = 'block';
+            document.getElementById('attention-drag-review').style.display = 'none';
+        });
+
+        // Show current card for learning
         function showCard() {
             if (currentCardIndex >= cardsToLearn.length) {
                 // All cards learned
@@ -1215,6 +1456,59 @@
             // setTimeout(() => speakText(card.word), 500);
         }
 
+        // Show current card for review
+        function showReviewCard() {
+            if (currentCardIndex >= cardsToReview.length) {
+                // All cards reviewed
+                document.getElementById('review-menu').classList.remove('active');
+                alert('Chúc mừng! Bạn đã ôn tập xong tất cả các thẻ!');
+                return;
+            }
+            
+            const card = cardsToReview[currentCardIndex];
+            const flashcard = document.getElementById('review-flashcard');
+            
+            // Reset card flip
+            flashcard.classList.remove('flipped');
+            
+            // Set front content with voice button
+            const front = flashcard.querySelector('.front');
+            const wordContainer = document.createElement('div');
+            wordContainer.className = 'word-with-voice';
+            wordContainer.innerHTML = `<h1>${card.word}</h1>`;
+            wordContainer.appendChild(createVoiceButton(card.word));
+            front.innerHTML = '';
+            front.appendChild(wordContainer);
+            
+            // Set back content
+            const back = flashcard.querySelector('.back');
+            const backContent = document.createElement('div');
+            backContent.innerHTML = `
+                <div class="word-with-voice">
+                    <h1>${card.meaning}</h1>
+                </div>
+                ${card.example ? `<div class="example-with-voice"><p>${card.example}</p></div>` : ''}
+                <div class="back-actions">
+                    <p id="review-wrong">Cần ôn lại</p>
+                    <p id="review-right">Đã thuộc</p>
+                </div>
+            `;
+            
+            // Add voice button for example sentence if exists
+            if (card.example) {
+                const exampleContainer = backContent.querySelector('.example-with-voice');
+                const exampleVoiceBtn = createVoiceButton(card.example);
+                exampleContainer.appendChild(exampleVoiceBtn);
+            }
+            
+            back.innerHTML = '';
+            back.appendChild(backContent);
+            
+            // Add event listeners to action buttons
+            back.querySelector('#review-right').addEventListener('click', () => markCardAsMastered());
+            back.querySelector('#review-wrong').addEventListener('click', () => markCardForReview());
+        }
+
         // Mark card as known
         function markCardAsKnown() {
             const card = cardsToLearn[currentCardIndex];
@@ -1248,6 +1542,45 @@
                 // Move current card to the end of the list
                 cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
                 showCard();
+            })
+            .catch((error) => {
+                console.error('Error updating card: ', error);
+            });
+        }
+
+        // Mark card as mastered
+        function markCardAsMastered() {
+            const card = cardsToReview[currentCardIndex];
+            const user = auth.currentUser;
+            
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
+                status: 'mastered'
+            })
+            .then(() => {
+                currentCardIndex++;
+                showReviewCard();
+            })
+            .catch((error) => {
+                console.error('Error updating card: ', error);
+            });
+        }
+
+        // Mark card for review again
+        function markCardForReview() {
+            const card = cardsToReview[currentCardIndex];
+            const user = auth.currentUser;
+            
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
+                status: 'known'
+            })
+            .then(() => {
+                // Move current card to the end of the list
+                cardsToReview.push(cardsToReview.splice(currentCardIndex, 1)[0]);
+                showReviewCard();
             })
             .catch((error) => {
                 console.error('Error updating card: ', error);
@@ -1301,6 +1634,10 @@
             document.getElementById('learn-menu').classList.remove('active');
         });
 
+        document.getElementById('close-review-menu').addEventListener('click', () => {
+            document.getElementById('review-menu').classList.remove('active');
+        });
+
         document.getElementById('close-library-menu').addEventListener('click', () => {
             document.getElementById('library-menu').classList.remove('active');
         });
@@ -1314,16 +1651,20 @@
             }
         });
 
+        // Review flashcard flip on click
+        document.getElementById('review-flashcard').addEventListener('click', (e) => {
+            if (!e.target.closest('.back-actions')) {
+                document.getElementById('review-flashcard').classList.toggle('flipped');
+                document.getElementById('attention-reveal-review').style.display = 'none';
+                document.getElementById('attention-drag-review').style.display = 'block';
+            }
+        });
+
         // Logout
         document.getElementById('logout').addEventListener('click', () => {
             auth.signOut().then(() => {
-                window.location.href = 'index.html';
+                location.reload();
             });
-        });
-
-        // Stats button (placeholder)
-        document.getElementById('stats-btn').addEventListener('click', () => {
-            alert('Tính năng thống kê chi tiết sẽ sớm có mặt!');
         });
 
         // Navigation active state
@@ -1346,6 +1687,21 @@
                 item.classList.remove('active');
             });
             document.getElementById('nav-admin').classList.add('active');
+        });
+
+        // Tab switching in card list
+        document.getElementById('tab-learning').addEventListener('click', () => {
+            document.getElementById('tab-learning').classList.add('active');
+            document.getElementById('tab-mastered').classList.remove('active');
+            document.getElementById('card-list').style.display = 'block';
+            document.getElementById('mastered-list').style.display = 'none';
+        });
+
+        document.getElementById('tab-mastered').addEventListener('click', () => {
+            document.getElementById('tab-mastered').classList.add('active');
+            document.getElementById('tab-learning').classList.remove('active');
+            document.getElementById('card-list').style.display = 'none';
+            document.getElementById('mastered-list').style.display = 'block';
         });
     </script>
 </body>
