@@ -527,24 +527,24 @@
         /* Navigation */
         .navigation {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Đã sửa từ 3 thành 2 cột */
+            grid-template-columns: center;
             padding: 15px;
             background: white;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #666;
-            font-size: 12px;
-            transition: color 0.3s ease;
-            padding: 5px;
-            border-radius: 10px;
-        }
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 12px;
+    transition: color 0.3s ease;
+    padding: 5px 20px; /* Thêm padding ngang */
+    border-radius: 10px;
+    margin: 0 10px; /* Khoảng cách giữa các nút nếu có nhiều nút */
+}
         .nav-item.active {
             color: #FFA500;
         }
@@ -1191,127 +1191,78 @@
             document.querySelector('#yellow .number').textContent = mastered;
         }
 
-        // Update card list in popup - SỬA LỖI NÚT NGHE
-        function updateCardList() {
-            const cardList = document.getElementById('card-list');
-            const masteredList = document.getElementById('mastered-list');
+      // Update card list in popup - ĐÃ XÓA NÚT NGHE
+function updateCardList() {
+    const cardList = document.getElementById('card-list');
+    const masteredList = document.getElementById('mastered-list');
+    
+    cardList.innerHTML = '';
+    masteredList.innerHTML = '';
+    
+    if (userCards.length === 0) {
+        cardList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có thẻ nào. Hãy thêm thẻ mới hoặc chọn từ thư viện!</p>';
+        masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
+        return;
+    }
+    
+    // Cards to learn
+    const learningCards = userCards.filter(card => card.status === 'learning' || !card.status);
+    const knownCards = userCards.filter(card => card.status === 'known');
+    const masteredCards = userCards.filter(card => card.status === 'mastered');
+    
+    if (learningCards.length === 0 && knownCards.length === 0) {
+        cardList.innerHTML = '<p style="text-align: center; color: #666;">Tất cả các từ của bạn đã được học!</p>';
+    } else {
+        [...learningCards, ...knownCards].forEach(card => {
+            const cardItem = document.createElement('div');
+            cardItem.className = 'card-item';
             
-            cardList.innerHTML = '';
-            masteredList.innerHTML = '';
+            cardItem.innerHTML = `
+                <div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>${card.word}</strong>: ${card.meaning}
+                    </div>
+                    ${card.example ? `<div><small>Ví dụ: ${card.example}</small></div>` : ''}
+                    ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
+                    ${card.status === 'known' ? '<br><small style="color: #2196F3;">(Đã biết)</small>' : ''}
+                </div>
+                <button class="delete-card" data-id="${card.id}">Xóa</button>
+            `;
+            cardList.appendChild(cardItem);
+        });
+    }
+    
+    // Mastered cards
+    if (masteredCards.length === 0) {
+        masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
+    } else {
+        masteredCards.forEach(card => {
+            const cardItem = document.createElement('div');
+            cardItem.className = 'card-item';
             
-            if (userCards.length === 0) {
-                cardList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có thẻ nào. Hãy thêm thẻ mới hoặc chọn từ thư viện!</p>';
-                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
-                return;
-            }
-            
-            // Cards to learn
-            const learningCards = userCards.filter(card => card.status === 'learning' || !card.status);
-            const knownCards = userCards.filter(card => card.status === 'known');
-            const masteredCards = userCards.filter(card => card.status === 'mastered');
-            
-            if (learningCards.length === 0 && knownCards.length === 0) {
-                cardList.innerHTML = '<p style="text-align: center; color: #666;">Tất cả các từ của bạn đã được học!</p>';
-            } else {
-                [...learningCards, ...knownCards].forEach(card => {
-                    const cardItem = document.createElement('div');
-                    cardItem.className = 'card-item';
-                    
-                    const wordContainer = document.createElement('div');
-                    wordContainer.style.display = 'flex';
-                    wordContainer.style.alignItems = 'center';
-                    wordContainer.style.gap = '10px';
-                    wordContainer.innerHTML = `<strong>${card.word}</strong>`;
-                    
-                    // Create voice button and add event listener
-                    const voiceBtn = createVoiceButton(card.word);
-                    wordContainer.appendChild(voiceBtn);
-                    
-                    // Tạo phần tử cho ví dụ với nút nghe
-                    let exampleHtml = '';
-                    if (card.example) {
-                        const exampleContainer = document.createElement('div');
-                        exampleContainer.className = 'example-with-voice';
-                        exampleContainer.innerHTML = `<small>Ví dụ: ${card.example}</small>`;
-                        
-                        const exampleVoiceBtn = createVoiceButton(card.example);
-                        exampleContainer.appendChild(exampleVoiceBtn);
-                        
-                        exampleHtml = exampleContainer.outerHTML;
-                    }
-                    
-                    cardItem.innerHTML = `
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                                ${wordContainer.outerHTML}
-                                <span>: ${card.meaning}</span>
-                            </div>
-                            ${exampleHtml}
-                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
-                            ${card.status === 'known' ? '<br><small style="color: #2196F3;">(Đã biết)</small>' : ''}
-                        </div>
-                        <button class="delete-card" data-id="${card.id}">Xóa</button>
-                    `;
-                    cardList.appendChild(cardItem);
-                });
-            }
-            
-            // Mastered cards
-            if (masteredCards.length === 0) {
-                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
-            } else {
-                masteredCards.forEach(card => {
-                    const cardItem = document.createElement('div');
-                    cardItem.className = 'card-item';
-                    
-                    const wordContainer = document.createElement('div');
-                    wordContainer.style.display = 'flex';
-                    wordContainer.style.alignItems = 'center';
-                    wordContainer.style.gap = '10px';
-                    wordContainer.innerHTML = `<strong>${card.word}</strong>`;
-                    
-                    // Create voice button and add event listener
-                    const voiceBtn = createVoiceButton(card.word);
-                    wordContainer.appendChild(voiceBtn);
-                    
-                    // Tạo phần tử cho ví dụ với nút nghe
-                    let exampleHtml = '';
-                    if (card.example) {
-                        const exampleContainer = document.createElement('div');
-                        exampleContainer.className = 'example-with-voice';
-                        exampleContainer.innerHTML = `<small>Ví dụ: ${card.example}</small>`;
-                        
-                        const exampleVoiceBtn = createVoiceButton(card.example);
-                        exampleContainer.appendChild(exampleVoiceBtn);
-                        
-                        exampleHtml = exampleContainer.outerHTML;
-                    }
-                    
-                    cardItem.innerHTML = `
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                                ${wordContainer.outerHTML}
-                                <span>: ${card.meaning}</span>
-                            </div>
-                            ${exampleHtml}
-                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
-                            <br><small style="color: #4CAF50;">(Đã thuộc)</small>
-                        </div>
-                        <button class="delete-card" data-id="${card.id}">Xóa</button>
-                    `;
-                    masteredList.appendChild(cardItem);
-                });
-            }
-            
-            // Add event listeners to delete buttons
-            document.querySelectorAll('.delete-card').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const cardId = e.target.getAttribute('data-id');
-                    deleteCard(cardId);
-                });
-            });
-        }
-
+            cardItem.innerHTML = `
+                <div>
+                    <div style="margin-bottom: 5px;">
+                        <strong>${card.word}</strong>: ${card.meaning}
+                    </div>
+                    ${card.example ? `<div><small>Ví dụ: ${card.example}</small></div>` : ''}
+                    ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
+                    <br><small style="color: #4CAF50;">(Đã thuộc)</small>
+                </div>
+                <button class="delete-card" data-id="${card.id}">Xóa</button>
+            `;
+            masteredList.appendChild(cardItem);
+        });
+    }
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-card').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const cardId = e.target.getAttribute('data-id');
+            deleteCard(cardId);
+        });
+    });
+}
         // Delete a card
         function deleteCard(cardId) {
             const user = auth.currentUser;
