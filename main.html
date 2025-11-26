@@ -703,44 +703,17 @@
             font-weight: 600;
         }
 
-        /* AI Reset Button Styles */
-        .ai-reset-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .ai-reset-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
-        }
-
-        .ai-reset-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
         /* AI Usage Message */
         .ai-usage-message {
             background-color: #FFF3CD;
             border: 1px solid #FFEAA7;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
             color: #856404;
             font-size: 14px;
             text-align: center;
+            line-height: 1.5;
         }
 
         /* Login Button Styles */
@@ -842,7 +815,7 @@
                 <h1>Niceng</h1>
             </div>
             <div class="user-info">
-                <!-- Thay đổi nút logout thành login -->
+                <!-- Nút đăng nhập -->
                 <button id="login-btn" class="login-btn" title="Đăng nhập">
                     <span class="material-symbols-outlined">login</span>
                 </button>
@@ -876,10 +849,13 @@
                 <span id="close-ai-add-menu" class="material-symbols-outlined close">close</span>
                 <h2>Thêm từ bằng AI</h2>
                 
-                <!-- Thông báo về hạn chế sử dụng AI -->
+                <!-- Thông báo về hạn chế sử dụng AI - ĐÃ SỬA -->
                 <div class="ai-usage-message" id="ai-usage-message">
-                    <p><strong>Lưu ý quan trọng:</strong> Để đảm bảo bạn có thời gian học hết từ vựng, tính năng AI chỉ có thể sử dụng <strong>1 lần</strong> mỗi phiên.</p>
-                    <p>Nếu muốn sử dụng lại, vui lòng nhấn nút bên dưới để tiếp tục.</p>
+                    <p><strong>📝 Lưu ý quan trọng về tính năng AI:</strong></p>
+                    <p>• Tính năng AI chỉ có thể sử dụng <strong>1 lần duy nhất</strong> trong mỗi phiên học</p>
+                    <p>• Điều này giúp bạn tập trung học hết từ vựng đã tạo ra thay vì tạo quá nhiều từ mới</p>
+                    <p>• <strong>Để sử dụng lại tính năng AI, bạn cần đóng và mở lại trang web hoặc truy cập vào lần học tiếp theo</strong></p>
+                    <p>• Bạn có thể tạo tối đa <strong>30 từ vựng</strong> trong mỗi lần sử dụng AI</p>
                 </div>
                 
                 <div class="form-group">
@@ -895,17 +871,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="ai-count">Số lượng từ (tối đa 10)</label>
-                    <input type="number" id="ai-count" min="1" max="10" value="5" />
+                    <label for="ai-count">Số lượng từ (tối đa 30)</label>
+                    <input type="number" id="ai-count" min="1" max="30" value="10" />
                 </div>
                 <button type="button" id="generate-words" class="btn">
                     <span class="loading" style="display: none;"></span>
                     Tạo từ vựng
-                </button>
-                
-                <!-- Nút reset AI -->
-                <button type="button" id="reset-ai" class="ai-reset-btn">
-                    Nhấn vào đây để tiếp tục sử dụng AI
                 </button>
                 
                 <div id="ai-results" class="ai-words-list" style="display: none;">
@@ -1087,8 +1058,6 @@
         let cardsToReview = [];
         let isAdmin = false;
         let aiGeneratedWords = [];
-        let aiUsageCount = 0; // Biến đếm số lần sử dụng AI
-        const MAX_AI_USAGE = 1; // Giới hạn sử dụng AI 1 lần
         let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
 
         // Check authentication state
@@ -1462,10 +1431,10 @@
             }
         }
 
-        // Generate words with AI - ĐÃ SỬA: Sử dụng biến aiUsed thay vì aiUsageCount
+        // Generate words with AI - ĐÃ SỬA: Giới hạn 30 từ
         document.getElementById('generate-words').addEventListener('click', async () => {
             if (aiUsed) {
-                alert('Bạn đã sử dụng hết lượt AI trong phiên này. Vui lòng nhấn nút "Nhấn vào đây để tiếp tục sử dụng AI" để tiếp tục.');
+                alert('Bạn đã sử dụng hết lượt AI trong phiên này. Để sử dụng lại tính năng AI, vui lòng đóng và mở lại trang web hoặc truy cập vào lần học tiếp theo.');
                 return;
             }
             
@@ -1478,8 +1447,8 @@
                 return;
             }
             
-            if (count < 1 || count > 10) {
-                alert('Số lượng từ phải từ 1 đến 10!');
+            if (count < 1 || count > 30) {
+                alert('Số lượng từ phải từ 1 đến 30!');
                 return;
             }
             
@@ -1503,6 +1472,8 @@
                 
                 displayAIWords(aiGeneratedWords);
                 document.getElementById('ai-results').style.display = 'block';
+                
+                showAlert(`Đã tạo thành công ${aiGeneratedWords.length} từ vựng! Bạn có thể thêm từ vào bộ thẻ của mình.`);
                 
             } catch (error) {
                 console.error('Error:', error);
@@ -1631,15 +1602,7 @@
             });
         });
 
-        // Reset AI usage - ĐÃ SỬA: Sửa lỗi reset AI
-        document.getElementById('reset-ai').addEventListener('click', () => {
-            aiUsed = false;
-            document.getElementById('generate-words').disabled = false;
-            document.getElementById('generate-words').innerHTML = 'Tạo từ vựng';
-            showAlert('Bây giờ bạn có thể sử dụng tính năng AI thêm một lần nữa!');
-        });
-
-        // Login button - ĐÃ THÊM: Nút đăng nhập
+        // Login button
         document.getElementById('login-btn').addEventListener('click', () => {
             window.location.href = 'login.html';
         });
@@ -1873,7 +1836,7 @@
         function resetAIPopup() {
             document.getElementById('ai-topic').value = '';
             document.getElementById('ai-level').selectedIndex = 0;
-            document.getElementById('ai-count').value = '5';
+            document.getElementById('ai-count').value = '10';
             document.getElementById('ai-results').style.display = 'none';
             document.getElementById('ai-words-container').innerHTML = '';
             aiGeneratedWords = [];
