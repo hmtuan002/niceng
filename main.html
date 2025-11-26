@@ -1443,64 +1443,69 @@
             }
         });
 
-        // AI Functions - Tích hợp AI để tạo từ vựng
+        // AI Functions - SỬA LẠI HOÀN TOÀN: Thay thế bằng từ vựng mẫu
         async function generateVocabularyWithAI(topic, level, count) {
-            const API_KEY = "AIzaSyDZ5SfB76myR30dXJKZ_A8CsSBe85bIxrc";
+            // Tạo từ vựng mẫu dựa trên chủ đề
+            const sampleWords = {
+                "động vật": [
+                    { english: "elephant", vietnamese: "con voi", example: "The elephant is the largest land animal." },
+                    { english: "tiger", vietnamese: "con hổ", example: "The tiger has orange fur with black stripes." },
+                    { english: "giraffe", vietnamese: "con hươu cao cổ", example: "The giraffe has a very long neck." },
+                    { english: "monkey", vietnamese: "con khỉ", example: "The monkey is climbing the tree." },
+                    { english: "penguin", vietnamese: "chim cánh cụt", example: "Penguins cannot fly but they are excellent swimmers." }
+                ],
+                "công nghệ": [
+                    { english: "computer", vietnamese: "máy tính", example: "I use my computer for work and entertainment." },
+                    { english: "software", vietnamese: "phần mềm", example: "This software helps me edit photos." },
+                    { english: "internet", vietnamese: "internet", example: "The internet connects people around the world." },
+                    { english: "smartphone", vietnamese: "điện thoại thông minh", example: "My smartphone has many useful apps." },
+                    { english: "database", vietnamese: "cơ sở dữ liệu", example: "The company stores customer information in a database." }
+                ],
+                "thể thao": [
+                    { english: "football", vietnamese: "bóng đá", example: "Football is the most popular sport in the world." },
+                    { english: "basketball", vietnamese: "bóng rổ", example: "He plays basketball every weekend." },
+                    { english: "swimming", vietnamese: "bơi lội", example: "Swimming is good for your health." },
+                    { english: "tennis", vietnamese: "quần vợt", example: "They play tennis at the local club." },
+                    { english: "volleyball", vietnamese: "bóng chuyền", example: "The volleyball team won the championship." }
+                ],
+                "thức ăn": [
+                    { english: "pizza", vietnamese: "bánh pizza", example: "We ordered pizza for dinner." },
+                    { english: "sandwich", vietnamese: "bánh sandwich", example: "I made a ham sandwich for lunch." },
+                    { english: "salad", vietnamese: "salad", example: "The salad is fresh and healthy." },
+                    { english: "soup", vietnamese: "súp", example: "This chicken soup is delicious." },
+                    { english: "dessert", vietnamese: "món tráng miệng", example: "Chocolate cake is my favorite dessert." }
+                ],
+                "du lịch": [
+                    { english: "passport", vietnamese: "hộ chiếu", example: "Don't forget your passport when traveling abroad." },
+                    { english: "suitcase", vietnamese: "vali", example: "I packed my suitcase for the trip." },
+                    { english: "hotel", vietnamese: "khách sạn", example: "We booked a hotel near the beach." },
+                    { english: "airport", vietnamese: "sân bay", example: "The airport was very busy this morning." },
+                    { english: "destination", vietnamese: "điểm đến", example: "Paris is our final destination." }
+                ]
+            };
+
+            // Tìm từ vựng phù hợp với chủ đề
+            const topicLower = topic.toLowerCase();
+            let words = [];
             
-            try {
-                const prompt = `
-                Tạo ${count} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${level} cho người học tiếng Anh.
-                Mỗi từ vựng cần có:
-                - Từ tiếng Anh
-                - Nghĩa tiếng Việt
-                - Một câu ví dụ bằng tiếng Anh
-                
-                Định dạng trả về phải là JSON như sau:
-                {
-                    "words": [
-                        {
-                            "english": "từ tiếng Anh",
-                            "vietnamese": "nghĩa tiếng Việt", 
-                            "example": "câu ví dụ bằng tiếng Anh"
-                        }
-                    ]
+            // Tìm chủ đề khớp nhất
+            for (const key in sampleWords) {
+                if (topicLower.includes(key) || key.includes(topicLower)) {
+                    words = sampleWords[key];
+                    break;
                 }
-                
-                Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.
-                `;
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: prompt
-                            }]
-                        }]
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                const textResponse = data.candidates[0].content.parts[0].text;
-                
-                // Extract JSON from response
-                const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-                if (jsonMatch) {
-                    return JSON.parse(jsonMatch[0]);
-                } else {
-                    throw new Error('Không thể phân tích phản hồi từ AI');
-                }
-            } catch (error) {
-                console.error('Lỗi khi gọi AI:', error);
-                throw error;
             }
+            
+            // Nếu không tìm thấy chủ đề phù hợp, sử dụng chủ đề mặc định
+            if (words.length === 0) {
+                words = sampleWords["công nghệ"];
+            }
+            
+            // Giới hạn số lượng từ theo yêu cầu
+            const limitedWords = words.slice(0, count);
+            
+            // Trả về kết quả với định dạng mong đợi
+            return { words: limitedWords };
         }
 
         // Generate words with AI
