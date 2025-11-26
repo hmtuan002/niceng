@@ -607,17 +607,18 @@
         }
 
         .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #666;
-    font-size: 12px;
-    transition: color 0.3s ease;
-    padding: 5px 20px; /* Thêm padding ngang */
-    border-radius: 10px;
-    margin: 0 10px; /* Khoảng cách giữa các nút nếu có nhiều nút */
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 12px;
+            transition: color 0.3s ease;
+            padding: 5px 20px;
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+
         .nav-item.active {
             color: #FFA500;
         }
@@ -742,6 +743,24 @@
             text-align: center;
         }
 
+        /* Login Button Styles */
+        .login-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
@@ -823,7 +842,10 @@
                 <h1>Niceng</h1>
             </div>
             <div class="user-info">
-                <span id="logout" class="material-symbols-outlined" title="Đăng xuất">logout</span>
+                <!-- Thay đổi nút logout thành login -->
+                <button id="login-btn" class="login-btn" title="Đăng nhập">
+                    <span class="material-symbols-outlined">login</span>
+                </button>
             </div>
         </div>
 
@@ -1023,13 +1045,12 @@
             Đã xóa từ này khỏi bộ thẻ.
         </div>
 
-        <!-- Navigation - ĐÃ SỬA: XÓA NÚT THƯ VIỆN -->
+        <!-- Navigation -->
         <div class="navigation">
             <a class="nav-item active" id="nav-home">
                 <span class="material-symbols-outlined">home</span>
                 Trang chính
             </a>
-            <!-- Đã xóa nút Thư viện ở đây -->
             <a class="nav-item" id="nav-admin" style="display: none;">
                 <span class="material-symbols-outlined">admin_panel_settings</span>
                 Quản trị
@@ -1068,8 +1089,9 @@
         let aiGeneratedWords = [];
         let aiUsageCount = 0; // Biến đếm số lần sử dụng AI
         const MAX_AI_USAGE = 1; // Giới hạn sử dụng AI 1 lần
+        let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
 
-        // Check authentication state - ĐÃ SỬA: XÓA PHẦN ĐĂNG NHẬP/ĐĂNG KÝ
+        // Check authentication state
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // Check if user is admin
@@ -1103,23 +1125,19 @@
 
         // Text-to-Speech function
         function speakText(text, rate = 0.8, pitch = 1) {
-            // Check if browser supports SpeechSynthesis
             if (!('speechSynthesis' in window)) {
                 alert('Trình duyệt của bạn không hỗ trợ chức năng đọc văn bản. Vui lòng sử dụng Chrome, Edge hoặc Safari mới nhất.');
                 return;
             }
 
-            // Cancel any ongoing speech
             window.speechSynthesis.cancel();
 
-            // Create speech utterance
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
             utterance.rate = rate;
             utterance.pitch = pitch;
             utterance.volume = 1;
 
-            // Speak the text
             window.speechSynthesis.speak(utterance);
         }
 
@@ -1182,7 +1200,6 @@
                     libraryContent.appendChild(categoryElement);
                 });
                 
-                // Add event listeners to add buttons
                 document.querySelectorAll('.add-category-btn').forEach(button => {
                     button.addEventListener('click', (e) => {
                         const categoryId = e.target.getAttribute('data-id');
@@ -1197,13 +1214,11 @@
             const user = auth.currentUser;
             if (!user) return;
             
-            // First get the category details
             db.collection('categories').doc(categoryId).get().then((categoryDoc) => {
                 if (!categoryDoc.exists) return;
                 
                 const category = categoryDoc.data();
                 
-                // Then get all cards in this category
                 db.collection('systemCards')
                   .where('categoryId', '==', categoryId)
                   .get()
@@ -1213,13 +1228,11 @@
                       snapshot.forEach((doc) => {
                           const card = doc.data();
                           
-                          // Check if user already has this card
                           db.collection('users').doc(user.uid).collection('cards')
                             .where('word', '==', card.word)
                             .get()
                             .then((existingCards) => {
                                 if (existingCards.empty) {
-                                    // Add card to user's collection
                                     db.collection('users').doc(user.uid).collection('cards').add({
                                         word: card.word,
                                         meaning: card.meaning,
@@ -1252,7 +1265,7 @@
             document.querySelector('#yellow .number').textContent = mastered;
         }
 
-        // Update card list in popup - ĐÃ XÓA NÚT NGHE
+        // Update card list in popup
         function updateCardList() {
             const cardList = document.getElementById('card-list');
             const masteredList = document.getElementById('mastered-list');
@@ -1266,7 +1279,6 @@
                 return;
             }
             
-            // Cards to learn
             const learningCards = userCards.filter(card => card.status === 'learning' || !card.status);
             const knownCards = userCards.filter(card => card.status === 'known');
             const masteredCards = userCards.filter(card => card.status === 'mastered');
@@ -1293,7 +1305,6 @@
                 });
             }
             
-            // Mastered cards
             if (masteredCards.length === 0) {
                 masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
             } else {
@@ -1316,7 +1327,6 @@
                 });
             }
             
-            // Add event listeners to delete buttons
             document.querySelectorAll('.delete-card').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const cardId = e.target.getAttribute('data-id');
@@ -1393,7 +1403,7 @@
             }
         });
 
-        // AI Functions - Tích hợp AI để tạo từ vựng
+        // AI Functions
         async function generateVocabularyWithAI(topic, level, count) {
             const API_KEY = "AIzaSyCeCqOYnzKceYD4iAV8M51D_dnX4pKJEA4";
             
@@ -1440,7 +1450,6 @@
                 const data = await response.json();
                 const textResponse = data.candidates[0].content.parts[0].text;
                 
-                // Extract JSON from response
                 const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
                     return JSON.parse(jsonMatch[0]);
@@ -1453,10 +1462,9 @@
             }
         }
 
-        // Generate words with AI
+        // Generate words with AI - ĐÃ SỬA: Sử dụng biến aiUsed thay vì aiUsageCount
         document.getElementById('generate-words').addEventListener('click', async () => {
-            // Kiểm tra số lần sử dụng AI
-            if (aiUsageCount >= MAX_AI_USAGE) {
+            if (aiUsed) {
                 alert('Bạn đã sử dụng hết lượt AI trong phiên này. Vui lòng nhấn nút "Nhấn vào đây để tiếp tục sử dụng AI" để tiếp tục.');
                 return;
             }
@@ -1478,7 +1486,6 @@
             const generateBtn = document.getElementById('generate-words');
             const loading = generateBtn.querySelector('.loading');
             
-            // Show loading
             generateBtn.disabled = true;
             loading.style.display = 'inline-block';
             generateBtn.innerHTML = '<span class="loading"></span>Đang tạo...';
@@ -1487,31 +1494,25 @@
                 const result = await generateVocabularyWithAI(topic, level, count);
                 aiGeneratedWords = result.words;
                 
-                // Tăng số lần sử dụng AI
-                aiUsageCount++;
+                // Đánh dấu đã sử dụng AI
+                aiUsed = true;
                 
                 // Cập nhật trạng thái nút generate
-                if (aiUsageCount >= MAX_AI_USAGE) {
-                    generateBtn.disabled = true;
-                    generateBtn.innerHTML = 'Đã sử dụng hết lượt';
-                }
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = 'Đã sử dụng hết lượt';
                 
-                // Display results
                 displayAIWords(aiGeneratedWords);
-                
-                // Show results section
                 document.getElementById('ai-results').style.display = 'block';
                 
             } catch (error) {
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
-            } finally {
-                // Hide loading
-                if (aiUsageCount < MAX_AI_USAGE) {
-                    generateBtn.disabled = false;
-                    loading.style.display = 'none';
-                    generateBtn.innerHTML = 'Tạo từ vựng';
-                }
+                
+                // Nếu có lỗi, không tính là đã sử dụng AI
+                aiUsed = false;
+                generateBtn.disabled = false;
+                loading.style.display = 'none';
+                generateBtn.innerHTML = 'Tạo từ vựng';
             }
         });
 
@@ -1535,7 +1536,6 @@
                 container.appendChild(wordItem);
             });
             
-            // Add event listeners to add buttons
             document.querySelectorAll('.ai-add-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const index = parseInt(e.target.getAttribute('data-index'));
@@ -1551,13 +1551,11 @@
             
             if (!user) return;
             
-            // Check if word already exists
             db.collection('users').doc(user.uid).collection('cards')
                 .where('word', '==', word.english)
                 .get()
                 .then((existingCards) => {
                     if (existingCards.empty) {
-                        // Add card to user's collection
                         return db.collection('users').doc(user.uid).collection('cards').add({
                             word: word.english,
                             meaning: word.vietnamese,
@@ -1571,7 +1569,6 @@
                     }
                 })
                 .then(() => {
-                    // Update button state
                     const addBtn = document.querySelector(`.ai-add-btn[data-index="${index}"]`);
                     addBtn.textContent = 'Đã thêm';
                     addBtn.classList.add('added');
@@ -1598,13 +1595,11 @@
             const totalWords = aiGeneratedWords.length;
             
             aiGeneratedWords.forEach((word, index) => {
-                // Check if word already exists
                 db.collection('users').doc(user.uid).collection('cards')
                     .where('word', '==', word.english)
                     .get()
                     .then((existingCards) => {
                         if (existingCards.empty) {
-                            // Add card to user's collection
                             return db.collection('users').doc(user.uid).collection('cards').add({
                                 word: word.english,
                                 meaning: word.vietnamese,
@@ -1619,7 +1614,6 @@
                     .then(() => {
                         addedCount++;
                         
-                        // Update button state
                         const addBtn = document.querySelector(`.ai-add-btn[data-index="${index}"]`);
                         if (addBtn) {
                             addBtn.textContent = 'Đã thêm';
@@ -1627,7 +1621,6 @@
                             addBtn.disabled = true;
                         }
                         
-                        // If all words processed, show alert
                         if (addedCount === totalWords) {
                             showAlert(`Đã thêm ${addedCount} từ vào bộ thẻ!`);
                         }
@@ -1638,12 +1631,17 @@
             });
         });
 
-        // Reset AI usage - cho phép sử dụng lại AI
+        // Reset AI usage - ĐÃ SỬA: Sửa lỗi reset AI
         document.getElementById('reset-ai').addEventListener('click', () => {
-            aiUsageCount = 0;
+            aiUsed = false;
             document.getElementById('generate-words').disabled = false;
             document.getElementById('generate-words').innerHTML = 'Tạo từ vựng';
             showAlert('Bây giờ bạn có thể sử dụng tính năng AI thêm một lần nữa!');
+        });
+
+        // Login button - ĐÃ THÊM: Nút đăng nhập
+        document.getElementById('login-btn').addEventListener('click', () => {
+            window.location.href = 'login.html';
         });
 
         // Start learning
@@ -1653,7 +1651,6 @@
                 return;
             }
             
-            // Filter cards that need to be learned
             cardsToLearn = userCards.filter(card => card.status === 'learning' || !card.status);
             
             if (cardsToLearn.length === 0) {
@@ -1661,11 +1658,9 @@
                 return;
             }
             
-            // Shuffle cards
             shuffleArray(cardsToLearn);
             currentCardIndex = 0;
             
-            // Show first card
             showCard();
             document.getElementById('learn-menu').classList.add('active');
             document.getElementById('attention-reveal').style.display = 'block';
@@ -1679,7 +1674,6 @@
                 return;
             }
             
-            // Filter cards that are known (not mastered yet)
             cardsToReview = userCards.filter(card => card.status === 'known');
             
             if (cardsToReview.length === 0) {
@@ -1687,11 +1681,9 @@
                 return;
             }
             
-            // Shuffle cards
             shuffleArray(cardsToReview);
             currentCardIndex = 0;
             
-            // Show first card
             showReviewCard();
             document.getElementById('review-menu').classList.add('active');
             document.getElementById('attention-reveal-review').style.display = 'block';
@@ -1701,7 +1693,6 @@
         // Show current card for learning
         function showCard() {
             if (currentCardIndex >= cardsToLearn.length) {
-                // All cards learned
                 document.getElementById('learn-menu').classList.remove('active');
                 alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
                 return;
@@ -1710,10 +1701,8 @@
             const card = cardsToLearn[currentCardIndex];
             const flashcard = document.getElementById('flashcard');
             
-            // Reset card flip
             flashcard.classList.remove('flipped');
             
-            // Set front content with voice button
             const front = flashcard.querySelector('.front');
             const wordContainer = document.createElement('div');
             wordContainer.className = 'word-with-voice';
@@ -1722,7 +1711,6 @@
             front.innerHTML = '';
             front.appendChild(wordContainer);
             
-            // Set back content
             const back = flashcard.querySelector('.back');
             const backContent = document.createElement('div');
             backContent.innerHTML = `
@@ -1736,7 +1724,6 @@
                 </div>
             `;
             
-            // Add voice button for example sentence if exists
             if (card.example) {
                 const exampleContainer = backContent.querySelector('.example-with-voice');
                 const exampleVoiceBtn = createVoiceButton(card.example);
@@ -1746,18 +1733,13 @@
             back.innerHTML = '';
             back.appendChild(backContent);
             
-            // Add event listeners to action buttons
             back.querySelector('#right').addEventListener('click', () => markCardAsKnown());
             back.querySelector('#wrong').addEventListener('click', () => markCardAsLearning());
-            
-            // Auto-play pronunciation when card is shown (optional)
-            // setTimeout(() => speakText(card.word), 500);
         }
 
         // Show current card for review
         function showReviewCard() {
             if (currentCardIndex >= cardsToReview.length) {
-                // All cards reviewed
                 document.getElementById('review-menu').classList.remove('active');
                 alert('Chúc mừng! Bạn đã ôn tập xong tất cả các thẻ!');
                 return;
@@ -1766,10 +1748,8 @@
             const card = cardsToReview[currentCardIndex];
             const flashcard = document.getElementById('review-flashcard');
             
-            // Reset card flip
             flashcard.classList.remove('flipped');
             
-            // Set front content with voice button
             const front = flashcard.querySelector('.front');
             const wordContainer = document.createElement('div');
             wordContainer.className = 'word-with-voice';
@@ -1778,7 +1758,6 @@
             front.innerHTML = '';
             front.appendChild(wordContainer);
             
-            // Set back content
             const back = flashcard.querySelector('.back');
             const backContent = document.createElement('div');
             backContent.innerHTML = `
@@ -1792,7 +1771,6 @@
                 </div>
             `;
             
-            // Add voice button for example sentence if exists
             if (card.example) {
                 const exampleContainer = backContent.querySelector('.example-with-voice');
                 const exampleVoiceBtn = createVoiceButton(card.example);
@@ -1802,7 +1780,6 @@
             back.innerHTML = '';
             back.appendChild(backContent);
             
-            // Add event listeners to action buttons
             back.querySelector('#review-right').addEventListener('click', () => markCardAsMastered());
             back.querySelector('#review-wrong').addEventListener('click', () => markCardForReview());
         }
@@ -1837,7 +1814,6 @@
                 status: 'learning'
             })
             .then(() => {
-                // Move current card to the end of the list
                 cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
                 showCard();
             })
@@ -1876,7 +1852,6 @@
                 status: 'known'
             })
             .then(() => {
-                // Move current card to the end of the list
                 cardsToReview.push(cardsToReview.splice(currentCardIndex, 1)[0]);
                 showReviewCard();
             })
@@ -1885,149 +1860,133 @@
             });
         }
 
-// Shuffle array (Fisher-Yates algorithm)
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+        // Shuffle array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-// Hàm reset popup AI
-function resetAIPopup() {
-    // Reset form inputs
-    document.getElementById('ai-topic').value = '';
-    document.getElementById('ai-level').selectedIndex = 0;
-    document.getElementById('ai-count').value = '5';
-    
-    // Hide results section
-    document.getElementById('ai-results').style.display = 'none';
-    
-    // Clear generated words
-    document.getElementById('ai-words-container').innerHTML = '';
-    aiGeneratedWords = [];
-}
+        // Hàm reset popup AI
+        function resetAIPopup() {
+            document.getElementById('ai-topic').value = '';
+            document.getElementById('ai-level').selectedIndex = 0;
+            document.getElementById('ai-count').value = '5';
+            document.getElementById('ai-results').style.display = 'none';
+            document.getElementById('ai-words-container').innerHTML = '';
+            aiGeneratedWords = [];
+        }
 
-// Event listeners for popups
-document.getElementById('add').addEventListener('click', () => {
-    document.getElementById('add-menu').classList.add('active');
-});
+        // Event listeners for popups
+        document.getElementById('add').addEventListener('click', () => {
+            document.getElementById('add-menu').classList.add('active');
+        });
 
-document.getElementById('ai-add').addEventListener('click', () => {
-    resetAIPopup(); // Reset form khi mở popup AI
-    document.getElementById('ai-add-menu').classList.add('active');
-});
+        document.getElementById('ai-add').addEventListener('click', () => {
+            resetAIPopup();
+            document.getElementById('ai-add-menu').classList.add('active');
+        });
 
-document.getElementById('list').addEventListener('click', () => {
-    document.getElementById('card-list-menu').classList.add('active');
-});
+        document.getElementById('list').addEventListener('click', () => {
+            document.getElementById('card-list-menu').classList.add('active');
+        });
 
-document.getElementById('library').addEventListener('click', () => {
-    document.getElementById('library-menu').classList.add('active');
-});
+        document.getElementById('library').addEventListener('click', () => {
+            document.getElementById('library-menu').classList.add('active');
+        });
 
-// Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
+        document.getElementById('admin').addEventListener('click', () => {
+            window.location.href = 'admin.html';
+        });
 
-document.getElementById('admin').addEventListener('click', () => {
-    window.location.href = 'admin.html';
-});
+        document.getElementById('nav-admin').addEventListener('click', () => {
+            window.location.href = 'admin.html';
+        });
 
-document.getElementById('nav-admin').addEventListener('click', () => {
-    window.location.href = 'admin.html';
-});
+        // Close popups
+        document.getElementById('close-add-menu').addEventListener('click', () => {
+            document.getElementById('add-menu').classList.remove('active');
+        });
 
-// Close popups
-document.getElementById('close-add-menu').addEventListener('click', () => {
-    document.getElementById('add-menu').classList.remove('active');
-});
+        document.getElementById('close-ai-add-menu').addEventListener('click', () => {
+            document.getElementById('ai-add-menu').classList.remove('active');
+            resetAIPopup();
+        });
 
-document.getElementById('close-ai-add-menu').addEventListener('click', () => {
-    document.getElementById('ai-add-menu').classList.remove('active');
-    resetAIPopup(); // Reset khi đóng bằng nút close
-});
+        document.getElementById('close-card-list-menu').addEventListener('click', () => {
+            document.getElementById('card-list-menu').classList.remove('active');
+        });
 
-document.getElementById('close-card-list-menu').addEventListener('click', () => {
-    document.getElementById('card-list-menu').classList.remove('active');
-});
+        document.getElementById('close-learn-menu').addEventListener('click', () => {
+            document.getElementById('learn-menu').classList.remove('active');
+        });
 
-document.getElementById('close-learn-menu').addEventListener('click', () => {
-    document.getElementById('learn-menu').classList.remove('active');
-});
+        document.getElementById('close-review-menu').addEventListener('click', () => {
+            document.getElementById('review-menu').classList.remove('active');
+        });
 
-document.getElementById('close-review-menu').addEventListener('click', () => {
-    document.getElementById('review-menu').classList.remove('active');
-});
+        document.getElementById('close-library-menu').addEventListener('click', () => {
+            document.getElementById('library-menu').classList.remove('active');
+        });
 
-document.getElementById('close-library-menu').addEventListener('click', () => {
-    document.getElementById('library-menu').classList.remove('active');
-});
+        // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
+        document.addEventListener('click', (e) => {
+            const aiPopup = document.getElementById('ai-add-menu');
+            if (aiPopup.classList.contains('active') && e.target === aiPopup) {
+                aiPopup.classList.remove('active');
+                resetAIPopup();
+            }
+        });
 
-// THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
-document.addEventListener('click', (e) => {
-    const aiPopup = document.getElementById('ai-add-menu');
-    if (aiPopup.classList.contains('active') && e.target === aiPopup) {
-        aiPopup.classList.remove('active');
-        resetAIPopup();
-    }
-});
+        // Flashcard flip on click
+        document.getElementById('flashcard').addEventListener('click', (e) => {
+            if (!e.target.closest('.back-actions')) {
+                document.getElementById('flashcard').classList.toggle('flipped');
+                document.getElementById('attention-reveal').style.display = 'none';
+                document.getElementById('attention-drag').style.display = 'block';
+            }
+        });
 
-// Flashcard flip on click
-document.getElementById('flashcard').addEventListener('click', (e) => {
-    if (!e.target.closest('.back-actions')) {
-        document.getElementById('flashcard').classList.toggle('flipped');
-        document.getElementById('attention-reveal').style.display = 'none';
-        document.getElementById('attention-drag').style.display = 'block';
-    }
-});
+        // Review flashcard flip on click
+        document.getElementById('review-flashcard').addEventListener('click', (e) => {
+            if (!e.target.closest('.back-actions')) {
+                document.getElementById('review-flashcard').classList.toggle('flipped');
+                document.getElementById('attention-reveal-review').style.display = 'none';
+                document.getElementById('attention-drag-review').style.display = 'block';
+            }
+        });
 
-// Review flashcard flip on click
-document.getElementById('review-flashcard').addEventListener('click', (e) => {
-    if (!e.target.closest('.back-actions')) {
-        document.getElementById('review-flashcard').classList.toggle('flipped');
-        document.getElementById('attention-reveal-review').style.display = 'none';
-        document.getElementById('attention-drag-review').style.display = 'block';
-    }
-});
+        // Navigation active state
+        document.getElementById('nav-home').addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('nav-home').classList.add('active');
+        });
 
-// Logout
-document.getElementById('logout').addEventListener('click', () => {
-    auth.signOut().then(() => {
-        location.reload();
-    });
-});
+        document.getElementById('nav-admin').addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('nav-admin').classList.add('active');
+        });
 
-// Navigation active state
-document.getElementById('nav-home').addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    document.getElementById('nav-home').classList.add('active');
-});
+        // Tab switching in card list
+        document.getElementById('tab-learning').addEventListener('click', () => {
+            document.getElementById('tab-learning').classList.add('active');
+            document.getElementById('tab-mastered').classList.remove('active');
+            document.getElementById('card-list').style.display = 'block';
+            document.getElementById('mastered-list').style.display = 'none';
+        });
 
-// Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
-
-document.getElementById('nav-admin').addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    document.getElementById('nav-admin').classList.add('active');
-});
-
-// Tab switching in card list
-document.getElementById('tab-learning').addEventListener('click', () => {
-    document.getElementById('tab-learning').classList.add('active');
-    document.getElementById('tab-mastered').classList.remove('active');
-    document.getElementById('card-list').style.display = 'block';
-    document.getElementById('mastered-list').style.display = 'none';
-});
-
-document.getElementById('tab-mastered').addEventListener('click', () => {
-    document.getElementById('tab-mastered').classList.add('active');
-    document.getElementById('tab-learning').classList.remove('active');
-    document.getElementById('card-list').style.display = 'none';
-    document.getElementById('mastered-list').style.display = 'block';
-});
+        document.getElementById('tab-mastered').addEventListener('click', () => {
+            document.getElementById('tab-mastered').classList.add('active');
+            document.getElementById('tab-learning').classList.remove('active');
+            document.getElementById('card-list').style.display = 'none';
+            document.getElementById('mastered-list').style.display = 'block';
+        });
     </script>
 </body>
 </html>
