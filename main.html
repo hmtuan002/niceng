@@ -1443,73 +1443,68 @@
             }
         });
 
-        // AI Functions - SỬA LẠI HOÀN TOÀN: Thay thế bằng từ vựng mẫu
+        // AI Functions - Tích hợp AI để tạo từ vựng
         async function generateVocabularyWithAI(topic, level, count) {
-            // Tạo từ vựng mẫu dựa trên chủ đề
-            const sampleWords = {
-                "động vật": [
-                    { english: "elephant", vietnamese: "con voi", example: "The elephant is the largest land animal." },
-                    { english: "tiger", vietnamese: "con hổ", example: "The tiger has orange fur with black stripes." },
-                    { english: "giraffe", vietnamese: "con hươu cao cổ", example: "The giraffe has a very long neck." },
-                    { english: "monkey", vietnamese: "con khỉ", example: "The monkey is climbing the tree." },
-                    { english: "penguin", vietnamese: "chim cánh cụt", example: "Penguins cannot fly but they are excellent swimmers." }
-                ],
-                "công nghệ": [
-                    { english: "computer", vietnamese: "máy tính", example: "I use my computer for work and entertainment." },
-                    { english: "software", vietnamese: "phần mềm", example: "This software helps me edit photos." },
-                    { english: "internet", vietnamese: "internet", example: "The internet connects people around the world." },
-                    { english: "smartphone", vietnamese: "điện thoại thông minh", example: "My smartphone has many useful apps." },
-                    { english: "database", vietnamese: "cơ sở dữ liệu", example: "The company stores customer information in a database." }
-                ],
-                "thể thao": [
-                    { english: "football", vietnamese: "bóng đá", example: "Football is the most popular sport in the world." },
-                    { english: "basketball", vietnamese: "bóng rổ", example: "He plays basketball every weekend." },
-                    { english: "swimming", vietnamese: "bơi lội", example: "Swimming is good for your health." },
-                    { english: "tennis", vietnamese: "quần vợt", example: "They play tennis at the local club." },
-                    { english: "volleyball", vietnamese: "bóng chuyền", example: "The volleyball team won the championship." }
-                ],
-                "thức ăn": [
-                    { english: "pizza", vietnamese: "bánh pizza", example: "We ordered pizza for dinner." },
-                    { english: "sandwich", vietnamese: "bánh sandwich", example: "I made a ham sandwich for lunch." },
-                    { english: "salad", vietnamese: "salad", example: "The salad is fresh and healthy." },
-                    { english: "soup", vietnamese: "súp", example: "This chicken soup is delicious." },
-                    { english: "dessert", vietnamese: "món tráng miệng", example: "Chocolate cake is my favorite dessert." }
-                ],
-                "du lịch": [
-                    { english: "passport", vietnamese: "hộ chiếu", example: "Don't forget your passport when traveling abroad." },
-                    { english: "suitcase", vietnamese: "vali", example: "I packed my suitcase for the trip." },
-                    { english: "hotel", vietnamese: "khách sạn", example: "We booked a hotel near the beach." },
-                    { english: "airport", vietnamese: "sân bay", example: "The airport was very busy this morning." },
-                    { english: "destination", vietnamese: "điểm đến", example: "Paris is our final destination." }
-                ]
-            };
-
-            // Tìm từ vựng phù hợp với chủ đề
-            const topicLower = topic.toLowerCase();
-            let words = [];
+            const API_KEY = "AIzaSyDZ5SfB76myR30dXJKZ_A8CsSBe85bIxrc";
             
-            // Tìm chủ đề khớp nhất
-            for (const key in sampleWords) {
-                if (topicLower.includes(key) || key.includes(topicLower)) {
-                    words = sampleWords[key];
-                    break;
+            try {
+                const prompt = `
+                Tạo ${count} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${level} cho người học tiếng Anh.
+                Mỗi từ vựng cần có:
+                - Từ tiếng Anh
+                - Nghĩa tiếng Việt
+                - Một câu ví dụ bằng tiếng Anh
+                
+                Định dạng trả về phải là JSON như sau:
+                {
+                    "words": [
+                        {
+                            "english": "từ tiếng Anh",
+                            "vietnamese": "nghĩa tiếng Việt", 
+                            "example": "câu ví dụ bằng tiếng Anh"
+                        }
+                    ]
                 }
+                
+                Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const textResponse = data.candidates[0].content.parts[0].text;
+                
+                // Extract JSON from response
+                const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    return JSON.parse(jsonMatch[0]);
+                } else {
+                    throw new Error('Không thể phân tích phản hồi từ AI');
+                }
+            } catch (error) {
+                console.error('Lỗi khi gọi AI:', error);
+                throw error;
             }
-            
-            // Nếu không tìm thấy chủ đề phù hợp, sử dụng chủ đề mặc định
-            if (words.length === 0) {
-                words = sampleWords["công nghệ"];
-            }
-            
-            // Giới hạn số lượng từ theo yêu cầu
-            const limitedWords = words.slice(0, count);
-            
-            // Trả về kết quả với định dạng mong đợi
-            return { words: limitedWords };
         }
 
-        // Generate words with AI - SỬA LỖI: Đảm bảo nút luôn hoạt động
-        document.getElementById('generate-words').addEventListener('click', async function() {
+        // Generate words with AI
+        document.getElementById('generate-words').addEventListener('click', async () => {
             const topic = document.getElementById('ai-topic').value.trim();
             const level = document.getElementById('ai-level').value;
             const count = parseInt(document.getElementById('ai-count').value);
@@ -1524,7 +1519,7 @@
                 return;
             }
             
-            const generateBtn = this;
+            const generateBtn = document.getElementById('generate-words');
             const loading = generateBtn.querySelector('.loading');
             
             // Show loading
@@ -1546,7 +1541,7 @@
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
             } finally {
-                // QUAN TRỌNG: Luôn đảm bảo reset trạng thái nút
+                // Hide loading
                 generateBtn.disabled = false;
                 loading.style.display = 'none';
                 generateBtn.innerHTML = 'Tạo từ vựng';
@@ -1628,17 +1623,12 @@
         }
 
         // Add all AI words to collection
-        document.getElementById('add-all-words').addEventListener('click', function() {
+        document.getElementById('add-all-words').addEventListener('click', () => {
             const user = auth.currentUser;
             if (!user) return;
             
-            const addAllBtn = this;
             let addedCount = 0;
             const totalWords = aiGeneratedWords.length;
-            
-            // Disable button while processing
-            addAllBtn.disabled = true;
-            addAllBtn.textContent = 'Đang thêm...';
             
             aiGeneratedWords.forEach((word, index) => {
                 // Check if word already exists
@@ -1673,16 +1663,10 @@
                         // If all words processed, show alert
                         if (addedCount === totalWords) {
                             showAlert(`Đã thêm ${addedCount} từ vào bộ thẻ!`);
-                            // Reset add all button
-                            addAllBtn.disabled = false;
-                            addAllBtn.textContent = 'Thêm tất cả';
                         }
                     })
                     .catch((error) => {
                         console.error('Error adding word:', error);
-                        // Reset add all button even on error
-                        addAllBtn.disabled = false;
-                        addAllBtn.textContent = 'Thêm tất cả';
                     });
             });
         });
@@ -1925,160 +1909,149 @@
                 console.error('Error updating card: ', error);
             });
         }
+// Shuffle array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
-        // Shuffle array (Fisher-Yates algorithm)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+// Hàm reset popup AI
+function resetAIPopup() {
+    // Reset form inputs
+    document.getElementById('ai-topic').value = '';
+    document.getElementById('ai-level').selectedIndex = 0;
+    document.getElementById('ai-count').value = '5';
+    
+    // Hide results section
+    document.getElementById('ai-results').style.display = 'none';
+    
+    // Clear generated words
+    document.getElementById('ai-words-container').innerHTML = '';
+    aiGeneratedWords = [];
+}
 
-        // Hàm reset popup AI - ĐÃ SỬA: THÊM RESET HOÀN TOÀN
-        function resetAIPopup() {
-            // Reset form inputs
-            document.getElementById('ai-topic').value = '';
-            document.getElementById('ai-level').selectedIndex = 0;
-            document.getElementById('ai-count').value = '5';
-            
-            // Hide results section
-            document.getElementById('ai-results').style.display = 'none';
-            
-            // Clear generated words
-            document.getElementById('ai-words-container').innerHTML = '';
-            aiGeneratedWords = [];
-            
-            // Reset button text - QUAN TRỌNG: Đảm bảo nút luôn hoạt động
-            const generateBtn = document.getElementById('generate-words');
-            generateBtn.disabled = false;
-            generateBtn.innerHTML = 'Tạo từ vựng';
-            
-            // Reset add all button
-            const addAllBtn = document.getElementById('add-all-words');
-            addAllBtn.disabled = false;
-            addAllBtn.textContent = 'Thêm tất cả';
-        }
+// Event listeners for popups
+document.getElementById('add').addEventListener('click', () => {
+    document.getElementById('add-menu').classList.add('active');
+});
 
-        // Event listeners for popups
-        document.getElementById('add').addEventListener('click', () => {
-            document.getElementById('add-menu').classList.add('active');
-        });
+document.getElementById('ai-add').addEventListener('click', () => {
+    resetAIPopup(); // Reset form khi mở popup AI
+    document.getElementById('ai-add-menu').classList.add('active');
+});
 
-        document.getElementById('ai-add').addEventListener('click', () => {
-            resetAIPopup(); // Reset form khi mở popup AI
-            document.getElementById('ai-add-menu').classList.add('active');
-        });
+document.getElementById('list').addEventListener('click', () => {
+    document.getElementById('card-list-menu').classList.add('active');
+});
 
-        document.getElementById('list').addEventListener('click', () => {
-            document.getElementById('card-list-menu').classList.add('active');
-        });
+document.getElementById('library').addEventListener('click', () => {
+    document.getElementById('library-menu').classList.add('active');
+});
 
-        document.getElementById('library').addEventListener('click', () => {
-            document.getElementById('library-menu').classList.add('active');
-        });
+// Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
 
-        // Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
+document.getElementById('admin').addEventListener('click', () => {
+    window.location.href = 'admin.html';
+});
 
-        document.getElementById('admin').addEventListener('click', () => {
-            window.location.href = 'admin.html';
-        });
+document.getElementById('nav-admin').addEventListener('click', () => {
+    window.location.href = 'admin.html';
+});
 
-        document.getElementById('nav-admin').addEventListener('click', () => {
-            window.location.href = 'admin.html';
-        });
+// Close popups
+document.getElementById('close-add-menu').addEventListener('click', () => {
+    document.getElementById('add-menu').classList.remove('active');
+});
 
-        // Close popups
-        document.getElementById('close-add-menu').addEventListener('click', () => {
-            document.getElementById('add-menu').classList.remove('active');
-        });
+document.getElementById('close-ai-add-menu').addEventListener('click', () => {
+    document.getElementById('ai-add-menu').classList.remove('active');
+    resetAIPopup(); // Reset khi đóng bằng nút close
+});
 
-        document.getElementById('close-ai-add-menu').addEventListener('click', () => {
-            document.getElementById('ai-add-menu').classList.remove('active');
-            resetAIPopup(); // Reset khi đóng bằng nút close
-        });
+document.getElementById('close-card-list-menu').addEventListener('click', () => {
+    document.getElementById('card-list-menu').classList.remove('active');
+});
 
-        document.getElementById('close-card-list-menu').addEventListener('click', () => {
-            document.getElementById('card-list-menu').classList.remove('active');
-        });
+document.getElementById('close-learn-menu').addEventListener('click', () => {
+    document.getElementById('learn-menu').classList.remove('active');
+});
 
-        document.getElementById('close-learn-menu').addEventListener('click', () => {
-            document.getElementById('learn-menu').classList.remove('active');
-        });
+document.getElementById('close-review-menu').addEventListener('click', () => {
+    document.getElementById('review-menu').classList.remove('active');
+});
 
-        document.getElementById('close-review-menu').addEventListener('click', () => {
-            document.getElementById('review-menu').classList.remove('active');
-        });
+document.getElementById('close-library-menu').addEventListener('click', () => {
+    document.getElementById('library-menu').classList.remove('active');
+});
 
-        document.getElementById('close-library-menu').addEventListener('click', () => {
-            document.getElementById('library-menu').classList.remove('active');
-        });
+// THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
+document.addEventListener('click', (e) => {
+    const aiPopup = document.getElementById('ai-add-menu');
+    if (aiPopup.classList.contains('active') && e.target === aiPopup) {
+        aiPopup.classList.remove('active');
+        resetAIPopup();
+    }
+});
 
-        // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
-        document.addEventListener('click', (e) => {
-            const aiPopup = document.getElementById('ai-add-menu');
-            if (aiPopup.classList.contains('active') && e.target === aiPopup) {
-                aiPopup.classList.remove('active');
-                resetAIPopup();
-            }
-        });
+// Flashcard flip on click
+document.getElementById('flashcard').addEventListener('click', (e) => {
+    if (!e.target.closest('.back-actions')) {
+        document.getElementById('flashcard').classList.toggle('flipped');
+        document.getElementById('attention-reveal').style.display = 'none';
+        document.getElementById('attention-drag').style.display = 'block';
+    }
+});
 
-        // Flashcard flip on click
-        document.getElementById('flashcard').addEventListener('click', (e) => {
-            if (!e.target.closest('.back-actions')) {
-                document.getElementById('flashcard').classList.toggle('flipped');
-                document.getElementById('attention-reveal').style.display = 'none';
-                document.getElementById('attention-drag').style.display = 'block';
-            }
-        });
+// Review flashcard flip on click
+document.getElementById('review-flashcard').addEventListener('click', (e) => {
+    if (!e.target.closest('.back-actions')) {
+        document.getElementById('review-flashcard').classList.toggle('flipped');
+        document.getElementById('attention-reveal-review').style.display = 'none';
+        document.getElementById('attention-drag-review').style.display = 'block';
+    }
+});
 
-        // Review flashcard flip on click
-        document.getElementById('review-flashcard').addEventListener('click', (e) => {
-            if (!e.target.closest('.back-actions')) {
-                document.getElementById('review-flashcard').classList.toggle('flipped');
-                document.getElementById('attention-reveal-review').style.display = 'none';
-                document.getElementById('attention-drag-review').style.display = 'block';
-            }
-        });
+// Logout
+document.getElementById('logout').addEventListener('click', () => {
+    auth.signOut().then(() => {
+        location.reload();
+    });
+});
 
-        // Logout
-        document.getElementById('logout').addEventListener('click', () => {
-            auth.signOut().then(() => {
-                location.reload();
-            });
-        });
+// Navigation active state
+document.getElementById('nav-home').addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.getElementById('nav-home').classList.add('active');
+});
 
-        // Navigation active state
-        document.getElementById('nav-home').addEventListener('click', () => {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.getElementById('nav-home').classList.add('active');
-        });
+// Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
 
-        // Đã xóa sự kiện click cho nút Thư viện ở navigation vì đã xóa nút đó
+document.getElementById('nav-admin').addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.getElementById('nav-admin').classList.add('active');
+});
 
-        document.getElementById('nav-admin').addEventListener('click', () => {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.getElementById('nav-admin').classList.add('active');
-        });
+// Tab switching in card list
+document.getElementById('tab-learning').addEventListener('click', () => {
+    document.getElementById('tab-learning').classList.add('active');
+    document.getElementById('tab-mastered').classList.remove('active');
+    document.getElementById('card-list').style.display = 'block';
+    document.getElementById('mastered-list').style.display = 'none';
+});
 
-        // Tab switching in card list
-        document.getElementById('tab-learning').addEventListener('click', () => {
-            document.getElementById('tab-learning').classList.add('active');
-            document.getElementById('tab-mastered').classList.remove('active');
-            document.getElementById('card-list').style.display = 'block';
-            document.getElementById('mastered-list').style.display = 'none';
-        });
-
-        document.getElementById('tab-mastered').addEventListener('click', () => {
-            document.getElementById('tab-mastered').classList.add('active');
-            document.getElementById('tab-learning').classList.remove('active');
-            document.getElementById('card-list').style.display = 'none';
-            document.getElementById('mastered-list').style.display = 'block';
-        });
+document.getElementById('tab-mastered').addEventListener('click', () => {
+    document.getElementById('tab-mastered').classList.add('active');
+    document.getElementById('tab-learning').classList.remove('active');
+    document.getElementById('card-list').style.display = 'none';
+    document.getElementById('mastered-list').style.display = 'block';
+});
     </script>
 </body>
 </html>
