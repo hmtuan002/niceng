@@ -703,33 +703,6 @@
             font-weight: 600;
         }
 
-        /* AI Reset Button Styles */
-        .ai-reset-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .ai-reset-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
-        }
-
-        .ai-reset-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
 
         /* AI Usage Message */
         .ai-usage-message {
@@ -1458,60 +1431,59 @@
                 throw error;
             }
         }
-
-        // Generate words with AI - ĐÃ SỬA: Sử dụng biến aiUsed thay vì aiUsageCount
-        document.getElementById('generate-words').addEventListener('click', async () => {
-            if (aiUsed) {
-                alert('Bạn đã sử dụng hết lượt AI trong phiên này. Vui lòng nhấn nút "Nhấn vào đây để tiếp tục sử dụng AI" để tiếp tục.');
-                return;
-            }
-            
-            const topic = document.getElementById('ai-topic').value.trim();
-            const level = document.getElementById('ai-level').value;
-            const count = parseInt(document.getElementById('ai-count').value);
-            
-            if (!topic) {
-                alert('Vui lòng nhập chủ đề từ vựng!');
-                return;
-            }
-            
-            if (count < 1 || count > 10) {
-                alert('Số lượng từ phải từ 1 đến 10!');
-                return;
-            }
-            
-            const generateBtn = document.getElementById('generate-words');
-            const loading = generateBtn.querySelector('.loading');
-            
-            generateBtn.disabled = true;
-            loading.style.display = 'inline-block';
-            generateBtn.innerHTML = '<span class="loading"></span>Đang tạo...';
-            
-            try {
-                const result = await generateVocabularyWithAI(topic, level, count);
-                aiGeneratedWords = result.words;
-                
-                // Đánh dấu đã sử dụng AI
-                aiUsed = true;
-                
-                // Cập nhật trạng thái nút generate
-                generateBtn.disabled = true;
-                generateBtn.innerHTML = 'Đã sử dụng hết lượt';
-                
-                displayAIWords(aiGeneratedWords);
-                document.getElementById('ai-results').style.display = 'block';
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
-                
-                // Nếu có lỗi, không tính là đã sử dụng AI
-                aiUsed = false;
-                generateBtn.disabled = false;
-                loading.style.display = 'none';
-                generateBtn.innerHTML = 'Tạo từ vựng';
-            }
-        });
+// Generate words with AI - THÊM DÒNG NÀY
+document.getElementById('generate-words').addEventListener('click', async () => {
+    if (aiUsed) {
+        alert('Bạn đã sử dụng hết lượt AI trong phiên này. Để sử dụng lại tính năng AI, vui lòng đóng và mở lại trang web hoặc truy cập vào lần học tiếp theo.');
+        return;
+    }
+    
+    const topic = document.getElementById('ai-topic').value.trim();
+    const level = document.getElementById('ai-level').value;
+    const count = parseInt(document.getElementById('ai-count').value);
+    
+    if (!topic) {
+        alert('Vui lòng nhập chủ đề từ vựng!');
+        return;
+    }
+    
+    if (count < 1 || count > 30) {
+        alert('Số lượng từ phải từ 1 đến 30!');
+        return;
+    }
+    
+    const generateBtn = document.getElementById('generate-words');
+    const loading = generateBtn.querySelector('.loading');
+    
+    generateBtn.disabled = true;
+    loading.style.display = 'inline-block';
+    generateBtn.innerHTML = '<span class="loading"></span>Đang tạo...';
+    
+    try {
+        const result = await generateVocabularyWithAI(topic, level, count);
+        aiGeneratedWords = result.words;
+        
+        // Đánh dấu đã sử dụng AI
+        aiUsed = true;
+        
+        // Cập nhật trạng thái nút generate
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = 'Đã sử dụng hết lượt';
+        
+        displayAIWords(aiGeneratedWords);
+        document.getElementById('ai-results').style.display = 'block';
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
+        
+        // Nếu có lỗi, không tính là đã sử dụng AI
+        aiUsed = false;
+        generateBtn.disabled = false;
+        loading.style.display = 'none';
+        generateBtn.innerHTML = 'Tạo từ vựng';
+    }
+}); 
 
         // Display AI generated words
         function displayAIWords(words) {
@@ -1628,14 +1600,7 @@
             });
         });
 
-        // Reset AI usage - ĐÃ SỬA: Sửa lỗi reset AI
-        document.getElementById('reset-ai').addEventListener('click', () => {
-            aiUsed = false;
-            document.getElementById('generate-words').disabled = false;
-            document.getElementById('generate-words').innerHTML = 'Tạo từ vựng';
-            showAlert('Bây giờ bạn có thể sử dụng tính năng AI thêm một lần nữa!');
-        });
-
+        
         // Login button - ĐÃ THÊM: Nút đăng nhập
         document.getElementById('login-btn').addEventListener('click', () => {
             window.location.href = 'login.html';
@@ -1870,7 +1835,7 @@
         function resetAIPopup() {
             document.getElementById('ai-topic').value = '';
             document.getElementById('ai-level').selectedIndex = 0;
-            document.getElementById('ai-count').value = '5';
+            document.getElementById('ai-count').value = '10';
             document.getElementById('ai-results').style.display = 'none';
             document.getElementById('ai-words-container').innerHTML = '';
             aiGeneratedWords = [];
