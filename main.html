@@ -1508,8 +1508,8 @@
             return { words: limitedWords };
         }
 
-        // Generate words with AI
-        document.getElementById('generate-words').addEventListener('click', async () => {
+        // Generate words with AI - SỬA LỖI: Đảm bảo nút luôn hoạt động
+        document.getElementById('generate-words').addEventListener('click', async function() {
             const topic = document.getElementById('ai-topic').value.trim();
             const level = document.getElementById('ai-level').value;
             const count = parseInt(document.getElementById('ai-count').value);
@@ -1524,7 +1524,7 @@
                 return;
             }
             
-            const generateBtn = document.getElementById('generate-words');
+            const generateBtn = this;
             const loading = generateBtn.querySelector('.loading');
             
             // Show loading
@@ -1546,7 +1546,7 @@
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
             } finally {
-                // Hide loading
+                // QUAN TRỌNG: Luôn đảm bảo reset trạng thái nút
                 generateBtn.disabled = false;
                 loading.style.display = 'none';
                 generateBtn.innerHTML = 'Tạo từ vựng';
@@ -1628,12 +1628,17 @@
         }
 
         // Add all AI words to collection
-        document.getElementById('add-all-words').addEventListener('click', () => {
+        document.getElementById('add-all-words').addEventListener('click', function() {
             const user = auth.currentUser;
             if (!user) return;
             
+            const addAllBtn = this;
             let addedCount = 0;
             const totalWords = aiGeneratedWords.length;
+            
+            // Disable button while processing
+            addAllBtn.disabled = true;
+            addAllBtn.textContent = 'Đang thêm...';
             
             aiGeneratedWords.forEach((word, index) => {
                 // Check if word already exists
@@ -1668,10 +1673,16 @@
                         // If all words processed, show alert
                         if (addedCount === totalWords) {
                             showAlert(`Đã thêm ${addedCount} từ vào bộ thẻ!`);
+                            // Reset add all button
+                            addAllBtn.disabled = false;
+                            addAllBtn.textContent = 'Thêm tất cả';
                         }
                     })
                     .catch((error) => {
                         console.error('Error adding word:', error);
+                        // Reset add all button even on error
+                        addAllBtn.disabled = false;
+                        addAllBtn.textContent = 'Thêm tất cả';
                     });
             });
         });
@@ -1938,8 +1949,9 @@
             document.getElementById('ai-words-container').innerHTML = '';
             aiGeneratedWords = [];
             
-            // Reset button text
+            // Reset button text - QUAN TRỌNG: Đảm bảo nút luôn hoạt động
             const generateBtn = document.getElementById('generate-words');
+            generateBtn.disabled = false;
             generateBtn.innerHTML = 'Tạo từ vựng';
             
             // Reset add all button
