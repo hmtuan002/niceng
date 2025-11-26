@@ -703,7 +703,6 @@
             font-weight: 600;
         }
 
-
         /* AI Usage Message */
         .ai-usage-message {
             background-color: #FFF3CD;
@@ -852,7 +851,7 @@
                 <!-- Thông báo về hạn chế sử dụng AI -->
                 <div class="ai-usage-message" id="ai-usage-message">
                     <p><strong>Lưu ý quan trọng về tính năng AI:</strong> Để đảm bảo bạn có thời gian học hết từ vựng thay vì tạo ra quá nhiều từ mới, tính năng AI chỉ có thể sử dụng <strong>1 lần</strong> mỗi lần học.</p>
-                    <p>Nếu muốn sử dụng lại tính năng này, vui lòng truy cập trang web vào lần tiếp theo để học.</p>
+                    <p>Nếu muốn sử dụng lại tính năng này, vui lòng truy cập trang web vào lần học tiếp theo.</p>
                 </div>
                 
                 <div class="form-group">
@@ -875,8 +874,6 @@
                     <span class="loading" style="display: none;"></span>
                     Tạo từ vựng
                 </button>
-                
-                
                 
                 <div id="ai-results" class="ai-words-list" style="display: none;">
                     <h3>Từ vựng được tạo</h3>
@@ -1057,8 +1054,6 @@
         let cardsToReview = [];
         let isAdmin = false;
         let aiGeneratedWords = [];
-        let aiUsageCount = 0; // Biến đếm số lần sử dụng AI
-        const MAX_AI_USAGE = 1; // Giới hạn sử dụng AI 1 lần
         let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
 
         // Check authentication state
@@ -1431,59 +1426,60 @@
                 throw error;
             }
         }
-// Generate words with AI - THÊM DÒNG NÀY
-document.getElementById('generate-words').addEventListener('click', async () => {
-    if (aiUsed) {
-        alert('Bạn đã sử dụng hết lượt AI trong phiên này. Để sử dụng lại tính năng AI, vui lòng đóng và mở lại trang web hoặc truy cập vào lần học tiếp theo.');
-        return;
-    }
-    
-    const topic = document.getElementById('ai-topic').value.trim();
-    const level = document.getElementById('ai-level').value;
-    const count = parseInt(document.getElementById('ai-count').value);
-    
-    if (!topic) {
-        alert('Vui lòng nhập chủ đề từ vựng!');
-        return;
-    }
-    
-    if (count < 1 || count > 30) {
-        alert('Số lượng từ phải từ 1 đến 30!');
-        return;
-    }
-    
-    const generateBtn = document.getElementById('generate-words');
-    const loading = generateBtn.querySelector('.loading');
-    
-    generateBtn.disabled = true;
-    loading.style.display = 'inline-block';
-    generateBtn.innerHTML = '<span class="loading"></span>Đang tạo...';
-    
-    try {
-        const result = await generateVocabularyWithAI(topic, level, count);
-        aiGeneratedWords = result.words;
-        
-        // Đánh dấu đã sử dụng AI
-        aiUsed = true;
-        
-        // Cập nhật trạng thái nút generate
-        generateBtn.disabled = true;
-        generateBtn.innerHTML = 'Đã sử dụng hết lượt';
-        
-        displayAIWords(aiGeneratedWords);
-        document.getElementById('ai-results').style.display = 'block';
-        
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
-        
-        // Nếu có lỗi, không tính là đã sử dụng AI
-        aiUsed = false;
-        generateBtn.disabled = false;
-        loading.style.display = 'none';
-        generateBtn.innerHTML = 'Tạo từ vựng';
-    }
-}); 
+
+        // Generate words with AI
+        document.getElementById('generate-words').addEventListener('click', async () => {
+            if (aiUsed) {
+                alert('Bạn đã sử dụng hết lượt AI trong phiên này. Vui lòng truy cập lại trang web vào lần tiếp theo để tiếp tục sử dụng.');
+                return;
+            }
+            
+            const topic = document.getElementById('ai-topic').value.trim();
+            const level = document.getElementById('ai-level').value;
+            const count = parseInt(document.getElementById('ai-count').value);
+            
+            if (!topic) {
+                alert('Vui lòng nhập chủ đề từ vựng!');
+                return;
+            }
+            
+            if (count < 1 || count > 30) {
+                alert('Số lượng từ phải từ 1 đến 30!');
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generate-words');
+            const loading = generateBtn.querySelector('.loading');
+            
+            generateBtn.disabled = true;
+            loading.style.display = 'inline-block';
+            generateBtn.innerHTML = '<span class="loading"></span>Đang tạo...';
+            
+            try {
+                const result = await generateVocabularyWithAI(topic, level, count);
+                aiGeneratedWords = result.words;
+                
+                // Đánh dấu đã sử dụng AI
+                aiUsed = true;
+                
+                // Cập nhật trạng thái nút generate
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = 'Đã sử dụng hết lượt';
+                
+                displayAIWords(aiGeneratedWords);
+                document.getElementById('ai-results').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại!');
+                
+                // Nếu có lỗi, không tính là đã sử dụng AI
+                aiUsed = false;
+                generateBtn.disabled = false;
+                loading.style.display = 'none';
+                generateBtn.innerHTML = 'Tạo từ vựng';
+            }
+        });
 
         // Display AI generated words
         function displayAIWords(words) {
@@ -1600,8 +1596,7 @@ document.getElementById('generate-words').addEventListener('click', async () => 
             });
         });
 
-        
-        // Login button - ĐÃ THÊM: Nút đăng nhập
+        // Login button
         document.getElementById('login-btn').addEventListener('click', () => {
             window.location.href = 'login.html';
         });
