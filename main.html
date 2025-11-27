@@ -38,11 +38,11 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             background: white;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
         #top-bar {
@@ -53,6 +53,7 @@
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .logo {
@@ -98,6 +99,7 @@
             justify-content: center;
             overflow-y: auto;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            width: 100%;
         }
 
         .dashboard {
@@ -605,6 +607,7 @@
             padding: 15px;
             background: white;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .nav-item {
@@ -735,13 +738,13 @@
             background-color: rgba(255,255,255,0.2);
         }
 
-        /* Progress and Evaluation Styles */
-        .progress-section {
-            margin-top: 30px;
+        /* Progress Tracking Styles */
+        #progress-section {
+            margin-top: 40px;
             width: 100%;
         }
 
-        .progress-chart {
+        .progress-container {
             background: white;
             border-radius: 15px;
             padding: 20px;
@@ -749,90 +752,58 @@
             margin-bottom: 20px;
         }
 
-        .chart-container {
-            height: 200px;
-            position: relative;
-            margin-top: 20px;
-        }
-
-        .evaluation {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .evaluation h3 {
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
             color: #333;
         }
 
-        .evaluation-level {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        .evaluation-level.excellent {
-            color: #4CAF50;
-        }
-
-        .evaluation-level.good {
-            color: #2196F3;
-        }
-
-        .evaluation-level.average {
-            color: #FFC107;
-        }
-
-        .evaluation-level.need-improvement {
-            color: #FF9800;
-        }
-
-        .evaluation-level.poor {
-            color: #F44336;
-        }
-
-        .evaluation-details {
-            margin-top: 15px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* Session Summary Styles */
-        .session-summary {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .summary-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .progress-chart {
+            width: 100%;
+            height: 200px;
             margin: 20px 0;
         }
 
-        .summary-stat {
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .progress-stat {
+            text-align: center;
             padding: 15px;
             border-radius: 10px;
             background: #f8f9fa;
         }
 
-        .summary-stat h4 {
-            margin-bottom: 5px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .summary-stat p {
+        .progress-stat-value {
             font-size: 24px;
             font-weight: 700;
-            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .progress-stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-assessment {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 600;
         }
 
         /* Responsive Design */
@@ -862,7 +833,7 @@
                 padding: 20px;
             }
 
-            .summary-stats {
+            .progress-stats {
                 grid-template-columns: 1fr;
             }
         }
@@ -1057,36 +1028,6 @@
             </div>
         </div>
 
-        <!-- Thêm popup cho đánh giá và tổng kết -->
-        <div class="pop-up" id="progress-menu">
-            <div class="pop-up-content">
-                <span id="close-progress-menu" class="material-symbols-outlined close">close</span>
-                <h2>Đánh giá và Tiến bộ</h2>
-                
-                <div class="progress-section">
-                    <div class="progress-chart">
-                        <h3>Biểu đồ tiến bộ</h3>
-                        <div class="chart-container" id="progress-chart">
-                            <!-- Biểu đồ sẽ được tạo bằng JavaScript -->
-                        </div>
-                    </div>
-                    
-                    <div class="evaluation">
-                        <h3>Đánh giá hiện tại</h3>
-                        <div id="evaluation-level" class="evaluation-level">Đang tải...</div>
-                        <div id="evaluation-details" class="evaluation-details"></div>
-                    </div>
-                    
-                    <div class="session-summary">
-                        <h3>Tổng kết phiên học gần đây</h3>
-                        <div class="summary-stats" id="summary-stats">
-                            <!-- Thống kê sẽ được điền bằng JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Main Content -->
         <div id="content">
             <div class="dashboard">
@@ -1136,14 +1077,46 @@
                         <span class="material-symbols-outlined">view_carousel</span>
                         Danh sách
                     </button>
-                    <button class="action-btn" id="progress">
-                        <span class="material-symbols-outlined">trending_up</span>
-                        Đánh giá
-                    </button>
                     <button class="action-btn" id="admin" style="display: none;">
                         <span class="material-symbols-outlined">admin_panel_settings</span>
                         Quản trị
                     </button>
+                </div>
+
+                <!-- Thêm phần đánh giá và tổng kết -->
+                <div id="progress-section">
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <div class="progress-title">Tiến độ học tập</div>
+                            <button id="view-details" class="btn" style="width: auto; padding: 8px 15px;">Xem chi tiết</button>
+                        </div>
+                        <div class="progress-chart" id="progress-chart">
+                            <!-- Biểu đồ sẽ được vẽ bằng JavaScript -->
+                            <canvas id="progress-canvas"></canvas>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="total-sessions">0</div>
+                                <div class="progress-stat-label">Buổi học</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="total-correct">0</div>
+                                <div class="progress-stat-label">Từ đã học</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="avg-correct">0</div>
+                                <div class="progress-stat-label">Trung bình/buổi</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="streak-days">0</div>
+                                <div class="progress-stat-label">Ngày liên tiếp</div>
+                            </div>
+                        </div>
+                        <div class="progress-assessment" id="progress-assessment">
+                            <!-- Đánh giá sẽ được cập nhật bằng JavaScript -->
+                            Hãy bắt đầu học để xem đánh giá!
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1160,7 +1133,7 @@
             </a>
             <a class="nav-item" id="nav-progress">
                 <span class="material-symbols-outlined">trending_up</span>
-                Đánh giá
+                Tiến độ
             </a>
             <a class="nav-item" id="nav-admin" style="display: none;">
                 <span class="material-symbols-outlined">admin_panel_settings</span>
@@ -1203,6 +1176,11 @@
         let aiGeneratedWords = [];
         let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
         let progressChart = null;
+        let userProgress = {
+            sessions: [],
+            streak: 0,
+            lastSessionDate: null
+        };
 
         // Check authentication state
         auth.onAuthStateChanged((user) => {
@@ -1223,8 +1201,8 @@
                     loadUserCards();
                     // Load library categories
                     loadLibraryCategories();
-                    // Load progress data
-                    loadProgressData();
+                    // Load user progress
+                    loadUserProgress();
                 });
             } else {
                 // Nếu không có user, tự động đăng nhập ẩn danh
@@ -1286,6 +1264,230 @@
                     
                     updateStats();
                     updateCardList();
+                });
+        }
+
+        // Load user progress data
+        function loadUserProgress() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            db.collection('users').doc(user.uid).collection('progress')
+                .orderBy('date', 'desc')
+                .limit(30) // Load 30 sessions gần nhất
+                .onSnapshot((snapshot) => {
+                    userProgress.sessions = [];
+                    snapshot.forEach((doc) => {
+                        userProgress.sessions.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    // Calculate streak
+                    calculateStreak();
+                    
+                    // Update progress display
+                    updateProgressDisplay();
+                    
+                    // Draw progress chart
+                    drawProgressChart();
+                });
+        }
+
+        // Calculate learning streak
+        function calculateStreak() {
+            if (userProgress.sessions.length === 0) {
+                userProgress.streak = 0;
+                return;
+            }
+            
+            // Sort sessions by date (newest first)
+            const sortedSessions = [...userProgress.sessions].sort((a, b) => {
+                return new Date(b.date.toDate()) - new Date(a.date.toDate());
+            });
+            
+            let streak = 0;
+            let currentDate = new Date();
+            
+            // Check if user studied today
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const lastSessionDate = sortedSessions[0].date.toDate();
+            lastSessionDate.setHours(0, 0, 0, 0);
+            
+            if (today.getTime() === lastSessionDate.getTime()) {
+                streak = 1;
+                currentDate.setDate(currentDate.getDate() - 1);
+            } else {
+                userProgress.streak = 0;
+                return;
+            }
+            
+            // Check consecutive days
+            for (let i = 1; i < sortedSessions.length; i++) {
+                const sessionDate = sortedSessions[i].date.toDate();
+                sessionDate.setHours(0, 0, 0, 0);
+                
+                const expectedDate = new Date(currentDate);
+                expectedDate.setHours(0, 0, 0, 0);
+                
+                if (sessionDate.getTime() === expectedDate.getTime()) {
+                    streak++;
+                    currentDate.setDate(currentDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+            
+            userProgress.streak = streak;
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const totalSessions = userProgress.sessions.length;
+            const totalCorrect = userProgress.sessions.reduce((sum, session) => sum + session.correctCount, 0);
+            const avgCorrect = totalSessions > 0 ? Math.round(totalCorrect / totalSessions) : 0;
+            
+            document.getElementById('total-sessions').textContent = totalSessions;
+            document.getElementById('total-correct').textContent = totalCorrect;
+            document.getElementById('avg-correct').textContent = avgCorrect;
+            document.getElementById('streak-days').textContent = userProgress.streak;
+            
+            // Update assessment
+            updateProgressAssessment(totalSessions, avgCorrect, userProgress.streak);
+        }
+
+        // Update progress assessment
+        function updateProgressAssessment(totalSessions, avgCorrect, streak) {
+            const assessmentElement = document.getElementById('progress-assessment');
+            
+            if (totalSessions === 0) {
+                assessmentElement.textContent = 'Hãy bắt đầu học để xem đánh giá!';
+                assessmentElement.style.background = '#e8f5e9';
+                assessmentElement.style.color = '#2e7d32';
+                return;
+            }
+            
+            let assessment = '';
+            let bgColor = '';
+            let textColor = '';
+            
+            if (avgCorrect >= 20) {
+                assessment = 'Xuất sắc! Bạn đang tiến bộ rất nhanh.';
+                bgColor = '#e8f5e9';
+                textColor = '#2e7d32';
+            } else if (avgCorrect >= 15) {
+                assessment = 'Rất tốt! Tiếp tục phát huy nhé.';
+                bgColor = '#e8f5e9';
+                textColor = '#2e7d32';
+            } else if (avgCorrect >= 10) {
+                assessment = 'Tốt! Bạn đang học tập hiệu quả.';
+                bgColor = '#fff3e0';
+                textColor = '#ef6c00';
+            } else if (avgCorrect >= 5) {
+                assessment = 'Khá! Cố gắng thêm một chút nữa nhé.';
+                bgColor = '#fff3e0';
+                textColor = '#ef6c00';
+            } else {
+                assessment = 'Cần cải thiện! Hãy dành nhiều thời gian hơn cho việc học.';
+                bgColor = '#ffebee';
+                textColor = '#c62828';
+            }
+            
+            // Add streak info if applicable
+            if (streak >= 7) {
+                assessment += ` Bạn đã duy trì được ${streak} ngày liên tiếp!`;
+            } else if (streak >= 3) {
+                assessment += ` Bạn đã học liên tiếp ${streak} ngày.`;
+            }
+            
+            assessmentElement.textContent = assessment;
+            assessmentElement.style.background = bgColor;
+            assessmentElement.style.color = textColor;
+        }
+
+        // Draw progress chart
+        function drawProgressChart() {
+            const ctx = document.getElementById('progress-canvas').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (progressChart) {
+                progressChart.destroy();
+            }
+            
+            // Prepare data for chart
+            const recentSessions = userProgress.sessions.slice(0, 7).reverse(); // Last 7 sessions
+            const labels = recentSessions.map(session => {
+                const date = session.date.toDate();
+                return `${date.getDate()}/${date.getMonth() + 1}`;
+            });
+            
+            const correctData = recentSessions.map(session => session.correctCount);
+            
+            // Create chart
+            progressChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Số từ học được',
+                        data: correctData,
+                        borderColor: '#FFA500',
+                        backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số từ'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Ngày'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Record a learning session
+        function recordLearningSession(correctCount) {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const sessionData = {
+                date: firebase.firestore.FieldValue.serverTimestamp(),
+                correctCount: correctCount
+            };
+            
+            db.collection('users').doc(user.uid).collection('progress').add(sessionData)
+                .then(() => {
+                    console.log('Đã ghi nhận buổi học');
+                })
+                .catch((error) => {
+                    console.error('Lỗi khi ghi nhận buổi học:', error);
                 });
         }
 
@@ -1801,6 +2003,10 @@
         function showCard() {
             if (currentCardIndex >= cardsToLearn.length) {
                 document.getElementById('learn-menu').classList.remove('active');
+                
+                // Record learning session
+                recordLearningSession(cardsToLearn.length);
+                
                 alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
                 return;
             }
@@ -1848,6 +2054,10 @@
         function showReviewCard() {
             if (currentCardIndex >= cardsToReview.length) {
                 document.getElementById('review-menu').classList.remove('active');
+                
+                // Record learning session
+                recordLearningSession(cardsToReview.length);
+                
                 alert('Chúc mừng! Bạn đã ôn tập xong tất cả các thẻ!');
                 return;
             }
@@ -1902,9 +2112,6 @@
                 status: 'known'
             })
             .then(() => {
-                // Lưu kết quả học tập
-                saveLearningResult('learn', true);
-                
                 currentCardIndex++;
                 showCard();
             })
@@ -1924,9 +2131,6 @@
                 status: 'learning'
             })
             .then(() => {
-                // Lưu kết quả học tập
-                saveLearningResult('learn', false);
-                
                 cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
                 showCard();
             })
@@ -1946,9 +2150,6 @@
                 status: 'mastered'
             })
             .then(() => {
-                // Lưu kết quả ôn tập
-                saveLearningResult('review', true);
-                
                 currentCardIndex++;
                 showReviewCard();
             })
@@ -1968,228 +2169,12 @@
                 status: 'known'
             })
             .then(() => {
-                // Lưu kết quả ôn tập
-                saveLearningResult('review', false);
-                
                 cardsToReview.push(cardsToReview.splice(currentCardIndex, 1)[0]);
                 showReviewCard();
             })
             .catch((error) => {
                 console.error('Error updating card: ', error);
             });
-        }
-
-        // Lưu kết quả học tập
-        function saveLearningResult(type, isCorrect) {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            db.collection('users').doc(user.uid).collection('learningResults').add({
-                type: type, // 'learn' hoặc 'review'
-                isCorrect: isCorrect,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .catch((error) => {
-                console.error('Error saving learning result: ', error);
-            });
-        }
-
-        // Load progress data
-        function loadProgressData() {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            // Load learning results for the last 7 days
-            const sevenDaysAgo = new Date();
-            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-            
-            db.collection('users').doc(user.uid).collection('learningResults')
-                .where('timestamp', '>=', sevenDaysAgo)
-                .orderBy('timestamp')
-                .get()
-                .then((snapshot) => {
-                    const results = [];
-                    snapshot.forEach((doc) => {
-                        results.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
-                    });
-                    
-                    updateProgressChart(results);
-                    updateEvaluation(results);
-                    updateSessionSummary(results);
-                })
-                .catch((error) => {
-                    console.error('Error loading progress data: ', error);
-                });
-        }
-
-        // Update progress chart
-        function updateProgressChart(results) {
-            const ctx = document.getElementById('progress-chart').getContext('2d');
-            
-            // Destroy existing chart if it exists
-            if (progressChart) {
-                progressChart.destroy();
-            }
-            
-            // Group results by date
-            const resultsByDate = {};
-            results.forEach(result => {
-                const date = result.timestamp.toDate().toLocaleDateString();
-                if (!resultsByDate[date]) {
-                    resultsByDate[date] = { correct: 0, total: 0 };
-                }
-                
-                resultsByDate[date].total++;
-                if (result.isCorrect) {
-                    resultsByDate[date].correct++;
-                }
-            });
-            
-            // Prepare data for chart
-            const dates = Object.keys(resultsByDate);
-            const accuracyRates = dates.map(date => {
-                const { correct, total } = resultsByDate[date];
-                return total > 0 ? Math.round((correct / total) * 100) : 0;
-            });
-            
-            // Create chart
-            progressChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Tỷ lệ đúng (%)',
-                        data: accuracyRates,
-                        borderColor: '#FFA500',
-                        backgroundColor: 'rgba(255, 165, 0, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Update evaluation
-        function updateEvaluation(results) {
-            const evaluationLevel = document.getElementById('evaluation-level');
-            const evaluationDetails = document.getElementById('evaluation-details');
-            
-            if (results.length === 0) {
-                evaluationLevel.textContent = 'Chưa có dữ liệu';
-                evaluationLevel.className = 'evaluation-level';
-                evaluationDetails.textContent = 'Hãy bắt đầu học để xem đánh giá tiến bộ của bạn!';
-                return;
-            }
-            
-            // Calculate overall accuracy
-            const correctCount = results.filter(result => result.isCorrect).length;
-            const totalCount = results.length;
-            const accuracyRate = Math.round((correctCount / totalCount) * 100);
-            
-            // Determine evaluation level
-            let level, levelClass, details;
-            
-            if (accuracyRate >= 90) {
-                level = 'Xuất sắc!';
-                levelClass = 'excellent';
-                details = `Bạn đang làm rất tốt với tỷ lệ đúng ${accuracyRate}%. Tiếp tục phát huy!`;
-            } else if (accuracyRate >= 80) {
-                level = 'Tốt';
-                levelClass = 'good';
-                details = `Bạn đang tiến bộ tốt với tỷ lệ đúng ${accuracyRate}%. Cố gắng duy trì!`;
-            } else if (accuracyRate >= 70) {
-                level = 'Trung bình';
-                levelClass = 'average';
-                details = `Bạn đang ở mức trung bình với tỷ lệ đúng ${accuracyRate}%. Cần cố gắng thêm!`;
-            } else if (accuracyRate >= 60) {
-                level = 'Cần cải thiện';
-                levelClass = 'need-improvement';
-                details = `Tỷ lệ đúng ${accuracyRate}% cho thấy bạn cần ôn tập nhiều hơn.`;
-            } else {
-                level = 'Yếu';
-                levelClass = 'poor';
-                details = `Tỷ lệ đúng ${accuracyRate}% khá thấp. Hãy dành nhiều thời gian hơn để học!`;
-            }
-            
-            evaluationLevel.textContent = level;
-            evaluationLevel.className = `evaluation-level ${levelClass}`;
-            evaluationDetails.textContent = details;
-        }
-
-        // Update session summary
-        function updateSessionSummary(results) {
-            const summaryStats = document.getElementById('summary-stats');
-            
-            if (results.length === 0) {
-                summaryStats.innerHTML = `
-                    <div class="summary-stat">
-                        <h4>Tổng số từ đã học</h4>
-                        <p>0</p>
-                    </div>
-                    <div class="summary-stat">
-                        <h4>Tỷ lệ đúng trung bình</h4>
-                        <p>0%</p>
-                    </div>
-                    <div class="summary-stat">
-                        <h4>Số từ đã thuộc</h4>
-                        <p>0</p>
-                    </div>
-                    <div class="summary-stat">
-                        <h4>Thời gian học trung bình</h4>
-                        <p>0 phút</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Calculate stats
-            const correctCount = results.filter(result => result.isCorrect).length;
-            const totalCount = results.length;
-            const accuracyRate = Math.round((correctCount / totalCount) * 100);
-            
-            // Get mastered words count
-            const masteredCount = userCards.filter(card => card.status === 'mastered').length;
-            
-            // Calculate average study time (placeholder)
-            const avgStudyTime = Math.round(totalCount / 2); // Giả định mỗi từ mất 0.5 phút
-            
-            summaryStats.innerHTML = `
-                <div class="summary-stat">
-                    <h4>Tổng số từ đã học</h4>
-                    <p>${totalCount}</p>
-                </div>
-                <div class="summary-stat">
-                    <h4>Tỷ lệ đúng trung bình</h4>
-                    <p>${accuracyRate}%</p>
-                </div>
-                <div class="summary-stat">
-                    <h4>Số từ đã thuộc</h4>
-                    <p>${masteredCount}</p>
-                </div>
-                <div class="summary-stat">
-                    <h4>Thời gian học ước tính</h4>
-                    <p>${avgStudyTime} phút</p>
-                </div>
-            `;
         }
 
         // Shuffle array (Fisher-Yates algorithm)
@@ -2229,11 +2214,6 @@
             document.getElementById('library-menu').classList.add('active');
         });
 
-        document.getElementById('progress').addEventListener('click', () => {
-            document.getElementById('progress-menu').classList.add('active');
-            loadProgressData();
-        });
-
         document.getElementById('admin').addEventListener('click', () => {
             window.location.href = 'admin.html';
         });
@@ -2242,9 +2222,22 @@
             window.location.href = 'admin.html';
         });
 
+        // View progress details
+        document.getElementById('view-details').addEventListener('click', () => {
+            // Scroll to progress section
+            document.getElementById('progress-section').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Navigation progress
         document.getElementById('nav-progress').addEventListener('click', () => {
-            document.getElementById('progress-menu').classList.add('active');
-            loadProgressData();
+            // Scroll to progress section
+            document.getElementById('progress-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Update active nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('nav-progress').classList.add('active');
         });
 
         // Close popups
@@ -2273,21 +2266,12 @@
             document.getElementById('library-menu').classList.remove('active');
         });
 
-        document.getElementById('close-progress-menu').addEventListener('click', () => {
-            document.getElementById('progress-menu').classList.remove('active');
-        });
-
         // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
         document.addEventListener('click', (e) => {
             const aiPopup = document.getElementById('ai-add-menu');
             if (aiPopup.classList.contains('active') && e.target === aiPopup) {
                 aiPopup.classList.remove('active');
                 resetAIPopup();
-            }
-            
-            const progressPopup = document.getElementById('progress-menu');
-            if (progressPopup.classList.contains('active') && e.target === progressPopup) {
-                progressPopup.classList.remove('active');
             }
         });
 
@@ -2315,13 +2299,6 @@
                 item.classList.remove('active');
             });
             document.getElementById('nav-home').classList.add('active');
-        });
-
-        document.getElementById('nav-progress').addEventListener('click', () => {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.getElementById('nav-progress').classList.add('active');
         });
 
         document.getElementById('nav-admin').addEventListener('click', () => {
