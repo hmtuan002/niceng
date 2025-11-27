@@ -39,11 +39,11 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
         #top-bar {
@@ -54,6 +54,7 @@
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .logo {
@@ -99,6 +100,7 @@
             justify-content: center;
             overflow-y: auto;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            width: 100%;
         }
 
         .dashboard {
@@ -606,6 +608,7 @@
             padding: 15px;
             background: white;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .nav-item {
@@ -619,7 +622,6 @@
             padding: 5px 20px;
             border-radius: 10px;
             margin: 0 10px;
-            cursor: pointer;
         }
 
         .nav-item.active {
@@ -736,87 +738,102 @@
             background-color: rgba(255,255,255,0.2);
         }
 
-        /* Progress and Evaluation Styles */
-        .progress-section {
-            margin-top: 30px;
+        /* Progress and Analytics Styles */
+        .analytics-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .analytics-header h2 {
+            color: #333;
+            font-size: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
             width: 100%;
-        }
-
-        .progress-chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .evaluation-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .progress-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .evaluation-header {
+        .progress-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
             text-align: center;
-            margin-bottom: 20px;
         }
 
-        .evaluation-level {
+        .progress-item .label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .progress-item .value {
             font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
+            font-weight: 700;
+            color: #333;
         }
 
-        .evaluation-level.excellent {
+        .progress-item .change {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .progress-item .change.positive {
             color: #4CAF50;
         }
 
-        .evaluation-level.good {
-            color: #2196F3;
-        }
-
-        .evaluation-level.average {
-            color: #FFC107;
-        }
-
-        .evaluation-level.poor {
+        .progress-item .change.negative {
             color: #f44336;
         }
 
-        .evaluation-details {
-            margin-top: 15px;
-        }
-
-        .evaluation-details p {
-            margin: 8px 0;
-        }
-
-        /* Session Stats */
-        .session-stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-
-        .stat-box {
+        .evaluation {
             text-align: center;
             padding: 15px;
-            background: #f8f9fa;
             border-radius: 10px;
-            flex: 1;
-            margin: 0 10px;
+            margin-top: 20px;
         }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #FFA500;
+        .evaluation.excellent {
+            background: #E8F5E9;
+            color: #2E7D32;
         }
 
-        .stat-label {
-            font-size: 14px;
-            color: #666;
+        .evaluation.good {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .evaluation.average {
+            background: #FFF8E1;
+            color: #FF8F00;
+        }
+
+        .evaluation.poor {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .evaluation h3 {
+            margin-bottom: 10px;
         }
 
         /* Responsive Design */
@@ -846,12 +863,8 @@
                 padding: 20px;
             }
 
-            .session-stats {
-                flex-direction: column;
-            }
-
-            .stat-box {
-                margin: 5px 0;
+            .progress-summary {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1045,44 +1058,39 @@
             </div>
         </div>
 
-        <!-- Thêm popup cho đánh giá và tổng kết -->
-        <div class="pop-up" id="evaluation-menu">
+        <!-- Analytics Popup -->
+        <div class="pop-up" id="analytics-menu">
             <div class="pop-up-content">
-                <span id="close-evaluation-menu" class="material-symbols-outlined close">close</span>
-                <h2>Đánh giá tiến độ học tập</h2>
-                
-                <div class="session-stats">
-                    <div class="stat-box">
-                        <div class="stat-value" id="session-correct">0</div>
-                        <div class="stat-label">Từ đúng</div>
+                <span id="close-analytics-menu" class="material-symbols-outlined close">close</span>
+                <h2>Đánh giá và Tổng kết</h2>
+                <div class="analytics-section">
+                    <div class="analytics-header">
+                        <h2>Tiến độ học tập</h2>
+                        <span id="analytics-date-range">Hôm nay</span>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="session-total">0</div>
-                        <div class="stat-label">Tổng số từ</div>
+                    
+                    <div class="chart-container">
+                        <canvas id="progress-chart"></canvas>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="session-accuracy">0%</div>
-                        <div class="stat-label">Tỷ lệ đúng</div>
+                    
+                    <div class="progress-summary">
+                        <div class="progress-item">
+                            <div class="label">Từ đã học</div>
+                            <div class="value" id="learned-today">0</div>
+                            <div class="change positive" id="learned-change">+0</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="label">Từ đã thuộc</div>
+                            <div class="value" id="mastered-today">0</div>
+                            <div class="change positive" id="mastered-change">+0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="evaluation" id="evaluation-message">
+                        <h3>Đánh giá</h3>
+                        <p>Chưa có đủ dữ liệu để đánh giá</p>
                     </div>
                 </div>
-                
-                <div class="evaluation-container">
-                    <div class="evaluation-header">
-                        <h3>Đánh giá của bạn</h3>
-                        <div class="evaluation-level" id="evaluation-level">Đang tính toán...</div>
-                    </div>
-                    <div class="evaluation-details">
-                        <p id="evaluation-message">Đang phân tích kết quả học tập của bạn...</p>
-                        <p id="improvement-suggestion">Đề xuất cải thiện sẽ xuất hiện ở đây.</p>
-                    </div>
-                </div>
-                
-                <div class="progress-chart-container">
-                    <h3>Biểu đồ tiến bộ</h3>
-                    <canvas id="progress-chart"></canvas>
-                </div>
-                
-                <button type="button" id="close-evaluation" class="btn" style="margin-top: 20px;">Đóng</button>
             </div>
         </div>
 
@@ -1135,22 +1143,14 @@
                         <span class="material-symbols-outlined">view_carousel</span>
                         Danh sách
                     </button>
-                    <button class="action-btn" id="evaluation">
-                        <span class="material-symbols-outlined">assessment</span>
+                    <button class="action-btn" id="analytics">
+                        <span class="material-symbols-outlined">analytics</span>
                         Đánh giá
                     </button>
                     <button class="action-btn" id="admin" style="display: none;">
                         <span class="material-symbols-outlined">admin_panel_settings</span>
                         Quản trị
                     </button>
-                </div>
-                
-                <!-- Thêm phần tiến độ học tập -->
-                <div class="progress-section">
-                    <div class="progress-chart-container">
-                        <h3>Tiến độ học tập của bạn</h3>
-                        <canvas id="mini-progress-chart"></canvas>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1202,13 +1202,7 @@
         let isAdmin = false;
         let aiGeneratedWords = [];
         let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
-        let sessionStats = {
-            correct: 0,
-            total: 0,
-            startTime: null
-        };
         let progressChart = null;
-        let miniProgressChart = null;
 
         // Check authentication state
         auth.onAuthStateChanged((user) => {
@@ -1229,8 +1223,6 @@
                     loadUserCards();
                     // Load library categories
                     loadLibraryCategories();
-                    // Load user progress
-                    loadUserProgress();
                 });
             } else {
                 // Nếu không có user, tự động đăng nhập ẩn danh
@@ -1293,150 +1285,6 @@
                     updateStats();
                     updateCardList();
                 });
-        }
-
-        // Load user progress data
-        function loadUserProgress() {
-            const user = auth.currentUser;
-            if (!user) return;
-
-            db.collection('users').doc(user.uid).collection('progress')
-                .orderBy('date', 'desc')
-                .limit(7)
-                .get()
-                .then((snapshot) => {
-                    const progressData = [];
-                    snapshot.forEach((doc) => {
-                        progressData.push(doc.data());
-                    });
-                    
-                    // Reverse to show oldest first
-                    progressData.reverse();
-                    
-                    // Update progress charts
-                    updateProgressCharts(progressData);
-                });
-        }
-
-        // Save session progress
-        function saveSessionProgress(correct, total) {
-            const user = auth.currentUser;
-            if (!user || total === 0) return;
-
-            const accuracy = Math.round((correct / total) * 100);
-            const now = new Date();
-            
-            db.collection('users').doc(user.uid).collection('progress').add({
-                date: firebase.firestore.Timestamp.fromDate(now),
-                correct: correct,
-                total: total,
-                accuracy: accuracy
-            })
-            .then(() => {
-                // Reload progress data
-                loadUserProgress();
-            })
-            .catch((error) => {
-                console.error('Error saving progress: ', error);
-            });
-        }
-
-        // Update progress charts
-        function updateProgressCharts(progressData) {
-            const dates = progressData.map(item => {
-                const date = item.date.toDate();
-                return `${date.getDate()}/${date.getMonth() + 1}`;
-            });
-            
-            const accuracyData = progressData.map(item => item.accuracy);
-            const correctData = progressData.map(item => item.correct);
-            const totalData = progressData.map(item => item.total);
-            
-            // Update main progress chart
-            const progressCtx = document.getElementById('progress-chart').getContext('2d');
-            
-            if (progressChart) {
-                progressChart.destroy();
-            }
-            
-            progressChart = new Chart(progressCtx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [
-                        {
-                            label: 'Tỷ lệ đúng (%)',
-                            data: accuracyData,
-                            borderColor: '#4CAF50',
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            tension: 0.3,
-                            fill: true
-                        },
-                        {
-                            label: 'Số từ đúng',
-                            data: correctData,
-                            borderColor: '#2196F3',
-                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                            tension: 0.3,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Tiến bộ học tập theo thời gian'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-            
-            // Update mini progress chart on dashboard
-            const miniProgressCtx = document.getElementById('mini-progress-chart').getContext('2d');
-            
-            if (miniProgressChart) {
-                miniProgressChart.destroy();
-            }
-            
-            miniProgressChart = new Chart(miniProgressCtx, {
-                type: 'bar',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Tỷ lệ đúng (%)',
-                        data: accuracyData,
-                        backgroundColor: '#FFA500',
-                        borderColor: '#FFA500',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        title: {
-                            display: true,
-                            text: 'Tỷ lệ đúng 7 ngày gần nhất'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
         }
 
         // Load library categories
@@ -1918,13 +1766,6 @@
             shuffleArray(cardsToLearn);
             currentCardIndex = 0;
             
-            // Reset session stats
-            sessionStats = {
-                correct: 0,
-                total: 0,
-                startTime: new Date()
-            };
-            
             showCard();
             document.getElementById('learn-menu').classList.add('active');
             document.getElementById('attention-reveal').style.display = 'block';
@@ -1948,13 +1789,6 @@
             shuffleArray(cardsToReview);
             currentCardIndex = 0;
             
-            // Reset session stats
-            sessionStats = {
-                correct: 0,
-                total: 0,
-                startTime: new Date()
-            };
-            
             showReviewCard();
             document.getElementById('review-menu').classList.add('active');
             document.getElementById('attention-reveal-review').style.display = 'block';
@@ -1964,11 +1798,8 @@
         // Show current card for learning
         function showCard() {
             if (currentCardIndex >= cardsToLearn.length) {
-                // Save session progress
-                saveSessionProgress(sessionStats.correct, sessionStats.total);
-                
                 document.getElementById('learn-menu').classList.remove('active');
-                showEvaluation();
+                alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
                 return;
             }
             
@@ -2014,11 +1845,8 @@
         // Show current card for review
         function showReviewCard() {
             if (currentCardIndex >= cardsToReview.length) {
-                // Save session progress
-                saveSessionProgress(sessionStats.correct, sessionStats.total);
-                
                 document.getElementById('review-menu').classList.remove('active');
-                showEvaluation();
+                alert('Chúc mừng! Bạn đã ôn tập xong tất cả các thẻ!');
                 return;
             }
             
@@ -2068,12 +1896,13 @@
             
             if (!user) return;
             
+            // Lưu lịch sử học tập
+            saveLearningHistory('learned', card.word);
+            
             db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
                 status: 'known'
             })
             .then(() => {
-                sessionStats.correct++;
-                sessionStats.total++;
                 currentCardIndex++;
                 showCard();
             })
@@ -2093,7 +1922,6 @@
                 status: 'learning'
             })
             .then(() => {
-                sessionStats.total++;
                 cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
                 showCard();
             })
@@ -2109,12 +1937,13 @@
             
             if (!user) return;
             
+            // Lưu lịch sử học tập
+            saveLearningHistory('mastered', card.word);
+            
             db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
                 status: 'mastered'
             })
             .then(() => {
-                sessionStats.correct++;
-                sessionStats.total++;
                 currentCardIndex++;
                 showReviewCard();
             })
@@ -2134,7 +1963,6 @@
                 status: 'known'
             })
             .then(() => {
-                sessionStats.total++;
                 cardsToReview.push(cardsToReview.splice(currentCardIndex, 1)[0]);
                 showReviewCard();
             })
@@ -2143,48 +1971,248 @@
             });
         }
 
-        // Show evaluation after learning session
-        function showEvaluation() {
-            const accuracy = sessionStats.total > 0 ? Math.round((sessionStats.correct / sessionStats.total) * 100) : 0;
+        // Lưu lịch sử học tập
+        function saveLearningHistory(action, word) {
+            const user = auth.currentUser;
+            if (!user) return;
             
-            // Update session stats
-            document.getElementById('session-correct').textContent = sessionStats.correct;
-            document.getElementById('session-total').textContent = sessionStats.total;
-            document.getElementById('session-accuracy').textContent = `${accuracy}%`;
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
             
-            // Determine evaluation level
-            let level, message, suggestion, levelClass;
+            db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const updatedData = { ...data };
+                        
+                        if (action === 'learned') {
+                            updatedData.learnedToday = (updatedData.learnedToday || 0) + 1;
+                            updatedData.learnedWords = [...(updatedData.learnedWords || []), word];
+                        } else if (action === 'mastered') {
+                            updatedData.masteredToday = (updatedData.masteredToday || 0) + 1;
+                            updatedData.masteredWords = [...(updatedData.masteredWords || []), word];
+                        }
+                        
+                        updatedData.lastUpdated = firebase.firestore.FieldValue.serverTimestamp();
+                        
+                        return db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).set(updatedData);
+                    } else {
+                        const newData = {
+                            date: dateString,
+                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        
+                        if (action === 'learned') {
+                            newData.learnedToday = 1;
+                            newData.learnedWords = [word];
+                            newData.masteredToday = 0;
+                            newData.masteredWords = [];
+                        } else if (action === 'mastered') {
+                            newData.learnedToday = 0;
+                            newData.learnedWords = [];
+                            newData.masteredToday = 1;
+                            newData.masteredWords = [word];
+                        }
+                        
+                        return db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).set(newData);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error saving learning history:', error);
+                });
+        }
+
+        // Hiển thị đánh giá và tổng kết
+        function showAnalytics() {
+            document.getElementById('analytics-menu').classList.add('active');
+            loadAnalyticsData();
+        }
+
+        // Tải dữ liệu đánh giá
+        function loadAnalyticsData() {
+            const user = auth.currentUser;
+            if (!user) return;
             
-            if (accuracy >= 90) {
-                level = "Xuất sắc!";
-                message = "Bạn có khả năng ghi nhớ từ vựng rất tốt. Tiếp tục phát huy nhé!";
-                suggestion = "Hãy thử thách bản thân với những từ vựng nâng cao hơn.";
-                levelClass = "excellent";
-            } else if (accuracy >= 75) {
-                level = "Tốt!";
-                message = "Bạn đang tiến bộ rất nhanh. Hãy tiếp tục duy trì nhịp độ này.";
-                suggestion = "Ôn tập thường xuyên để củng cố kiến thức.";
-                levelClass = "good";
-            } else if (accuracy >= 60) {
-                level = "Khá!";
-                message = "Bạn đang có tiến bộ, nhưng cần luyện tập thêm.";
-                suggestion = "Dành nhiều thời gian hơn để ôn tập các từ đã học.";
-                levelClass = "average";
-            } else {
-                level = "Cần cải thiện";
-                message = "Đừng nản lòng! Học từ vựng cần thời gian và sự kiên nhẫn.";
-                suggestion = "Hãy học ít từ hơn mỗi lần và ôn tập thường xuyên hơn.";
-                levelClass = "poor";
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
+            
+            // Lấy dữ liệu hôm nay
+            db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).get()
+                .then((todayDoc) => {
+                    let learnedToday = 0;
+                    let masteredToday = 0;
+                    
+                    if (todayDoc.exists) {
+                        const todayData = todayDoc.data();
+                        learnedToday = todayData.learnedToday || 0;
+                        masteredToday = todayData.masteredToday || 0;
+                    }
+                    
+                    // Lấy dữ liệu 7 ngày gần nhất
+                    const last7Days = [];
+                    for (let i = 6; i >= 0; i--) {
+                        const date = new Date();
+                        date.setDate(date.getDate() - i);
+                        last7Days.push(date.toISOString().split('T')[0]);
+                    }
+                    
+                    Promise.all(
+                        last7Days.map(day => 
+                            db.collection('users').doc(user.uid).collection('learningHistory').doc(day).get()
+                        )
+                    ).then(docs => {
+                        const learnedData = [];
+                        const masteredData = [];
+                        const labels = [];
+                        
+                        docs.forEach((doc, index) => {
+                            const date = last7Days[index];
+                            const dayLabel = new Date(date).toLocaleDateString('vi-VN', { weekday: 'short' });
+                            labels.push(dayLabel);
+                            
+                            if (doc.exists) {
+                                const data = doc.data();
+                                learnedData.push(data.learnedToday || 0);
+                                masteredData.push(data.masteredToday || 0);
+                            } else {
+                                learnedData.push(0);
+                                masteredData.push(0);
+                            }
+                        });
+                        
+                        // Cập nhật biểu đồ
+                        updateProgressChart(labels, learnedData, masteredData);
+                        
+                        // Tính toán thay đổi so với hôm qua
+                        const yesterdayIndex = docs.length - 2;
+                        const yesterdayLearned = yesterdayIndex >= 0 ? learnedData[yesterdayIndex] : 0;
+                        const yesterdayMastered = yesterdayIndex >= 0 ? masteredData[yesterdayIndex] : 0;
+                        
+                        const learnedChange = learnedToday - yesterdayLearned;
+                        const masteredChange = masteredToday - yesterdayMastered;
+                        
+                        // Cập nhật thông tin tổng kết
+                        document.getElementById('learned-today').textContent = learnedToday;
+                        document.getElementById('mastered-today').textContent = masteredToday;
+                        
+                        document.getElementById('learned-change').textContent = (learnedChange >= 0 ? '+' : '') + learnedChange;
+                        document.getElementById('mastered-change').textContent = (masteredChange >= 0 ? '+' : '') + masteredChange;
+                        
+                        // Đánh giá tiến độ
+                        evaluateProgress(learnedToday, masteredToday, learnedChange, masteredChange);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error loading analytics data:', error);
+                });
+        }
+
+        // Cập nhật biểu đồ tiến độ
+        function updateProgressChart(labels, learnedData, masteredData) {
+            const ctx = document.getElementById('progress-chart').getContext('2d');
+            
+            // Hủy biểu đồ cũ nếu tồn tại
+            if (progressChart) {
+                progressChart.destroy();
             }
             
-            // Update evaluation elements
-            document.getElementById('evaluation-level').textContent = level;
-            document.getElementById('evaluation-level').className = `evaluation-level ${levelClass}`;
-            document.getElementById('evaluation-message').textContent = message;
-            document.getElementById('improvement-suggestion').textContent = suggestion;
+            progressChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Từ đã học',
+                            data: learnedData,
+                            borderColor: '#2196F3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Từ đã thuộc',
+                            data: masteredData,
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Đánh giá tiến độ học tập
+        function evaluateProgress(learnedToday, masteredToday, learnedChange, masteredChange) {
+            const evaluationElement = document.getElementById('evaluation-message');
+            const totalProgress = learnedToday + masteredToday;
             
-            // Show evaluation popup
-            document.getElementById('evaluation-menu').classList.add('active');
+            // Xóa tất cả các lớp đánh giá trước đó
+            evaluationElement.className = 'evaluation';
+            
+            if (totalProgress === 0) {
+                evaluationElement.innerHTML = `
+                    <h3>Chưa có hoạt động học tập hôm nay</h3>
+                    <p>Hãy bắt đầu học từ mới để xem đánh giá tiến độ!</p>
+                `;
+                return;
+            }
+            
+            let evaluationText = '';
+            let evaluationClass = '';
+            
+            if (totalProgress >= 15) {
+                evaluationText = 'Xuất sắc!';
+                evaluationClass = 'excellent';
+                evaluationElement.innerHTML = `
+                    <h3>${evaluationText}</h3>
+                    <p>Bạn đã học được ${learnedToday} từ mới và thuộc ${masteredToday} từ hôm nay. Tiếp tục phát huy nhé!</p>
+                `;
+            } else if (totalProgress >= 10) {
+                evaluationText = 'Tốt!';
+                evaluationClass = 'good';
+                evaluationElement.innerHTML = `
+                    <h3>${evaluationText}</h3>
+                    <p>Bạn đã học được ${learnedToday} từ mới và thuộc ${masteredToday} từ hôm nay. Cố gắng hơn nữa nhé!</p>
+                `;
+            } else if (totalProgress >= 5) {
+                evaluationText = 'Khá';
+                evaluationClass = 'average';
+                evaluationElement.innerHTML = `
+                    <h3>${evaluationText}</h3>
+                    <p>Bạn đã học được ${learnedToday} từ mới và thuộc ${masteredToday} từ hôm nay. Hãy cố gắng học thêm một chút nữa!</p>
+                `;
+            } else {
+                evaluationText = 'Cần cải thiện';
+                evaluationClass = 'poor';
+                evaluationElement.innerHTML = `
+                    <h3>${evaluationText}</h3>
+                    <p>Bạn đã học được ${learnedToday} từ mới và thuộc ${masteredToday} từ hôm nay. Hãy dành nhiều thời gian hơn cho việc học từ vựng!</p>
+                `;
+            }
+            
+            evaluationElement.classList.add(evaluationClass);
         }
 
         // Shuffle array (Fisher-Yates algorithm)
@@ -2224,8 +2252,8 @@
             document.getElementById('library-menu').classList.add('active');
         });
 
-        document.getElementById('evaluation').addEventListener('click', () => {
-            document.getElementById('evaluation-menu').classList.add('active');
+        document.getElementById('analytics').addEventListener('click', () => {
+            showAnalytics();
         });
 
         document.getElementById('admin').addEventListener('click', () => {
@@ -2262,12 +2290,8 @@
             document.getElementById('library-menu').classList.remove('active');
         });
 
-        document.getElementById('close-evaluation-menu').addEventListener('click', () => {
-            document.getElementById('evaluation-menu').classList.remove('active');
-        });
-
-        document.getElementById('close-evaluation').addEventListener('click', () => {
-            document.getElementById('evaluation-menu').classList.remove('active');
+        document.getElementById('close-analytics-menu').addEventListener('click', () => {
+            document.getElementById('analytics-menu').classList.remove('active');
         });
 
         // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
