@@ -38,48 +38,47 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
             background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
         #top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 16px;
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo img {
-            height: 40px;
+            height: 36px;
             filter: brightness(0) invert(1);
         }
 
         .logo h1 {
             margin: 0;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .user-info span {
             cursor: pointer;
-            padding: 8px;
+            padding: 6px;
             border-radius: 50%;
             transition: background-color 0.3s ease;
         }
@@ -90,7 +89,7 @@
 
         #content {
             flex: 1;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -106,24 +105,24 @@
         }
 
         .welcome-section {
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .welcome-section h2 {
             color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
+            margin-bottom: 8px;
+            font-size: 22px;
         }
 
         .welcome-section p {
             color: #666;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .flashcard-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px;
             background: url('https://learnenglishwithaurora.github.io/homepage/flashcard.svg') no-repeat center;
             background-size: contain;
         }
@@ -131,21 +130,21 @@
         #stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 30px 0;
+            gap: 12px;
+            margin: 24px 0;
         }
 
         .stat-card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
             transition: transform 0.3s ease;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
 
         .stat-card#green {
@@ -161,23 +160,23 @@
         }
 
         .number {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             margin: 0;
             color: #333;
         }
 
         .stat-card p:last-child {
-            margin: 5px 0 0;
+            margin: 4px 0 0;
             color: #666;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         #buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 30px;
+            gap: 12px;
+            margin-top: 24px;
         }
 
         .action-btn {
@@ -185,22 +184,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
             background: white;
             color: #333;
             text-decoration: none;
-            border-radius: 15px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             border: none;
-            min-height: 100px;
+            min-height: 90px;
+            font-size: 14px;
         }
 
         .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
 
         .action-btn.primary {
@@ -209,8 +209,8 @@
         }
 
         .action-btn .material-symbols-outlined {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 28px;
+            margin-bottom: 6px;
         }
 
         /* Popup Styles */
@@ -225,7 +225,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
         }
 
         .pop-up.active {
@@ -234,23 +234,23 @@
 
         .pop-up-content {
             background-color: white;
-            padding: 30px;
-            border-radius: 20px;
+            padding: 24px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.2);
         }
 
         .close {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 12px;
+            right: 12px;
             cursor: pointer;
             color: #666;
-            padding: 5px;
+            padding: 4px;
             border-radius: 50%;
             transition: background-color 0.3s ease;
         }
@@ -260,23 +260,24 @@
         }
 
         .pop-up h2 {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: #333;
             text-align: center;
+            font-size: 20px;
         }
 
         /* Form Styles */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             position: relative;
         }
 
         input, select {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #FFD700;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             transition: all 0.3s ease;
             background-color: white;
         }
@@ -289,20 +290,20 @@
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
         }
 
         .btn:disabled {
@@ -315,13 +316,13 @@
         /* Loading spinner */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
         @keyframes spin {
@@ -330,19 +331,19 @@
 
         /* AI Generated Words List */
         .ai-words-list {
-            margin-top: 20px;
-            max-height: 300px;
+            margin-top: 16px;
+            max-height: 280px;
             overflow-y: auto;
             border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 8px;
         }
 
         .ai-word-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #f0f0f0;
         }
 
@@ -356,17 +357,17 @@
 
         .ai-word-actions {
             display: flex;
-            gap: 5px;
+            gap: 4px;
         }
 
         .ai-add-btn {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 4px 8px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .ai-add-btn:hover {
@@ -380,7 +381,7 @@
 
         /* Card List */
         #card-list, #mastered-list {
-            max-height: 400px;
+            max-height: 360px;
             overflow-y: auto;
         }
 
@@ -388,7 +389,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
+            padding: 12px;
             border-bottom: 1px solid #eee;
             transition: background-color 0.3s ease;
         }
@@ -405,10 +406,11 @@
             background-color: #ff4d4d;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-size: 13px;
         }
 
         .card-item button:hover {
@@ -418,17 +420,18 @@
         /* Flashcard Styles */
         #attention-reveal, #attention-drag {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #666;
             display: none;
+            font-size: 14px;
         }
 
         .card {
             width: 100%;
-            max-width: 300px;
-            height: 200px;
+            max-width: 280px;
+            height: 180px;
             perspective: 1000px;
-            margin: 20px auto;
+            margin: 16px auto;
         }
 
         .card-inner {
@@ -452,9 +455,9 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 16px;
             box-sizing: border-box;
         }
 
@@ -473,16 +476,17 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 16px;
         }
 
         .back-actions p {
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             color: white;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 14px;
         }
 
         #right {
@@ -525,57 +529,59 @@
         /* Library Styles */
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
         }
 
         .category-card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 16px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             border: 2px solid transparent;
         }
 
         .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             border-color: #FFD700;
         }
 
         .category-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 12px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
 
         .category-card h3 {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #333;
+            font-size: 16px;
         }
 
         .category-card p {
             color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
+            font-size: 13px;
+            margin-bottom: 12px;
         }
 
         .add-category-btn {
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 13px;
         }
 
         .add-category-btn:hover {
@@ -585,25 +591,27 @@
         /* Alert */
         #alert {
             position: fixed;
-            bottom: 20px;
+            bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
             background: #4CAF50;
             color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
             display: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 1001;
+            font-size: 14px;
         }
 
         /* Navigation */
         .navigation {
-            display: grid;
-            grid-template-columns: center;
-            padding: 15px;
+            display: flex;
+            justify-content: center;
+            padding: 12px;
             background: white;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .nav-item {
@@ -612,11 +620,11 @@
             align-items: center;
             text-decoration: none;
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             transition: color 0.3s ease;
-            padding: 5px 20px;
-            border-radius: 10px;
-            margin: 0 10px;
+            padding: 4px 16px;
+            border-radius: 8px;
+            margin: 0 8px;
         }
 
         .nav-item.active {
@@ -628,8 +636,8 @@
         }
 
         .nav-item span {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 22px;
+            margin-bottom: 4px;
         }
 
         /* Voice button styles */
@@ -638,10 +646,10 @@
             border: none;
             color: #666;
             cursor: pointer;
-            padding: 5px;
+            padding: 4px;
             border-radius: 50%;
             transition: all 0.3s ease;
-            margin-left: 10px;
+            margin-left: 8px;
         }
 
         .voice-btn:hover {
@@ -659,21 +667,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 8px;
         }
 
         /* Test pronunciation button */
         .test-pronunciation-btn {
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             color: #666;
             cursor: pointer;
-            padding: 5px;
+            padding: 4px;
             border-radius: 50%;
             transition: all 0.3s ease;
         }
@@ -686,15 +694,16 @@
         /* Tab styles */
         .tab-container {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border-bottom: 1px solid #eee;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 8px 16px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
+            font-size: 14px;
         }
 
         .tab.active {
@@ -707,11 +716,11 @@
         .ai-usage-message {
             background-color: #FFF3CD;
             border: 1px solid #FFEAA7;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 12px;
             color: #856404;
-            font-size: 14px;
+            font-size: 13px;
             text-align: center;
         }
 
@@ -721,7 +730,7 @@
             border: none;
             color: white;
             cursor: pointer;
-            padding: 8px;
+            padding: 6px;
             border-radius: 50%;
             transition: background-color 0.3s ease;
             display: flex;
@@ -733,62 +742,221 @@
             background-color: rgba(255,255,255,0.2);
         }
 
+        /* Progress Tracking Styles */
+        .progress-section {
+            margin-top: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .progress-title {
+            text-align: center;
+            margin-bottom: 16px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .progress-stat {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .progress-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .progress-bar-container {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-assessment {
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .assessment-excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .assessment-good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .assessment-average {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .assessment-poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Session Summary Styles */
+        .session-summary {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .summary-stat {
+            padding: 16px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .summary-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .summary-btn.primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+        }
+
+        .summary-btn.secondary {
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .summary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 8px;
             }
 
             #buttons {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 8px;
             }
 
             .action-btn {
-                min-height: 80px;
-                padding: 15px;
+                min-height: 70px;
+                padding: 12px;
             }
 
             .category-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 15px;
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
             }
 
             .pop-up-content {
-                margin: 10px;
-                padding: 20px;
+                margin: 8px;
+                padding: 16px;
+            }
+
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 480px) {
             #top-bar {
-                padding: 10px 15px;
+                padding: 8px 12px;
             }
 
             .logo h1 {
-                font-size: 18px;
+                font-size: 16px;
             }
 
             #content {
-                padding: 15px;
+                padding: 12px;
             }
 
             .welcome-section h2 {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             .flashcard-icon {
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 80px;
             }
 
             .number {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .navigation {
-                padding: 10px;
+                padding: 8px;
             }
 
             .nav-item span {
@@ -797,7 +965,7 @@
 
             .word-with-voice {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
 
             .voice-btn {
@@ -951,6 +1119,36 @@
             </div>
         </div>
 
+        <!-- Session Summary Popup -->
+        <div class="pop-up" id="session-summary">
+            <div class="pop-up-content">
+                <span id="close-session-summary" class="material-symbols-outlined close">close</span>
+                <div class="session-summary">
+                    <h2 class="summary-title">Kết quả học tập</h2>
+                    <div class="summary-stats">
+                        <div class="summary-stat">
+                            <div class="summary-value" id="summary-correct">0</div>
+                            <div class="summary-label">Từ đã nhớ</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="summary-value" id="summary-total">0</div>
+                            <div class="summary-label">Tổng số từ</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="summary-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-assessment" id="summary-assessment">
+                        <!-- Assessment will be filled by JavaScript -->
+                    </div>
+                    <div class="summary-actions">
+                        <button class="summary-btn primary" id="continue-learning">Tiếp tục học</button>
+                        <button class="summary-btn secondary" id="finish-session">Kết thúc</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div id="content">
             <div class="dashboard">
@@ -1000,10 +1198,43 @@
                         <span class="material-symbols-outlined">view_carousel</span>
                         Danh sách
                     </button>
+                    <button class="action-btn" id="progress">
+                        <span class="material-symbols-outlined">trending_up</span>
+                        Tiến bộ
+                    </button>
                     <button class="action-btn" id="admin" style="display: none;">
                         <span class="material-symbols-outlined">admin_panel_settings</span>
                         Quản trị
                     </button>
+                </div>
+
+                <!-- Progress Tracking Section -->
+                <div class="progress-section" id="progress-section" style="display: none;">
+                    <h3 class="progress-title">Theo dõi tiến bộ</h3>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <div class="progress-value" id="progress-total">0</div>
+                            <div class="progress-label">Tổng số từ</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-value" id="progress-mastered">0</div>
+                            <div class="progress-label">Từ đã thuộc</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-value" id="progress-sessions">0</div>
+                            <div class="progress-label">Buổi học</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-value" id="progress-accuracy">0%</div>
+                            <div class="progress-label">Độ chính xác</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="overall-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-assessment" id="progress-assessment">
+                        <!-- Assessment will be filled by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1017,6 +1248,10 @@
             <a class="nav-item active" id="nav-home">
                 <span class="material-symbols-outlined">home</span>
                 Trang chính
+            </a>
+            <a class="nav-item" id="nav-progress">
+                <span class="material-symbols-outlined">trending_up</span>
+                Tiến bộ
             </a>
             <a class="nav-item" id="nav-admin" style="display: none;">
                 <span class="material-symbols-outlined">admin_panel_settings</span>
@@ -1055,6 +1290,11 @@
         let isAdmin = false;
         let aiGeneratedWords = [];
         let aiUsed = false; // Biến theo dõi trạng thái sử dụng AI
+        let sessionStats = {
+            correct: 0,
+            total: 0,
+            startTime: null
+        };
 
         // Check authentication state
         auth.onAuthStateChanged((user) => {
@@ -1075,6 +1315,8 @@
                     loadUserCards();
                     // Load library categories
                     loadLibraryCategories();
+                    // Load user progress
+                    loadUserProgress();
                 });
             } else {
                 // Nếu không có user, tự động đăng nhập ẩn danh
@@ -1137,6 +1379,105 @@
                     updateStats();
                     updateCardList();
                 });
+        }
+
+        // Load user progress
+        function loadUserProgress() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            // Load learning sessions
+            db.collection('users').doc(user.uid).collection('sessions')
+                .orderBy('date', 'desc')
+                .limit(10)
+                .get()
+                .then((snapshot) => {
+                    let totalSessions = 0;
+                    let totalCorrect = 0;
+                    let totalCards = 0;
+                    
+                    snapshot.forEach((doc) => {
+                        const session = doc.data();
+                        totalSessions++;
+                        totalCorrect += session.correct || 0;
+                        totalCards += session.total || 0;
+                    });
+                    
+                    // Calculate overall progress
+                    const totalCardsCount = userCards.length;
+                    const masteredCardsCount = userCards.filter(card => card.status === 'mastered').length;
+                    const accuracy = totalCards > 0 ? Math.round((totalCorrect / totalCards) * 100) : 0;
+                    const progressPercentage = totalCardsCount > 0 ? Math.round((masteredCardsCount / totalCardsCount) * 100) : 0;
+                    
+                    // Update progress display
+                    document.getElementById('progress-total').textContent = totalCardsCount;
+                    document.getElementById('progress-mastered').textContent = masteredCardsCount;
+                    document.getElementById('progress-sessions').textContent = totalSessions;
+                    document.getElementById('progress-accuracy').textContent = accuracy + '%';
+                    document.getElementById('overall-progress-bar').style.width = progressPercentage + '%';
+                    
+                    // Update assessment
+                    updateProgressAssessment(progressPercentage, accuracy);
+                });
+        }
+
+        // Update progress assessment
+        function updateProgressAssessment(progress, accuracy) {
+            const assessmentElement = document.getElementById('progress-assessment');
+            
+            if (progress >= 80 && accuracy >= 80) {
+                assessmentElement.textContent = 'Xuất sắc! Bạn đang tiến bộ rất tốt.';
+                assessmentElement.className = 'progress-assessment assessment-excellent';
+            } else if (progress >= 60 && accuracy >= 70) {
+                assessmentElement.textContent = 'Tốt! Hãy tiếp tục duy trì.';
+                assessmentElement.className = 'progress-assessment assessment-good';
+            } else if (progress >= 40 && accuracy >= 60) {
+                assessmentElement.textContent = 'Khá! Cần ôn tập thêm để cải thiện.';
+                assessmentElement.className = 'progress-assessment assessment-average';
+            } else {
+                assessmentElement.textContent = 'Cần cố gắng! Hãy dành nhiều thời gian hơn để học.';
+                assessmentElement.className = 'progress-assessment assessment-poor';
+            }
+        }
+
+        // Save session data
+        function saveSessionData(correct, total) {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('sessions').add({
+                date: firebase.firestore.FieldValue.serverTimestamp(),
+                correct: correct,
+                total: total,
+                duration: Math.round((Date.now() - sessionStats.startTime) / 1000) // in seconds
+            });
+        }
+
+        // Show session summary
+        function showSessionSummary(correct, total) {
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            
+            document.getElementById('summary-correct').textContent = correct;
+            document.getElementById('summary-total').textContent = total;
+            document.getElementById('summary-progress-bar').style.width = percentage + '%';
+            
+            // Update assessment
+            const assessmentElement = document.getElementById('summary-assessment');
+            if (percentage >= 90) {
+                assessmentElement.textContent = 'Xuất sắc! Bạn đã nhớ hầu hết các từ.';
+                assessmentElement.className = 'progress-assessment assessment-excellent';
+            } else if (percentage >= 70) {
+                assessmentElement.textContent = 'Tốt! Bạn đã nhớ được nhiều từ.';
+                assessmentElement.className = 'progress-assessment assessment-good';
+            } else if (percentage >= 50) {
+                assessmentElement.textContent = 'Khá! Hãy tiếp tục ôn tập để cải thiện.';
+                assessmentElement.className = 'progress-assessment assessment-average';
+            } else {
+                assessmentElement.textContent = 'Cần cố gắng! Hãy học lại những từ chưa nhớ.';
+                assessmentElement.className = 'progress-assessment assessment-poor';
+            }
+            
+            document.getElementById('session-summary').classList.add('active');
         }
 
         // Load library categories
@@ -1617,6 +1958,11 @@
             
             shuffleArray(cardsToLearn);
             currentCardIndex = 0;
+            sessionStats = {
+                correct: 0,
+                total: cardsToLearn.length,
+                startTime: Date.now()
+            };
             
             showCard();
             document.getElementById('learn-menu').classList.add('active');
@@ -1640,6 +1986,11 @@
             
             shuffleArray(cardsToReview);
             currentCardIndex = 0;
+            sessionStats = {
+                correct: 0,
+                total: cardsToReview.length,
+                startTime: Date.now()
+            };
             
             showReviewCard();
             document.getElementById('review-menu').classList.add('active');
@@ -1651,7 +2002,8 @@
         function showCard() {
             if (currentCardIndex >= cardsToLearn.length) {
                 document.getElementById('learn-menu').classList.remove('active');
-                alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
+                saveSessionData(sessionStats.correct, sessionStats.total);
+                showSessionSummary(sessionStats.correct, sessionStats.total);
                 return;
             }
             
@@ -1698,7 +2050,8 @@
         function showReviewCard() {
             if (currentCardIndex >= cardsToReview.length) {
                 document.getElementById('review-menu').classList.remove('active');
-                alert('Chúc mừng! Bạn đã ôn tập xong tất cả các thẻ!');
+                saveSessionData(sessionStats.correct, sessionStats.total);
+                showSessionSummary(sessionStats.correct, sessionStats.total);
                 return;
             }
             
@@ -1752,6 +2105,7 @@
                 status: 'known'
             })
             .then(() => {
+                sessionStats.correct++;
                 currentCardIndex++;
                 showCard();
             })
@@ -1790,6 +2144,7 @@
                 status: 'mastered'
             })
             .then(() => {
+                sessionStats.correct++;
                 currentCardIndex++;
                 showReviewCard();
             })
@@ -1854,6 +2209,11 @@
             document.getElementById('library-menu').classList.add('active');
         });
 
+        document.getElementById('progress').addEventListener('click', () => {
+            document.getElementById('progress-section').style.display = 'block';
+            loadUserProgress();
+        });
+
         document.getElementById('admin').addEventListener('click', () => {
             window.location.href = 'admin.html';
         });
@@ -1886,6 +2246,20 @@
 
         document.getElementById('close-library-menu').addEventListener('click', () => {
             document.getElementById('library-menu').classList.remove('active');
+        });
+
+        document.getElementById('close-session-summary').addEventListener('click', () => {
+            document.getElementById('session-summary').classList.remove('active');
+        });
+
+        // Session summary buttons
+        document.getElementById('continue-learning').addEventListener('click', () => {
+            document.getElementById('session-summary').classList.remove('active');
+            document.getElementById('start').click();
+        });
+
+        document.getElementById('finish-session').addEventListener('click', () => {
+            document.getElementById('session-summary').classList.remove('active');
         });
 
         // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
@@ -1921,6 +2295,16 @@
                 item.classList.remove('active');
             });
             document.getElementById('nav-home').classList.add('active');
+            document.getElementById('progress-section').style.display = 'none';
+        });
+
+        document.getElementById('nav-progress').addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById('nav-progress').classList.add('active');
+            document.getElementById('progress-section').style.display = 'block';
+            loadUserProgress();
         });
 
         document.getElementById('nav-admin').addEventListener('click', () => {
