@@ -6,6 +6,7 @@
     <title>Học từ vựng - Niceng</title>
     <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -19,6 +20,23 @@
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            
+            /* Primary colors for English learning theme */
+            --primary-color: #FFA500;
+            --primary-light: #FFD700;
+            --secondary-color: #2196F3;
+            --success-color: #4CAF50;
+            --danger-color: #f44336;
+            --warning-color: #FF9800;
+            
+            /* Card and UI colors */
+            --card-bg: white;
+            --card-outline: rgba(0,0,0,0.1);
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-tertiary: #999;
+            --border-color: #e0e0e0;
+            --hover-color: rgba(255, 165, 0, 0.1);
         }
 
         * {
@@ -275,7 +293,7 @@
             position: relative;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 15px;
             border: 2px solid #FFD700;
@@ -283,9 +301,15 @@
             font-size: 16px;
             transition: all 0.3s ease;
             background-color: white;
+            font-family: inherit;
         }
 
-        input:focus, select:focus {
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #FFA500;
             box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
@@ -1201,6 +1225,1020 @@
             vertical-align: middle;
         }
 
+        /* TEACHING TOOL STYLES - ĐÃ TÍCH HỢP */
+        .teaching-tool {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 0 auto;
+        }
+
+        .teaching-card {
+            width: 100%;
+        }
+
+        .teaching-card h2 {
+            text-align: center;
+            color: #FFA500;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .input-area {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-area textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .word-count {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .generate-btn {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .generate-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .settings-btn {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .settings-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            color: #666;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab-btn.active {
+            color: #FFA500;
+            border-bottom-color: #FFA500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .option-card h3 {
+            color: #FFA500;
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .duration-control {
+            margin-top: 10px;
+        }
+
+        .duration-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .duration-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .duration-btn {
+            padding: 5px 10px;
+            background: white;
+            border: 1px solid #FFD700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .duration-btn.active {
+            background: #FFD700;
+            color: white;
+        }
+
+        .duration-btn:hover {
+            background: #FFD700;
+            color: white;
+        }
+
+        .select-container {
+            margin-top: 10px;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .toggle-label {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #FFA500;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .progress-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-status {
+            color: #FFA500;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .progress-item.completed {
+            color: #4CAF50;
+        }
+
+        .progress-item.pending {
+            color: #666;
+        }
+
+        .progress-item.error {
+            color: #f44336;
+        }
+
+        .result-tabs-container {
+            display: none;
+        }
+
+        .result-area {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #FFD700;
+        }
+
+        .modal-header h3 {
+            color: #FFA500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body {
+            padding: 20px 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .modal-btn.secondary-btn {
+            background: #666;
+        }
+
+        .modal-btn.secondary-btn:hover {
+            background: #555;
+        }
+
+        .large-modal {
+            max-width: 900px;
+        }
+
+        /* Exam editor styles */
+        .exam-editor-container {
+            padding: 20px;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .editor-action-btn {
+            padding: 10px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .editor-action-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .exam-blocks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .exam-block-editor {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .block-type-select {
+            width: auto;
+            padding: 8px 12px;
+            border: 2px solid #FFD700;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .block-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .block-btn {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .block-btn:hover {
+            background: #f0f0f0;
+            border-color: #FFA500;
+        }
+
+        .block-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .block-content {
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .block-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .block-title {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .rich-text-editor {
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .block-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .block-points-input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        /* Preview exam styles */
+        .preview-exam {
+            padding: 20px;
+        }
+
+        .exam-title {
+            text-align: center;
+            color: #FFA500;
+            margin-bottom: 20px;
+        }
+
+        .exam-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #2196F3;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .text-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .question-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .question-points {
+            background: #FFA500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .answer-area {
+            margin-top: 10px;
+        }
+
+        .answer-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4 {
+            color: #FFA500;
+            margin: 15px 0 10px;
+        }
+
+        .markdown-content strong {
+            color: #2196F3;
+        }
+
+        .markdown-content em {
+            font-style: italic;
+        }
+
+        .markdown-content ul,
+        .markdown-content ol {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .markdown-content li {
+            margin-bottom: 5px;
+        }
+
+        /* Lesson content styles */
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #FFD700;
+        }
+
+        .lesson-header h2 {
+            color: #FFA500;
+            margin-bottom: 15px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .author-info-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .author-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .author-info-item {
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #FFA500;
+        }
+
+        .author-info-item strong {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .author-info-item span {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .lesson-content {
+            line-height: 1.6;
+        }
+
+        .lesson-content h1,
+        .lesson-content h2,
+        .lesson-content h3,
+        .lesson-content h4 {
+            color: #FFA500;
+            margin: 20px 0 10px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .lesson-content li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: #FFF9E6;
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: #FF9800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: #FFA500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .lesson-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .action-btn.print-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .action-btn.save-btn {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: white;
+        }
+
+        .action-btn.copy-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .exam-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .exam-action-btn {
+            padding: 10px 15px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exam-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .exam-action-btn.preview-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .exam-action-btn.edit-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .exam-action-btn.print-btn {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+            color: white;
+        }
+
+        /* TEACHING TOOL FOR ENGLISH */
+        .english-teaching-tool {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-flip-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .flip-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            height: 200px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flip-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .flip-card h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .flip-card p {
+            margin: 10px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Vocabulary and grammar selection */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .selection-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .selection-card:hover {
+            border-color: #FFD700;
+            transform: translateY(-5px);
+        }
+
+        .selection-card.selected {
+            border-color: #FFA500;
+            background: #FFF9E6;
+        }
+
+        .selection-card h4 {
+            color: #FFA500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vocabulary-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .vocabulary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .vocabulary-item:last-child {
+            border-bottom: none;
+        }
+
+        .vocabulary-item button {
+            padding: 5px 10px;
+            background: #FFA500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .vocabulary-item button:hover {
+            background: #FF9800;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
@@ -1241,6 +2279,39 @@
             }
 
             .class-type-buttons {
+                flex-direction: column;
+            }
+
+            .teaching-tool {
+                padding: 15px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-flip-container {
+                grid-template-columns: 1fr;
+            }
+
+            .selection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lesson-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .exam-actions {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .editor-actions {
                 flex-direction: column;
             }
         }
@@ -1287,6 +2358,19 @@
             .voice-btn {
                 margin-left: 0;
             }
+
+            .teaching-card h2 {
+                font-size: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .settings-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -1295,14 +2379,13 @@
         <div id="top-bar">
             <div class="logo">
                 <img src="https://learnenglishwithaurora.github.io/aurora.svg" alt="Niceng">
-                <h1>Niceng</h1>
+                <h1>Niceng - Giáo viên</h1>
             </div>
             <div class="user-info">
                 <button id="login-btn" class="login-btn" title="Đăng nhập">
                     <span class="material-symbols-outlined">login</span>
                 </button>
                 
-                <!-- THÊM NÚT QUẢN TRỊ (sẽ hiển thị tự động nếu là admin) -->
                 <button id="admin-btn" class="admin-btn" title="Trang quản trị" style="display: none;">
                     <span class="material-symbols-outlined">admin_panel_settings</span>
                 </button>
@@ -1481,7 +2564,7 @@
         <div class="pop-up" id="classroom-menu">
             <div class="pop-up-content">
                 <span id="close-classroom-menu" class="material-symbols-outlined close">close</span>
-                <h2>Lớp học</h2>
+                <h2>Lớp học Tiếng Anh</h2>
                 
                 <div class="classroom-section">
                     <!-- Class Type Selection -->
@@ -1498,65 +2581,101 @@
 
                     <!-- Teacher Section -->
                     <div id="teacher-section">
-                        <div class="create-class-section" id="create-class-form">
-                            <h3>Tạo lớp học mới</h3>
-                            <div class="form-group">
-                                <input type="text" placeholder="Tên lớp học" id="class-name-input" />
+                        <div class="english-teaching-tool">
+                            <!-- Card flip container -->
+                            <div class="card-flip-container">
+                                <div class="flip-card" id="create-exam-card">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <span class="material-symbols-outlined flip-icon">quiz</span>
+                                            <h3>Tạo Đề Thi</h3>
+                                            <p>Tạo đề thi Tiếng Anh bằng AI</p>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <span class="material-symbols-outlined flip-icon">description</span>
+                                            <h3>Đề Thi Tiếng Anh</h3>
+                                            <p>Chọn chủ đề và tạo đề thi tự động</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flip-card" id="create-lesson-card">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <span class="material-symbols-outlined flip-icon">menu_book</span>
+                                            <h3>Tạo Bài Giảng</h3>
+                                            <p>Tạo bài giảng Tiếng Anh bằng AI</p>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <span class="material-symbols-outlined flip-icon">school</span>
+                                            <h3>Giáo Án Tiếng Anh</h3>
+                                            <p>Tạo giáo án đầy đủ với từ vựng và ngữ pháp</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" placeholder="Mô tả lớp học (tùy chọn)" id="class-description-input" />
-                            </div>
-                            <div class="form-group">
-                                <label for="class-duration">Thời gian lớp học (phút)</label>
-                                <input type="number" id="class-duration" min="15" max="1440" value="60" placeholder="Từ 15 phút đến 24 giờ" />
-                            </div>
-                            <button class="btn" id="create-class-code-btn">Tạo mã lớp</button>
-                        </div>
 
-                        <div class="create-class-section" id="class-code-display-section" style="display: none;">
-                            <h3>Mã lớp học đã tạo</h3>
-                            <div class="timer" id="class-timer">
-                                <span class="material-symbols-outlined timer-icon">schedule</span>
-                                <span class="timer-text" id="timer-text">Thời gian còn lại: 60:00</span>
+                            <!-- Create Class Section -->
+                            <div class="create-class-section" id="create-class-form">
+                                <h3>Tạo lớp học mới</h3>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Tên lớp học" id="class-name-input" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Mô tả lớp học (tùy chọn)" id="class-description-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="class-duration">Thời gian lớp học (phút)</label>
+                                    <input type="number" id="class-duration" min="15" max="1440" value="60" placeholder="Từ 15 phút đến 24 giờ" />
+                                </div>
+                                <button class="btn" id="create-class-code-btn">Tạo mã lớp</button>
                             </div>
-                            <div class="class-code-display" id="generated-class-code">ABC123</div>
-                            <p style="color: #666; margin-bottom: 15px;">Hãy chia sẻ mã này với học sinh để họ tham gia lớp học</p>
-                            <div style="display: flex; gap: 10px;">
-                                <button class="copy-code-btn" id="copy-class-code-btn">
-                                    <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">content_copy</span>
-                                    Sao chép mã
-                                </button>
-                                <button class="btn" id="end-class-btn" style="background: #f44336;">
-                                    <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">stop_circle</span>
-                                    Kết thúc lớp
-                                </button>
-                            </div>
-                        </div>
 
-                        <!-- Existing Class Info -->
-                        <div id="teacher-class-info" class="class-info" style="display: none;">
-                            <h3 id="teacher-class-name">Tên lớp: </h3>
-                            <p>Mã lớp: <strong id="teacher-class-code"></strong></p>
-                            <p>Số học sinh: <span id="teacher-student-count">0</span></p>
-                            <p>Số từ vựng đã giao: <span id="teacher-assignment-count">0</span></p>
-                            <div class="timer" id="teacher-class-timer">
-                                <span class="material-symbols-outlined timer-icon">schedule</span>
-                                <span class="timer-text" id="teacher-timer-text">Thời gian còn lại: 60:00</span>
+                            <div class="create-class-section" id="class-code-display-section" style="display: none;">
+                                <h3>Mã lớp học đã tạo</h3>
+                                <div class="timer" id="class-timer">
+                                    <span class="material-symbols-outlined timer-icon">schedule</span>
+                                    <span class="timer-text" id="timer-text">Thời gian còn lại: 60:00</span>
+                                </div>
+                                <div class="class-code-display" id="generated-class-code">ABC123</div>
+                                <p style="color: #666; margin-bottom: 15px;">Hãy chia sẻ mã này với học sinh để họ tham gia lớp học</p>
+                                <div style="display: flex; gap: 10px;">
+                                    <button class="copy-code-btn" id="copy-class-code-btn">
+                                        <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">content_copy</span>
+                                        Sao chép mã
+                                    </button>
+                                    <button class="btn" id="end-class-btn" style="background: #f44336;">
+                                        <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">stop_circle</span>
+                                        Kết thúc lớp
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="class-actions" id="teacher-actions" style="display: none;">
-                            <button class="btn" id="teacher-manage-assignments-btn">Quản lý bài tập</button>
-                            <button class="btn" id="teacher-view-progress-btn">Xem tiến độ học sinh</button>
-                            <button class="btn" id="teacher-end-class-btn" style="background: #f44336;">
-                                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">delete</span>
-                                Hủy lớp học
-                            </button>
-                        </div>
-                        
-                        <div id="teacher-student-progress-section" style="display: none;">
-                            <h3>Tiến độ học sinh</h3>
-                            <div class="student-list" id="teacher-student-list"></div>
+
+                            <!-- Existing Class Info -->
+                            <div id="teacher-class-info" class="class-info" style="display: none;">
+                                <h3 id="teacher-class-name">Tên lớp: </h3>
+                                <p>Mã lớp: <strong id="teacher-class-code"></strong></p>
+                                <p>Số học sinh: <span id="teacher-student-count">0</span></p>
+                                <p>Số từ vựng đã giao: <span id="teacher-assignment-count">0</span></p>
+                                <div class="timer" id="teacher-class-timer">
+                                    <span class="material-symbols-outlined timer-icon">schedule</span>
+                                    <span class="timer-text" id="teacher-timer-text">Thời gian còn lại: 60:00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="class-actions" id="teacher-actions" style="display: none;">
+                                <button class="btn" id="teacher-manage-assignments-btn">Quản lý bài tập</button>
+                                <button class="btn" id="teacher-view-progress-btn">Xem tiến độ học sinh</button>
+                                <button class="btn" id="teacher-end-class-btn" style="background: #f44336;">
+                                    <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">delete</span>
+                                    Hủy lớp học
+                                </button>
+                            </div>
+                            
+                            <div id="teacher-student-progress-section" style="display: none;">
+                                <h3>Tiến độ học sinh</h3>
+                                <div class="student-list" id="teacher-student-list"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -1609,6 +2728,335 @@
                             </button>
                             
                             <div class="student-words-list" id="student-assignments-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Exam Popup -->
+        <div class="pop-up" id="create-exam-popup">
+            <div class="pop-up-content">
+                <span id="close-create-exam-popup" class="material-symbols-outlined close">close</span>
+                <h2><i class="material-symbols-outlined">quiz</i> Tạo Đề Thi Tiếng Anh</h2>
+                
+                <div class="teaching-card">
+                    <div class="input-area">
+                        <textarea id="examTopic" placeholder="Nhập chủ đề bài học (ví dụ: Daily Routines, Food and Drink, Travel...)" rows="3"></textarea>
+                        <div class="word-count" id="examWordCount">0 từ</div>
+                    </div>
+                    
+                    <div class="selection-grid">
+                        <div class="selection-card" id="vocabulary-selection">
+                            <h4><i class="material-symbols-outlined">translate</i> Từ Vựng</h4>
+                            <div class="form-group">
+                                <label>Số lượng từ:</label>
+                                <input type="number" id="vocabularyCount" min="5" max="50" value="15">
+                            </div>
+                            <div class="form-group">
+                                <label>Độ khó:</label>
+                                <select id="vocabularyDifficulty">
+                                    <option value="beginner">Cơ bản (A1-A2)</option>
+                                    <option value="intermediate" selected>Trung cấp (B1-B2)</option>
+                                    <option value="advanced">Nâng cao (C1-C2)</option>
+                                </select>
+                            </div>
+                            <div class="vocabulary-list" id="generatedVocabulary">
+                                <!-- AI generated vocabulary will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="selection-card" id="grammar-selection">
+                            <h4><i class="material-symbols-outlined">psychology</i> Ngữ Pháp</h4>
+                            <div class="form-group">
+                                <label>Chọn cấu trúc ngữ pháp:</label>
+                                <select id="grammarStructure">
+                                    <option value="present_simple">Present Simple</option>
+                                    <option value="present_continuous">Present Continuous</option>
+                                    <option value="past_simple">Past Simple</option>
+                                    <option value="present_perfect">Present Perfect</option>
+                                    <option value="future_tenses">Future Tenses</option>
+                                    <option value="conditionals">Conditionals</option>
+                                    <option value="passive_voice">Passive Voice</option>
+                                    <option value="relative_clauses">Relative Clauses</option>
+                                    <option value="reported_speech">Reported Speech</option>
+                                    <option value="modal_verbs">Modal Verbs</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Số câu hỏi ngữ pháp:</label>
+                                <input type="number" id="grammarQuestions" min="5" max="20" value="10">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="generateExamBtn" class="generate-btn">
+                            <i class="material-symbols-outlined mr-2">auto_awesome</i> Tạo Đề Thi Bằng AI
+                        </button>
+                        <button id="examSettingsBtn" class="settings-btn">
+                            <i class="material-symbols-outlined">settings</i>
+                        </button>
+                    </div>
+                    
+                    <div class="settings-panel" id="examSettingsPanel">
+                        <div class="options-grid">
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">schedule</i> Thời gian làm bài</h3>
+                                <p>Chọn thời lượng cho đề thi</p>
+                                <div class="duration-control">
+                                    <div class="duration-header">
+                                        <label for="examTimeSlider">Thời gian: <span id="examTimeValue">45 phút</span></label>
+                                        <div class="duration-buttons">
+                                            <button type="button" class="duration-btn" data-value="30">30p</button>
+                                            <button type="button" class="duration-btn active" data-value="45">45p</button>
+                                            <button type="button" class="duration-btn" data-value="60">60p</button>
+                                        </div>
+                                    </div>
+                                    <input type="range" id="examTimeSlider" min="15" max="120" step="5" value="45">
+                                </div>
+                            </div>
+                            
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">school</i> Cấp độ</h3>
+                                <p>Chọn cấp độ phù hợp</p>
+                                <div class="select-container">
+                                    <select id="examLevel">
+                                        <option value="elementary">Tiểu học</option>
+                                        <option value="middle_school">THCS</option>
+                                        <option value="high_school" selected>THPT</option>
+                                        <option value="university">Đại học</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">list</i> Cấu trúc đề</h3>
+                                <p>Chọn các phần có trong đề thi</p>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Phần từ vựng</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vocabularySectionToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Phần ngữ pháp</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="grammarSectionToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Phần đọc hiểu</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="readingSectionToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Phần viết</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="writingSectionToggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container" id="examProgressContainer" style="display: none;">
+                        <div class="progress-header">
+                            <div class="progress-title">Đang tạo đề thi</div>
+                            <div class="progress-status" id="examProgressStatus">Đang xử lý...</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="examProgressFill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-items" id="examProgressItems">
+                        </div>
+                    </div>
+                    
+                    <div class="result-tabs-container" id="examResultTabs" style="display: none;">
+                        <div class="result-area" id="examResultContent">
+                            <!-- Exam content will be displayed here -->
+                        </div>
+                        
+                        <div class="exam-actions">
+                            <button id="previewExamBtn" class="exam-action-btn preview-btn">
+                                <i class="material-symbols-outlined">visibility</i> Xem trước
+                            </button>
+                            <button id="editExamBtn" class="exam-action-btn edit-btn">
+                                <i class="material-symbols-outlined">edit</i> Chỉnh sửa
+                            </button>
+                            <button id="saveExamBtn" class="exam-action-btn save-btn">
+                                <i class="material-symbols-outlined">save</i> Lưu đề thi
+                            </button>
+                            <button id="generateCodeBtn" class="exam-action-btn" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white;">
+                                <i class="material-symbols-outlined">qr_code</i> Tạo mã đề
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Lesson Popup -->
+        <div class="pop-up" id="create-lesson-popup">
+            <div class="pop-up-content">
+                <span id="close-create-lesson-popup" class="material-symbols-outlined close">close</span>
+                <h2><i class="material-symbols-outlined">menu_book</i> Tạo Bài Giảng Tiếng Anh</h2>
+                
+                <div class="teaching-card">
+                    <div class="input-area">
+                        <textarea id="lessonTopic" placeholder="Nhập chủ đề bài giảng (ví dụ: Introducing Yourself, Ordering Food, Making Plans...)" rows="3"></textarea>
+                        <div class="word-count" id="lessonWordCount">0 từ</div>
+                    </div>
+                    
+                    <div class="selection-grid">
+                        <div class="selection-card" id="lesson-vocabulary-selection">
+                            <h4><i class="material-symbols-outlined">translate</i> Từ Vựng Chủ Đề</h4>
+                            <div class="form-group">
+                                <label>Số lượng từ:</label>
+                                <input type="number" id="lessonVocabularyCount" min="10" max="30" value="20">
+                            </div>
+                            <div class="form-group">
+                                <label>Độ khó:</label>
+                                <select id="lessonVocabularyDifficulty">
+                                    <option value="beginner">Cơ bản (A1-A2)</option>
+                                    <option value="intermediate" selected>Trung cấp (B1-B2)</option>
+                                    <option value="advanced">Nâng cao (C1-C2)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="selection-card" id="lesson-grammar-selection">
+                            <h4><i class="material-symbols-outlined">psychology</i> Ngữ Pháp Trọng Tâm</h4>
+                            <div class="form-group">
+                                <label>Chọn cấu trúc ngữ pháp:</label>
+                                <select id="lessonGrammarStructure">
+                                    <option value="present_simple">Present Simple</option>
+                                    <option value="present_continuous">Present Continuous</option>
+                                    <option value="past_simple">Past Simple</option>
+                                    <option value="present_perfect">Present Perfect</option>
+                                    <option value="future_tenses">Future Tenses</option>
+                                    <option value="conditionals">Conditionals</option>
+                                    <option value="passive_voice">Passive Voice</option>
+                                    <option value="relative_clauses">Relative Clauses</option>
+                                    <option value="reported_speech">Reported Speech</option>
+                                    <option value="modal_verbs">Modal Verbs</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Thời lượng bài giảng:</label>
+                                <select id="lessonDuration">
+                                    <option value="45">45 phút</option>
+                                    <option value="90" selected>90 phút</option>
+                                    <option value="120">120 phút</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="generateLessonBtn" class="generate-btn">
+                            <i class="material-symbols-outlined mr-2">auto_awesome</i> Tạo Bài Giảng Bằng AI
+                        </button>
+                        <button id="lessonSettingsBtn" class="settings-btn">
+                            <i class="material-symbols-outlined">settings</i>
+                        </button>
+                    </div>
+                    
+                    <div class="settings-panel" id="lessonSettingsPanel">
+                        <div class="options-grid">
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">groups</i> Phương Pháp Giảng Dạy</h3>
+                                <p>Chọn phương pháp phù hợp</p>
+                                <div class="select-container">
+                                    <select id="teachingMethod">
+                                        <option value="communicative" selected>Giao tiếp (Communicative)</option>
+                                        <option value="task_based">Dựa trên nhiệm vụ (Task-based)</option>
+                                        <option value="content_based">Dựa trên nội dung (Content-based)</option>
+                                        <option value="blended">Kết hợp (Blended)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">school</i> Cấp độ học sinh</h3>
+                                <p>Chọn cấp độ phù hợp</p>
+                                <div class="select-container">
+                                    <select id="studentLevel">
+                                        <option value="beginner">Người mới bắt đầu</option>
+                                        <option value="elementary" selected>Sơ cấp</option>
+                                        <option value="intermediate">Trung cấp</option>
+                                        <option value="advanced">Cao cấp</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="option-card">
+                                <h3><i class="material-symbols-outlined">add_circle</i> Hoạt động bổ sung</h3>
+                                <p>Chọn các hoạt động cho bài giảng</p>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Bài tập từ vựng</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="vocabularyExerciseToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Bài tập ngữ pháp</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="grammarExerciseToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Hoạt động nhóm</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="groupActivityToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Bài tập về nhà</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="homeworkToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container" id="lessonProgressContainer" style="display: none;">
+                        <div class="progress-header">
+                            <div class="progress-title">Đang tạo bài giảng</div>
+                            <div class="progress-status" id="lessonProgressStatus">Đang xử lý...</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="lessonProgressFill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-items" id="lessonProgressItems">
+                        </div>
+                    </div>
+                    
+                    <div class="result-tabs-container" id="lessonResultTabs" style="display: none;">
+                        <div class="result-area" id="lessonResultContent">
+                            <!-- Lesson content will be displayed here -->
+                        </div>
+                        
+                        <div class="lesson-actions">
+                            <button id="printLessonBtn" class="action-btn print-btn">
+                                <i class="material-symbols-outlined">print</i> In bài giảng
+                            </button>
+                            <button id="saveLessonBtn" class="action-btn save-btn">
+                                <i class="material-symbols-outlined">save</i> Lưu bài giảng
+                            </button>
+                            <button id="shareLessonBtn" class="action-btn copy-btn">
+                                <i class="material-symbols-outlined">share</i> Chia sẻ
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1698,6 +3146,74 @@
             </div>
         </div>
 
+        <!-- Exam Preview Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="material-symbols-outlined">visibility</i> XEM TRƯỚC ĐỀ THI</h3>
+                    <button class="material-symbols-outlined close close-modal">close</button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" id="printPreviewBtn">
+                        <i class="material-symbols-outlined">print</i> In đề thi
+                    </button>
+                    <button class="modal-btn secondary-btn" id="closePreviewBtn">
+                        <i class="material-symbols-outlined">close</i> Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Exam Modal -->
+        <div id="editExamModal" class="modal">
+            <div class="modal-content large-modal">
+                <div class="modal-header">
+                    <h3><i class="material-symbols-outlined">edit</i> CHỈNH SỬA ĐỀ THI</h3>
+                    <button class="material-symbols-outlined close close-modal">close</button>
+                </div>
+                <div class="modal-body">
+                    <div class="exam-editor-container" id="examEditorContainer">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" id="saveEditedExamBtn">
+                        <i class="material-symbols-outlined">save</i> Lưu thay đổi
+                    </button>
+                    <button class="modal-btn secondary-btn" id="cancelEditBtn">
+                        <i class="material-symbols-outlined">close</i> Hủy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Code Modal -->
+        <div id="examCodeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="material-symbols-outlined">qr_code</i> MÃ ĐỀ THI</h3>
+                    <button class="material-symbols-outlined close close-modal">close</button>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    <h2 id="examCodeDisplay" style="font-size: 36px; letter-spacing: 3px; color: #FFA500; margin: 20px 0;"></h2>
+                    <p>Học sinh nhập mã này để làm bài thi</p>
+                    <div class="timer" style="justify-content: center;">
+                        <span class="material-symbols-outlined timer-icon">schedule</span>
+                        <span class="timer-text" id="examTimerText">Thời gian làm bài: 45:00</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" id="copyExamCodeBtn">
+                        <i class="material-symbols-outlined">content_copy</i> Sao chép mã
+                    </button>
+                    <button class="modal-btn secondary-btn" id="closeExamCodeBtn">
+                        <i class="material-symbols-outlined">close</i> Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div id="content">
             <div class="dashboard">
@@ -1776,8 +3292,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- Quill Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
     
     <script>
+        // API Keys
+        const REVERSED_API_KEY = "4AE6KqeYCeSyAZI";
+        const GEMINI_API_KEY = "AIzaSyDq_sSF2kgHzuDgYNpQef6EDrk8MsP0vlM";
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBc55gGulDbOCgGp2USL_HXeVLwqqXFTTU",
@@ -1809,12 +3331,37 @@
         let isInTestMode = false;
         let isAssignmentTest = false;
         
-        // BIẾN QUAN TRỌNG: Theo dõi user document real-time
+        // Teaching Tool Variables
+        let generationProgress = {
+            total: 0,
+            completed: 0,
+            items: []
+        };
+        
+        let currentExamBlocks = [];
+        let currentExamCode = '';
+        let examSettings = {
+            time: 45,
+            level: 'high_school',
+            hasVocabulary: true,
+            hasGrammar: true,
+            hasReading: true,
+            hasWriting: false
+        };
+        
+        let lessonSettings = {
+            duration: 90,
+            method: 'communicative',
+            level: 'elementary',
+            hasVocabularyExercise: true,
+            hasGrammarExercise: true,
+            hasGroupActivity: true,
+            hasHomework: true
+        };
+        
+        let richTextEditors = [];
         let userUnsubscribe = null;
         let userId = null;
-        
-        // API Key đảo ngược
-        const REVERSED_API_KEY = "4AE6KqeYCeSyAZI";
 
         // Hàm đảo ngược chuỗi để lấy API key thật
         function getRealAPIKey(reversedKey) {
@@ -1930,6 +3477,1359 @@
         document.getElementById('admin-btn').addEventListener('click', () => {
             window.location.href = 'admin.html';
         });
+
+        // SPEECH SYNTHESIS FUNCTION
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Trình duyệt của bạn không hỗ trợ tính năng đọc văn bản!');
+            }
+        }
+
+        // Create voice button
+        function createVoiceButton(text) {
+            const button = document.createElement('button');
+            button.className = 'voice-btn';
+            button.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                speakText(text);
+            });
+            return button;
+        }
+
+        // TEACHING TOOL FUNCTIONS
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('examProgressFill');
+            const progressStatus = document.getElementById('examProgressStatus');
+            const progressItems = document.getElementById('examProgressItems');
+            
+            const percent = generationProgress.total > 0 ? 
+                Math.round((generationProgress.completed / generationProgress.total) * 100) : 0;
+            
+            progressFill.style.width = `${percent}%`;
+            
+            if (percent === 100) {
+                progressStatus.textContent = 'Hoàn thành!';
+            } else {
+                progressStatus.textContent = `Đang xử lý... ${percent}%`;
+            }
+            
+            progressItems.innerHTML = generationProgress.items.map(item => {
+                let iconClass = 'material-symbols-outlined';
+                let statusClass = 'pending';
+                
+                if (item.status === 'completed') {
+                    iconClass = 'material-symbols-outlined check';
+                    statusClass = 'completed';
+                } else if (item.status === 'error') {
+                    iconClass = 'material-symbols-outlined error';
+                    statusClass = 'error';
+                }
+                
+                return `
+                    <div class="progress-item ${statusClass}">
+                        <span class="${iconClass}" style="font-size: 18px;">${item.status === 'completed' ? 'check_circle' : item.status === 'error' ? 'error' : 'schedule'}</span>
+                        ${item.name}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addProgressItem(name) {
+            generationProgress.items.push({
+                name: name,
+                status: 'pending'
+            });
+            generationProgress.total++;
+            updateProgress();
+        }
+
+        function completeProgressItem(index) {
+            generationProgress.items[index].status = 'completed';
+            generationProgress.completed++;
+            updateProgress();
+        }
+
+        function errorProgressItem(index) {
+            generationProgress.items[index].status = 'error';
+            generationProgress.completed++;
+            updateProgress();
+        }
+
+        function formatDuration(minutes) {
+            if (minutes < 60) {
+                return `${minutes} phút`;
+            } else {
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                return remainingMinutes > 0 ? 
+                    `${hours} giờ ${remainingMinutes} phút` : 
+                    `${hours} giờ`;
+            }
+        }
+
+        async function fetchGemini(prompt, maxRetries = 3) {
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    const timeoutPromise = new Promise((_, reject) => {
+                        setTimeout(() => reject(new Error('Yêu cầu quá thời gian sau 90 giây')), 90000);
+                    });
+                    
+                    const fetchPromise = fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            contents: [{ 
+                                parts: [{ text: prompt }] 
+                            }],
+                            generationConfig: {
+                                maxOutputTokens: 8000,
+                                temperature: 0.7,
+                                topP: 0.95,
+                                topK: 40,
+                            }
+                        })
+                    });
+                    
+                    const response = await Promise.race([fetchPromise, timeoutPromise]);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+                        throw new Error('Định dạng phản hồi từ API không hợp lệ');
+                    }
+                    
+                    const result = data.candidates[0].content.parts[0].text.trim();
+                    
+                    if (result.length > 0 && !isCompleteResponse(result)) {
+                        console.warn('Phản hồi có vẻ bị cắt ngắn, thử lại...');
+                        if (attempt < maxRetries) continue;
+                    }
+                    
+                    return result;
+                    
+                } catch (error) {
+                    console.error(`Lần thử ${attempt} thất bại:`, error);
+                    
+                    if (attempt === maxRetries) {
+                        throw new Error(`Thất bại sau ${maxRetries} lần thử: ${error.message}`);
+                    }
+                    
+                    await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
+                }
+            }
+        }
+
+        function isCompleteResponse(text) {
+            const incompleteIndicators = [
+                /\.\.\.$/,
+                /---$/,
+                /\*\*\*$/,
+                /\[truncated\]$/i,
+                /\[còn tiếp\]$/i,
+                /phần tiếp theo/i,
+                /còn nữa...$/i
+            ];
+            
+            if (text.endsWith('.') || text.endsWith('!') || text.endsWith('?')) {
+                return true;
+            }
+            
+            for (const indicator of incompleteIndicators) {
+                if (indicator.test(text)) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function parseAndFormatContent(text) {
+            if (!text) return '';
+            
+            let formatted = text;
+            
+            formatted = formatted.replace(/^(\d+\.\s+)(.*$)/gm, '<h2>$1$2</h2>');
+            formatted = formatted.replace(/^(\d+\.\d+\.\s+)(.*$)/gm, '<h3>$1$2</h3>');
+            formatted = formatted.replace(/^#\s+(.*$)/gm, '<h1>$1</h1>');
+            formatted = formatted.replace(/^##\s+(.*$)/gm, '<h2>$1</h2>');
+            formatted = formatted.replace(/^###\s+(.*$)/gm, '<h3>$1</h3>');
+            formatted = formatted.replace(/^####\s+(.*$)/gm, '<h4>$1</h4>');
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/\*(?!\*)(.*?)\*/g, '<em>$1</em>');
+            formatted = formatted.replace(/^---+/gm, '<hr>');
+            formatted = formatted.replace(/^\*\*\*+/gm, '<hr>');
+            
+            const lines = formatted.split('\n');
+            let inList = false;
+            let listHtml = '';
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (line.match(/^[-*]\s+/)) {
+                    if (!inList) {
+                        inList = true;
+                        listHtml = '<ul>\n';
+                    }
+                    const item = line.replace(/^[-*]\s+/, '');
+                    listHtml += `<li>${item}</li>\n`;
+                    
+                    if (i === lines.length - 1 || !lines[i + 1].trim().match(/^[-*]\s+/)) {
+                        listHtml += '</ul>';
+                        lines[i] = listHtml;
+                        inList = false;
+                    } else {
+                        lines[i] = '';
+                    }
+                } else if (inList) {
+                    listHtml += '</ul>';
+                    inList = false;
+                }
+                
+                if (line.match(/^\d+\.\s+/)) {
+                    if (!inList) {
+                        inList = true;
+                        listHtml = '<ol>\n';
+                    }
+                    const item = line.replace(/^\d+\.\s+/, '');
+                    listHtml += `<li>${item}</li>\n`;
+                    
+                    if (i === lines.length - 1 || !lines[i + 1].trim().match(/^\d+\.\s+/)) {
+                        listHtml += '</ol>';
+                        lines[i] = listHtml;
+                        inList = false;
+                    } else {
+                        lines[i] = '';
+                    }
+                } else if (inList) {
+                    listHtml += '</ol>';
+                    inList = false;
+                }
+            }
+            
+            formatted = lines.filter(line => line !== '').join('\n');
+            formatted = formatted.replace(/^>\s+(.*$)/gm, '<blockquote>$1</blockquote>');
+            
+            const paragraphs = formatted.split('\n\n');
+            formatted = paragraphs.map(paragraph => {
+                if (paragraph.trim().startsWith('<') || paragraph.trim().match(/^<[^>]+>/) || paragraph.trim() === '') {
+                    return paragraph;
+                }
+                return `<p>${paragraph}</p>`;
+            }).join('\n');
+            
+            formatted = formatted.replace(/\n(?!\s*<)/g, '<br>');
+            
+            formatted = formatted.replace(/<h2>(.*?)<\/h2>/g, (match, content) => {
+                return `<div class="lesson-section"><h2>${content}</h2>`;
+            });
+            
+            if (formatted.includes('<div class="lesson-section">')) {
+                formatted += '</div>';
+            }
+            
+            formatted = formatted.replace(/\[QUAN TRỌNG\](.*?)\[\/QUAN TRỌNG\]/gs, 
+                '<div class="highlight-box">$1</div>');
+            
+            return formatted;
+        }
+
+        function markdownToHtml(text) {
+            if (!text) return '';
+            
+            let html = text;
+            
+            html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+            html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+            
+            html = html.replace(/^- (.*$)/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, function(match) {
+                return '<ul>' + match + '</ul>';
+            });
+            
+            html = html.replace(/^\d+\. (.*$)/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, function(match) {
+                return '<ol>' + match + '</ol>';
+            });
+            
+            const lines = html.split('\n');
+            html = '';
+            let inParagraph = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (line === '') {
+                    if (inParagraph) {
+                        html += '</p>\n';
+                        inParagraph = false;
+                    }
+                } else if (line.startsWith('<')) {
+                    if (inParagraph) {
+                        html += '</p>\n';
+                        inParagraph = false;
+                    }
+                    html += line + '\n';
+                } else {
+                    if (!inParagraph) {
+                        html += '<p>';
+                        inParagraph = true;
+                    }
+                    html += line + ' ';
+                }
+            }
+            
+            if (inParagraph) {
+                html += '</p>';
+            }
+            
+            html = html.replace(/\\n/g, '<br>');
+            
+            return html;
+        }
+
+        // GENERATE ENGLISH EXAM WITH AI
+        async function generateEnglishExamWithAI(topic, vocabularyCount, vocabularyDifficulty, grammarStructure, grammarQuestions) {
+            const prompt = `
+                Tạo một đề thi Tiếng Anh hoàn chỉnh dựa trên thông tin sau:
+                
+                CHỦ ĐỀ: ${topic}
+                SỐ LƯỢNG TỪ VỰNG: ${vocabularyCount} từ
+                ĐỘ KHÓ TỪ VỰNG: ${vocabularyDifficulty}
+                CẤU TRÚC NGỮ PHÁP TRỌNG TÂM: ${grammarStructure}
+                SỐ CÂU HỎI NGỮ PHÁP: ${grammarQuestions}
+                
+                THÔNG TIN ĐỀ THI:
+                - Thời gian: ${examSettings.time} phút
+                - Cấp độ: ${examSettings.level}
+                - Phần từ vựng: ${examSettings.hasVocabulary ? 'CÓ' : 'KHÔNG'}
+                - Phần ngữ pháp: ${examSettings.hasGrammar ? 'CÓ' : 'KHÔNG'}
+                - Phần đọc hiểu: ${examSettings.hasReading ? 'CÓ' : 'KHÔNG'}
+                - Phần viết: ${examSettings.hasWriting ? 'CÓ' : 'KHÔNG'}
+                
+                YÊU CẦU:
+                1. Tạo đề thi hoàn chỉnh với cấu trúc phù hợp
+                2. Định dạng trả về JSON như sau:
+                {
+                    "title": "Tiêu đề đề thi",
+                    "description": "Mô tả ngắn về đề thi",
+                    "vocabulary": [
+                        {
+                            "word": "từ vựng",
+                            "meaning": "nghĩa",
+                            "example": "ví dụ"
+                        }
+                    ],
+                    "blocks": [
+                        {
+                            "type": "text",
+                            "title": "Phần I: TỪ VỰNG",
+                            "content": "Hướng dẫn phần từ vựng...",
+                            "points": 0
+                        },
+                        {
+                            "type": "question",
+                            "title": "Câu hỏi 1",
+                            "content": "Chọn từ đúng...",
+                            "points": 1.0,
+                            "options": ["A. option1", "B. option2", "C. option3", "D. option4"]
+                        }
+                    ],
+                    "totalPoints": 10
+                }
+                
+                3. Tổng điểm: 10 điểm
+                4. Câu hỏi phù hợp với độ khó và chủ đề
+                5. Có hướng dẫn làm bài rõ ràng
+                6. Từ vựng phải có nghĩa tiếng Việt và ví dụ
+                7. Câu hỏi ngữ pháp tập trung vào cấu trúc được chọn
+                8. Phần đọc hiểu (nếu có) phải liên quan đến chủ đề
+            `;
+
+            try {
+                const response = await fetchGemini(prompt);
+                
+                const jsonMatch = response.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    const examData = JSON.parse(jsonMatch[0]);
+                    
+                    // Ensure vocabulary array exists
+                    if (!examData.vocabulary) {
+                        examData.vocabulary = generateSampleVocabulary(topic, vocabularyCount);
+                    }
+                    
+                    return examData;
+                } else {
+                    return createDefaultEnglishExam(topic, vocabularyCount, grammarStructure);
+                }
+            } catch (error) {
+                console.error('Lỗi khi tạo đề thi:', error);
+                return createDefaultEnglishExam(topic, vocabularyCount, grammarStructure);
+            }
+        }
+
+        function generateSampleVocabulary(topic, count) {
+            const sampleVocabulary = [
+                { word: "communication", meaning: "giao tiếp", example: "Effective communication is key in business." },
+                { word: "vocabulary", meaning: "từ vựng", example: "Learning new vocabulary every day improves your English." },
+                { word: "grammar", meaning: "ngữ pháp", example: "Understanding grammar rules helps you speak correctly." },
+                { word: "pronunciation", meaning: "phát âm", example: "Good pronunciation makes you easier to understand." },
+                { word: "fluency", meaning: "sự lưu loát", example: "Practice speaking to improve your fluency." }
+            ];
+            
+            return sampleVocabulary.slice(0, Math.min(count, sampleVocabulary.length));
+        }
+
+        function createDefaultEnglishExam(topic, vocabularyCount, grammarStructure) {
+            return {
+                title: `ĐỀ THI TIẾNG ANH - CHỦ ĐỀ: ${topic.toUpperCase()}`,
+                description: "Đề thi được tạo tự động bằng AI, tập trung vào từ vựng và ngữ pháp theo chủ đề.",
+                vocabulary: generateSampleVocabulary(topic, vocabularyCount),
+                blocks: [
+                    {
+                        type: "text",
+                        title: "Phần I: TỪ VỰNG",
+                        content: "Chọn từ thích hợp để hoàn thành các câu sau.",
+                        points: 0
+                    },
+                    {
+                        type: "question",
+                        title: "Câu 1",
+                        content: "Choose the correct word to complete the sentence: 'I need to improve my English ______ to speak more fluently.'",
+                        points: 1.0,
+                        options: ["A. vocabulary", "B. grammar", "C. pronunciation", "D. communication"]
+                    },
+                    {
+                        type: "text",
+                        title: "Phần II: NGỮ PHÁP",
+                        content: `Chia động từ theo đúng thì (${grammarStructure})`,
+                        points: 0
+                    },
+                    {
+                        type: "question",
+                        title: "Câu 2",
+                        content: "She usually ______ (go) to school by bus.",
+                        points: 1.0,
+                        options: ["A. go", "B. goes", "C. going", "D. went"]
+                    }
+                ],
+                totalPoints: 2
+            };
+        }
+
+        // GENERATE ENGLISH LESSON WITH AI
+        async function generateEnglishLessonWithAI(topic, vocabularyCount, vocabularyDifficulty, grammarStructure, duration) {
+            const prompt = `
+                Tạo một bài giảng Tiếng Anh hoàn chỉnh dựa trên thông tin sau:
+                
+                CHỦ ĐỀ BÀI HỌC: ${topic}
+                SỐ LƯỢNG TỪ VỰNG: ${vocabularyCount} từ
+                ĐỘ KHÓ TỪ VỰNG: ${vocabularyDifficulty}
+                CẤU TRÚC NGỮ PHÁP TRỌNG TÂM: ${grammarStructure}
+                THỜI LƯỢNG BÀI GIẢNG: ${duration} phút
+                
+                THÔNG TIN BÀI GIẢNG:
+                - Phương pháp giảng dạy: ${lessonSettings.method}
+                - Cấp độ học sinh: ${lessonSettings.level}
+                - Bài tập từ vựng: ${lessonSettings.hasVocabularyExercise ? 'CÓ' : 'KHÔNG'}
+                - Bài tập ngữ pháp: ${lessonSettings.hasGrammarExercise ? 'CÓ' : 'KHÔNG'}
+                - Hoạt động nhóm: ${lessonSettings.hasGroupActivity ? 'CÓ' : 'KHÔNG'}
+                - Bài tập về nhà: ${lessonSettings.hasHomework ? 'CÓ' : 'KHÔNG'}
+                
+                YÊU CẦU:
+                1. Tạo bài giảng hoàn chỉnh với cấu trúc rõ ràng
+                2. Định dạng trả về JSON như sau:
+                {
+                    "title": "Tiêu đề bài giảng",
+                    "objectives": ["Mục tiêu 1", "Mục tiêu 2"],
+                    "vocabulary": [
+                        {
+                            "word": "từ vựng",
+                            "meaning": "nghĩa",
+                            "example": "ví dụ",
+                            "phonetic": "phiên âm"
+                        }
+                    ],
+                    "grammarFocus": "Mô tả cấu trúc ngữ pháp",
+                    "lessonPlan": "Nội dung bài giảng chi tiết với các phần: Warm-up, Presentation, Practice, Production, Homework",
+                    "exercises": {
+                        "vocabulary": ["Bài tập từ vựng 1", "Bài tập từ vựng 2"],
+                        "grammar": ["Bài tập ngữ pháp 1", "Bài tập ngữ pháp 2"]
+                    },
+                    "groupActivities": ["Hoạt động nhóm 1", "Hoạt động nhóm 2"],
+                    "homework": "Bài tập về nhà"
+                }
+                
+                3. Bài giảng phải có đầy đủ:
+                   - Mục tiêu học tập
+                   - Từ vựng mới với phiên âm
+                   - Giải thích ngữ pháp chi tiết
+                   - Hoạt động học tập đa dạng
+                   - Bài tập thực hành
+                   - Tóm tắt và bài tập về nhà
+                
+                4. Sử dụng phương pháp giảng dạy phù hợp
+                5. Thời gian cho từng phần phải phù hợp với tổng thời lượng
+                6. Đảm bảo tính tương tác và thực hành
+            `;
+
+            try {
+                const response = await fetchGemini(prompt);
+                
+                const jsonMatch = response.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    return JSON.parse(jsonMatch[0]);
+                } else {
+                    return createDefaultEnglishLesson(topic, vocabularyCount, grammarStructure, duration);
+                }
+            } catch (error) {
+                console.error('Lỗi khi tạo bài giảng:', error);
+                return createDefaultEnglishLesson(topic, vocabularyCount, grammarStructure, duration);
+            }
+        }
+
+        function createDefaultEnglishLesson(topic, vocabularyCount, grammarStructure, duration) {
+            return {
+                title: `Bài Giảng Tiếng Anh: ${topic}`,
+                objectives: [
+                    "Học từ vựng mới về chủ đề",
+                    "Hiểu và sử dụng cấu trúc ngữ pháp",
+                    "Thực hành giao tiếp về chủ đề"
+                ],
+                vocabulary: [
+                    { word: "introduce", meaning: "giới thiệu", example: "Let me introduce myself.", phonetic: "/ˌɪn.trəˈdjuːs/" },
+                    { word: "greeting", meaning: "lời chào", example: "Common greetings include 'Hello' and 'Hi'.", phonetic: "/ˈɡriː.tɪŋ/" }
+                ].slice(0, Math.min(vocabularyCount, 10)),
+                grammarFocus: `Cấu trúc ${grammarStructure}: Sử dụng trong các tình huống giao tiếp hàng ngày.`,
+                lessonPlan: `
+                    1. Warm-up (10 phút): Hoạt động khởi động liên quan đến chủ đề
+                    2. Presentation (20 phút): Giới thiệu từ vựng và ngữ pháp mới
+                    3. Practice (30 phút): Bài tập thực hành từ vựng và ngữ pháp
+                    4. Production (20 phút): Hoạt động nhóm và thuyết trình
+                    5. Homework (10 phút): Giao bài tập về nhà và tóm tắt bài học
+                `,
+                exercises: {
+                    vocabulary: ["Điền từ vào chỗ trống", "Nối từ với nghĩa"],
+                    grammar: ["Chia động từ", "Viết lại câu"]
+                },
+                groupActivities: ["Thảo luận nhóm về chủ đề", "Đóng vai tình huống"],
+                homework: "Viết một đoạn văn ngắn về chủ đề sử dụng từ vựng và ngữ pháp đã học"
+            };
+        }
+
+        // DISPLAY EXAM RESULT
+        function showExamResult(examData) {
+            currentExamBlocks = examData.blocks || [];
+            
+            let examHTML = `
+                <div class="exam-header">
+                    <h3><i class="material-symbols-outlined">quiz</i> ${examData.title || 'ĐỀ THI TIẾNG ANH'}</h3>
+                    <div class="exam-meta">
+                        <span class="meta-item"><i class="material-symbols-outlined">schedule</i> ${formatDuration(examSettings.time)}</span>
+                        <span class="meta-item"><i class="material-symbols-outlined">school</i> ${examSettings.level}</span>
+                    </div>
+                </div>
+                
+                <div class="exam-info">
+                    <p>${examData.description || 'Đề thi được tạo tự động bằng AI'}</p>
+                </div>
+                
+                <div class="vocabulary-section">
+                    <h4><i class="material-symbols-outlined">translate</i> Từ Vựng Trọng Tâm</h4>
+                    <div class="vocabulary-list">
+            `;
+            
+            examData.vocabulary.forEach((word, index) => {
+                examHTML += `
+                    <div class="vocabulary-item">
+                        <div>
+                            <strong>${word.word}</strong> [${word.phonetic || ''}]
+                            <br><em>${word.meaning}</em>
+                            <br><small>${word.example}</small>
+                        </div>
+                        <button onclick="addVocabularyToCollection('${word.word}', '${word.meaning}', '${word.example}')">
+                            <i class="material-symbols-outlined">add</i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            examHTML += `</div></div><div class="preview-exam">`;
+            
+            let questionCounter = 1;
+            let totalPoints = 0;
+            
+            currentExamBlocks.forEach((block, index) => {
+                if (block.type === 'text') {
+                    examHTML += `
+                        <div class="exam-section">
+                            <h3 class="section-title">${block.title || 'Phần văn bản'}</h3>
+                            <div class="text-content markdown-content">${markdownToHtml(block.content)}</div>
+                        </div>
+                    `;
+                } else if (block.type === 'question') {
+                    totalPoints += block.points || 0;
+                    examHTML += `
+                        <div class="question-item">
+                            <div class="question-header">
+                                <div class="question-text markdown-content"><strong>Câu ${questionCounter}:</strong> ${markdownToHtml(block.content)}</div>
+                                <div class="question-points">${block.points || 1.0} điểm</div>
+                            </div>
+                            ${block.options ? `
+                            <div class="question-options">
+                                ${block.options.map(option => `<div class="option">${markdownToHtml(option)}</div>`).join('')}
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    questionCounter++;
+                }
+            });
+            
+            examHTML += `
+                <div class="exam-info" style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid var(--border-color);">
+                    <p><strong>Tổng điểm: ${totalPoints.toFixed(1)} điểm</strong></p>
+                    <p><em>--- Hết đề thi ---</em></p>
+                </div>
+            `;
+            
+            examHTML += `</div>`;
+            
+            document.getElementById('examResultContent').innerHTML = examHTML;
+            document.getElementById('examResultTabs').style.display = 'block';
+        }
+
+        // DISPLAY LESSON RESULT
+        function showLessonResult(lessonData) {
+            let lessonHTML = `
+                <div class="lesson-header">
+                    <h2><i class="material-symbols-outlined">menu_book</i> ${lessonData.title}</h2>
+                    <div class="lesson-meta">
+                        <span class="meta-item"><i class="material-symbols-outlined">schedule</i> ${formatDuration(lessonSettings.duration)}</span>
+                        <span class="meta-item"><i class="material-symbols-outlined">groups</i> ${lessonSettings.method}</span>
+                        <span class="meta-item"><i class="material-symbols-outlined">school</i> ${lessonSettings.level}</span>
+                    </div>
+                </div>
+                
+                <div class="lesson-content">
+                    <div class="highlight-box">
+                        <h4><i class="material-symbols-outlined">target</i> Mục Tiêu Bài Học</h4>
+                        <ul>
+                            ${lessonData.objectives.map(obj => `<li>${obj}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="vocabulary-section">
+                        <h3><i class="material-symbols-outlined">translate</i> Từ Vựng Mới</h3>
+                        <div class="vocabulary-list">
+            `;
+            
+            lessonData.vocabulary.forEach((word, index) => {
+                lessonHTML += `
+                    <div class="vocabulary-item">
+                        <div>
+                            <strong>${word.word}</strong> [${word.phonetic || ''}]
+                            <br><em>${word.meaning}</em>
+                            <br><small>${word.example}</small>
+                        </div>
+                        <button onclick="addVocabularyToCollection('${word.word}', '${word.meaning}', '${word.example}')">
+                            <i class="material-symbols-outlined">add</i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            lessonHTML += `</div></div>
+                
+                <div class="grammar-section">
+                    <h3><i class="material-symbols-outlined">psychology</i> Trọng Tâm Ngữ Pháp</h3>
+                    <div class="highlight-box">
+                        ${markdownToHtml(lessonData.grammarFocus)}
+                    </div>
+                </div>
+                
+                <div class="lesson-plan">
+                    <h3><i class="material-symbols-outlined">list</i> Kế Hoạch Bài Giảng</h3>
+                    ${parseAndFormatContent(lessonData.lessonPlan)}
+                </div>`;
+            
+            if (lessonData.exercises && lessonData.exercises.vocabulary) {
+                lessonHTML += `
+                    <div class="exercises-section">
+                        <h3><i class="material-symbols-outlined">assignment</i> Bài Tập</h3>
+                        <h4>Từ Vựng:</h4>
+                        <ul>
+                            ${lessonData.exercises.vocabulary.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                        
+                        <h4>Ngữ Pháp:</h4>
+                        <ul>
+                            ${lessonData.exercises.grammar.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            if (lessonData.groupActivities) {
+                lessonHTML += `
+                    <div class="activities-section">
+                        <h3><i class="material-symbols-outlined">diversity</i> Hoạt Động Nhóm</h3>
+                        <ul>
+                            ${lessonData.groupActivities.map(activity => `<li>${activity}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            if (lessonData.homework) {
+                lessonHTML += `
+                    <div class="homework-section">
+                        <div class="highlight-box">
+                            <h4><i class="material-symbols-outlined">assignment</i> Bài Tập Về Nhà</h4>
+                            <p>${lessonData.homework}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            lessonHTML += `</div>`;
+            
+            document.getElementById('lessonResultContent').innerHTML = lessonHTML;
+            document.getElementById('lessonResultTabs').style.display = 'block';
+        }
+
+        // Add vocabulary to user's collection
+        window.addVocabularyToCollection = function(word, meaning, example) {
+            const user = auth.currentUser;
+            if (!user) {
+                showAlert('Vui lòng đăng nhập để thêm từ!');
+                return;
+            }
+            
+            db.collection('users').doc(user.uid).collection('cards')
+                .where('word', '==', word)
+                .get()
+                .then((existingCards) => {
+                    if (existingCards.empty) {
+                        return db.collection('users').doc(user.uid).collection('cards').add({
+                            word: word,
+                            meaning: meaning,
+                            example: example,
+                            category: document.getElementById('examTopic')?.value || document.getElementById('lessonTopic')?.value || 'Bài giảng',
+                            status: 'learning',
+                            isAssignment: false,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        throw new Error('Từ này đã tồn tại trong bộ thẻ của bạn!');
+                    }
+                })
+                .then(() => {
+                    showAlert(`Đã thêm từ "${word}" vào bộ thẻ của bạn!`);
+                })
+                .catch((error) => {
+                    if (error.message === 'Từ này đã tồn tại trong bộ thẻ của bạn!') {
+                        showAlert(error.message);
+                    } else {
+                        console.error('Error adding word:', error);
+                        showAlert('Có lỗi xảy ra khi thêm từ!');
+                    }
+                });
+        };
+
+        // GENERATE EXAM
+        async function generateExam() {
+            const topic = document.getElementById('examTopic').value.trim();
+            const vocabularyCount = parseInt(document.getElementById('vocabularyCount').value);
+            const vocabularyDifficulty = document.getElementById('vocabularyDifficulty').value;
+            const grammarStructure = document.getElementById('grammarStructure').value;
+            const grammarQuestions = parseInt(document.getElementById('grammarQuestions').value);
+            
+            if (!topic) {
+                showAlert('Vui lòng nhập chủ đề bài học!');
+                return;
+            }
+            
+            if (vocabularyCount < 5 || vocabularyCount > 50) {
+                showAlert('Số lượng từ vựng phải từ 5 đến 50!');
+                return;
+            }
+            
+            if (grammarQuestions < 5 || grammarQuestions > 20) {
+                showAlert('Số câu hỏi ngữ pháp phải từ 5 đến 20!');
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generateExamBtn');
+            const progressContainer = document.getElementById('examProgressContainer');
+            const resultTabs = document.getElementById('examResultTabs');
+            
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i class="material-symbols-outlined">auto_awesome</i> Đang tạo đề thi...';
+            progressContainer.style.display = 'block';
+            resultTabs.style.display = 'none';
+            
+            generationProgress = {
+                total: 0,
+                completed: 0,
+                items: []
+            };
+            
+            try {
+                addProgressItem('Tạo từ vựng theo chủ đề');
+                addProgressItem('Tạo câu hỏi ngữ pháp');
+                addProgressItem('Tạo bài đọc hiểu');
+                addProgressItem('Hoàn thiện đề thi');
+                
+                // Generate vocabulary first
+                const vocabularyPrompt = `
+                    Tạo ${vocabularyCount} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${vocabularyDifficulty}.
+                    Mỗi từ cần có: từ tiếng Anh, nghĩa tiếng Việt, ví dụ bằng tiếng Anh, phiên âm (nếu có).
+                    Trả về dạng JSON: [{"word": "", "meaning": "", "example": "", "phonetic": ""}]
+                `;
+                
+                const vocabularyResponse = await fetchGemini(vocabularyPrompt);
+                completeProgressItem(0);
+                
+                let vocabulary = [];
+                try {
+                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
+                    if (jsonMatch) {
+                        vocabulary = JSON.parse(jsonMatch[0]);
+                    }
+                } catch (e) {
+                    console.error('Error parsing vocabulary:', e);
+                }
+                
+                // Generate exam
+                const examData = await generateEnglishExamWithAI(
+                    topic, 
+                    vocabularyCount, 
+                    vocabularyDifficulty, 
+                    grammarStructure, 
+                    grammarQuestions
+                );
+                
+                // Use generated vocabulary if available
+                if (vocabulary.length > 0) {
+                    examData.vocabulary = vocabulary.slice(0, vocabularyCount);
+                }
+                
+                completeProgressItem(1);
+                completeProgressItem(2);
+                completeProgressItem(3);
+                
+                // Show result
+                showExamResult(examData);
+                showAlert('Đã tạo đề thi thành công!');
+                
+            } catch (error) {
+                console.error('Lỗi khi tạo đề thi:', error);
+                showAlert('Có lỗi xảy ra khi tạo đề thi. Vui lòng thử lại!');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="material-symbols-outlined">auto_awesome</i> Tạo Đề Thi Bằng AI';
+            }
+        }
+
+        // GENERATE LESSON
+        async function generateLesson() {
+            const topic = document.getElementById('lessonTopic').value.trim();
+            const vocabularyCount = parseInt(document.getElementById('lessonVocabularyCount').value);
+            const vocabularyDifficulty = document.getElementById('lessonVocabularyDifficulty').value;
+            const grammarStructure = document.getElementById('lessonGrammarStructure').value;
+            const duration = parseInt(document.getElementById('lessonDuration').value);
+            
+            if (!topic) {
+                showAlert('Vui lòng nhập chủ đề bài giảng!');
+                return;
+            }
+            
+            if (vocabularyCount < 10 || vocabularyCount > 30) {
+                showAlert('Số lượng từ vựng phải từ 10 đến 30!');
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generateLessonBtn');
+            const progressContainer = document.getElementById('lessonProgressContainer');
+            const resultTabs = document.getElementById('lessonResultTabs');
+            
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<i class="material-symbols-outlined">auto_awesome</i> Đang tạo bài giảng...';
+            progressContainer.style.display = 'block';
+            resultTabs.style.display = 'none';
+            
+            generationProgress = {
+                total: 0,
+                completed: 0,
+                items: []
+            };
+            
+            try {
+                addProgressItem('Tạo từ vựng bài học');
+                addProgressItem('Phát triển nội dung ngữ pháp');
+                addProgressItem('Thiết kế hoạt động học tập');
+                addProgressItem('Hoàn thiện bài giảng');
+                
+                // Generate vocabulary first
+                const vocabularyPrompt = `
+                    Tạo ${vocabularyCount} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${vocabularyDifficulty} cho bài giảng.
+                    Mỗi từ cần có: từ tiếng Anh, nghĩa tiếng Việt, ví dụ bằng tiếng Anh, phiên âm.
+                    Trả về dạng JSON: [{"word": "", "meaning": "", "example": "", "phonetic": ""}]
+                `;
+                
+                const vocabularyResponse = await fetchGemini(vocabularyPrompt);
+                completeProgressItem(0);
+                
+                let vocabulary = [];
+                try {
+                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
+                    if (jsonMatch) {
+                        vocabulary = JSON.parse(jsonMatch[0]);
+                    }
+                } catch (e) {
+                    console.error('Error parsing vocabulary:', e);
+                }
+                
+                // Generate lesson
+                const lessonData = await generateEnglishLessonWithAI(
+                    topic, 
+                    vocabularyCount, 
+                    vocabularyDifficulty, 
+                    grammarStructure, 
+                    duration
+                );
+                
+                // Use generated vocabulary if available
+                if (vocabulary.length > 0) {
+                    lessonData.vocabulary = vocabulary.slice(0, vocabularyCount);
+                }
+                
+                completeProgressItem(1);
+                completeProgressItem(2);
+                completeProgressItem(3);
+                
+                // Show result
+                showLessonResult(lessonData);
+                showAlert('Đã tạo bài giảng thành công!');
+                
+            } catch (error) {
+                console.error('Lỗi khi tạo bài giảng:', error);
+                showAlert('Có lỗi xảy ra khi tạo bài giảng. Vui lòng thử lại!');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<i class="material-symbols-outlined">auto_awesome</i> Tạo Bài Giảng Bằng AI';
+            }
+        }
+
+        // GENERATE EXAM CODE - ĐÃ ĐỔI TÊN ĐỂ TRÁNH TRÙNG LẶP
+        function generateExamCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentExamCode = result;
+            return result;
+        }
+
+        // GENERATE CLASS CODE - HÀM CHO LỚP HỌC (PHẢI CÓ TÊN KHÁC)
+        function generateClassroomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        // SHOW EXAM CODE MODAL
+        function showExamCodeModal() {
+            const code = generateExamCode();
+            document.getElementById('examCodeDisplay').textContent = code;
+            document.getElementById('examTimerText').textContent = `Thời gian làm bài: ${formatDuration(examSettings.time)}`;
+            document.getElementById('examCodeModal').classList.add('active');
+        }
+
+        // EVENT LISTENERS FOR TEACHING TOOL
+        document.getElementById('generateExamBtn').addEventListener('click', generateExam);
+        document.getElementById('generateLessonBtn').addEventListener('click', generateLesson);
+        
+        // Card flip functionality
+        document.getElementById('create-exam-card').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            setTimeout(() => {
+                document.getElementById('classroom-menu').classList.remove('active');
+                document.getElementById('create-exam-popup').classList.add('active');
+            }, 300);
+        });
+        
+        document.getElementById('create-lesson-card').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            setTimeout(() => {
+                document.getElementById('classroom-menu').classList.remove('active');
+                document.getElementById('create-lesson-popup').classList.add('active');
+            }, 300);
+        });
+        
+        // Settings buttons
+        document.getElementById('examSettingsBtn').addEventListener('click', function() {
+            const panel = document.getElementById('examSettingsPanel');
+            panel.classList.toggle('active');
+            this.querySelector('i').textContent = panel.classList.contains('active') ? 'close' : 'settings';
+        });
+        
+        document.getElementById('lessonSettingsBtn').addEventListener('click', function() {
+            const panel = document.getElementById('lessonSettingsPanel');
+            panel.classList.toggle('active');
+            this.querySelector('i').textContent = panel.classList.contains('active') ? 'close' : 'settings';
+        });
+        
+        // Generate code button
+        document.getElementById('generateCodeBtn').addEventListener('click', showExamCodeModal);
+        
+        // Copy exam code
+        document.getElementById('copyExamCodeBtn').addEventListener('click', function() {
+            const code = document.getElementById('examCodeDisplay').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showAlert('Đã sao chép mã đề thi vào clipboard!');
+            });
+        });
+        
+        // Close exam code modal
+        document.getElementById('closeExamCodeBtn').addEventListener('click', function() {
+            document.getElementById('examCodeModal').classList.remove('active');
+        });
+        
+        // Close teaching tool popups
+        document.getElementById('close-create-exam-popup').addEventListener('click', function() {
+            document.getElementById('create-exam-popup').classList.remove('active');
+            document.getElementById('classroom-menu').classList.add('active');
+        });
+        
+        document.getElementById('close-create-lesson-popup').addEventListener('click', function() {
+            document.getElementById('create-lesson-popup').classList.remove('active');
+            document.getElementById('classroom-menu').classList.add('active');
+        });
+        
+        // Word count updates
+        document.getElementById('examTopic').addEventListener('input', function() {
+            const count = countWords(this.value);
+            document.getElementById('examWordCount').textContent = `${count} từ`;
+        });
+        
+        document.getElementById('lessonTopic').addEventListener('input', function() {
+            const count = countWords(this.value);
+            document.getElementById('lessonWordCount').textContent = `${count} từ`;
+        });
+        
+        // Duration slider for exam
+        const examTimeSlider = document.getElementById('examTimeSlider');
+        const examTimeValue = document.getElementById('examTimeValue');
+        
+        if (examTimeSlider && examTimeValue) {
+            examTimeValue.textContent = formatDuration(examTimeSlider.value);
+            examTimeSlider.addEventListener('input', function() {
+                examTimeValue.textContent = formatDuration(this.value);
+                examSettings.time = parseInt(this.value);
+            });
+            
+            // Duration buttons
+            document.querySelectorAll('#examSettingsPanel .duration-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    examTimeSlider.value = value;
+                    examTimeValue.textContent = formatDuration(value);
+                    examSettings.time = value;
+                    
+                    document.querySelectorAll('#examSettingsPanel .duration-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+        
+        // Exam settings updates
+        document.getElementById('examLevel').addEventListener('change', function() {
+            examSettings.level = this.value;
+        });
+        
+        document.getElementById('vocabularySectionToggle').addEventListener('change', function() {
+            examSettings.hasVocabulary = this.checked;
+        });
+        
+        document.getElementById('grammarSectionToggle').addEventListener('change', function() {
+            examSettings.hasGrammar = this.checked;
+        });
+        
+        document.getElementById('readingSectionToggle').addEventListener('change', function() {
+            examSettings.hasReading = this.checked;
+        });
+        
+        document.getElementById('writingSectionToggle').addEventListener('change', function() {
+            examSettings.hasWriting = this.checked;
+        });
+        
+        // Lesson settings updates
+        document.getElementById('teachingMethod').addEventListener('change', function() {
+            lessonSettings.method = this.value;
+        });
+        
+        document.getElementById('studentLevel').addEventListener('change', function() {
+            lessonSettings.level = this.value;
+        });
+        
+        document.getElementById('vocabularyExerciseToggle').addEventListener('change', function() {
+            lessonSettings.hasVocabularyExercise = this.checked;
+        });
+        
+        document.getElementById('grammarExerciseToggle').addEventListener('change', function() {
+            lessonSettings.hasGrammarExercise = this.checked;
+        });
+        
+        document.getElementById('groupActivityToggle').addEventListener('change', function() {
+            lessonSettings.hasGroupActivity = this.checked;
+        });
+        
+        document.getElementById('homeworkToggle').addEventListener('change', function() {
+            lessonSettings.hasHomework = this.checked;
+        });
+
+        // Show alert message
+        function showAlert(message) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Load user's cards
+        function loadUserCards() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            db.collection('users').doc(user.uid).collection('cards').orderBy('createdAt', 'desc')
+                .onSnapshot((snapshot) => {
+                    userCards = [];
+                    snapshot.forEach((doc) => {
+                        userCards.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    updateStats();
+                    displayCardList();
+                });
+        }
+
+        // Update stats
+        function updateStats() {
+            const totalCards = userCards.length;
+            const learningCards = userCards.filter(card => card.status === 'learning' || !card.status).length;
+            const knownCards = userCards.filter(card => card.status === 'known').length;
+            const masteredCards = userCards.filter(card => card.status === 'mastered').length;
+            
+            document.querySelectorAll('.stat-card#green .number')[0].textContent = learningCards;
+            document.querySelectorAll('.stat-card#blue .number')[0].textContent = knownCards;
+            document.querySelectorAll('.stat-card#yellow .number')[0].textContent = masteredCards;
+        }
+
+        // Display card list
+        function displayCardList() {
+            const cardList = document.getElementById('card-list');
+            const masteredList = document.getElementById('mastered-list');
+            
+            cardList.innerHTML = '';
+            masteredList.innerHTML = '';
+            
+            userCards.forEach(card => {
+                const cardItem = document.createElement('div');
+                cardItem.className = 'card-item';
+                cardItem.innerHTML = `
+                    <div>
+                        <strong>${card.word}</strong> - ${card.meaning}
+                        ${card.example ? `<br><small>${card.example}</small>` : ''}
+                        ${card.isAssignment ? '<br><span class="assignment-badge">Bài tập giáo viên</span>' : ''}
+                        ${!card.isAssignment ? '<br><span class="personal-badge">Cá nhân</span>' : ''}
+                    </div>
+                    <button onclick="deleteCard('${card.id}')">Xóa</button>
+                `;
+                
+                if (card.status === 'mastered') {
+                    masteredList.appendChild(cardItem);
+                } else {
+                    cardList.appendChild(cardItem);
+                }
+            });
+        }
+
+        // Delete card
+        window.deleteCard = function(cardId) {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            if (confirm('Bạn có chắc muốn xóa từ này?')) {
+                db.collection('users').doc(user.uid).collection('cards').doc(cardId).delete()
+                    .then(() => {
+                        showAlert('Đã xóa từ này khỏi bộ thẻ.');
+                    })
+                    .catch((error) => {
+                        console.error('Error deleting card: ', error);
+                    });
+            }
+        };
+
+        // Load library categories
+        function loadLibraryCategories() {
+            const libraryContent = document.getElementById('library-content');
+            
+            // Default categories
+            const categories = [
+                {
+                    id: 'animals',
+                    name: 'Động vật',
+                    description: 'Từ vựng về các loài động vật',
+                    icon: 'pets',
+                    wordCount: 20
+                },
+                {
+                    id: 'food',
+                    name: 'Thức ăn',
+                    description: 'Từ vựng về đồ ăn và thức uống',
+                    icon: 'restaurant',
+                    wordCount: 25
+                },
+                {
+                    id: 'travel',
+                    name: 'Du lịch',
+                    description: 'Từ vựng cho các chuyến du lịch',
+                    icon: 'flight',
+                    wordCount: 30
+                },
+                {
+                    id: 'business',
+                    name: 'Kinh doanh',
+                    description: 'Từ vựng thương mại và kinh doanh',
+                    icon: 'business_center',
+                    wordCount: 35
+                },
+                {
+                    id: 'technology',
+                    name: 'Công nghệ',
+                    description: 'Từ vựng về công nghệ và máy tính',
+                    icon: 'computer',
+                    wordCount: 25
+                },
+                {
+                    id: 'sports',
+                    name: 'Thể thao',
+                    description: 'Từ vựng về các môn thể thao',
+                    icon: 'sports_soccer',
+                    wordCount: 20
+                }
+            ];
+            
+            libraryContent.innerHTML = categories.map(category => `
+                <div class="category-card" data-id="${category.id}">
+                    <div class="category-icon" style="background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/${category.icon}/v1/24px.svg')"></div>
+                    <h3>${category.name}</h3>
+                    <p>${category.description}</p>
+                    <p><small>${category.wordCount} từ</small></p>
+                    <button class="add-category-btn">Thêm vào bộ thẻ</button>
+                </div>
+            `).join('');
+            
+            // Add event listeners for adding categories
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.querySelector('.add-category-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const categoryId = card.getAttribute('data-id');
+                    addCategoryToCollection(categoryId);
+                });
+            });
+        }
+
+        // Add category to collection
+        function addCategoryToCollection(categoryId) {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            // Sample words for each category (in real app, these would come from database)
+            const categoryWords = {
+                animals: [
+                    { word: 'dog', meaning: 'con chó', example: 'The dog is playing in the garden.' },
+                    { word: 'cat', meaning: 'con mèo', example: 'The cat is sleeping on the sofa.' },
+                    { word: 'bird', meaning: 'con chim', example: 'The bird is singing in the tree.' },
+                    { word: 'fish', meaning: 'con cá', example: 'The fish is swimming in the pond.' },
+                    { word: 'elephant', meaning: 'con voi', example: 'The elephant has a long trunk.' }
+                ],
+                food: [
+                    { word: 'apple', meaning: 'quả táo', example: 'I eat an apple every day.' },
+                    { word: 'bread', meaning: 'bánh mì', example: 'I bought fresh bread from the bakery.' },
+                    { word: 'coffee', meaning: 'cà phê', example: 'I drink coffee in the morning.' },
+                    { word: 'pizza', meaning: 'bánh pizza', example: 'We ordered pizza for dinner.' },
+                    { word: 'water', meaning: 'nước', example: 'Drink plenty of water every day.' }
+                ]
+            };
+            
+            const words = categoryWords[categoryId] || [];
+            
+            let addedCount = 0;
+            words.forEach(word => {
+                db.collection('users').doc(user.uid).collection('cards')
+                    .where('word', '==', word.word)
+                    .get()
+                    .then((existingCards) => {
+                        if (existingCards.empty) {
+                            return db.collection('users').doc(user.uid).collection('cards').add({
+                                word: word.word,
+                                meaning: word.meaning,
+                                example: word.example,
+                                category: categoryId,
+                                status: 'learning',
+                                isAssignment: false,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        }
+                        return Promise.resolve();
+                    })
+                    .then(() => {
+                        addedCount++;
+                        if (addedCount === words.length) {
+                            showAlert(`Đã thêm ${addedCount} từ từ danh mục vào bộ thẻ!`);
+                            document.getElementById('library-menu').classList.remove('active');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error adding category words:', error);
+                    });
+            });
+        }
 
         // Load user's class
         function loadUserClass() {
@@ -2084,20 +4984,13 @@
                 
                 // Disable assignment buttons for students
                 if (!isTeacher) {
-                    document.getElementById('student-start-assignment-btn').disabled = true;
-                    document.getElementById('student-start-assignment-btn').textContent = "Lớp học đã kết thúc";
+                    const startBtn = document.getElementById('student-start-assignment-btn');
+                    if (startBtn) {
+                        startBtn.disabled = true;
+                        startBtn.textContent = "Lớp học đã kết thúc";
+                    }
                 }
             });
-        }
-
-        // Generate random class code
-        function generateClassCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 6; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
         }
 
         // Create new class
@@ -2119,7 +5012,7 @@
                 return;
             }
             
-            const classCode = generateClassCode();
+            const classCode = generateClassroomCode();
             const now = new Date();
             const endTime = new Date(now.getTime() + duration * 60000);
             
@@ -2167,67 +5060,37 @@
             });
         });
 
-        // End class manually
-        document.getElementById('end-class-btn').addEventListener('click', endClass);
-        document.getElementById('teacher-end-class-btn').addEventListener('click', endClass);
-
-        function endClass() {
-            if (!currentClass) return;
-            
-            if (!confirm('Bạn có chắc muốn kết thúc lớp học này? Học sinh sẽ không thể học bài tập nữa.')) {
-                return;
-            }
-            
-            db.collection('classes').doc(currentClass).update({
-                isActive: false,
-                endedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                // Clear timer
-                if (classTimer) {
-                    clearInterval(classTimer);
-                    classTimer = null;
-                }
-                
-                // Reset user's class
-                const user = auth.currentUser;
-                if (user) {
-                    db.collection('users').doc(user.uid).update({
-                        classId: null
-                    });
-                }
-                
-                currentClass = null;
-                
-                // Reset UI
-                if (isTeacher) {
-                    document.getElementById('teacher-class-info').style.display = 'none';
-                    document.getElementById('teacher-actions').style.display = 'none';
-                    document.getElementById('create-class-form').style.display = 'block';
-                    document.getElementById('class-code-display-section').style.display = 'none';
-                } else {
-                    document.getElementById('student-no-class-section').style.display = 'block';
-                    document.getElementById('student-class-info').style.display = 'none';
-                    document.getElementById('student-assignments-section').style.display = 'none';
-                }
-                
-                showAlert('Đã kết thúc lớp học!');
-            }).catch((error) => {
-                console.error('Error ending class:', error);
-                alert('Có lỗi xảy ra khi kết thúc lớp học!');
-            });
-        }
-
-        // Copy class code to clipboard
+        // Copy class code
         document.getElementById('copy-class-code-btn').addEventListener('click', () => {
             const classCode = document.getElementById('generated-class-code').textContent;
             navigator.clipboard.writeText(classCode).then(() => {
-                showAlert('Đã sao chép mã lớp vào clipboard!');
-            }).catch(err => {
-                console.error('Error copying text: ', err);
+                showAlert('Đã sao chép mã lớp học vào clipboard!');
             });
         });
 
-        // Switch between teacher and student mode
+        // End class
+        document.getElementById('end-class-btn').addEventListener('click', () => {
+            if (!currentClass) return;
+            
+            if (confirm('Bạn có chắc muốn kết thúc lớp học này?')) {
+                db.collection('classes').doc(currentClass).update({
+                    isActive: false,
+                    endedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    showAlert('Đã kết thúc lớp học!');
+                    document.getElementById('class-code-display-section').style.display = 'none';
+                    document.getElementById('create-class-form').style.display = 'block';
+                    
+                    // Clear timer
+                    if (classTimer) {
+                        clearInterval(classTimer);
+                        classTimer = null;
+                    }
+                });
+            }
+        });
+
+        // Switch mode between teacher and student
         document.getElementById('teacher-mode-btn').addEventListener('click', () => {
             document.getElementById('teacher-mode-btn').classList.add('active');
             document.getElementById('student-mode-btn').classList.remove('active');
@@ -2238,8 +5101,8 @@
         document.getElementById('student-mode-btn').addEventListener('click', () => {
             document.getElementById('student-mode-btn').classList.add('active');
             document.getElementById('teacher-mode-btn').classList.remove('active');
-            document.getElementById('teacher-section').style.display = 'none';
             document.getElementById('student-section').style.display = 'block';
+            document.getElementById('teacher-section').style.display = 'none';
         });
 
         // Join class as student
@@ -2248,51 +5111,35 @@
             if (!user) return;
             
             const classCode = document.getElementById('student-join-class-code').value.trim().toUpperCase();
+            
             if (!classCode || classCode.length !== 6) {
-                alert('Vui lòng nhập mã lớp 6 ký tự!');
+                alert('Vui lòng nhập mã lớp hợp lệ (6 ký tự)!');
                 return;
             }
             
-            // Find class by code
-            db.collection('classes').where('code', '==', classCode).get()
+            db.collection('classes').where('code', '==', classCode).where('isActive', '==', true).get()
                 .then((snapshot) => {
                     if (snapshot.empty) {
-                        alert('Mã lớp không tồn tại!');
+                        alert('Không tìm thấy lớp học hoặc lớp đã kết thúc!');
                         return;
                     }
                     
                     const classDoc = snapshot.docs[0];
                     const classData = classDoc.data();
                     
-                    // Check if class is active
-                    if (classData.isActive === false) {
-                        alert('Lớp học này đã kết thúc!');
-                        return;
-                    }
-                    
-                    // Check if already joined
+                    // Check if student is already in this class
                     if (currentClass === classDoc.id) {
                         alert('Bạn đã tham gia lớp học này rồi!');
                         return;
                     }
                     
-                    // Join class
-                    db.collection('users').doc(user.uid).update({
+                    // Update user's class and role
+                    return db.collection('users').doc(user.uid).update({
                         classId: classDoc.id,
                         role: 'student'
-                    })
-                    .then(() => {
+                    }).then(() => {
                         currentClass = classDoc.id;
                         isTeacher = false;
-                        
-                        // Load assignments for student
-                        loadAssignmentsForStudent();
-                        
-                        // Start timer if class has end time
-                        if (classData.endTime) {
-                            startClassTimer(classData.endTime.toDate());
-                        }
-                        
                         updateClassUI(classData);
                         showAlert('Đã tham gia lớp học thành công!');
                     });
@@ -2303,920 +5150,132 @@
                 });
         });
 
-        // Student leave class
+        // Leave class
         document.getElementById('student-leave-class-btn').addEventListener('click', () => {
-            if (!currentClass) return;
-            
-            if (!confirm('Bạn có chắc muốn rời khỏi lớp học này?')) {
-                return;
-            }
-            
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            db.collection('users').doc(user.uid).update({
-                classId: null
-            }).then(() => {
-                currentClass = null;
-                
-                // Reset UI
-                document.getElementById('student-no-class-section').style.display = 'block';
-                document.getElementById('student-class-info').style.display = 'none';
-                document.getElementById('student-assignments-section').style.display = 'none';
-                
-                showAlert('Đã rời khỏi lớp học!');
-            }).catch((error) => {
-                console.error('Error leaving class:', error);
-                alert('Có lỗi xảy ra khi rời khỏi lớp học!');
-            });
-        });
-
-        // Load assignments for student
-        function loadAssignmentsForStudent() {
-            if (!currentClass) return;
-            
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            db.collection('classes').doc(currentClass).collection('assignments').get()
-                .then((snapshot) => {
-                    snapshot.forEach((doc) => {
-                        const assignment = doc.data();
-                        
-                        // Check if student already has this word
-                        db.collection('users').doc(user.uid).collection('cards')
-                            .where('word', '==', assignment.word)
-                            .where('isAssignment', '==', true)
-                            .get()
-                            .then((existingCards) => {
-                                if (existingCards.empty) {
-                                    // Add assignment to student's cards
-                                    db.collection('users').doc(user.uid).collection('cards').add({
-                                        word: assignment.word,
-                                        meaning: assignment.meaning,
-                                        example: assignment.example,
-                                        category: assignment.category || 'Bài tập giáo viên',
-                                        status: 'learning',
-                                        isAssignment: true,
-                                        assignmentId: doc.id,
-                                        classId: currentClass,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                                    });
-                                }
-                            });
-                    });
-                });
-        }
-
-        // Load student assignments with badge differentiation
-        function loadStudentAssignments() {
             const user = auth.currentUser;
             if (!user || !currentClass) return;
-
-            db.collection('users').doc(user.uid).collection('cards')
-                .where('isAssignment', '==', true)
-                .get().then((snapshot) => {
-                const assignmentsList = document.getElementById('student-assignments-list');
-                assignmentsList.innerHTML = '';
-                
-                let assignedWords = 0;
-                let learnedWords = 0;
-                let masteredWords = 0;
-                
-                if (snapshot.empty) {
-                    assignmentsList.innerHTML = '<p style="text-align: center; color: #666;">Chưa có từ vựng nào.</p>';
-                    
-                    // Update counts
-                    document.getElementById('student-assigned-words').textContent = assignedWords;
-                    document.getElementById('student-assignment-count').textContent = assignedWords;
-                    document.getElementById('student-learned-words').textContent = learnedWords;
-                    document.getElementById('student-mastered-words').textContent = masteredWords;
-                    return;
-                }
-                
-                snapshot.forEach((doc) => {
-                    const card = doc.data();
-                    card.id = doc.id;
-                    
-                    assignedWords++;
-                    
-                    if (card.status === 'known') learnedWords++;
-                    if (card.status === 'mastered') masteredWords++;
-                    
-                    let status = 'Chưa học';
-                    let statusClass = 'learning';
-                    
-                    if (card.status === 'known') {
-                        status = 'Đã học';
-                        statusClass = 'known';
-                    } else if (card.status === 'mastered') {
-                        status = 'Đã thuộc';
-                        statusClass = 'mastered';
-                    }
-                    
-                    const assignmentItem = document.createElement('div');
-                    assignmentItem.className = 'student-word-item';
-                    assignmentItem.innerHTML = `
-                        <div>
-                            <strong>${card.word}</strong>: ${card.meaning}
-                            <span class="assignment-badge">Bài tập GV</span>
-                            ${card.example ? `<br><small>Ví dụ: ${card.example}</small>` : ''}
-                        </div>
-                        <span class="word-status ${statusClass}">${status}</span>
-                    `;
-                    assignmentsList.appendChild(assignmentItem);
+            
+            if (confirm('Bạn có chắc muốn rời khỏi lớp học này?')) {
+                db.collection('users').doc(user.uid).update({
+                    classId: null,
+                    role: null
+                }).then(() => {
+                    currentClass = null;
+                    document.getElementById('student-no-class-section').style.display = 'block';
+                    document.getElementById('student-class-info').style.display = 'none';
+                    document.getElementById('student-assignments-section').style.display = 'none';
+                    showAlert('Đã rời khỏi lớp học!');
                 });
-                
-                // Update counts
-                document.getElementById('student-assigned-words').textContent = assignedWords;
-                document.getElementById('student-assignment-count').textContent = assignedWords;
-                document.getElementById('student-learned-words').textContent = learnedWords;
-                document.getElementById('student-mastered-words').textContent = masteredWords;
-            });
-        }
-
-        // View student progress (for teacher) - SỬA: Tiến độ 100% khi tất cả từ đã thuộc
-        document.getElementById('teacher-view-progress-btn').addEventListener('click', () => {
-            if (!currentClass) return;
-            
-            const studentList = document.getElementById('teacher-student-list');
-            studentList.innerHTML = '';
-            
-            document.getElementById('teacher-student-progress-section').style.display = 'block';
-            
-            // Get all students in class
-            db.collection('users').where('classId', '==', currentClass).where('role', '==', 'student').get()
-                .then((snapshot) => {
-                    if (snapshot.empty) {
-                        studentList.innerHTML = '<p style="text-align: center; color: #666;">Chưa có học sinh nào trong lớp.</p>';
-                        return;
-                    }
-                    
-                    let studentCount = 0;
-                    snapshot.forEach((doc) => {
-                        const student = doc.data();
-                        
-                        // Get student's progress - SỬA: Chỉ tính từ đã thuộc (mastered)
-                        db.collection('users').doc(doc.id).collection('cards')
-                            .where('isAssignment', '==', true)
-                            .get()
-                            .then((cardsSnapshot) => {
-                                studentCount++;
-                                let totalCards = cardsSnapshot.size;
-                                let masteredCards = 0;
-                                
-                                cardsSnapshot.forEach((cardDoc) => {
-                                    const card = cardDoc.data();
-                                    if (card.status === 'mastered') masteredCards++;
-                                });
-                                
-                                // Chỉ tính từ đã thuộc (mastered) mới được 100%
-                                const progress = totalCards > 0 ? Math.round(masteredCards / totalCards * 100) : 0;
-                                
-                                const studentItem = document.createElement('div');
-                                studentItem.className = 'student-item';
-                                studentItem.innerHTML = `
-                                    <div>
-                                        <strong>${student.name || 'Học sinh ' + studentCount}</strong>
-                                        <div class="student-progress">
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: ${progress}%"></div>
-                                            </div>
-                                            <span>${progress}%</span>
-                                        </div>
-                                    </div>
-                                    <button class="btn" style="padding: 5px 10px; font-size: 12px;" onclick="viewStudentDetails('${doc.id}', '${student.name || 'Học sinh ' + studentCount}')">Xem chi tiết</button>
-                                `;
-                                studentList.appendChild(studentItem);
-                            });
-                    });
-                });
+            }
         });
 
-        // View student details
-        window.viewStudentDetails = function(studentId, studentName) {
-            document.getElementById('student-detail-name').textContent = studentName;
+        // Load student assignments
+        function loadStudentAssignments() {
+            if (!currentClass) return;
             
-            // Get student's assignment progress
-            db.collection('users').doc(studentId).collection('cards')
-                .where('isAssignment', '==', true)
-                .get()
-                .then((cardsSnapshot) => {
-                    const wordsContainer = document.getElementById('student-detail-words');
-                    wordsContainer.innerHTML = '';
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            // Load assignments from class
+            db.collection('classes').doc(currentClass).collection('assignments')
+                .onSnapshot((snapshot) => {
+                    const assignmentList = document.getElementById('student-assignments-list');
+                    assignmentList.innerHTML = '';
                     
                     let totalWords = 0;
                     let learnedWords = 0;
                     let masteredWords = 0;
                     
-                    if (cardsSnapshot.empty) {
-                        wordsContainer.innerHTML = '<p style="text-align: center; color: #666;">Học sinh chưa có từ vựng nào.</p>';
-                    } else {
-                        cardsSnapshot.forEach((cardDoc) => {
-                            const card = cardDoc.data();
-                            totalWords++;
-                            
-                            let status = 'Chưa học';
-                            let statusClass = 'learning';
-                            
-                            if (card.status === 'known') {
-                                status = 'Đã học';
-                                statusClass = 'known';
-                                learnedWords++;
-                            } else if (card.status === 'mastered') {
-                                status = 'Đã thuộc';
-                                statusClass = 'mastered';
-                                masteredWords++;
-                            }
-                            
-                            const wordItem = document.createElement('div');
-                            wordItem.className = 'student-word-item';
-                            wordItem.innerHTML = `
-                                <div>
-                                    <strong>${card.word}</strong>: ${card.meaning}
-                                    <span class="assignment-badge">Bài tập</span>
-                                </div>
-                                <span class="word-status ${statusClass}">${status}</span>
-                            `;
-                            wordsContainer.appendChild(wordItem);
-                        });
-                    }
+                    snapshot.forEach((doc) => {
+                        const assignment = doc.data();
+                        totalWords++;
+                        
+                        // Check if user has learned this word
+                        const userCard = userCards.find(card => 
+                            card.word === assignment.word && card.isAssignment
+                        );
+                        
+                        if (userCard) {
+                            if (userCard.status === 'known') learnedWords++;
+                            if (userCard.status === 'mastered') masteredWords++;
+                        }
+                        
+                        const wordItem = document.createElement('div');
+                        wordItem.className = 'student-word-item';
+                        wordItem.innerHTML = `
+                            <div>
+                                <strong>${assignment.word}</strong> - ${assignment.meaning}
+                                ${assignment.example ? `<br><small>${assignment.example}</small>` : ''}
+                            </div>
+                            <div>
+                                ${userCard ? 
+                                    `<span class="word-status ${userCard.status}">${getStatusText(userCard.status)}</span>` : 
+                                    '<span class="word-status learning">Chưa học</span>'
+                                }
+                            </div>
+                        `;
+                        assignmentList.appendChild(wordItem);
+                    });
                     
-                    // Update stats
-                    document.getElementById('detail-total-words').textContent = totalWords;
-                    document.getElementById('detail-learned-words').textContent = learnedWords;
-                    document.getElementById('detail-mastered-words').textContent = masteredWords;
-                    
-                    // Show popup
-                    document.getElementById('view-student-progress-menu').classList.add('active');
+                    document.getElementById('student-assigned-words').textContent = totalWords;
+                    document.getElementById('student-learned-words').textContent = learnedWords;
+                    document.getElementById('student-mastered-words').textContent = masteredWords;
+                    document.getElementById('student-assignment-count').textContent = totalWords;
                 });
-        };
+        }
 
-        // Close view student progress popup
-        document.getElementById('close-view-student-progress-menu').addEventListener('click', () => {
-            document.getElementById('view-student-progress-menu').classList.remove('active');
-        });
+        function getStatusText(status) {
+            switch(status) {
+                case 'learning': return 'Đang học';
+                case 'known': return 'Đã nhớ';
+                case 'mastered': return 'Đã thuộc';
+                default: return 'Chưa học';
+            }
+        }
 
-        // Manage assignments
-        document.getElementById('teacher-manage-assignments-btn').addEventListener('click', () => {
+        // Start assignment learning
+        document.getElementById('student-start-assignment-btn').addEventListener('click', () => {
             if (!currentClass) {
-                alert('Vui lòng tạo lớp học trước!');
+                alert('Bạn chưa tham gia lớp học nào!');
                 return;
             }
             
-            document.getElementById('classroom-menu').classList.remove('active');
-            document.getElementById('manage-assignments-menu').classList.add('active');
-            loadTeacherAssignments();
-        });
-
-        // Load teacher assignments
-        function loadTeacherAssignments() {
-            if (!currentClass) return;
-            
-            const wordsList = document.getElementById('teacher-words-list');
-            wordsList.innerHTML = '';
-            
-            let totalWords = 0;
-            
+            // Get assignment words
             db.collection('classes').doc(currentClass).collection('assignments').get()
                 .then((snapshot) => {
-                    totalWords = snapshot.size;
-                    document.getElementById('total-words').textContent = totalWords;
-                    
-                    if (snapshot.empty) {
-                        wordsList.innerHTML = '<p style="text-align: center; color: #666;">Chưa có từ vựng nào được giao.</p>';
-                        document.getElementById('avg-progress').textContent = '0%';
-                        document.getElementById('completed-students').textContent = '0';
-                        return;
-                    }
-                    
-                    // Get all students
-                    db.collection('users').where('classId', '==', currentClass).where('role', '==', 'student').get()
-                        .then((studentsSnapshot) => {
-                            const totalStudents = studentsSnapshot.size;
-                            let totalProgress = 0;
-                            let completedStudents = 0;
-                            let processedAssignments = 0;
-                            
-                            snapshot.forEach((doc) => {
-                                const assignment = doc.data();
-                                
-                                let studentsCompleted = 0;
-                                
-                                // Check each student's progress for this word - SỬA: Chỉ tính từ đã thuộc
-                                const studentChecks = [];
-                                studentsSnapshot.forEach((studentDoc) => {
-                                    studentChecks.push(
-                                        db.collection('users').doc(studentDoc.id).collection('cards')
-                                            .where('word', '==', assignment.word)
-                                            .where('status', '==', 'mastered') // CHỈ tính từ đã thuộc
-                                            .get()
-                                            .then((studentCards) => {
-                                                if (!studentCards.empty) {
-                                                    studentsCompleted++;
-                                                }
-                                            })
-                                    );
-                                });
-                                
-                                Promise.all(studentChecks).then(() => {
-                                    const progress = totalStudents > 0 ? Math.round(studentsCompleted / totalStudents * 100) : 0;
-                                    totalProgress += progress;
-                                    
-                                    if (studentsCompleted === totalStudents && totalStudents > 0) {
-                                        completedStudents++;
-                                    }
-                                    
-                                    const assignmentItem = document.createElement('div');
-                                    assignmentItem.className = 'teacher-word-item';
-                                    assignmentItem.innerHTML = `
-                                        <div class="teacher-word-content">
-                                            <strong>${assignment.word}</strong>: ${assignment.meaning}
-                                            ${assignment.example ? `<br><small>Ví dụ: ${assignment.example}</small>` : ''}
-                                            <br><small>${studentsCompleted}/${totalStudents} học sinh đã thuộc</small>
-                                        </div>
-                                        <div class="teacher-word-actions">
-                                            <button class="btn" style="padding: 5px 10px; font-size: 12px;" onclick="deleteAssignment('${doc.id}')">Xóa</button>
-                                        </div>
-                                    `;
-                                    wordsList.appendChild(assignmentItem);
-                                    
-                                    processedAssignments++;
-                                    
-                                    // Update stats after all assignments processed
-                                    if (processedAssignments === snapshot.size) {
-                                        document.getElementById('avg-progress').textContent = Math.round(totalProgress / totalWords) + '%';
-                                        document.getElementById('completed-students').textContent = completedStudents;
-                                    }
-                                });
-                            });
-                        });
-                });
-        };
-
-        // Delete assignment
-        window.deleteAssignment = function(assignmentId) {
-            if (!confirm('Bạn có chắc muốn xóa từ vựng này?')) return;
-            
-            db.collection('classes').doc(currentClass).collection('assignments').doc(assignmentId).delete()
-                .then(() => {
-                    showAlert('Đã xóa từ vựng khỏi bài tập!');
-                    loadTeacherAssignments();
-                })
-                .catch((error) => {
-                    console.error('Error deleting assignment:', error);
-                    alert('Có lỗi xảy ra khi xóa bài tập!');
-                });
-        };
-
-        // Add assignment
-        document.getElementById('add-assignment-btn').addEventListener('click', () => {
-            document.getElementById('manage-assignments-menu').classList.remove('active');
-            document.getElementById('add-assignment-menu').classList.add('active');
-        });
-
-        // Submit assignment
-        document.getElementById('submit-assignment').addEventListener('click', () => {
-            const word = document.getElementById('assignment-word').value;
-            const meaning = document.getElementById('assignment-meaning').value;
-            const example = document.getElementById('assignment-example').value;
-            const category = document.getElementById('assignment-category').value;
-            
-            if (!word || !meaning) {
-                alert('Vui lòng nhập từ và nghĩa!');
-                return;
-            }
-            
-            if (!currentClass) {
-                alert('Vui lòng tạo lớp học trước!');
-                return;
-            }
-            
-            db.collection('classes').doc(currentClass).collection('assignments').add({
-                word: word,
-                meaning: meaning,
-                example: example,
-                category: category,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                // Add to all students' cards
-                db.collection('users').where('classId', '==', currentClass).where('role', '==', 'student').get()
-                    .then((snapshot) => {
-                        snapshot.forEach((doc) => {
-                            db.collection('users').doc(doc.id).collection('cards').add({
-                                word: word,
-                                meaning: meaning,
-                                example: example,
-                                category: category || 'Bài tập giáo viên',
-                                status: 'learning',
-                                isAssignment: true,
-                                classId: currentClass,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-                        });
-                    });
-                
-                // Clear form
-                document.getElementById('assignment-word').value = '';
-                document.getElementById('assignment-meaning').value = '';
-                document.getElementById('assignment-example').value = '';
-                document.getElementById('assignment-category').value = '';
-                
-                // Close popup and refresh
-                document.getElementById('add-assignment-menu').classList.remove('active');
-                document.getElementById('manage-assignments-menu').classList.add('active');
-                loadTeacherAssignments();
-                
-                showAlert('Đã giao bài tập cho học sinh!');
-            })
-            .catch((error) => {
-                console.error('Error adding assignment:', error);
-                alert('Có lỗi xảy ra khi giao bài tập!');
-            });
-        });
-
-        // Start learning assignments - SỬA: Từ "đã nhớ" (known) cũng được hiển thị để học thành "đã thuộc"
-        document.getElementById('student-start-assignment-btn').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (!user || !currentClass) return;
-            
-            // Check if class is still active
-            db.collection('classes').doc(currentClass).get().then((classDoc) => {
-                if (classDoc.exists) {
-                    const classData = classDoc.data();
-                    if (classData.isActive === false) {
-                        alert('Lớp học đã kết thúc! Bạn không thể học bài tập nữa.');
-                        return;
-                    }
-                    
-                    if (classData.endTime) {
-                        const now = new Date();
-                        const endTime = new Date(classData.endTime.toDate());
-                        if (now > endTime) {
-                            alert('Lớp học đã hết thời gian!');
-                            return;
-                        }
-                    }
-                    
-                    // Get assignment cards - SỬA: Lấy cả từ đang học và từ đã nhớ (chưa thuộc)
-                    db.collection('users').doc(user.uid).collection('cards')
-                        .where('isAssignment', '==', true)
-                        .where('status', 'in', ['learning', 'known']) // Lấy cả learning và known
-                        .get()
-                        .then((snapshot) => {
-                            if (snapshot.empty) {
-                                alert('Bạn không có bài tập nào cần học!');
-                                return;
-                            }
-                            
-                            cardsToLearn = [];
-                            snapshot.forEach((doc) => {
-                                cardsToLearn.push({
-                                    id: doc.id,
-                                    ...doc.data()
-                                });
-                            });
-                            
-                            shuffleArray(cardsToLearn);
-                            currentCardIndex = 0;
-                            isInTestMode = true;
-                            isAssignmentTest = true;
-                            
-                            // SỬA: Hiển thị nút "Đã thuộc" thay vì "Đã nhớ" cho bài tập
-                            showCardForAssignment();
-                            document.getElementById('learn-menu').classList.add('active');
-                            document.getElementById('classroom-menu').classList.remove('active');
-                        });
-                }
-            });
-        });
-
-        // SỬA: Hiển thị card cho bài tập với nút "Đã thuộc"
-        function showCardForAssignment() {
-            if (currentCardIndex >= cardsToLearn.length) {
-                document.getElementById('learn-menu').classList.remove('active');
-                isInTestMode = false;
-                isAssignmentTest = false;
-                alert('Chúc mừng! Bạn đã học xong tất cả các thẻ!');
-                // Quay lại trang chủ lớp học
-                document.getElementById('classroom-menu').classList.add('active');
-                return;
-            }
-            
-            const card = cardsToLearn[currentCardIndex];
-            const flashcard = document.getElementById('flashcard');
-            
-            flashcard.classList.remove('flipped');
-            
-            const front = flashcard.querySelector('.front');
-            const wordContainer = document.createElement('div');
-            wordContainer.className = 'word-with-voice';
-            wordContainer.innerHTML = `<h1>${card.word}</h1>`;
-            wordContainer.appendChild(createVoiceButton(card.word));
-            front.innerHTML = '';
-            front.appendChild(wordContainer);
-            
-            const back = flashcard.querySelector('.back');
-            const backContent = document.createElement('div');
-            backContent.innerHTML = `
-                <div class="word-with-voice">
-                    <h1>${card.meaning}</h1>
-                </div>
-                ${card.example ? `<div class="example-with-voice"><p>${card.example}</p></div>` : ''}
-                ${card.isAssignment ? '<div style="margin-top: 10px;"><span class="assignment-badge">Bài tập giáo viên</span></div>' : ''}
-                <div class="back-actions">
-                    <p id="wrong">Học lại</p>
-                    <p id="right">Đã thuộc</p>
-                </div>
-            `;
-            
-            if (card.example) {
-                const exampleContainer = backContent.querySelector('.example-with-voice');
-                const exampleVoiceBtn = createVoiceButton(card.example);
-                exampleContainer.appendChild(exampleVoiceBtn);
-            }
-            
-            back.innerHTML = '';
-            back.appendChild(backContent);
-            
-            // Remove existing event listeners
-            const rightBtn = back.querySelector('#right');
-            const wrongBtn = back.querySelector('#wrong');
-            
-            // Clone and replace to remove old event listeners
-            const newRightBtn = rightBtn.cloneNode(true);
-            const newWrongBtn = wrongBtn.cloneNode(true);
-            rightBtn.parentNode.replaceChild(newRightBtn, rightBtn);
-            wrongBtn.parentNode.replaceChild(newWrongBtn, wrongBtn);
-            
-            newRightBtn.addEventListener('click', () => markCardAsMasteredForAssignment());
-            newWrongBtn.addEventListener('click', () => markCardAsLearningForAssignment());
-        }
-
-        // SỬA: Đánh dấu từ là đã thuộc (mastered) cho bài tập
-        function markCardAsMasteredForAssignment() {
-            const card = cardsToLearn[currentCardIndex];
-            const user = auth.currentUser;
-            
-            if (!user) return;
-            
-            // Save learning history
-            saveLearningHistory('mastered', card.word);
-            
-            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
-                status: 'mastered'
-            })
-            .then(() => {
-                currentCardIndex++;
-                showCardForAssignment();
-            })
-            .catch((error) => {
-                console.error('Error updating card: ', error);
-            });
-        }
-
-        // SỬA: Đánh dấu từ cần học lại cho bài tập
-        function markCardAsLearningForAssignment() {
-            const card = cardsToLearn[currentCardIndex];
-            const user = auth.currentUser;
-            
-            if (!user) return;
-            
-            db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
-                status: 'learning'
-            })
-            .then(() => {
-                cardsToLearn.push(cardsToLearn.splice(currentCardIndex, 1)[0]);
-                showCardForAssignment();
-            })
-            .catch((error) => {
-                console.error('Error updating card: ', error);
-            });
-        }
-
-        // Exit test button functionality - SỬA: Quay lại trang chủ lớp học
-        document.getElementById('exit-test-btn').addEventListener('click', () => {
-            if (isInTestMode) {
-                document.getElementById('learn-menu').classList.remove('active');
-                isInTestMode = false;
-                isAssignmentTest = false;
-                // Quay lại trang chủ lớp học
-                document.getElementById('classroom-menu').classList.add('active');
-                showAlert('Đã thoát khỏi bài kiểm tra');
-            }
-        });
-
-        document.getElementById('exit-review-test-btn').addEventListener('click', () => {
-            if (isInTestMode) {
-                document.getElementById('review-menu').classList.remove('active');
-                isInTestMode = false;
-                showAlert('Đã thoát khỏi bài ôn tập');
-            }
-        });
-
-        // Close learn menu check - SỬA: Quay lại trang chủ lớp học khi học bài tập
-        document.getElementById('close-learn-menu').addEventListener('click', () => {
-            if (isInTestMode && isAssignmentTest) {
-                if (!confirm('Bạn đang học bài tập từ giáo viên. Bạn có chắc muốn thoát?')) {
-                    return;
-                }
-                // Quay lại trang chủ lớp học
-                document.getElementById('classroom-menu').classList.add('active');
-            }
-            document.getElementById('learn-menu').classList.remove('active');
-            isInTestMode = false;
-            isAssignmentTest = false;
-        });
-
-        // SỬA: Dấu X trên popup cũng quay lại trang chủ lớp học
-        document.getElementById('close-learn-menu').addEventListener('click', () => {
-            if (isInTestMode && isAssignmentTest) {
-                if (!confirm('Bạn đang học bài tập từ giáo viên. Bạn có chắc muốn thoát?')) {
-                    return;
-                }
-                // Quay lại trang chủ lớp học
-                document.getElementById('classroom-menu').classList.add('active');
-            }
-            document.getElementById('learn-menu').classList.remove('active');
-            isInTestMode = false;
-            isAssignmentTest = false;
-        });
-
-        // Classroom button
-        document.getElementById('classroom-btn').addEventListener('click', () => {
-            document.getElementById('classroom-menu').classList.add('active');
-        });
-
-        // Close popups
-        document.getElementById('close-classroom-menu').addEventListener('click', () => {
-            document.getElementById('classroom-menu').classList.remove('active');
-        });
-
-        document.getElementById('close-manage-assignments-menu').addEventListener('click', () => {
-            document.getElementById('manage-assignments-menu').classList.remove('active');
-            document.getElementById('classroom-menu').classList.add('active');
-        });
-
-        document.getElementById('close-add-assignment-menu').addEventListener('click', () => {
-            document.getElementById('add-assignment-menu').classList.remove('active');
-            document.getElementById('manage-assignments-menu').classList.add('active');
-        });
-
-        // Text-to-Speech function
-        function speakText(text, rate = 0.8, pitch = 1) {
-            if (!('speechSynthesis' in window)) {
-                alert('Trình duyệt của bạn không hỗ trợ chức năng đọc văn bản. Vui lòng sử dụng Chrome, Edge hoặc Safari mới nhất.');
-                return;
-            }
-
-            window.speechSynthesis.cancel();
-
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = rate;
-            utterance.pitch = pitch;
-            utterance.volume = 1;
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // Function to create voice button
-        function createVoiceButton(word) {
-            const button = document.createElement('button');
-            button.className = 'voice-btn';
-            button.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
-            button.title = 'Nghe phát âm';
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                speakText(word);
-            });
-            return button;
-        }
-
-        // Load user's flash cards
-        function loadUserCards() {
-            const user = auth.currentUser;
-            if (!user) return;
-
-            db.collection('users').doc(user.uid).collection('cards')
-                .onSnapshot((snapshot) => {
-                    userCards = [];
+                    const assignmentWords = [];
                     snapshot.forEach((doc) => {
-                        userCards.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
+                        assignmentWords.push(doc.data());
                     });
                     
-                    updateStats();
-                    updateCardList();
-                    
-                    // Cập nhật assignments của học sinh
-                    if (!isTeacher && currentClass) {
-                        loadStudentAssignments();
+                    if (assignmentWords.length === 0) {
+                        alert('Không có bài tập nào từ giáo viên!');
+                        return;
                     }
-                });
-        }
-
-        // Load library categories
-        function loadLibraryCategories() {
-            const libraryContent = document.getElementById('library-content');
-            
-            db.collection('categories').get().then((snapshot) => {
-                libraryContent.innerHTML = '';
-                
-                if (snapshot.empty) {
-                    libraryContent.innerHTML = '<p>Chưa có chủ đề nào trong thư viện.</p>';
-                    return;
-                }
-                
-                snapshot.forEach((doc) => {
-                    const category = doc.data();
-                    const categoryElement = document.createElement('div');
-                    categoryElement.className = 'category-card';
-                    categoryElement.innerHTML = `
-                        <div class="category-icon" style="background-image: url('${category.icon || 'https://learnenglishwithaurora.github.io/homepage/flashcard.svg'}')"></div>
-                        <h3>${category.name}</h3>
-                        <p>${category.description || 'Không có mô tả'}</p>
-                        <p><strong>${category.cardCount || 0}</strong> từ</p>
-                        <button class="add-category-btn" data-id="${doc.id}">Thêm vào bộ thẻ</button>
-                    `;
-                    libraryContent.appendChild(categoryElement);
-                });
-                
-                document.querySelectorAll('.add-category-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const categoryId = e.target.getAttribute('data-id');
-                        addCategoryToMyCards(categoryId);
-                    });
-                });
-            });
-        }
-
-        // Add category cards to user's collection
-        function addCategoryToMyCards(categoryId) {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            db.collection('categories').doc(categoryId).get().then((categoryDoc) => {
-                if (!categoryDoc.exists) return;
-                
-                const category = categoryDoc.data();
-                
-                db.collection('systemCards')
-                  .where('categoryId', '==', categoryId)
-                  .get()
-                  .then((snapshot) => {
-                      let addedCount = 0;
-                      
-                      snapshot.forEach((doc) => {
-                          const card = doc.data();
-                          
-                          db.collection('users').doc(user.uid).collection('cards')
-                            .where('word', '==', card.word)
-                            .get()
-                            .then((existingCards) => {
-                                if (existingCards.empty) {
-                                    db.collection('users').doc(user.uid).collection('cards').add({
-                                        word: card.word,
-                                        meaning: card.meaning,
-                                        example: card.example,
-                                        category: category.name,
-                                        status: 'learning',
-                                        isAssignment: false,
-                                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                                    }).then(() => {
-                                        addedCount++;
-                                    });
-                                }
-                            });
-                      });
-                      
-                      setTimeout(() => {
-                          showAlert(`Đã thêm ${addedCount} từ từ chủ đề "${category.name}" vào bộ thẻ của bạn!`);
-                      }, 1000);
-                  });
-            });
-        }
-
-        // Update statistics
-        function updateStats() {
-            const toLearn = userCards.filter(card => card.status === 'learning' || !card.status).length;
-            const known = userCards.filter(card => card.status === 'known').length;
-            const mastered = userCards.filter(card => card.status === 'mastered').length;
-            
-            document.querySelector('#green .number').textContent = toLearn;
-            document.querySelector('#blue .number').textContent = known;
-            document.querySelector('#yellow .number').textContent = mastered;
-        }
-
-        // Update card list in popup with badges
-        function updateCardList() {
-            const cardList = document.getElementById('card-list');
-            const masteredList = document.getElementById('mastered-list');
-            
-            cardList.innerHTML = '';
-            masteredList.innerHTML = '';
-            
-            if (userCards.length === 0) {
-                cardList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có thẻ nào. Hãy thêm thẻ mới hoặc chọn từ thư viện!</p>';
-                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
-                return;
-            }
-            
-            const learningCards = userCards.filter(card => card.status === 'learning' || !card.status);
-            const knownCards = userCards.filter(card => card.status === 'known');
-            const masteredCards = userCards.filter(card => card.status === 'mastered');
-            
-            // Display learning and known cards
-            if (learningCards.length === 0 && knownCards.length === 0) {
-                cardList.innerHTML = '<p style="text-align: center; color: #666;">Tất cả các từ của bạn đã được học!</p>';
-            } else {
-                [...learningCards, ...knownCards].forEach(card => {
-                    const cardItem = document.createElement('div');
-                    cardItem.className = 'card-item';
                     
-                    const badge = card.isAssignment ? 
-                        '<span class="assignment-badge">Bài tập GV</span>' : 
-                        '<span class="personal-badge">Tự tạo</span>';
+                    // Convert to cards format
+                    cardsToLearn = assignmentWords.map(word => ({
+                        ...word,
+                        status: 'learning',
+                        isAssignment: true
+                    }));
                     
-                    cardItem.innerHTML = `
-                        <div>
-                            <div style="margin-bottom: 5px;">
-                                <strong>${card.word}</strong>: ${card.meaning}
-                                ${badge}
-                            </div>
-                            ${card.example ? `<div><small>Ví dụ: ${card.example}</small></div>` : ''}
-                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
-                            ${card.status === 'known' ? '<br><small style="color: #2196F3;">(Đã biết)</small>' : ''}
-                        </div>
-                        <button class="delete-card" data-id="${card.id}">Xóa</button>
-                    `;
-                    cardList.appendChild(cardItem);
-                });
-            }
-            
-            // Display mastered cards
-            if (masteredCards.length === 0) {
-                masteredList.innerHTML = '<p style="text-align: center; color: #666;">Bạn chưa có từ nào đã thuộc.</p>';
-            } else {
-                masteredCards.forEach(card => {
-                    const cardItem = document.createElement('div');
-                    cardItem.className = 'card-item';
+                    if (cardsToLearn.length === 0) {
+                        alert('Bạn đã học hết tất cả bài tập!');
+                        return;
+                    }
                     
-                    const badge = card.isAssignment ? 
-                        '<span class="assignment-badge">Bài tập GV</span>' : 
-                        '<span class="personal-badge">Tự tạo</span>';
+                    shuffleArray(cardsToLearn);
+                    currentCardIndex = 0;
+                    isInTestMode = true;
+                    isAssignmentTest = true;
                     
-                    cardItem.innerHTML = `
-                        <div>
-                            <div style="margin-bottom: 5px;">
-                                <strong>${card.word}</strong>: ${card.meaning}
-                                ${badge}
-                            </div>
-                            ${card.example ? `<div><small>Ví dụ: ${card.example}</small></div>` : ''}
-                            ${card.category ? `<br><small style="color: #FFA500;">Chủ đề: ${card.category}</small>` : ''}
-                            <br><small style="color: #4CAF50;">(Đã thuộc)</small>
-                        </div>
-                        <button class="delete-card" data-id="${card.id}">Xóa</button>
-                    `;
-                    masteredList.appendChild(cardItem);
+                    showCardForLearning();
+                    document.getElementById('learn-menu').classList.add('active');
+                    document.getElementById('attention-reveal').style.display = 'block';
+                    document.getElementById('attention-drag').style.display = 'none';
                 });
-            }
-            
-            document.querySelectorAll('.delete-card').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const cardId = e.target.getAttribute('data-id');
-                    deleteCard(cardId);
-                });
-            });
-        }
-
-        // Delete a card
-        function deleteCard(cardId) {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            db.collection('users').doc(user.uid).collection('cards').doc(cardId).delete()
-                .then(() => {
-                    showAlert('Đã xóa từ này khỏi bộ thẻ.');
-                })
-                .catch((error) => {
-                    console.error('Error deleting card: ', error);
-                });
-        }
-
-        // Show alert message
-        function showAlert(message) {
-            const alert = document.getElementById('alert');
-            alert.textContent = message;
-            alert.style.display = 'block';
-            
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 3000);
-        }
+        });
 
         // Add new card
         document.getElementById('submit').addEventListener('click', () => {
@@ -4013,7 +6072,17 @@
             aiGeneratedWords = [];
         }
 
-        // Event listeners for popups
+        // EVENT LISTENERS FOR CLASSROOM BUTTON
+        document.getElementById('classroom-btn').addEventListener('click', () => {
+            document.getElementById('classroom-menu').classList.add('active');
+        });
+
+        // Close classroom menu
+        document.getElementById('close-classroom-menu').addEventListener('click', () => {
+            document.getElementById('classroom-menu').classList.remove('active');
+        });
+
+        // Event listeners for other popups
         document.getElementById('add').addEventListener('click', () => {
             document.getElementById('add-menu').classList.add('active');
         });
@@ -4047,6 +6116,17 @@
 
         document.getElementById('close-card-list-menu').addEventListener('click', () => {
             document.getElementById('card-list-menu').classList.remove('active');
+        });
+
+        document.getElementById('close-learn-menu').addEventListener('click', () => {
+            if (isInTestMode) {
+                if (!confirm('Bạn đang trong bài học. Bạn có chắc muốn thoát?')) {
+                    return;
+                }
+            }
+            document.getElementById('learn-menu').classList.remove('active');
+            isInTestMode = false;
+            isAssignmentTest = false;
         });
 
         document.getElementById('close-review-menu').addEventListener('click', () => {
@@ -4108,12 +6188,39 @@
             document.getElementById('mastered-list').style.display = 'block';
         });
 
+        // Exit test buttons
+        document.getElementById('exit-test-btn').addEventListener('click', () => {
+            if (isInTestMode) {
+                if (!confirm('Bạn đang trong bài học. Bạn có chắc muốn thoát?')) {
+                    return;
+                }
+            }
+            document.getElementById('learn-menu').classList.remove('active');
+            isInTestMode = false;
+            isAssignmentTest = false;
+        });
+
+        document.getElementById('exit-review-test-btn').addEventListener('click', () => {
+            if (isInTestMode) {
+                if (!confirm('Bạn đang trong bài ôn tập. Bạn có chắc muốn thoát?')) {
+                    return;
+                }
+            }
+            document.getElementById('review-menu').classList.remove('active');
+            isInTestMode = false;
+        });
+
         // Click outside to close popup
         document.addEventListener('click', (e) => {
             const aiPopup = document.getElementById('ai-add-menu');
             if (aiPopup.classList.contains('active') && e.target === aiPopup) {
                 aiPopup.classList.remove('active');
                 resetAIPopup();
+            }
+            
+            const classroomPopup = document.getElementById('classroom-menu');
+            if (classroomPopup.classList.contains('active') && e.target === classroomPopup) {
+                classroomPopup.classList.remove('active');
             }
         });
 
@@ -4124,8 +6231,10 @@
                     if (doc.exists) {
                         const userData = doc.data();
                         if (userData.role === 'teacher') {
+                            // Default to teacher mode if user is teacher
                             document.getElementById('teacher-mode-btn').click();
                         } else {
+                            // Default to student mode if user is student
                             document.getElementById('student-mode-btn').click();
                         }
                     }
