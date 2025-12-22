@@ -2449,6 +2449,29 @@
             </div>
         </div>
 
+        <div class="pop-up" id="teacher-add-vocab-menu">
+            <div class="pop-up-content">
+                <span id="close-teacher-add-vocab-menu" class="material-symbols-outlined close">close</span>
+                <h2>Tạo từ vựng cho học sinh</h2>
+                <div class="form-group">
+                    <input type="text" placeholder="Từ tiếng Anh" id="teacher-vocab-word" />
+                    <button class="test-pronunciation-btn" id="teacher-test-pronunciation" title="Kiểm tra phát âm">
+                        <span class="material-symbols-outlined">volume_up</span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Nghĩa tiếng Việt" id="teacher-vocab-meaning" />
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Ví dụ (tiếng Anh)" id="teacher-vocab-example" />
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Chủ đề (tùy chọn)" id="teacher-vocab-category" />
+                </div>
+                <button type="button" id="submit-teacher-vocab" class="btn">Tạo từ vựng</button>
+            </div>
+        </div>
+
         <div class="pop-up" id="card-list-menu">
             <div class="pop-up-content">
                 <span id="close-card-list-menu" class="material-symbols-outlined close">close</span>
@@ -2610,6 +2633,21 @@
                                             <span class="material-symbols-outlined flip-icon">school</span>
                                             <h3>Giáo Án Tiếng Anh</h3>
                                             <p>Tạo giáo án đầy đủ với từ vựng và ngữ pháp</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flip-card" id="create-teacher-vocab-card">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front">
+                                            <span class="material-symbols-outlined flip-icon">translate</span>
+                                            <h3>Tạo Từ Vựng</h3>
+                                            <p>Tạo từ vựng cho học sinh</p>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <span class="material-symbols-outlined flip-icon">assignment</span>
+                                            <h3>Giao Bài Tập</h3>
+                                            <p>Tạo từ vựng và giao cho học sinh học</p>
                                         </div>
                                     </div>
                                 </div>
@@ -2868,7 +2906,7 @@
                     <div class="progress-container" id="examProgressContainer" style="display: none;">
                         <div class="progress-header">
                             <div class="progress-title">Đang tạo đề thi</div>
-                            <div class="progress-status" id="examProgressStatus">Đang xử lý...</div>
+                            <div class="progress-status" id="examProgressStatus">Đang xử lý 0%</div>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="examProgressFill" style="width: 0%"></div>
@@ -2894,6 +2932,9 @@
                             </button>
                             <button id="generateCodeBtn" class="exam-action-btn" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white;">
                                 <i class="material-symbols-outlined">qr_code</i> Tạo mã đề
+                            </button>
+                            <button id="copyExamCodeBtn" class="exam-action-btn" style="background: linear-gradient(135deg, #FF9800, #F57C00); color: white;">
+                                <i class="material-symbols-outlined">content_copy</i> Sao chép mã
                             </button>
                         </div>
                     </div>
@@ -3033,7 +3074,7 @@
                     <div class="progress-container" id="lessonProgressContainer" style="display: none;">
                         <div class="progress-header">
                             <div class="progress-title">Đang tạo bài giảng</div>
-                            <div class="progress-status" id="lessonProgressStatus">Đang xử lý...</div>
+                            <div class="progress-status" id="lessonProgressStatus">Đang xử lý 0%</div>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="lessonProgressFill" style="width: 0%"></div>
@@ -3204,7 +3245,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="modal-btn" id="copyExamCodeBtn">
+                    <button class="modal-btn" id="copyExamCodeModalBtn">
                         <i class="material-symbols-outlined">content_copy</i> Sao chép mã
                     </button>
                     <button class="modal-btn secondary-btn" id="closeExamCodeBtn">
@@ -3298,7 +3339,7 @@
     <script>
         // API Keys
         const REVERSED_API_KEY = "4AE6KqeYCeSyAZI";
-        const GEMINI_API_KEY = "AIzaSyDq_sSF2kgHzuDgYNpQef6EDrk8MsP0vlM";
+        const GEMINI_API_KEY = "AIzaSyB9migb2cnTR9wKVTqZPWpLTpiQITWtrUA";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -3520,7 +3561,7 @@
             if (percent === 100) {
                 progressStatus.textContent = 'Hoàn thành!';
             } else {
-                progressStatus.textContent = `Đang xử lý... ${percent}%`;
+                progressStatus.textContent = `Đang xử lý ${percent}%`;
             }
             
             progressItems.innerHTML = generationProgress.items.map(item => {
@@ -4228,6 +4269,7 @@
                 return;
             }
             
+            // Check if word already exists
             db.collection('users').doc(user.uid).collection('cards')
                 .where('word', '==', word)
                 .get()
@@ -4237,7 +4279,7 @@
                             word: word,
                             meaning: meaning,
                             example: example,
-                            category: document.getElementById('examTopic')?.value || document.getElementById('lessonTopic')?.value || 'Bài giảng',
+                            category: 'AI Generated',
                             status: 'learning',
                             isAssignment: false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -4297,11 +4339,31 @@
                 items: []
             };
             
+            // Add progress items and update progress immediately
+            addProgressItem('Tạo từ vựng theo chủ đề');
+            addProgressItem('Tạo câu hỏi ngữ pháp');
+            addProgressItem('Tạo bài đọc hiểu');
+            addProgressItem('Hoàn thiện đề thi');
+            
+            // Update progress immediately to show 0%
+            updateProgress();
+            
             try {
-                addProgressItem('Tạo từ vựng theo chủ đề');
-                addProgressItem('Tạo câu hỏi ngữ pháp');
-                addProgressItem('Tạo bài đọc hiểu');
-                addProgressItem('Hoàn thiện đề thi');
+                // Simulate progress updates
+                setTimeout(() => {
+                    completeProgressItem(0);
+                    updateProgress();
+                }, 500);
+                
+                setTimeout(() => {
+                    completeProgressItem(1);
+                    updateProgress();
+                }, 1000);
+                
+                setTimeout(() => {
+                    completeProgressItem(2);
+                    updateProgress();
+                }, 1500);
                 
                 // Generate vocabulary first
                 const vocabularyPrompt = `
@@ -4311,17 +4373,6 @@
                 `;
                 
                 const vocabularyResponse = await fetchGemini(vocabularyPrompt);
-                completeProgressItem(0);
-                
-                let vocabulary = [];
-                try {
-                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
-                    if (jsonMatch) {
-                        vocabulary = JSON.parse(jsonMatch[0]);
-                    }
-                } catch (e) {
-                    console.error('Error parsing vocabulary:', e);
-                }
                 
                 // Generate exam
                 const examData = await generateEnglishExamWithAI(
@@ -4333,17 +4384,28 @@
                 );
                 
                 // Use generated vocabulary if available
+                let vocabulary = [];
+                try {
+                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
+                    if (jsonMatch) {
+                        vocabulary = JSON.parse(jsonMatch[0]);
+                    }
+                } catch (e) {
+                    console.error('Error parsing vocabulary:', e);
+                }
+                
                 if (vocabulary.length > 0) {
                     examData.vocabulary = vocabulary.slice(0, vocabularyCount);
                 }
                 
-                completeProgressItem(1);
-                completeProgressItem(2);
+                // Complete all progress items
                 completeProgressItem(3);
                 
                 // Show result
-                showExamResult(examData);
-                showAlert('Đã tạo đề thi thành công!');
+                setTimeout(() => {
+                    showExamResult(examData);
+                    showAlert('Đã tạo đề thi thành công!');
+                }, 500);
                 
             } catch (error) {
                 console.error('Lỗi khi tạo đề thi:', error);
@@ -4387,11 +4449,43 @@
                 items: []
             };
             
+            // Add progress items and update progress immediately
+            addProgressItem('Tạo từ vựng bài học');
+            addProgressItem('Phát triển nội dung ngữ pháp');
+            addProgressItem('Thiết kế hoạt động học tập');
+            addProgressItem('Hoàn thiện bài giảng');
+            
+            // Update progress immediately to show 0%
+            updateProgress();
+            
             try {
-                addProgressItem('Tạo từ vựng bài học');
-                addProgressItem('Phát triển nội dung ngữ pháp');
-                addProgressItem('Thiết kế hoạt động học tập');
-                addProgressItem('Hoàn thiện bài giảng');
+                // Simulate progress updates
+                setTimeout(() => {
+                    completeProgressItem(0);
+                    const lessonProgressFill = document.getElementById('lessonProgressFill');
+                    const lessonProgressStatus = document.getElementById('lessonProgressStatus');
+                    const percent = Math.round((1 / 4) * 100);
+                    lessonProgressFill.style.width = `${percent}%`;
+                    lessonProgressStatus.textContent = `Đang xử lý ${percent}%`;
+                }, 500);
+                
+                setTimeout(() => {
+                    completeProgressItem(1);
+                    const lessonProgressFill = document.getElementById('lessonProgressFill');
+                    const lessonProgressStatus = document.getElementById('lessonProgressStatus');
+                    const percent = Math.round((2 / 4) * 100);
+                    lessonProgressFill.style.width = `${percent}%`;
+                    lessonProgressStatus.textContent = `Đang xử lý ${percent}%`;
+                }, 1000);
+                
+                setTimeout(() => {
+                    completeProgressItem(2);
+                    const lessonProgressFill = document.getElementById('lessonProgressFill');
+                    const lessonProgressStatus = document.getElementById('lessonProgressStatus');
+                    const percent = Math.round((3 / 4) * 100);
+                    lessonProgressFill.style.width = `${percent}%`;
+                    lessonProgressStatus.textContent = `Đang xử lý ${percent}%`;
+                }, 1500);
                 
                 // Generate vocabulary first
                 const vocabularyPrompt = `
@@ -4401,17 +4495,6 @@
                 `;
                 
                 const vocabularyResponse = await fetchGemini(vocabularyPrompt);
-                completeProgressItem(0);
-                
-                let vocabulary = [];
-                try {
-                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
-                    if (jsonMatch) {
-                        vocabulary = JSON.parse(jsonMatch[0]);
-                    }
-                } catch (e) {
-                    console.error('Error parsing vocabulary:', e);
-                }
                 
                 // Generate lesson
                 const lessonData = await generateEnglishLessonWithAI(
@@ -4423,17 +4506,34 @@
                 );
                 
                 // Use generated vocabulary if available
+                let vocabulary = [];
+                try {
+                    const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
+                    if (jsonMatch) {
+                        vocabulary = JSON.parse(jsonMatch[0]);
+                    }
+                } catch (e) {
+                    console.error('Error parsing vocabulary:', e);
+                }
+                
                 if (vocabulary.length > 0) {
                     lessonData.vocabulary = vocabulary.slice(0, vocabularyCount);
                 }
                 
-                completeProgressItem(1);
-                completeProgressItem(2);
+                // Complete all progress items
                 completeProgressItem(3);
                 
+                // Update progress to 100%
+                const lessonProgressFill = document.getElementById('lessonProgressFill');
+                const lessonProgressStatus = document.getElementById('lessonProgressStatus');
+                lessonProgressFill.style.width = '100%';
+                lessonProgressStatus.textContent = 'Hoàn thành!';
+                
                 // Show result
-                showLessonResult(lessonData);
-                showAlert('Đã tạo bài giảng thành công!');
+                setTimeout(() => {
+                    showLessonResult(lessonData);
+                    showAlert('Đã tạo bài giảng thành công!');
+                }, 500);
                 
             } catch (error) {
                 console.error('Lỗi khi tạo bài giảng:', error);
@@ -4444,7 +4544,7 @@
             }
         }
 
-        // GENERATE EXAM CODE - ĐÃ ĐỔI TÊN ĐỂ TRÁNH TRÙNG LẶP
+        // GENERATE EXAM CODE
         function generateExamCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let result = '';
@@ -4473,9 +4573,81 @@
             document.getElementById('examCodeModal').classList.add('active');
         }
 
+        // SAVE EXAM FUNCTION
+        function saveExam() {
+            const examContent = document.getElementById('examResultContent').innerHTML;
+            if (!examContent || examContent.trim() === '') {
+                showAlert('Không có nội dung đề thi để lưu!');
+                return;
+            }
+            
+            const user = auth.currentUser;
+            if (!user) {
+                showAlert('Vui lòng đăng nhập để lưu đề thi!');
+                return;
+            }
+            
+            const title = document.querySelector('#examResultContent .exam-header h3')?.textContent || 'Đề thi Tiếng Anh';
+            const topic = document.getElementById('examTopic').value || 'Chủ đề chung';
+            
+            db.collection('users').doc(user.uid).collection('exams').add({
+                title: title,
+                topic: topic,
+                content: examContent,
+                code: currentExamCode || generateExamCode(),
+                time: examSettings.time,
+                level: examSettings.level,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                showAlert('Đã lưu đề thi thành công!');
+            })
+            .catch((error) => {
+                console.error('Lỗi khi lưu đề thi:', error);
+                showAlert('Có lỗi xảy ra khi lưu đề thi!');
+            });
+        }
+
+        // COPY EXAM CODE
+        function copyExamCode() {
+            if (!currentExamCode) {
+                currentExamCode = generateExamCode();
+            }
+            
+            navigator.clipboard.writeText(currentExamCode).then(() => {
+                showAlert('Đã sao chép mã đề thi vào clipboard!');
+            }).catch((error) => {
+                console.error('Lỗi khi sao chép mã:', error);
+                showAlert('Có lỗi khi sao chép mã!');
+            });
+        }
+
+        // PREVIEW EXAM
+        function previewExam() {
+            const examContent = document.getElementById('examResultContent').innerHTML;
+            if (!examContent || examContent.trim() === '') {
+                showAlert('Không có nội dung đề thi để xem trước!');
+                return;
+            }
+            
+            document.getElementById('previewContent').innerHTML = examContent;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        // EDIT EXAM
+        function editExam() {
+            // Implement exam editor functionality
+            showAlert('Tính năng chỉnh sửa đang được phát triển!');
+        }
+
         // EVENT LISTENERS FOR TEACHING TOOL
         document.getElementById('generateExamBtn').addEventListener('click', generateExam);
         document.getElementById('generateLessonBtn').addEventListener('click', generateLesson);
+        document.getElementById('saveExamBtn').addEventListener('click', saveExam);
+        document.getElementById('previewExamBtn').addEventListener('click', previewExam);
+        document.getElementById('editExamBtn').addEventListener('click', editExam);
+        document.getElementById('generateCodeBtn').addEventListener('click', showExamCodeModal);
+        document.getElementById('copyExamCodeBtn').addEventListener('click', copyExamCode);
         
         // Card flip functionality
         document.getElementById('create-exam-card').addEventListener('click', function() {
@@ -4494,6 +4666,14 @@
             }, 300);
         });
         
+        document.getElementById('create-teacher-vocab-card').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            setTimeout(() => {
+                document.getElementById('classroom-menu').classList.remove('active');
+                document.getElementById('teacher-add-vocab-menu').classList.add('active');
+            }, 300);
+        });
+        
         // Settings buttons
         document.getElementById('examSettingsBtn').addEventListener('click', function() {
             const panel = document.getElementById('examSettingsPanel');
@@ -4507,11 +4687,8 @@
             this.querySelector('i').textContent = panel.classList.contains('active') ? 'close' : 'settings';
         });
         
-        // Generate code button
-        document.getElementById('generateCodeBtn').addEventListener('click', showExamCodeModal);
-        
-        // Copy exam code
-        document.getElementById('copyExamCodeBtn').addEventListener('click', function() {
+        // Copy exam code in modal
+        document.getElementById('copyExamCodeModalBtn').addEventListener('click', function() {
             const code = document.getElementById('examCodeDisplay').textContent;
             navigator.clipboard.writeText(code).then(() => {
                 showAlert('Đã sao chép mã đề thi vào clipboard!');
@@ -4532,6 +4709,22 @@
         document.getElementById('close-create-lesson-popup').addEventListener('click', function() {
             document.getElementById('create-lesson-popup').classList.remove('active');
             document.getElementById('classroom-menu').classList.add('active');
+        });
+        
+        document.getElementById('close-teacher-add-vocab-menu').addEventListener('click', function() {
+            document.getElementById('teacher-add-vocab-menu').classList.remove('active');
+            document.getElementById('classroom-menu').classList.add('active');
+        });
+        
+        // Close preview modal
+        document.getElementById('closePreviewBtn').addEventListener('click', function() {
+            document.getElementById('previewModal').classList.remove('active');
+        });
+        
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').classList.remove('active');
+            });
         });
         
         // Word count updates
@@ -5088,6 +5281,49 @@
                     }
                 });
             }
+        });
+
+        // Teacher create vocabulary for students
+        document.getElementById('submit-teacher-vocab').addEventListener('click', () => {
+            const user = auth.currentUser;
+            if (!user || !currentClass) {
+                showAlert('Bạn cần tạo lớp học trước!');
+                return;
+            }
+            
+            const word = document.getElementById('teacher-vocab-word').value.trim();
+            const meaning = document.getElementById('teacher-vocab-meaning').value.trim();
+            const example = document.getElementById('teacher-vocab-example').value.trim();
+            const category = document.getElementById('teacher-vocab-category').value.trim() || 'Bài tập giáo viên';
+            
+            if (!word || !meaning) {
+                showAlert('Vui lòng nhập từ và nghĩa!');
+                return;
+            }
+            
+            // Add word to class assignments
+            db.collection('classes').doc(currentClass).collection('assignments').add({
+                word: word,
+                meaning: meaning,
+                example: example,
+                category: category,
+                teacherId: user.uid,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                // Clear form
+                document.getElementById('teacher-vocab-word').value = '';
+                document.getElementById('teacher-vocab-meaning').value = '';
+                document.getElementById('teacher-vocab-example').value = '';
+                document.getElementById('teacher-vocab-category').value = '';
+                
+                document.getElementById('teacher-add-vocab-menu').classList.remove('active');
+                showAlert('Đã tạo từ vựng cho học sinh!');
+            })
+            .catch((error) => {
+                console.error('Error adding assignment:', error);
+                showAlert('Có lỗi xảy ra khi tạo từ vựng!');
+            });
         });
 
         // Switch mode between teacher and student
@@ -6112,6 +6348,10 @@
         document.getElementById('close-ai-add-menu').addEventListener('click', () => {
             document.getElementById('ai-add-menu').classList.remove('active');
             resetAIPopup();
+        });
+
+        document.getElementById('close-teacher-add-vocab-menu').addEventListener('click', () => {
+            document.getElementById('teacher-add-vocab-menu').classList.remove('active');
         });
 
         document.getElementById('close-card-list-menu').addEventListener('click', () => {
