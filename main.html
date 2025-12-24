@@ -3329,6 +3329,7 @@
         </div>
     </div>
 
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
@@ -3339,7 +3340,7 @@
     <script>
         // API Keys
         const REVERSED_API_KEY = "4AE6KqeYCeSyAZI";
-        const GEMINI_API_KEY = "AIzaSyB9migb2cnTR9wKVTqZPWpLTpiQITWtrUA";
+        const GEMINI_API_KEY = "AIzaSyCHbC-XFODEF0qCIlc8F3ZZlb8fcjMnZqE";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -3452,21 +3453,18 @@
             }
         });
 
-        // QUAN TRỌNG: Thiết lập real-time listener để theo dõi thay đổi role
+        // Thiết lập real-time listener để theo dõi thay đổi role
         function setupUserRoleListener(userId) {
-            // Hủy listener cũ nếu có
             if (userUnsubscribe) {
                 userUnsubscribe();
             }
             
-            // Thiết lập listener mới
             userUnsubscribe = db.collection('users').doc(userId)
                 .onSnapshot((doc) => {
                     if (doc.exists) {
                         const userData = doc.data();
                         updateAdminButton(userData.role === 'admin');
                         
-                        // Cập nhật isTeacher
                         isTeacher = userData.role === 'teacher';
                         
                         if (isTeacher) {
@@ -3475,7 +3473,6 @@
                             document.getElementById('welcome-text').textContent = `Xin chào học sinh ${userData.name || ''}!`;
                         }
                     } else {
-                        // Nếu document không tồn tại, ẩn nút admin
                         updateAdminButton(false);
                     }
                 }, (error) => {
@@ -3483,7 +3480,7 @@
                 });
         }
 
-        // Cập nhật nút quản trị dựa trên role
+        // Cập nhật nút quản trị
         function updateAdminButton(isAdmin) {
             const adminBtn = document.getElementById('admin-btn');
             
@@ -3492,7 +3489,6 @@
                 console.log('✅ User is admin, showing admin button');
             } else {
                 adminBtn.style.display = 'none';
-                console.log('⛔ User is not admin, hiding admin button');
             }
         }
 
@@ -3506,7 +3502,6 @@
                     console.log('✅ User is admin, showing admin button');
                 } else {
                     adminBtn.style.display = 'none';
-                    console.log('⛔ User is not admin, hiding admin button');
                 }
             }).catch((error) => {
                 console.error('Error checking admin role:', error);
@@ -3916,7 +3911,6 @@
                 if (jsonMatch) {
                     const examData = JSON.parse(jsonMatch[0]);
                     
-                    // Ensure vocabulary array exists
                     if (!examData.vocabulary) {
                         examData.vocabulary = generateSampleVocabulary(topic, vocabularyCount);
                     }
@@ -4269,7 +4263,6 @@
                 return;
             }
             
-            // Check if word already exists
             db.collection('users').doc(user.uid).collection('cards')
                 .where('word', '==', word)
                 .get()
@@ -4339,17 +4332,14 @@
                 items: []
             };
             
-            // Add progress items and update progress immediately
             addProgressItem('Tạo từ vựng theo chủ đề');
             addProgressItem('Tạo câu hỏi ngữ pháp');
             addProgressItem('Tạo bài đọc hiểu');
             addProgressItem('Hoàn thiện đề thi');
             
-            // Update progress immediately to show 0%
             updateProgress();
             
             try {
-                // Simulate progress updates
                 setTimeout(() => {
                     completeProgressItem(0);
                     updateProgress();
@@ -4365,7 +4355,6 @@
                     updateProgress();
                 }, 1500);
                 
-                // Generate vocabulary first
                 const vocabularyPrompt = `
                     Tạo ${vocabularyCount} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${vocabularyDifficulty}.
                     Mỗi từ cần có: từ tiếng Anh, nghĩa tiếng Việt, ví dụ bằng tiếng Anh, phiên âm (nếu có).
@@ -4374,7 +4363,6 @@
                 
                 const vocabularyResponse = await fetchGemini(vocabularyPrompt);
                 
-                // Generate exam
                 const examData = await generateEnglishExamWithAI(
                     topic, 
                     vocabularyCount, 
@@ -4383,7 +4371,6 @@
                     grammarQuestions
                 );
                 
-                // Use generated vocabulary if available
                 let vocabulary = [];
                 try {
                     const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
@@ -4398,10 +4385,8 @@
                     examData.vocabulary = vocabulary.slice(0, vocabularyCount);
                 }
                 
-                // Complete all progress items
                 completeProgressItem(3);
                 
-                // Show result
                 setTimeout(() => {
                     showExamResult(examData);
                     showAlert('Đã tạo đề thi thành công!');
@@ -4449,17 +4434,14 @@
                 items: []
             };
             
-            // Add progress items and update progress immediately
             addProgressItem('Tạo từ vựng bài học');
             addProgressItem('Phát triển nội dung ngữ pháp');
             addProgressItem('Thiết kế hoạt động học tập');
             addProgressItem('Hoàn thiện bài giảng');
             
-            // Update progress immediately to show 0%
             updateProgress();
             
             try {
-                // Simulate progress updates
                 setTimeout(() => {
                     completeProgressItem(0);
                     const lessonProgressFill = document.getElementById('lessonProgressFill');
@@ -4487,7 +4469,6 @@
                     lessonProgressStatus.textContent = `Đang xử lý ${percent}%`;
                 }, 1500);
                 
-                // Generate vocabulary first
                 const vocabularyPrompt = `
                     Tạo ${vocabularyCount} từ vựng tiếng Anh về chủ đề "${topic}" ở mức độ ${vocabularyDifficulty} cho bài giảng.
                     Mỗi từ cần có: từ tiếng Anh, nghĩa tiếng Việt, ví dụ bằng tiếng Anh, phiên âm.
@@ -4496,7 +4477,6 @@
                 
                 const vocabularyResponse = await fetchGemini(vocabularyPrompt);
                 
-                // Generate lesson
                 const lessonData = await generateEnglishLessonWithAI(
                     topic, 
                     vocabularyCount, 
@@ -4505,7 +4485,6 @@
                     duration
                 );
                 
-                // Use generated vocabulary if available
                 let vocabulary = [];
                 try {
                     const jsonMatch = vocabularyResponse.match(/\[[\s\S]*\]/);
@@ -4520,16 +4499,13 @@
                     lessonData.vocabulary = vocabulary.slice(0, vocabularyCount);
                 }
                 
-                // Complete all progress items
                 completeProgressItem(3);
                 
-                // Update progress to 100%
                 const lessonProgressFill = document.getElementById('lessonProgressFill');
                 const lessonProgressStatus = document.getElementById('lessonProgressStatus');
                 lessonProgressFill.style.width = '100%';
                 lessonProgressStatus.textContent = 'Hoàn thành!';
                 
-                // Show result
                 setTimeout(() => {
                     showLessonResult(lessonData);
                     showAlert('Đã tạo bài giảng thành công!');
@@ -4555,7 +4531,7 @@
             return result;
         }
 
-        // GENERATE CLASS CODE - HÀM CHO LỚP HỌC (PHẢI CÓ TÊN KHÁC)
+        // GENERATE CLASS CODE
         function generateClassroomCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
@@ -4634,11 +4610,288 @@
             document.getElementById('previewModal').classList.add('active');
         }
 
-        // EDIT EXAM
+        // EDIT EXAM - SỬA LỖI CHỨC NĂNG CHỈNH SỬA
         function editExam() {
-            // Implement exam editor functionality
-            showAlert('Tính năng chỉnh sửa đang được phát triển!');
+            const examContent = document.getElementById('examResultContent').innerHTML;
+            if (!examContent || examContent.trim() === '') {
+                showAlert('Không có nội dung đề thi để chỉnh sửa!');
+                return;
+            }
+            
+            document.getElementById('examEditorContainer').innerHTML = `
+                <div class="editor-actions">
+                    <button class="editor-action-btn" id="addTextBlockBtn">
+                        <i class="material-symbols-outlined">text_fields</i> Thêm văn bản
+                    </button>
+                    <button class="editor-action-btn" id="addQuestionBlockBtn">
+                        <i class="material-symbols-outlined">quiz</i> Thêm câu hỏi
+                    </button>
+                </div>
+                
+                <div class="exam-blocks-container" id="examBlocksContainer">
+                    ${currentExamBlocks.map((block, index) => `
+                        <div class="exam-block-editor" data-index="${index}">
+                            <div class="block-header">
+                                <select class="block-type-select" onchange="changeBlockType(${index}, this.value)">
+                                    <option value="text" ${block.type === 'text' ? 'selected' : ''}>Văn bản</option>
+                                    <option value="question" ${block.type === 'question' ? 'selected' : ''}>Câu hỏi</option>
+                                </select>
+                                <div class="block-actions">
+                                    <button class="block-btn" onclick="moveBlockUp(${index})" ${index === 0 ? 'disabled' : ''}>
+                                        <i class="material-symbols-outlined">arrow_upward</i>
+                                    </button>
+                                    <button class="block-btn" onclick="moveBlockDown(${index})" ${index === currentExamBlocks.length - 1 ? 'disabled' : ''}>
+                                        <i class="material-symbols-outlined">arrow_downward</i>
+                                    </button>
+                                    <button class="block-btn" onclick="deleteBlock(${index})">
+                                        <i class="material-symbols-outlined">delete</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                ${block.type === 'text' ? `
+                                    <div class="form-group">
+                                        <label class="block-label">Tiêu đề:</label>
+                                        <input type="text" class="block-title" value="${block.title || ''}" onchange="updateBlockTitle(${index}, this.value)" placeholder="Nhập tiêu đề...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="block-label">Nội dung:</label>
+                                        <textarea class="block-content-text" onchange="updateBlockContent(${index}, this.value)" rows="4" placeholder="Nhập nội dung...">${block.content || ''}</textarea>
+                                    </div>
+                                ` : `
+                                    <div class="form-group">
+                                        <label class="block-label">Tiêu đề câu hỏi:</label>
+                                        <input type="text" class="block-title" value="${block.title || ''}" onchange="updateBlockTitle(${index}, this.value)" placeholder="Nhập tiêu đề...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="block-label">Nội dung câu hỏi:</label>
+                                        <textarea class="block-content-text" onchange="updateBlockContent(${index}, this.value)" rows="4" placeholder="Nhập nội dung câu hỏi...">${block.content || ''}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="block-label">Đáp án (mỗi dòng một đáp án):</label>
+                                        <textarea class="block-options" onchange="updateBlockOptions(${index}, this.value)" rows="4" placeholder="Nhập các đáp án, mỗi dòng một đáp án...">${block.options ? block.options.join('\n') : ''}</textarea>
+                                    </div>
+                                    <div class="block-controls">
+                                        <div class="form-group">
+                                            <label class="block-label">Điểm:</label>
+                                            <input type="number" class="block-points-input" value="${block.points || 1}" step="0.5" min="0" onchange="updateBlockPoints(${index}, this.value)">
+                                        </div>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('editExamModal').classList.add('active');
         }
+
+        // Các hàm hỗ trợ chỉnh sửa đề thi
+        window.changeBlockType = function(index, type) {
+            if (currentExamBlocks[index]) {
+                currentExamBlocks[index].type = type;
+                if (type === 'text') {
+                    currentExamBlocks[index].options = undefined;
+                    currentExamBlocks[index].points = 0;
+                } else if (type === 'question') {
+                    currentExamBlocks[index].points = currentExamBlocks[index].points || 1;
+                    currentExamBlocks[index].options = currentExamBlocks[index].options || ["A. Option 1", "B. Option 2", "C. Option 3", "D. Option 4"];
+                }
+                editExam(); // Reload editor
+            }
+        };
+
+        window.updateBlockTitle = function(index, title) {
+            if (currentExamBlocks[index]) {
+                currentExamBlocks[index].title = title;
+            }
+        };
+
+        window.updateBlockContent = function(index, content) {
+            if (currentExamBlocks[index]) {
+                currentExamBlocks[index].content = content;
+            }
+        };
+
+        window.updateBlockOptions = function(index, optionsText) {
+            if (currentExamBlocks[index] && currentExamBlocks[index].type === 'question') {
+                currentExamBlocks[index].options = optionsText.split('\n').filter(opt => opt.trim() !== '');
+            }
+        };
+
+        window.updateBlockPoints = function(index, points) {
+            if (currentExamBlocks[index] && currentExamBlocks[index].type === 'question') {
+                currentExamBlocks[index].points = parseFloat(points) || 1;
+            }
+        };
+
+        window.moveBlockUp = function(index) {
+            if (index > 0 && currentExamBlocks[index]) {
+                const temp = currentExamBlocks[index];
+                currentExamBlocks[index] = currentExamBlocks[index - 1];
+                currentExamBlocks[index - 1] = temp;
+                editExam(); // Reload editor
+            }
+        };
+
+        window.moveBlockDown = function(index) {
+            if (index < currentExamBlocks.length - 1 && currentExamBlocks[index]) {
+                const temp = currentExamBlocks[index];
+                currentExamBlocks[index] = currentExamBlocks[index + 1];
+                currentExamBlocks[index + 1] = temp;
+                editExam(); // Reload editor
+            }
+        };
+
+        window.deleteBlock = function(index) {
+            if (currentExamBlocks[index] && confirm('Bạn có chắc muốn xóa phần này?')) {
+                currentExamBlocks.splice(index, 1);
+                editExam(); // Reload editor
+            }
+        };
+
+        // SAVE EDITED EXAM
+        document.getElementById('saveEditedExamBtn').addEventListener('click', function() {
+            // Cập nhật preview với các thay đổi
+            const examData = {
+                title: document.querySelector('#examResultContent .exam-header h3')?.textContent || 'ĐỀ THI TIẾNG ANH',
+                description: document.querySelector('#examResultContent .exam-info p')?.textContent || 'Đề thi được tạo tự động bằng AI',
+                vocabulary: [],
+                blocks: currentExamBlocks,
+                totalPoints: currentExamBlocks.reduce((sum, block) => sum + (block.points || 0), 0)
+            };
+            
+            // Lấy từ vựng từ kết quả hiện tại
+            const vocabItems = document.querySelectorAll('#examResultContent .vocabulary-item');
+            examData.vocabulary = Array.from(vocabItems).map(item => ({
+                word: item.querySelector('strong').textContent,
+                meaning: item.querySelector('em').textContent,
+                example: item.querySelector('small')?.textContent || ''
+            }));
+            
+            // Hiển thị kết quả đã chỉnh sửa
+            showExamResult(examData);
+            document.getElementById('editExamModal').classList.remove('active');
+            showAlert('Đã lưu thay đổi đề thi!');
+        });
+
+        // CANCEL EDIT
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            document.getElementById('editExamModal').classList.remove('active');
+        });
+
+        // COPY CLASS CODE - SỬA LỖI
+        function copyClassCode() {
+            const classCodeElement = document.getElementById('generated-class-code');
+            if (!classCodeElement) {
+                showAlert('Không tìm thấy mã lớp học!');
+                return;
+            }
+            
+            const classCode = classCodeElement.textContent.trim();
+            if (!classCode || classCode === 'ABC123') {
+                showAlert('Mã lớp học chưa được tạo!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(classCode).then(() => {
+                showAlert('Đã sao chép mã lớp học vào clipboard!');
+            }).catch((error) => {
+                console.error('Lỗi khi sao chép mã lớp học:', error);
+                // Fallback cho trình duyệt cũ
+                const textArea = document.createElement('textarea');
+                textArea.value = classCode;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showAlert('Đã sao chép mã lớp học vào clipboard!');
+                } catch (err) {
+                    showAlert('Không thể sao chép mã. Vui lòng sao chép thủ công: ' + classCode);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // CREATE CLASS - SỬA LỖI
+        document.getElementById('create-class-code-btn').addEventListener('click', async function() {
+            const user = auth.currentUser;
+            if (!user) {
+                showAlert('Vui lòng đăng nhập để tạo lớp học!');
+                return;
+            }
+            
+            const className = document.getElementById('class-name-input').value.trim();
+            const classDescription = document.getElementById('class-description-input').value.trim();
+            const duration = parseInt(document.getElementById('class-duration').value);
+            
+            if (!className) {
+                showAlert('Vui lòng nhập tên lớp học!');
+                return;
+            }
+            
+            if (!duration || duration < 15 || duration > 1440) {
+                alert('Vui lòng nhập thời gian hợp lệ (15-1440 phút)!');
+                return;
+            }
+            
+            const createBtn = document.getElementById('create-class-code-btn');
+            createBtn.disabled = true;
+            createBtn.innerHTML = '<span class="loading"></span> Đang tạo...';
+            
+            try {
+                const classCode = generateClassroomCode();
+                const now = new Date();
+                const endTime = new Date(now.getTime() + duration * 60000);
+                
+                // Tạo lớp trong database trước
+                const classRef = await db.collection('classes').add({
+                    name: className,
+                    description: classDescription,
+                    code: classCode,
+                    teacherId: user.uid,
+                    duration: duration,
+                    endTime: firebase.firestore.Timestamp.fromDate(endTime),
+                    isActive: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Update user's class and role
+                await db.collection('users').doc(user.uid).update({
+                    classId: classRef.id,
+                    role: 'teacher'
+                });
+                
+                currentClass = classRef.id;
+                isTeacher = true;
+                
+                // Hiển thị mã lớp
+                document.getElementById('generated-class-code').textContent = classCode;
+                document.getElementById('create-class-form').style.display = 'none';
+                document.getElementById('class-code-display-section').style.display = 'block';
+                
+                // Cập nhật timer display
+                startClassTimer(endTime);
+                
+                // Cập nhật UI lớp học
+                updateClassUI({
+                    name: className,
+                    code: classCode,
+                    teacherId: user.uid,
+                    endTime: firebase.firestore.Timestamp.fromDate(endTime)
+                });
+                
+                showAlert('Đã tạo lớp học thành công!');
+                
+            } catch (error) {
+                console.error('Error creating class:', error);
+                showAlert('Có lỗi xảy ra khi tạo lớp học: ' + error.message);
+            } finally {
+                createBtn.disabled = false;
+                createBtn.innerHTML = 'Tạo mã lớp';
+            }
+        });
 
         // EVENT LISTENERS FOR TEACHING TOOL
         document.getElementById('generateExamBtn').addEventListener('click', generateExam);
@@ -4648,6 +4901,8 @@
         document.getElementById('editExamBtn').addEventListener('click', editExam);
         document.getElementById('generateCodeBtn').addEventListener('click', showExamCodeModal);
         document.getElementById('copyExamCodeBtn').addEventListener('click', copyExamCode);
+        document.getElementById('copyExamCodeModalBtn').addEventListener('click', copyExamCode);
+        document.getElementById('copy-class-code-btn').addEventListener('click', copyClassCode);
         
         // Card flip functionality
         document.getElementById('create-exam-card').addEventListener('click', function() {
@@ -4685,14 +4940,6 @@
             const panel = document.getElementById('lessonSettingsPanel');
             panel.classList.toggle('active');
             this.querySelector('i').textContent = panel.classList.contains('active') ? 'close' : 'settings';
-        });
-        
-        // Copy exam code in modal
-        document.getElementById('copyExamCodeModalBtn').addEventListener('click', function() {
-            const code = document.getElementById('examCodeDisplay').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                showAlert('Đã sao chép mã đề thi vào clipboard!');
-            });
         });
         
         // Close exam code modal
@@ -4901,7 +5148,6 @@
         function loadLibraryCategories() {
             const libraryContent = document.getElementById('library-content');
             
-            // Default categories
             const categories = [
                 {
                     id: 'animals',
@@ -4972,7 +5218,6 @@
             const user = auth.currentUser;
             if (!user) return;
             
-            // Sample words for each category (in real app, these would come from database)
             const categoryWords = {
                 animals: [
                     { word: 'dog', meaning: 'con chó', example: 'The dog is playing in the garden.' },
@@ -5132,7 +5377,6 @@
                     timer.textContent = `Thời gian còn lại: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 });
                 
-                // Update remaining time for flashcard sessions
                 remainingTime = diff;
             }
             
@@ -5169,13 +5413,11 @@
             }).then(() => {
                 showAlert('Lớp học đã tự động kết thúc!');
                 
-                // Update UI
                 document.querySelectorAll('.timer-text').forEach(timer => {
                     timer.textContent = "Lớp học đã kết thúc";
                     timer.classList.add('timer-expired');
                 });
                 
-                // Disable assignment buttons for students
                 if (!isTeacher) {
                     const startBtn = document.getElementById('student-start-assignment-btn');
                     if (startBtn) {
@@ -5186,82 +5428,7 @@
             });
         }
 
-        // Create new class
-        document.getElementById('create-class-code-btn').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            const className = document.getElementById('class-name-input').value.trim();
-            const classDescription = document.getElementById('class-description-input').value.trim();
-            const duration = parseInt(document.getElementById('class-duration').value);
-            
-            if (!className) {
-                alert('Vui lòng nhập tên lớp học!');
-                return;
-            }
-            
-            if (!duration || duration < 15 || duration > 1440) {
-                alert('Vui lòng nhập thời gian hợp lệ (15-1440 phút)!');
-                return;
-            }
-            
-            const classCode = generateClassroomCode();
-            const now = new Date();
-            const endTime = new Date(now.getTime() + duration * 60000);
-            
-            // Hiển thị mã lớp
-            document.getElementById('generated-class-code').textContent = classCode;
-            document.getElementById('create-class-form').style.display = 'none';
-            document.getElementById('class-code-display-section').style.display = 'block';
-            
-            // Cập nhật timer display
-            startClassTimer(endTime);
-            
-            // Tạo lớp trong database
-            db.collection('classes').add({
-                name: className,
-                description: classDescription,
-                code: classCode,
-                teacherId: user.uid,
-                duration: duration,
-                endTime: firebase.firestore.Timestamp.fromDate(endTime),
-                isActive: true,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then((docRef) => {
-                // Update user's class and role
-                db.collection('users').doc(user.uid).update({
-                    classId: docRef.id,
-                    role: 'teacher'
-                })
-                .then(() => {
-                    currentClass = docRef.id;
-                    isTeacher = true;
-                    updateClassUI({
-                        name: className,
-                        code: classCode,
-                        teacherId: user.uid,
-                        endTime: firebase.firestore.Timestamp.fromDate(endTime)
-                    });
-                    
-                    showAlert('Đã tạo lớp học thành công!');
-                });
-            })
-            .catch((error) => {
-                console.error('Error creating class:', error);
-                alert('Có lỗi xảy ra khi tạo lớp học!');
-            });
-        });
-
-        // Copy class code
-        document.getElementById('copy-class-code-btn').addEventListener('click', () => {
-            const classCode = document.getElementById('generated-class-code').textContent;
-            navigator.clipboard.writeText(classCode).then(() => {
-                showAlert('Đã sao chép mã lớp học vào clipboard!');
-            });
-        });
-
-        // End class
+        // End class button
         document.getElementById('end-class-btn').addEventListener('click', () => {
             if (!currentClass) return;
             
@@ -5274,7 +5441,6 @@
                     document.getElementById('class-code-display-section').style.display = 'none';
                     document.getElementById('create-class-form').style.display = 'block';
                     
-                    // Clear timer
                     if (classTimer) {
                         clearInterval(classTimer);
                         classTimer = null;
@@ -5301,7 +5467,6 @@
                 return;
             }
             
-            // Add word to class assignments
             db.collection('classes').doc(currentClass).collection('assignments').add({
                 word: word,
                 meaning: meaning,
@@ -5311,7 +5476,6 @@
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
-                // Clear form
                 document.getElementById('teacher-vocab-word').value = '';
                 document.getElementById('teacher-vocab-meaning').value = '';
                 document.getElementById('teacher-vocab-example').value = '';
@@ -5341,7 +5505,7 @@
             document.getElementById('teacher-section').style.display = 'none';
         });
 
-        // Join class as student
+        // Join class as student - SỬA LỖI HỌC SINH VÀO LỚP
         document.getElementById('student-join-class-btn').addEventListener('click', () => {
             const user = auth.currentUser;
             if (!user) return;
@@ -5353,20 +5517,21 @@
                 return;
             }
             
+            const joinBtn = document.getElementById('student-join-class-btn');
+            joinBtn.disabled = true;
+            joinBtn.innerHTML = '<span class="loading"></span> Đang tham gia...';
+            
             db.collection('classes').where('code', '==', classCode).where('isActive', '==', true).get()
                 .then((snapshot) => {
                     if (snapshot.empty) {
-                        alert('Không tìm thấy lớp học hoặc lớp đã kết thúc!');
-                        return;
+                        throw new Error('Không tìm thấy lớp học hoặc lớp đã kết thúc!');
                     }
                     
                     const classDoc = snapshot.docs[0];
                     const classData = classDoc.data();
                     
-                    // Check if student is already in this class
                     if (currentClass === classDoc.id) {
-                        alert('Bạn đã tham gia lớp học này rồi!');
-                        return;
+                        throw new Error('Bạn đã tham gia lớp học này rồi!');
                     }
                     
                     // Update user's class and role
@@ -5382,7 +5547,11 @@
                 })
                 .catch((error) => {
                     console.error('Error joining class:', error);
-                    alert('Có lỗi xảy ra khi tham gia lớp học!');
+                    alert(error.message || 'Có lỗi xảy ra khi tham gia lớp học!');
+                })
+                .finally(() => {
+                    joinBtn.disabled = false;
+                    joinBtn.innerHTML = 'Tham gia';
                 });
         });
 
@@ -5412,7 +5581,6 @@
             const user = auth.currentUser;
             if (!user) return;
             
-            // Load assignments from class
             db.collection('classes').doc(currentClass).collection('assignments')
                 .onSnapshot((snapshot) => {
                     const assignmentList = document.getElementById('student-assignments-list');
@@ -5426,7 +5594,6 @@
                         const assignment = doc.data();
                         totalWords++;
                         
-                        // Check if user has learned this word
                         const userCard = userCards.find(card => 
                             card.word === assignment.word && card.isAssignment
                         );
@@ -5476,7 +5643,6 @@
                 return;
             }
             
-            // Get assignment words
             db.collection('classes').doc(currentClass).collection('assignments').get()
                 .then((snapshot) => {
                     const assignmentWords = [];
@@ -5489,7 +5655,6 @@
                         return;
                     }
                     
-                    // Convert to cards format
                     cardsToLearn = assignmentWords.map(word => ({
                         ...word,
                         status: 'learning',
@@ -5657,10 +5822,8 @@
                 const result = await generateVocabularyWithAI(topic, level, count);
                 aiGeneratedWords = result.words;
                 
-                // Đánh dấu đã sử dụng AI
                 aiUsed = true;
                 
-                // Cập nhật trạng thái nút generate
                 generateBtn.disabled = true;
                 generateBtn.innerHTML = 'Đã sử dụng hết lượt';
                 
@@ -5671,7 +5834,6 @@
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi tạo từ vựng. Vui lòng thử lại sau!');
                 
-                // Nếu có lỗi, không tính là đã sử dụng AI
                 aiUsed = false;
                 generateBtn.disabled = false;
                 loading.style.display = 'none';
@@ -5801,14 +5963,13 @@
             window.location.href = 'login.html';
         });
 
-        // Start learning - SỬA: Flow học từ mới
+        // Start learning
         document.getElementById('start').addEventListener('click', () => {
             if (userCards.length === 0) {
                 alert('Bạn chưa có thẻ nào để học! Hãy thêm một số thẻ trước.');
                 return;
             }
             
-            // Chỉ lấy từ có status là 'learning' hoặc null (chưa học)
             cardsToLearn = userCards.filter(card => card.status === 'learning' || !card.status);
             
             if (cardsToLearn.length === 0) {
@@ -5827,14 +5988,13 @@
             document.getElementById('attention-drag').style.display = 'none';
         });
 
-        // Start review - SỬA: Flow ôn tập từ đã nhớ
+        // Start review
         document.getElementById('review').addEventListener('click', () => {
             if (userCards.length === 0) {
                 alert('Bạn chưa có thẻ nào để ôn tập! Hãy thêm một số thẻ trước.');
                 return;
             }
             
-            // Chỉ ôn từ có status 'known' (đã nhớ)
             cardsToReview = userCards.filter(card => card.status === 'known');
             
             if (cardsToReview.length === 0) {
@@ -5852,7 +6012,7 @@
             document.getElementById('attention-drag-review').style.display = 'none';
         });
 
-        // SỬA: Hiển thị card cho học từ mới với nút "Đã nhớ"
+        // Hiển thị card cho học từ mới
         function showCardForLearning() {
             if (currentCardIndex >= cardsToLearn.length) {
                 document.getElementById('learn-menu').classList.remove('active');
@@ -5898,11 +6058,9 @@
             back.innerHTML = '';
             back.appendChild(backContent);
             
-            // Remove existing event listeners
             const rightBtn = back.querySelector('#right');
             const wrongBtn = back.querySelector('#wrong');
             
-            // Clone and replace to remove old event listeners
             const newRightBtn = rightBtn.cloneNode(true);
             const newWrongBtn = wrongBtn.cloneNode(true);
             rightBtn.parentNode.replaceChild(newRightBtn, rightBtn);
@@ -5912,7 +6070,7 @@
             newWrongBtn.addEventListener('click', () => markCardAsLearning());
         }
 
-        // Show current card for review với nút "Đã thuộc"
+        // Show current card for review
         function showReviewCard() {
             if (currentCardIndex >= cardsToReview.length) {
                 document.getElementById('review-menu').classList.remove('active');
@@ -5957,11 +6115,9 @@
             back.innerHTML = '';
             back.appendChild(backContent);
             
-            // Remove existing event listeners
             const rightBtn = back.querySelector('#review-right');
             const wrongBtn = back.querySelector('#review-wrong');
             
-            // Clone and replace to remove old event listeners
             const newRightBtn = rightBtn.cloneNode(true);
             const newWrongBtn = wrongBtn.cloneNode(true);
             rightBtn.parentNode.replaceChild(newRightBtn, rightBtn);
@@ -5971,14 +6127,13 @@
             newWrongBtn.addEventListener('click', () => markCardForReview());
         }
 
-        // Mark card as known (chuyển từ learning -> known)
+        // Mark card as known
         function markCardAsKnown() {
             const card = cardsToLearn[currentCardIndex];
             const user = auth.currentUser;
             
             if (!user) return;
             
-            // Save learning history
             saveLearningHistory('learned', card.word);
             
             db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
@@ -6012,14 +6167,13 @@
             });
         }
 
-        // Mark card as mastered (chuyển từ known -> mastered)
+        // Mark card as mastered
         function markCardAsMastered() {
             const card = cardsToReview[currentCardIndex];
             const user = auth.currentUser;
             
             if (!user) return;
             
-            // Save learning history
             saveLearningHistory('mastered', card.word);
             
             db.collection('users').doc(user.uid).collection('cards').doc(card.id).update({
@@ -6471,10 +6625,8 @@
                     if (doc.exists) {
                         const userData = doc.data();
                         if (userData.role === 'teacher') {
-                            // Default to teacher mode if user is teacher
                             document.getElementById('teacher-mode-btn').click();
                         } else {
-                            // Default to student mode if user is student
                             document.getElementById('student-mode-btn').click();
                         }
                     }
