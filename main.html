@@ -235,6 +235,16 @@
             margin-bottom: 8px;
         }
 
+        .action-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-btn.disabled:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         /* Popup Styles */
         .pop-up {
             display: none;
@@ -2372,6 +2382,61 @@
                 margin-top: 10px;
             }
         }
+
+        /* Lớp học warning */
+        .class-warning {
+            background-color: #FFF3CD;
+            border: 2px solid #FFA500;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .class-warning h3 {
+            color: #FF9800;
+            margin-bottom: 10px;
+        }
+
+        .class-warning p {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .vocab-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .vocab-buttons button {
+            padding: 10px 20px;
+            border: 2px solid #FFA500;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .vocab-buttons button:hover {
+            background: #FFA500;
+            color: white;
+        }
+
+        .vocab-buttons button.active {
+            background: #FFA500;
+            color: white;
+        }
+
+        .create-vocab-section {
+            display: none;
+        }
+
+        .create-vocab-section.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -2467,6 +2532,11 @@
                 </div>
                 <div class="form-group">
                     <input type="text" placeholder="Chủ đề (tùy chọn)" id="teacher-vocab-category" />
+                </div>
+                <div class="vocab-buttons">
+                    <button id="create-vocab-btn" class="active">Tạo từ</button>
+                    <button id="create-another-btn">Tạo thêm</button>
+                    <button id="finish-vocab-btn">Tạo xong</button>
                 </div>
                 <button type="button" id="submit-teacher-vocab" class="btn">Tạo từ vựng</button>
             </div>
@@ -2778,7 +2848,14 @@
                 <span id="close-create-exam-popup" class="material-symbols-outlined close">close</span>
                 <h2><i class="material-symbols-outlined">quiz</i> Tạo Đề Thi Tiếng Anh</h2>
                 
-                <div class="teaching-card">
+                <!-- Warning message nếu chưa có lớp học -->
+                <div class="class-warning" id="exam-class-warning" style="display: none;">
+                    <h3><i class="material-symbols-outlined">warning</i> Bạn cần tạo lớp học trước!</h3>
+                    <p>Vui lòng tạo lớp học trong mục "Lớp học" trước khi tạo đề thi.</p>
+                    <button class="btn" id="go-to-classroom-btn" style="margin-top: 10px;">Đi đến Lớp học</button>
+                </div>
+                
+                <div class="teaching-card" id="exam-teaching-card">
                     <div class="input-area">
                         <textarea id="examTopic" placeholder="Nhập chủ đề bài học (ví dụ: Daily Routines, Food and Drink, Travel...)" rows="3"></textarea>
                         <div class="word-count" id="examWordCount">0 từ</div>
@@ -2948,7 +3025,14 @@
                 <span id="close-create-lesson-popup" class="material-symbols-outlined close">close</span>
                 <h2><i class="material-symbols-outlined">menu_book</i> Tạo Bài Giảng Tiếng Anh</h2>
                 
-                <div class="teaching-card">
+                <!-- Warning message nếu chưa có lớp học -->
+                <div class="class-warning" id="lesson-class-warning" style="display: none;">
+                    <h3><i class="material-symbols-outlined">warning</i> Bạn cần tạo lớp học trước!</h3>
+                    <p>Vui lòng tạo lớp học trong mục "Lớp học" trước khi tạo bài giảng.</p>
+                    <button class="btn" id="go-to-classroom-lesson-btn" style="margin-top: 10px;">Đi đến Lớp học</button>
+                </div>
+                
+                <div class="teaching-card" id="lesson-teaching-card">
                     <div class="input-area">
                         <textarea id="lessonTopic" placeholder="Nhập chủ đề bài giảng (ví dụ: Introducing Yourself, Ordering Food, Making Plans...)" rows="3"></textarea>
                         <div class="word-count" id="lessonWordCount">0 từ</div>
@@ -3308,7 +3392,7 @@
                         <span class="material-symbols-outlined">analytics</span>
                         Đánh giá
                     </button>
-                    <button class="action-btn" id="classroom-btn">
+                    <button class="action-btn primary" id="classroom-btn">
                         <span class="material-symbols-outlined">school</span>
                         Lớp học
                     </button>
@@ -3340,7 +3424,7 @@
     <script>
         // API Keys
         const REVERSED_API_KEY = "4AE6KqeYCeSyAZI";
-        const GEMINI_API_KEY = "AIzaSyA8dlRLJiF5WNueW2vmm4Ku9yBbrwLSojo";
+        const GEMINI_API_KEY = "AIzaSyCHbC-XFODEF0qCIlc8F3ZZlb8fcjMnZqE";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -3404,6 +3488,12 @@
         let richTextEditors = [];
         let userUnsubscribe = null;
         let userId = null;
+        
+        // Biến kiểm soát tạo đề/từ vựng
+        let hasCreatedExam = false;
+        let hasCreatedVocab = false;
+        let teacherVocabWords = [];
+        let currentVocabIndex = 0;
 
         // Hàm đảo ngược chuỗi để lấy API key thật
         function getRealAPIKey(reversedKey) {
@@ -4296,6 +4386,17 @@
 
         // GENERATE EXAM
         async function generateExam() {
+            // Kiểm tra nếu đã tạo đề thi hoặc từ vựng
+            if (hasCreatedExam) {
+                showAlert('Bạn đã tạo đề thi rồi. Chờ hết thời gian lớp học hoặc hủy lớp để tạo mới!');
+                return;
+            }
+            
+            if (hasCreatedVocab) {
+                showAlert('Bạn đã tạo từ vựng rồi. Chờ hết thời gian lớp học hoặc hủy lớp để tạo đề thi!');
+                return;
+            }
+            
             const topic = document.getElementById('examTopic').value.trim();
             const vocabularyCount = parseInt(document.getElementById('vocabularyCount').value);
             const vocabularyDifficulty = document.getElementById('vocabularyDifficulty').value;
@@ -4389,6 +4490,7 @@
                 
                 setTimeout(() => {
                     showExamResult(examData);
+                    hasCreatedExam = true;
                     showAlert('Đã tạo đề thi thành công!');
                 }, 500);
                 
@@ -4908,8 +5010,21 @@
         document.getElementById('create-exam-card').addEventListener('click', function() {
             this.classList.toggle('flipped');
             setTimeout(() => {
+                // Kiểm tra nếu đã có lớp học chưa
+                if (!currentClass) {
+                    showAlert('Bạn cần tạo lớp học trước!');
+                    return;
+                }
+                
+                // Kiểm tra nếu đã tạo từ vựng
+                if (hasCreatedVocab) {
+                    showAlert('Bạn đã tạo từ vựng rồi. Chờ hết thời gian lớp học hoặc hủy lớp để tạo đề thi!');
+                    return;
+                }
+                
                 document.getElementById('classroom-menu').classList.remove('active');
                 document.getElementById('create-exam-popup').classList.add('active');
+                updateExamUI();
             }, 300);
         });
         
@@ -4918,15 +5033,153 @@
             setTimeout(() => {
                 document.getElementById('classroom-menu').classList.remove('active');
                 document.getElementById('create-lesson-popup').classList.add('active');
+                updateLessonUI();
             }, 300);
         });
         
         document.getElementById('create-teacher-vocab-card').addEventListener('click', function() {
             this.classList.toggle('flipped');
             setTimeout(() => {
+                // Kiểm tra nếu đã có lớp học chưa
+                if (!currentClass) {
+                    showAlert('Bạn cần tạo lớp học trước!');
+                    return;
+                }
+                
+                // Kiểm tra nếu đã tạo đề thi
+                if (hasCreatedExam) {
+                    showAlert('Bạn đã tạo đề thi rồi. Chờ hết thời gian lớp học hoặc hủy lớp để tạo từ vựng!');
+                    return;
+                }
+                
                 document.getElementById('classroom-menu').classList.remove('active');
                 document.getElementById('teacher-add-vocab-menu').classList.add('active');
+                resetVocabForm();
             }, 300);
+        });
+        
+        // Cập nhật UI cho đề thi
+        function updateExamUI() {
+            if (!currentClass) {
+                document.getElementById('exam-class-warning').style.display = 'block';
+                document.getElementById('exam-teaching-card').style.display = 'none';
+            } else {
+                document.getElementById('exam-class-warning').style.display = 'none';
+                document.getElementById('exam-teaching-card').style.display = 'block';
+            }
+        }
+        
+        // Cập nhật UI cho bài giảng
+        function updateLessonUI() {
+            if (!currentClass) {
+                document.getElementById('lesson-class-warning').style.display = 'block';
+                document.getElementById('lesson-teaching-card').style.display = 'none';
+            } else {
+                document.getElementById('lesson-class-warning').style.display = 'none';
+                document.getElementById('lesson-teaching-card').style.display = 'block';
+            }
+        }
+        
+        // Reset form từ vựng
+        function resetVocabForm() {
+            document.getElementById('teacher-vocab-word').value = '';
+            document.getElementById('teacher-vocab-meaning').value = '';
+            document.getElementById('teacher-vocab-example').value = '';
+            document.getElementById('teacher-vocab-category').value = '';
+            currentVocabIndex = 0;
+            teacherVocabWords = [];
+        }
+        
+        // Nút tạo từ vựng cho học sinh
+        document.getElementById('submit-teacher-vocab').addEventListener('click', () => {
+            const user = auth.currentUser;
+            if (!user || !currentClass) {
+                showAlert('Bạn cần tạo lớp học trước!');
+                return;
+            }
+            
+            const word = document.getElementById('teacher-vocab-word').value.trim();
+            const meaning = document.getElementById('teacher-vocab-meaning').value.trim();
+            const example = document.getElementById('teacher-vocab-example').value.trim();
+            const category = document.getElementById('teacher-vocab-category').value.trim() || 'Bài tập giáo viên';
+            
+            if (!word || !meaning) {
+                showAlert('Vui lòng nhập từ và nghĩa!');
+                return;
+            }
+            
+            // Lưu từ vào mảng tạm
+            teacherVocabWords.push({
+                word: word,
+                meaning: meaning,
+                example: example,
+                category: category
+            });
+            
+            // Reset form
+            document.getElementById('teacher-vocab-word').value = '';
+            document.getElementById('teacher-vocab-meaning').value = '';
+            document.getElementById('teacher-vocab-example').value = '';
+            document.getElementById('teacher-vocab-category').value = '';
+            
+            currentVocabIndex++;
+            showAlert(`Đã thêm từ "${word}". Bạn đã tạo ${currentVocabIndex} từ.`);
+        });
+        
+        // Nút tạo thêm từ
+        document.getElementById('create-another-btn').addEventListener('click', () => {
+            // Chỉ cần reset form để tạo từ mới
+            document.getElementById('teacher-vocab-word').value = '';
+            document.getElementById('teacher-vocab-meaning').value = '';
+            document.getElementById('teacher-vocab-example').value = '';
+            document.getElementById('teacher-vocab-category').value = '';
+        });
+        
+        // Nút tạo xong từ vựng
+        document.getElementById('finish-vocab-btn').addEventListener('click', () => {
+            if (teacherVocabWords.length === 0) {
+                showAlert('Bạn chưa tạo từ vựng nào!');
+                return;
+            }
+            
+            const user = auth.currentUser;
+            if (!user || !currentClass) {
+                showAlert('Bạn cần tạo lớp học trước!');
+                return;
+            }
+            
+            // Lưu tất cả từ vựng vào database
+            let savedCount = 0;
+            teacherVocabWords.forEach((vocab, index) => {
+                db.collection('classes').doc(currentClass).collection('assignments').add({
+                    word: vocab.word,
+                    meaning: vocab.meaning,
+                    example: vocab.example,
+                    category: vocab.category,
+                    teacherId: user.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    savedCount++;
+                    if (savedCount === teacherVocabWords.length) {
+                        hasCreatedVocab = true;
+                        document.getElementById('teacher-add-vocab-menu').classList.remove('active');
+                        showAlert(`Đã tạo ${savedCount} từ vựng cho học sinh!`);
+                        resetVocabForm();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error adding assignment:', error);
+                    showAlert('Có lỗi xảy ra khi tạo từ vựng!');
+                });
+            });
+        });
+        
+        // Nút tạo từ (bắt đầu)
+        document.getElementById('create-vocab-btn').addEventListener('click', () => {
+            document.getElementById('create-another-btn').style.display = 'inline-block';
+            document.getElementById('finish-vocab-btn').style.display = 'inline-block';
+            document.getElementById('create-vocab-btn').classList.add('active');
         });
         
         // Settings buttons
@@ -5054,6 +5307,17 @@
         
         document.getElementById('homeworkToggle').addEventListener('change', function() {
             lessonSettings.hasHomework = this.checked;
+        });
+        
+        // Nút đi đến lớp học từ warning
+        document.getElementById('go-to-classroom-btn').addEventListener('click', function() {
+            document.getElementById('create-exam-popup').classList.remove('active');
+            document.getElementById('classroom-menu').classList.add('active');
+        });
+        
+        document.getElementById('go-to-classroom-lesson-btn').addEventListener('click', function() {
+            document.getElementById('create-lesson-popup').classList.remove('active');
+            document.getElementById('classroom-menu').classList.add('active');
         });
 
         // Show alert message
@@ -5413,6 +5677,10 @@
             }).then(() => {
                 showAlert('Lớp học đã tự động kết thúc!');
                 
+                // Reset các biến kiểm soát
+                hasCreatedExam = false;
+                hasCreatedVocab = false;
+                
                 document.querySelectorAll('.timer-text').forEach(timer => {
                     timer.textContent = "Lớp học đã kết thúc";
                     timer.classList.add('timer-expired');
@@ -5441,53 +5709,16 @@
                     document.getElementById('class-code-display-section').style.display = 'none';
                     document.getElementById('create-class-form').style.display = 'block';
                     
+                    // Reset các biến kiểm soát
+                    hasCreatedExam = false;
+                    hasCreatedVocab = false;
+                    
                     if (classTimer) {
                         clearInterval(classTimer);
                         classTimer = null;
                     }
                 });
             }
-        });
-
-        // Teacher create vocabulary for students
-        document.getElementById('submit-teacher-vocab').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (!user || !currentClass) {
-                showAlert('Bạn cần tạo lớp học trước!');
-                return;
-            }
-            
-            const word = document.getElementById('teacher-vocab-word').value.trim();
-            const meaning = document.getElementById('teacher-vocab-meaning').value.trim();
-            const example = document.getElementById('teacher-vocab-example').value.trim();
-            const category = document.getElementById('teacher-vocab-category').value.trim() || 'Bài tập giáo viên';
-            
-            if (!word || !meaning) {
-                showAlert('Vui lòng nhập từ và nghĩa!');
-                return;
-            }
-            
-            db.collection('classes').doc(currentClass).collection('assignments').add({
-                word: word,
-                meaning: meaning,
-                example: example,
-                category: category,
-                teacherId: user.uid,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                document.getElementById('teacher-vocab-word').value = '';
-                document.getElementById('teacher-vocab-meaning').value = '';
-                document.getElementById('teacher-vocab-example').value = '';
-                document.getElementById('teacher-vocab-category').value = '';
-                
-                document.getElementById('teacher-add-vocab-menu').classList.remove('active');
-                showAlert('Đã tạo từ vựng cho học sinh!');
-            })
-            .catch((error) => {
-                console.error('Error adding assignment:', error);
-                showAlert('Có lỗi xảy ra khi tạo từ vựng!');
-            });
         });
 
         // Switch mode between teacher and student
