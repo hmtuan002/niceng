@@ -27,6 +27,7 @@
             --success-color: #4CAF50;
             --danger-color: #f44336;
             --warning-color: #FF9800;
+            --info-color: #36d1dc;
             
             /* Card and UI colors */
             --card-bg: white;
@@ -129,7 +130,7 @@
             font-size: 0.9rem;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
@@ -140,7 +141,12 @@
             font-family: inherit;
         }
 
-        input:focus, select:focus {
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
             border-color: #FFA500;
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
@@ -451,8 +457,8 @@
             border: 2px solid white;
         }
 
-        /* Flashcard Section - Đã sửa */
-        .flashcard-section {
+        /* Learning Content Section */
+        .content-section {
             background: white;
             border-radius: 16px;
             padding: 20px;
@@ -463,7 +469,7 @@
             min-height: 500px;
         }
 
-        .flashcard-title {
+        .content-title {
             color: #FFA500;
             margin-bottom: 20px;
             font-size: 1.3rem;
@@ -474,7 +480,7 @@
             border-bottom: 2px solid #f0f0f0;
         }
 
-        .flashcard-container {
+        .content-container {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -483,6 +489,7 @@
             padding: 15px;
         }
 
+        /* Flashcard Styling */
         .flashcard {
             width: 100%;
             max-width: 400px;
@@ -539,14 +546,6 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .flashcard-meaning {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-align: center;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
         .flashcard-hint {
             font-size: 1rem;
             opacity: 0.9;
@@ -583,7 +582,106 @@
             box-shadow: 0 4px 15px rgba(255,255,255,0.15);
         }
 
-        .flashcard-answer-section {
+        /* Essay Question Styling */
+        .essay-question-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .essay-question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid #FFA500;
+        }
+
+        .essay-answer-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            resize: vertical;
+            transition: all 0.2s;
+        }
+
+        .essay-answer-input:focus {
+            border-color: #FFA500;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+        }
+
+        /* Multiple Choice Question Styling */
+        .mcq-question-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .mcq-question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mcq-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: white;
+        }
+
+        .mcq-option:hover {
+            border-color: #FFA500;
+            background-color: rgba(255, 165, 0, 0.05);
+        }
+
+        .mcq-option.selected {
+            border-color: #2196F3;
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+
+        .mcq-option input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .mcq-option label {
+            flex: 1;
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Answer Section */
+        .answer-section {
             width: 100%;
             max-width: 400px;
             margin-top: 20px;
@@ -665,7 +763,8 @@
             border-color: #f44336;
         }
 
-        .flashcard-controls {
+        /* Content Controls */
+        .content-controls {
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -673,7 +772,7 @@
             flex-wrap: wrap;
         }
 
-        .flashcard-control-btn {
+        .content-control-btn {
             padding: 12px 22px;
             background: #f8f9fa;
             border: none;
@@ -688,7 +787,7 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
-        .flashcard-control-btn:hover {
+        .content-control-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 18px rgba(0,0,0,0.12);
         }
@@ -698,9 +797,61 @@
             color: white;
         }
 
-        .next-flashcard-btn {
+        .create-essay-btn {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+        }
+
+        .create-mcq-btn {
             background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
+        }
+
+        .next-content-btn {
+            background: linear-gradient(135deg, #36d1dc, #5b86e5);
+            color: white;
+        }
+
+        /* Content Type Tabs */
+        .content-type-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .content-type-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .content-type-tab:hover {
+            color: #FFA500;
+            background-color: rgba(255, 165, 0, 0.05);
+        }
+
+        .content-type-tab.active {
+            color: #FFA500;
+            border-bottom-color: #FFA500;
+            background-color: rgba(255, 165, 0, 0.1);
+        }
+
+        /* Current Content Info */
+        .current-content-info {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* Modal */
@@ -734,7 +885,7 @@
             padding: 30px;
             border-radius: 20px;
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
@@ -925,6 +1076,76 @@
             background: linear-gradient(135deg, #ff416c, #ff4b2b);
         }
 
+        /* Flashcard counter */
+        .flashcard-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Score animation */
+        @keyframes scorePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .score-updated {
+            animation: scorePop 0.4s ease;
+        }
+
+        /* Option input for MCQ */
+        .option-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .option-input-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .option-input-group input[type="text"] {
+            flex: 1;
+        }
+
+        .add-option-btn, .remove-option-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .add-option-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .remove-option-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Content display */
+        .current-content-type {
+            font-size: 0.8rem;
+            background-color: rgba(255, 165, 0, 0.1);
+            color: #FFA500;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -962,7 +1183,7 @@
                 font-size: 1.3rem;
             }
             
-            .participants-section, .flashcard-section {
+            .participants-section, .content-section {
                 padding: 15px;
                 min-height: auto;
             }
@@ -976,7 +1197,7 @@
                 max-width: 350px;
             }
             
-            .flashcard-word, .flashcard-meaning {
+            .flashcard-word {
                 font-size: 1.8rem;
             }
             
@@ -998,6 +1219,15 @@
             
             .duration-options {
                 grid-template-columns: 1fr;
+            }
+            
+            .content-controls {
+                flex-direction: column;
+            }
+            
+            .content-control-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -1023,49 +1253,14 @@
                 max-width: 300px;
             }
             
-            .flashcard-word, .flashcard-meaning {
+            .flashcard-word {
                 font-size: 1.5rem;
-            }
-            
-            .flashcard-controls {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .flashcard-control-btn {
-                width: 100%;
-                justify-content: center;
             }
             
             .modal-content {
                 padding: 20px;
                 margin: 10px;
             }
-        }
-
-        /* Flashcard counter */
-        .flashcard-counter {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            backdrop-filter: blur(8px);
-        }
-
-        /* Score animation */
-        @keyframes scorePop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        .score-updated {
-            animation: scorePop 0.4s ease;
         }
     </style>
 </head>
@@ -1079,7 +1274,7 @@
                     <div class="logo-section">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <h1>Phòng học trực tuyến</h1>
-                        <p style="color: #666; margin-top: 8px; font-size: 0.9rem;">Học tập tương tác với flashcard</p>
+                        <p style="color: #666; margin-top: 8px; font-size: 0.9rem;">Học tập tương tác với flashcard, câu hỏi tự luận và trắc nghiệm</p>
                     </div>
                     
                     <div class="form-group">
@@ -1158,40 +1353,94 @@
                         </div>
                     </div>
                     
-                    <!-- Flashcard Section -->
-                    <div class="flashcard-section">
-                        <h3 class="flashcard-title"><i class="fas fa-lightbulb"></i> Flashcard Học Tập</h3>
-                        <div class="flashcard-container">
-                            <div class="flashcard" id="roomFlashcard">
-                                <div class="flashcard-inner">
-                                    <div class="flashcard-front">
-                                        <div class="flashcard-word" id="flashcardWord">Nhấn để xem</div>
-                                        <div class="flashcard-hint" id="frontHint"></div>
+                    <!-- Content Section -->
+                    <div class="content-section">
+                        <div class="content-type-tabs">
+                            <div class="content-type-tab active" data-type="flashcard">
+                                <i class="fas fa-lightbulb"></i> Flashcard
+                            </div>
+                            <div class="content-type-tab" data-type="essay">
+                                <i class="fas fa-pen"></i> Tự luận
+                            </div>
+                            <div class="content-type-tab" data-type="mcq">
+                                <i class="fas fa-list-check"></i> Trắc nghiệm
+                            </div>
+                        </div>
+                        
+                        <div class="current-content-info">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="currentContentInfo">Đang tải nội dung...</span>
+                        </div>
+                        
+                        <div class="content-container">
+                            <!-- Flashcard Content -->
+                            <div id="flashcardContent" class="content-type-content">
+                                <div class="flashcard" id="roomFlashcard">
+                                    <div class="flashcard-inner">
+                                        <div class="flashcard-front">
+                                            <div class="flashcard-word" id="flashcardWord">Nhấn để xem</div>
+                                            <div class="flashcard-hint" id="frontHint"></div>
+                                        </div>
+                                        <div class="flashcard-back">
+                                            <div class="flashcard-hint" id="backHint"></div>
+                                            <button class="pronunciation-btn" id="pronunciationBtn">
+                                                <i class="fas fa-volume-up"></i> Nghe phát âm
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="flashcard-back">
-                                        <div class="flashcard-meaning" id="flashcardMeaning">Loading...</div>
-                                        <div class="flashcard-hint" id="backHint"></div>
-                                        <button class="pronunciation-btn" id="pronunciationBtn">
-                                            <i class="fas fa-volume-up"></i> Nghe phát âm
-                                        </button>
-                                    </div>
+                                </div>
+                                
+                                <div class="answer-section">
+                                    <input type="text" class="answer-input" id="flashcardAnswerInput" placeholder="Nhập nghĩa tiếng Việt của từ...">
+                                    <button class="submit-answer-btn" id="submitFlashcardAnswerBtn">Kiểm tra đáp án</button>
+                                    <div class="answer-feedback" id="flashcardAnswerFeedback"></div>
                                 </div>
                             </div>
                             
-                            <div class="flashcard-answer-section">
-                                <input type="text" class="answer-input" id="answerInput" placeholder="Nhập nghĩa tiếng Việt của từ...">
-                                <button class="submit-answer-btn" id="submitAnswerBtn">Kiểm tra đáp án</button>
-                                <div class="answer-feedback" id="answerFeedback"></div>
+                            <!-- Essay Question Content -->
+                            <div id="essayContent" class="content-type-content hidden">
+                                <div class="essay-question-container">
+                                    <div class="essay-question-text" id="essayQuestionText">
+                                        Chưa có câu hỏi tự luận nào. Giáo viên hãy tạo câu hỏi để bắt đầu!
+                                    </div>
+                                    
+                                    <textarea class="essay-answer-input" id="essayAnswerInput" placeholder="Nhập câu trả lời của bạn..."></textarea>
+                                    
+                                    <button class="submit-answer-btn" id="submitEssayAnswerBtn">Nộp bài</button>
+                                    <div class="answer-feedback" id="essayAnswerFeedback"></div>
+                                </div>
                             </div>
                             
-                            <div class="flashcard-controls">
-                                <button class="flashcard-control-btn create-flashcard-btn" id="createFlashcardBtn">
-                                    <i class="fas fa-plus-circle"></i> Tạo flashcard
-                                </button>
-                                <button class="flashcard-control-btn next-flashcard-btn" id="nextFlashcardBtn">
-                                    <i class="fas fa-forward"></i> Flashcard tiếp theo
-                                </button>
+                            <!-- MCQ Content -->
+                            <div id="mcqContent" class="content-type-content hidden">
+                                <div class="mcq-question-container">
+                                    <div class="mcq-question-text" id="mcqQuestionText">
+                                        Chưa có câu hỏi trắc nghiệm nào. Giáo viên hãy tạo câu hỏi để bắt đầu!
+                                    </div>
+                                    
+                                    <div class="mcq-options" id="mcqOptionsContainer">
+                                        <!-- Options will be dynamically generated here -->
+                                    </div>
+                                    
+                                    <button class="submit-answer-btn" id="submitMcqAnswerBtn">Nộp bài</button>
+                                    <div class="answer-feedback" id="mcqAnswerFeedback"></div>
+                                </div>
                             </div>
+                        </div>
+                        
+                        <div class="content-controls">
+                            <button class="content-control-btn create-flashcard-btn" id="createFlashcardBtn">
+                                <i class="fas fa-plus-circle"></i> Tạo flashcard
+                            </button>
+                            <button class="content-control-btn create-essay-btn" id="createEssayBtn">
+                                <i class="fas fa-plus-circle"></i> Tạo tự luận
+                            </button>
+                            <button class="content-control-btn create-mcq-btn" id="createMcqBtn">
+                                <i class="fas fa-plus-circle"></i> Tạo trắc nghiệm
+                            </button>
+                            <button class="content-control-btn next-content-btn" id="nextContentBtn">
+                                <i class="fas fa-forward"></i> Nội dung tiếp theo
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1224,7 +1473,7 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <label for="flashcardVietnamese">Nghĩa tiếng Việt</label>
+                        <label for="flashcardVietnamese">Nghĩa tiếng Việt (Đáp án)</label>
                         <input type="text" id="flashcardVietnamese" placeholder="Nhập nghĩa tiếng Việt">
                     </div>
                     <div class="form-group">
@@ -1235,6 +1484,69 @@
                 <div class="modal-footer">
                     <button class="modal-btn secondary-btn" id="cancelCreateFlashcard">Hủy</button>
                     <button class="modal-btn" id="saveFlashcardBtn">Tạo flashcard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Essay Question Modal -->
+        <div id="createEssayModal" class="modal">
+            <div class="modal-content">
+                <span class="material-symbols-outlined close" id="closeCreateEssayModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Tạo Câu Hỏi Tự Luận</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="essayQuestion">Câu hỏi</label>
+                        <textarea id="essayQuestion" placeholder="Nhập câu hỏi tự luận"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="essayCorrectAnswer">Đáp án đúng (có thể nhiều đáp án, mỗi đáp án một dòng)</label>
+                        <textarea id="essayCorrectAnswer" placeholder="Nhập đáp án đúng (mỗi đáp án một dòng)&#10;Ví dụ:&#10;Hà Nội&#10;Thủ đô Việt Nam"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="essayPoints">Điểm số</label>
+                        <input type="number" id="essayPoints" value="1" min="1" max="10">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn secondary-btn" id="cancelCreateEssay">Hủy</button>
+                    <button class="modal-btn" id="saveEssayBtn">Tạo câu hỏi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create MCQ Modal -->
+        <div id="createMcqModal" class="modal">
+            <div class="modal-content">
+                <span class="material-symbols-outlined close" id="closeCreateMcqModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Tạo Câu Hỏi Trắc Nghiệm</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="mcqQuestion">Câu hỏi</label>
+                        <textarea id="mcqQuestion" placeholder="Nhập câu hỏi trắc nghiệm"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Các lựa chọn</label>
+                        <div id="mcqOptionsList">
+                            <!-- Options will be dynamically added here -->
+                        </div>
+                        <button type="button" class="add-option-btn" id="addMcqOptionBtn" style="margin-top: 10px;">
+                            <i class="fas fa-plus"></i> Thêm lựa chọn
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mcqPoints">Điểm số</label>
+                        <input type="number" id="mcqPoints" value="1" min="1" max="10">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn secondary-btn" id="cancelCreateMcq">Hủy</button>
+                    <button class="modal-btn" id="saveMcqBtn">Tạo câu hỏi</button>
                 </div>
             </div>
         </div>
@@ -1270,13 +1582,13 @@
         let isTeacher = false;
         let participantsListener = null;
         let roomListener = null;
-        let flashcardsListener = null;
+        let contentListener = null;
         let roomTimer = null;
         let endTime = null;
-        let currentFlashcardIndex = 0;
-        let roomFlashcards = [];
-        let hasAnsweredCurrentFlashcard = false;
-        let lastFlashcardUpdate = 0;
+        let currentContentIndex = 0;
+        let roomContents = [];
+        let hasAnsweredCurrentContent = false;
+        let currentContentType = 'flashcard'; // 'flashcard', 'essay', 'mcq'
         
         // Khởi tạo ứng dụng
         document.addEventListener('DOMContentLoaded', function() {
@@ -1294,21 +1606,50 @@
             document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
             document.getElementById('leaveRoomBtn').addEventListener('click', leaveRoom);
             document.getElementById('userNameInput').addEventListener('input', saveUserName);
+            
+            // Flashcard events
             document.getElementById('createFlashcardBtn').addEventListener('click', openCreateFlashcardModal);
             document.getElementById('saveFlashcardBtn').addEventListener('click', saveFlashcard);
             document.getElementById('cancelCreateFlashcard').addEventListener('click', closeCreateFlashcardModal);
             document.getElementById('closeCreateFlashcardModal').addEventListener('click', closeCreateFlashcardModal);
             document.getElementById('testFlashcardPronunciation').addEventListener('click', testFlashcardPronunciation);
             document.getElementById('pronunciationBtn').addEventListener('click', playCurrentPronunciation);
-            document.getElementById('submitAnswerBtn').addEventListener('click', submitAnswer);
-            document.getElementById('nextFlashcardBtn').addEventListener('click', showNextFlashcard);
+            document.getElementById('submitFlashcardAnswerBtn').addEventListener('click', submitFlashcardAnswer);
             document.getElementById('roomFlashcard').addEventListener('click', flipFlashcard);
             
-            // Xử lý phím Enter để submit answer
-            document.getElementById('answerInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    submitAnswer();
-                }
+            // Essay events
+            document.getElementById('createEssayBtn').addEventListener('click', openCreateEssayModal);
+            document.getElementById('saveEssayBtn').addEventListener('click', saveEssay);
+            document.getElementById('cancelCreateEssay').addEventListener('click', closeCreateEssayModal);
+            document.getElementById('closeCreateEssayModal').addEventListener('click', closeCreateEssayModal);
+            document.getElementById('submitEssayAnswerBtn').addEventListener('click', submitEssayAnswer);
+            
+            // MCQ events
+            document.getElementById('createMcqBtn').addEventListener('click', openCreateMcqModal);
+            document.getElementById('saveMcqBtn').addEventListener('click', saveMcq);
+            document.getElementById('cancelCreateMcq').addEventListener('click', closeCreateMcqModal);
+            document.getElementById('closeCreateMcqModal').addEventListener('click', closeCreateMcqModal);
+            document.getElementById('addMcqOptionBtn').addEventListener('click', addMcqOption);
+            document.getElementById('submitMcqAnswerBtn').addEventListener('click', submitMcqAnswer);
+            
+            // Content navigation
+            document.getElementById('nextContentBtn').addEventListener('click', showNextContent);
+            
+            // Content type tabs
+            document.querySelectorAll('.content-type-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    switchContentType(type);
+                });
+            });
+            
+            // Xử lý phím Enter
+            document.getElementById('flashcardAnswerInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') submitFlashcardAnswer();
+            });
+            
+            document.getElementById('essayAnswerInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) submitEssayAnswer();
             });
             
             // Xóa thông tin phòng cũ từ localStorage
@@ -1317,6 +1658,9 @@
             
             // Xử lý khi người dùng thoát/đóng tab
             setupBeforeUnload();
+            
+            // Initialize MCQ options list
+            initializeMcqOptions();
         });
         
         // Tải tên người dùng từ localStorage
@@ -1498,11 +1842,11 @@
                     // Tải danh sách người tham gia
                     loadParticipants();
                     
-                    // Tải flashcards
-                    loadFlashcards();
+                    // Tải nội dung học tập
+                    loadContents();
                     
-                    // Hiển thị/ẩn nút tạo flashcard cho giáo viên
-                    updateFlashcardControls();
+                    // Hiển thị/ẩn nút tạo nội dung cho giáo viên
+                    updateContentControls();
                     
                     showNotification(`Đã tham gia phòng "${roomData.name}"`, 'success');
                 })
@@ -1573,15 +1917,15 @@
                 roomListener = null;
             }
             
-            if (flashcardsListener) {
-                flashcardsListener();
-                flashcardsListener = null;
+            if (contentListener) {
+                contentListener();
+                contentListener = null;
             }
             
-            // Reset flashcards
-            roomFlashcards = [];
-            currentFlashcardIndex = 0;
-            hasAnsweredCurrentFlashcard = false;
+            // Reset contents
+            roomContents = [];
+            currentContentIndex = 0;
+            hasAnsweredCurrentContent = false;
         }
         
         // Bắt đầu đếm ngược thời gian phòng
@@ -1649,7 +1993,7 @@
             });
         }
         
-        // Tải danh sách người tham gia - Tối ưu hóa hiệu suất
+        // Tải danh sách người tham gia
         function loadParticipants() {
             if (!currentRoomId) return;
             
@@ -1747,94 +2091,210 @@
                     
                     // Cập nhật trạng thái giáo viên
                     isTeacher = roomData.teacherId === currentUserId;
-                    updateFlashcardControls();
+                    updateContentControls();
                 }, error => {
                     console.error('Lỗi khi lắng nghe thay đổi phòng:', error);
                 });
         }
         
-        // Tải flashcards với hiệu suất tốt hơn
-        function loadFlashcards() {
+        // Tải nội dung học tập
+        function loadContents() {
             if (!currentRoomId) return;
             
             // Dừng listener cũ nếu có
-            if (flashcardsListener) {
-                flashcardsListener();
+            if (contentListener) {
+                contentListener();
             }
             
-            // Sử dụng real-time listener thay vì polling
-            flashcardsListener = db.collection('rooms').doc(currentRoomId).collection('flashcards')
+            // Sử dụng real-time listener
+            contentListener = db.collection('rooms').doc(currentRoomId).collection('contents')
                 .orderBy('createdAt', 'asc')
                 .onSnapshot(snapshot => {
-                    const newFlashcards = [];
+                    const newContents = [];
                     snapshot.forEach(doc => {
-                        newFlashcards.push({
+                        newContents.push({
                             id: doc.id,
                             ...doc.data()
                         });
                     });
                     
-                    // Kiểm tra xem có flashcards mới không
-                    const hasNewFlashcards = JSON.stringify(newFlashcards) !== JSON.stringify(roomFlashcards);
+                    // Cập nhật danh sách contents
+                    roomContents = newContents;
                     
-                    // Cập nhật danh sách flashcards
-                    roomFlashcards = newFlashcards;
-                    
-                    // Nếu có flashcards mới hoặc chưa có flashcard nào đang hiển thị
-                    if (roomFlashcards.length > 0) {
-                        // Đảm bảo currentFlashcardIndex hợp lệ
-                        if (currentFlashcardIndex >= roomFlashcards.length) {
-                            currentFlashcardIndex = 0;
+                    // Hiển thị nội dung nếu có
+                    if (roomContents.length > 0) {
+                        // Đảm bảo currentContentIndex hợp lệ
+                        if (currentContentIndex >= roomContents.length) {
+                            currentContentIndex = 0;
                         }
                         
-                        // Nếu có thay đổi, hiển thị flashcard mới
-                        if (hasNewFlashcards || !hasAnsweredCurrentFlashcard) {
-                            showFlashcard(roomFlashcards[currentFlashcardIndex]);
-                            hasAnsweredCurrentFlashcard = false;
-                            document.getElementById('submitAnswerBtn').disabled = false;
-                            document.getElementById('answerInput').disabled = false;
-                            document.getElementById('answerInput').value = '';
-                            document.getElementById('answerFeedback').style.display = 'none';
-                        }
+                        // Hiển thị nội dung hiện tại
+                        showContent(roomContents[currentContentIndex]);
+                        hasAnsweredCurrentContent = false;
+                        resetAnswerControls();
                     } else {
-                        // Hiển thị thông báo không có flashcard
-                        document.getElementById('flashcardWord').textContent = 'Chưa có flashcard';
-                        document.getElementById('flashcardMeaning').textContent = 'Tạo flashcard để bắt đầu';
-                        document.getElementById('frontHint').textContent = '';
-                        document.getElementById('backHint').textContent = '';
-                        document.getElementById('submitAnswerBtn').disabled = true;
-                        document.getElementById('answerInput').disabled = true;
+                        // Hiển thị thông báo không có nội dung
+                        showNoContentMessage();
                     }
+                    
+                    // Cập nhật thông tin hiển thị
+                    updateContentInfo();
                 }, error => {
-                    console.error('Lỗi khi tải flashcards:', error);
+                    console.error('Lỗi khi tải nội dung học tập:', error);
                 });
         }
         
-        // Hiển thị flashcard - ĐÃ SỬA ĐỂ HIỂN THỊ GỢI Ý
-        function showFlashcard(flashcard) {
-            document.getElementById('flashcardWord').textContent = flashcard.english;
-            document.getElementById('flashcardMeaning').textContent = flashcard.vietnamese;
+        // Hiển thị nội dung
+        function showContent(content) {
+            // Xác định loại nội dung
+            currentContentType = content.type || 'flashcard';
             
-            // Hiển thị gợi ý nếu có
-            const frontHint = document.getElementById('frontHint');
-            const backHint = document.getElementById('backHint');
+            // Cập nhật tab active
+            document.querySelectorAll('.content-type-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-type') === currentContentType) {
+                    tab.classList.add('active');
+                }
+            });
             
-            if (flashcard.hint && flashcard.hint.trim() !== '') {
-                frontHint.textContent = `💡 ${flashcard.hint}`;
-                backHint.textContent = `💡 ${flashcard.hint}`;
-            } else {
-                frontHint.textContent = 'Không có gợi ý';
-                backHint.textContent = 'Không có gợi ý';
+            // Hiển thị đúng loại nội dung
+            switchContentType(currentContentType);
+            
+            // Hiển thị dữ liệu theo loại nội dung
+            if (content.type === 'flashcard') {
+                document.getElementById('flashcardWord').textContent = content.english;
+                
+                // Hiển thị gợi ý nếu có
+                const frontHint = document.getElementById('frontHint');
+                const backHint = document.getElementById('backHint');
+                
+                if (content.hint && content.hint.trim() !== '') {
+                    frontHint.textContent = `💡 ${content.hint}`;
+                    backHint.textContent = `💡 ${content.hint}`;
+                } else {
+                    frontHint.textContent = 'Không có gợi ý';
+                    backHint.textContent = 'Không có gợi ý';
+                }
+                
+                // Reset flashcard về mặt trước
+                document.getElementById('roomFlashcard').classList.remove('flipped');
+                
+            } else if (content.type === 'essay') {
+                document.getElementById('essayQuestionText').textContent = content.question;
+                
+            } else if (content.type === 'mcq') {
+                document.getElementById('mcqQuestionText').textContent = content.question;
+                
+                // Hiển thị các lựa chọn
+                const optionsContainer = document.getElementById('mcqOptionsContainer');
+                optionsContainer.innerHTML = '';
+                
+                if (content.options && Array.isArray(content.options)) {
+                    content.options.forEach((option, index) => {
+                        const optionId = `mcq_option_${index}`;
+                        const optionElement = document.createElement('div');
+                        optionElement.className = 'mcq-option';
+                        optionElement.innerHTML = `
+                            <input type="radio" id="${optionId}" name="mcq_option" value="${option.text}">
+                            <label for="${optionId}">${option.text}</label>
+                        `;
+                        optionsContainer.appendChild(optionElement);
+                        
+                        // Thêm sự kiện click cho option
+                        optionElement.addEventListener('click', function() {
+                            document.querySelectorAll('.mcq-option').forEach(opt => {
+                                opt.classList.remove('selected');
+                            });
+                            this.classList.add('selected');
+                            const radio = this.querySelector('input[type="radio"]');
+                            if (radio) radio.checked = true;
+                        });
+                    });
+                }
             }
             
-            // Reset flashcard về mặt trước
-            document.getElementById('roomFlashcard').classList.remove('flipped');
+            // Cập nhật thông tin hiển thị
+            updateContentInfo();
+        }
+        
+        // Chuyển đổi loại nội dung hiển thị
+        function switchContentType(type) {
+            // Ẩn tất cả nội dung
+            document.querySelectorAll('.content-type-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Hiển thị nội dung tương ứng
+            document.getElementById(`${type}Content`).classList.remove('hidden');
+            
+            // Cập nhật loại nội dung hiện tại
+            currentContentType = type;
+        }
+        
+        // Hiển thị thông báo không có nội dung
+        function showNoContentMessage() {
+            document.getElementById('flashcardWord').textContent = 'Chưa có nội dung';
+            document.getElementById('frontHint').textContent = 'Tạo nội dung để bắt đầu';
+            document.getElementById('backHint').textContent = 'Tạo nội dung để bắt đầu';
+            document.getElementById('essayQuestionText').textContent = 'Chưa có câu hỏi tự luận nào. Giáo viên hãy tạo câu hỏi để bắt đầu!';
+            document.getElementById('mcqQuestionText').textContent = 'Chưa có câu hỏi trắc nghiệm nào. Giáo viên hãy tạo câu hỏi để bắt đầu!';
+            
+            resetAnswerControls();
+        }
+        
+        // Reset các điều khiển trả lời
+        function resetAnswerControls() {
+            // Flashcard
+            document.getElementById('flashcardAnswerInput').value = '';
+            document.getElementById('flashcardAnswerFeedback').style.display = 'none';
+            document.getElementById('submitFlashcardAnswerBtn').disabled = false;
+            document.getElementById('flashcardAnswerInput').disabled = false;
+            
+            // Essay
+            document.getElementById('essayAnswerInput').value = '';
+            document.getElementById('essayAnswerFeedback').style.display = 'none';
+            document.getElementById('submitEssayAnswerBtn').disabled = false;
+            document.getElementById('essayAnswerInput').disabled = false;
+            
+            // MCQ
+            document.querySelectorAll('.mcq-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelectorAll('input[name="mcq_option"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('mcqAnswerFeedback').style.display = 'none';
+            document.getElementById('submitMcqAnswerBtn').disabled = false;
+        }
+        
+        // Cập nhật thông tin nội dung
+        function updateContentInfo() {
+            let infoText = '';
+            
+            if (roomContents.length === 0) {
+                infoText = 'Chưa có nội dung nào';
+            } else {
+                const currentContent = roomContents[currentContentIndex];
+                const typeMap = {
+                    'flashcard': 'Flashcard',
+                    'essay': 'Câu hỏi tự luận',
+                    'mcq': 'Câu hỏi trắc nghiệm'
+                };
+                
+                infoText = `${typeMap[currentContent.type] || 'Nội dung'} ${currentContentIndex + 1}/${roomContents.length}`;
+                
+                if (currentContent.points) {
+                    infoText += ` • ${currentContent.points} điểm`;
+                }
+            }
+            
+            document.getElementById('currentContentInfo').textContent = infoText;
         }
         
         // Mở modal tạo flashcard
         function openCreateFlashcardModal() {
             if (!isTeacher) {
-                showNotification('Chỉ giáo viên mới có thể tạo flashcard!', 'warning');
+                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
                 return;
             }
             
@@ -1854,6 +2314,99 @@
             document.getElementById('createFlashcardModal').classList.remove('active');
         }
         
+        // Mở modal tạo câu hỏi tự luận
+        function openCreateEssayModal() {
+            if (!isTeacher) {
+                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
+                return;
+            }
+            
+            document.getElementById('createEssayModal').classList.add('active');
+            document.getElementById('essayQuestion').value = '';
+            document.getElementById('essayCorrectAnswer').value = '';
+            document.getElementById('essayPoints').value = '1';
+            
+            // Focus vào ô đầu tiên
+            setTimeout(() => {
+                document.getElementById('essayQuestion').focus();
+            }, 100);
+        }
+        
+        // Đóng modal tạo câu hỏi tự luận
+        function closeCreateEssayModal() {
+            document.getElementById('createEssayModal').classList.remove('active');
+        }
+        
+        // Mở modal tạo câu hỏi trắc nghiệm
+        function openCreateMcqModal() {
+            if (!isTeacher) {
+                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
+                return;
+            }
+            
+            document.getElementById('createMcqModal').classList.add('active');
+            document.getElementById('mcqQuestion').value = '';
+            document.getElementById('mcqPoints').value = '1';
+            
+            // Reset và khởi tạo options
+            initializeMcqOptions();
+            
+            // Focus vào ô đầu tiên
+            setTimeout(() => {
+                document.getElementById('mcqQuestion').focus();
+            }, 100);
+        }
+        
+        // Đóng modal tạo câu hỏi trắc nghiệm
+        function closeCreateMcqModal() {
+            document.getElementById('createMcqModal').classList.remove('active');
+        }
+        
+        // Khởi tạo danh sách lựa chọn cho MCQ
+        function initializeMcqOptions() {
+            const optionsList = document.getElementById('mcqOptionsList');
+            optionsList.innerHTML = '';
+            
+            // Thêm 4 options mặc định
+            for (let i = 0; i < 4; i++) {
+                addMcqOption();
+            }
+        }
+        
+        // Thêm lựa chọn cho MCQ
+        function addMcqOption() {
+            const optionsList = document.getElementById('mcqOptionsList');
+            const optionCount = optionsList.children.length;
+            const optionId = `mcq_option_${optionCount}`;
+            
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option-input-group';
+            optionDiv.innerHTML = `
+                <input type="checkbox" id="${optionId}_correct" class="mcq-correct-checkbox">
+                <input type="text" id="${optionId}_text" placeholder="Nhập lựa chọn ${optionCount + 1}">
+                <button type="button" class="remove-option-btn" onclick="removeMcqOption(this)">
+                    <i class="fas fa-minus"></i>
+                </button>
+            `;
+            
+            optionsList.appendChild(optionDiv);
+        }
+        
+        // Xóa lựa chọn cho MCQ
+        function removeMcqOption(button) {
+            const optionsList = document.getElementById('mcqOptionsList');
+            if (optionsList.children.length > 2) {
+                button.parentElement.remove();
+                
+                // Cập nhật lại placeholder
+                document.querySelectorAll('#mcqOptionsList .option-input-group input[type="text"]').forEach((input, index) => {
+                    input.placeholder = `Nhập lựa chọn ${index + 1}`;
+                });
+            } else {
+                showNotification('Cần ít nhất 2 lựa chọn!', 'warning');
+            }
+        }
+        
         // Kiểm tra phát âm flashcard
         function testFlashcardPronunciation() {
             const word = document.getElementById('flashcardEnglish').value.trim();
@@ -1866,8 +2419,11 @@
         
         // Phát âm từ hiện tại
         function playCurrentPronunciation() {
-            if (roomFlashcards.length > 0 && currentFlashcardIndex < roomFlashcards.length) {
-                speakText(roomFlashcards[currentFlashcardIndex].english);
+            if (roomContents.length > 0 && currentContentIndex < roomContents.length) {
+                const currentContent = roomContents[currentContentIndex];
+                if (currentContent.type === 'flashcard') {
+                    speakText(currentContent.english);
+                }
             }
         }
         
@@ -1877,12 +2433,15 @@
             flashcard.classList.toggle('flipped');
             
             // Phát âm khi lật sang mặt sau
-            if (flashcard.classList.contains('flipped') && roomFlashcards.length > 0) {
-                speakText(roomFlashcards[currentFlashcardIndex].english);
+            if (flashcard.classList.contains('flipped') && roomContents.length > 0) {
+                const currentContent = roomContents[currentContentIndex];
+                if (currentContent.type === 'flashcard') {
+                    speakText(currentContent.english);
+                }
             }
         }
         
-        // Lưu flashcard - ĐÃ SỬA LỖI
+        // Lưu flashcard
         function saveFlashcard() {
             const english = document.getElementById('flashcardEnglish').value.trim();
             const vietnamese = document.getElementById('flashcardVietnamese').value.trim();
@@ -1903,7 +2462,8 @@
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
             saveBtn.disabled = true;
             
-            db.collection('rooms').doc(currentRoomId).collection('flashcards').add({
+            db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                type: 'flashcard',
                 english: english,
                 vietnamese: vietnamese,
                 hint: hint || '',
@@ -1924,34 +2484,165 @@
             });
         }
         
-        // Nộp câu trả lời
-        function submitAnswer() {
-            if (hasAnsweredCurrentFlashcard) {
-                showNotification('Bạn đã trả lời flashcard này rồi!', 'warning');
+        // Lưu câu hỏi tự luận
+        function saveEssay() {
+            const question = document.getElementById('essayQuestion').value.trim();
+            const correctAnswer = document.getElementById('essayCorrectAnswer').value.trim();
+            const points = parseInt(document.getElementById('essayPoints').value) || 1;
+            
+            if (!question || !correctAnswer) {
+                showNotification('Vui lòng nhập đầy đủ câu hỏi và đáp án!', 'warning');
                 return;
             }
             
-            const answer = document.getElementById('answerInput').value.trim().toLowerCase();
+            // Tách các đáp án thành mảng
+            const answers = correctAnswer.split('\n')
+                .map(answer => answer.trim())
+                .filter(answer => answer.length > 0);
+            
+            if (answers.length === 0) {
+                showNotification('Vui lòng nhập ít nhất một đáp án!', 'warning');
+                return;
+            }
+            
+            if (!currentRoomId) {
+                showNotification('Không tìm thấy phòng học!', 'error');
+                return;
+            }
+            
+            // Hiển thị loading
+            const saveBtn = document.getElementById('saveEssayBtn');
+            saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
+            saveBtn.disabled = true;
+            
+            db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                type: 'essay',
+                question: question,
+                correctAnswers: answers,
+                points: points,
+                createdBy: currentUserId,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                showNotification('Đã tạo câu hỏi tự luận thành công!', 'success');
+                closeCreateEssayModal();
+            })
+            .catch(error => {
+                console.error('Lỗi khi tạo câu hỏi tự luận:', error);
+                showNotification('Có lỗi xảy ra khi tạo câu hỏi', 'error');
+            })
+            .finally(() => {
+                saveBtn.innerHTML = 'Tạo câu hỏi';
+                saveBtn.disabled = false;
+            });
+        }
+        
+        // Lưu câu hỏi trắc nghiệm
+        function saveMcq() {
+            const question = document.getElementById('mcqQuestion').value.trim();
+            const points = parseInt(document.getElementById('mcqPoints').value) || 1;
+            
+            // Lấy các lựa chọn
+            const options = [];
+            let hasCorrectAnswer = false;
+            
+            document.querySelectorAll('#mcqOptionsList .option-input-group').forEach((group, index) => {
+                const textInput = group.querySelector('input[type="text"]');
+                const correctCheckbox = group.querySelector('input[type="checkbox"]');
+                
+                if (textInput && textInput.value.trim()) {
+                    const optionText = textInput.value.trim();
+                    const isCorrect = correctCheckbox ? correctCheckbox.checked : false;
+                    
+                    options.push({
+                        text: optionText,
+                        correct: isCorrect
+                    });
+                    
+                    if (isCorrect) hasCorrectAnswer = true;
+                }
+            });
+            
+            if (!question) {
+                showNotification('Vui lòng nhập câu hỏi!', 'warning');
+                return;
+            }
+            
+            if (options.length < 2) {
+                showNotification('Vui lòng nhập ít nhất 2 lựa chọn!', 'warning');
+                return;
+            }
+            
+            if (!hasCorrectAnswer) {
+                showNotification('Vui lòng chọn ít nhất một đáp án đúng!', 'warning');
+                return;
+            }
+            
+            if (!currentRoomId) {
+                showNotification('Không tìm thấy phòng học!', 'error');
+                return;
+            }
+            
+            // Hiển thị loading
+            const saveBtn = document.getElementById('saveMcqBtn');
+            saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
+            saveBtn.disabled = true;
+            
+            db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                type: 'mcq',
+                question: question,
+                options: options,
+                points: points,
+                createdBy: currentUserId,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                showNotification('Đã tạo câu hỏi trắc nghiệm thành công!', 'success');
+                closeCreateMcqModal();
+            })
+            .catch(error => {
+                console.error('Lỗi khi tạo câu hỏi trắc nghiệm:', error);
+                showNotification('Có lỗi xảy ra khi tạo câu hỏi', 'error');
+            })
+            .finally(() => {
+                saveBtn.innerHTML = 'Tạo câu hỏi';
+                saveBtn.disabled = false;
+            });
+        }
+        
+        // Nộp câu trả lời flashcard
+        function submitFlashcardAnswer() {
+            if (hasAnsweredCurrentContent) {
+                showNotification('Bạn đã trả lời nội dung này rồi!', 'warning');
+                return;
+            }
+            
+            const answer = document.getElementById('flashcardAnswerInput').value.trim().toLowerCase();
             
             if (!answer) {
                 showNotification('Vui lòng nhập câu trả lời!', 'warning');
                 return;
             }
             
-            if (roomFlashcards.length === 0 || currentFlashcardIndex >= roomFlashcards.length) {
-                showNotification('Không có flashcard để kiểm tra!', 'error');
+            if (roomContents.length === 0 || currentContentIndex >= roomContents.length) {
+                showNotification('Không có nội dung để kiểm tra!', 'error');
                 return;
             }
             
-            const currentFlashcard = roomFlashcards[currentFlashcardIndex];
-            const correctAnswer = currentFlashcard.vietnamese.toLowerCase().trim();
+            const currentContent = roomContents[currentContentIndex];
+            if (currentContent.type !== 'flashcard') {
+                showNotification('Nội dung hiện tại không phải flashcard!', 'error');
+                return;
+            }
+            
+            const correctAnswer = currentContent.vietnamese.toLowerCase().trim();
             
             // Loại bỏ dấu câu và ký tự đặc biệt để so sánh
             const normalizedAnswer = answer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
             const normalizedCorrect = correctAnswer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
             
             const isCorrect = normalizedAnswer === normalizedCorrect;
-            const feedback = document.getElementById('answerFeedback');
+            const feedback = document.getElementById('flashcardAnswerFeedback');
             
             if (isCorrect) {
                 feedback.textContent = '🎉 Chính xác! +1 điểm';
@@ -1960,17 +2651,142 @@
                 // Cộng điểm cho người dùng
                 updateUserScore(1);
             } else {
-                feedback.textContent = `❌ Sai rồi! Đáp án đúng là: ${currentFlashcard.vietnamese}`;
+                feedback.textContent = `❌ Sai rồi! Đáp án đúng là: ${currentContent.vietnamese}`;
                 feedback.className = 'answer-feedback answer-incorrect';
             }
             
             feedback.style.display = 'block';
-            hasAnsweredCurrentFlashcard = true;
-            document.getElementById('submitAnswerBtn').disabled = true;
-            document.getElementById('answerInput').disabled = true;
+            hasAnsweredCurrentContent = true;
+            document.getElementById('submitFlashcardAnswerBtn').disabled = true;
+            document.getElementById('flashcardAnswerInput').disabled = true;
             
-            // Tự động lật flashcard để hiển thị đáp án
+            // Tự động lật flashcard để hiển thị gợi ý
             document.getElementById('roomFlashcard').classList.add('flipped');
+        }
+        
+        // Nộp câu trả lời tự luận
+        function submitEssayAnswer() {
+            if (hasAnsweredCurrentContent) {
+                showNotification('Bạn đã trả lời nội dung này rồi!', 'warning');
+                return;
+            }
+            
+            const answer = document.getElementById('essayAnswerInput').value.trim().toLowerCase();
+            
+            if (!answer) {
+                showNotification('Vui lòng nhập câu trả lời!', 'warning');
+                return;
+            }
+            
+            if (roomContents.length === 0 || currentContentIndex >= roomContents.length) {
+                showNotification('Không có nội dung để kiểm tra!', 'error');
+                return;
+            }
+            
+            const currentContent = roomContents[currentContentIndex];
+            if (currentContent.type !== 'essay') {
+                showNotification('Nội dung hiện tại không phải câu hỏi tự luận!', 'error');
+                return;
+            }
+            
+            const correctAnswers = currentContent.correctAnswers || [];
+            const points = currentContent.points || 1;
+            
+            // Kiểm tra xem câu trả lời có khớp với bất kỳ đáp án đúng nào không
+            let isCorrect = false;
+            const normalizedAnswer = answer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
+            
+            for (const correctAnswer of correctAnswers) {
+                const normalizedCorrect = correctAnswer.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
+                if (normalizedAnswer === normalizedCorrect) {
+                    isCorrect = true;
+                    break;
+                }
+            }
+            
+            const feedback = document.getElementById('essayAnswerFeedback');
+            
+            if (isCorrect) {
+                feedback.textContent = `🎉 Chính xác! +${points} điểm`;
+                feedback.className = 'answer-feedback answer-correct';
+                
+                // Cộng điểm cho người dùng
+                updateUserScore(points);
+            } else {
+                feedback.textContent = `❌ Sai rồi! Đáp án đúng có thể là một trong các đáp án sau: ${correctAnswers.join(', ')}`;
+                feedback.className = 'answer-feedback answer-incorrect';
+            }
+            
+            feedback.style.display = 'block';
+            hasAnsweredCurrentContent = true;
+            document.getElementById('submitEssayAnswerBtn').disabled = true;
+            document.getElementById('essayAnswerInput').disabled = true;
+        }
+        
+        // Nộp câu trả lời trắc nghiệm
+        function submitMcqAnswer() {
+            if (hasAnsweredCurrentContent) {
+                showNotification('Bạn đã trả lời nội dung này rồi!', 'warning');
+                return;
+            }
+            
+            const selectedOption = document.querySelector('input[name="mcq_option"]:checked');
+            
+            if (!selectedOption) {
+                showNotification('Vui lòng chọn một đáp án!', 'warning');
+                return;
+            }
+            
+            if (roomContents.length === 0 || currentContentIndex >= roomContents.length) {
+                showNotification('Không có nội dung để kiểm tra!', 'error');
+                return;
+            }
+            
+            const currentContent = roomContents[currentContentIndex];
+            if (currentContent.type !== 'mcq') {
+                showNotification('Nội dung hiện tại không phải câu hỏi trắc nghiệm!', 'error');
+                return;
+            }
+            
+            const selectedAnswer = selectedOption.value;
+            const options = currentContent.options || [];
+            const points = currentContent.points || 1;
+            
+            // Tìm đáp án đúng
+            let correctAnswer = '';
+            for (const option of options) {
+                if (option.correct) {
+                    correctAnswer = option.text;
+                    break;
+                }
+            }
+            
+            const isCorrect = selectedAnswer === correctAnswer;
+            const feedback = document.getElementById('mcqAnswerFeedback');
+            
+            if (isCorrect) {
+                feedback.textContent = `🎉 Chính xác! +${points} điểm`;
+                feedback.className = 'answer-feedback answer-correct';
+                
+                // Cộng điểm cho người dùng
+                updateUserScore(points);
+            } else {
+                feedback.textContent = `❌ Sai rồi! Đáp án đúng là: ${correctAnswer}`;
+                feedback.className = 'answer-feedback answer-incorrect';
+            }
+            
+            feedback.style.display = 'block';
+            hasAnsweredCurrentContent = true;
+            document.getElementById('submitMcqAnswerBtn').disabled = true;
+            
+            // Vô hiệu hóa tất cả các lựa chọn
+            document.querySelectorAll('.mcq-option').forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.querySelector('input').value === correctAnswer) {
+                    option.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+                    option.style.borderColor = '#4CAF50';
+                }
+            });
         }
         
         // Cập nhật điểm số người dùng
@@ -1993,31 +2809,44 @@
                 });
         }
         
-        // Hiển thị flashcard tiếp theo
-        function showNextFlashcard() {
-            if (roomFlashcards.length === 0) {
-                showNotification('Không có flashcard nào trong phòng!', 'warning');
+        // Hiển thị nội dung tiếp theo
+        function showNextContent() {
+            if (roomContents.length === 0) {
+                showNotification('Không có nội dung nào trong phòng!', 'warning');
                 return;
             }
             
-            currentFlashcardIndex = (currentFlashcardIndex + 1) % roomFlashcards.length;
-            showFlashcard(roomFlashcards[currentFlashcardIndex]);
+            currentContentIndex = (currentContentIndex + 1) % roomContents.length;
+            showContent(roomContents[currentContentIndex]);
             
             // Reset answer controls
-            document.getElementById('submitAnswerBtn').disabled = false;
-            document.getElementById('answerInput').disabled = false;
-            document.getElementById('answerInput').value = '';
-            document.getElementById('answerFeedback').style.display = 'none';
-            hasAnsweredCurrentFlashcard = false;
+            resetAnswerControls();
+            hasAnsweredCurrentContent = false;
+            
+            // Bật lại các lựa chọn cho MCQ
+            document.querySelectorAll('.mcq-option').forEach(option => {
+                option.style.pointerEvents = 'auto';
+                option.style.backgroundColor = '';
+                option.style.borderColor = '';
+            });
         }
         
-        // Cập nhật điều khiển flashcard
-        function updateFlashcardControls() {
-            const createButton = document.getElementById('createFlashcardBtn');
+        // Cập nhật điều khiển nội dung
+        function updateContentControls() {
+            const createButtons = [
+                document.getElementById('createFlashcardBtn'),
+                document.getElementById('createEssayBtn'),
+                document.getElementById('createMcqBtn')
+            ];
+            
             if (isTeacher) {
-                createButton.style.display = 'flex';
+                createButtons.forEach(button => {
+                    button.style.display = 'flex';
+                });
             } else {
-                createButton.style.display = 'none';
+                createButtons.forEach(button => {
+                    button.style.display = 'none';
+                });
             }
         }
         
