@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phòng học trực tuyến - Niceng</title>
+    <title>Lớp học tiếng Anh Online - Niceng</title>
     <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -106,6 +106,12 @@
             background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .logo-section p {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.9rem;
         }
 
         .form-title {
@@ -1146,6 +1152,17 @@
             font-weight: 600;
         }
 
+        /* AI Button Styling */
+        .ai-generate-btn {
+            background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
+            color: white;
+            margin-left: auto;
+        }
+        
+        .ai-generate-btn:hover {
+            background: linear-gradient(135deg, #7B1FA2 0%, #512DA8 100%);
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -1262,6 +1279,24 @@
                 margin: 10px;
             }
         }
+        
+        /* Sửa vấn đề tab active */
+        .content-type-tab.active {
+            color: #FFA500;
+            border-bottom-color: #FFA500;
+            background-color: rgba(255, 165, 0, 0.1);
+            position: relative;
+        }
+        
+        .content-type-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #FFA500;
+        }
     </style>
 </head>
 <body>
@@ -1273,8 +1308,8 @@
                 <div class="home-container">
                     <div class="logo-section">
                         <i class="fas fa-chalkboard-teacher"></i>
-                        <h1>Phòng học trực tuyến</h1>
-                        <p style="color: #666; margin-top: 8px; font-size: 0.9rem;">Học tập tương tác với flashcard, câu hỏi tự luận và trắc nghiệm</p>
+                        <h1>Lớp học tiếng Anh Online</h1>
+                        <p>Học tiếng Anh tương tác với flashcard, câu hỏi tự luận và trắc nghiệm</p>
                     </div>
                     
                     <div class="form-group">
@@ -1282,14 +1317,14 @@
                         <input type="text" id="userNameInput" placeholder="Nhập tên hiển thị của bạn">
                     </div>
                     
-                    <h2 class="form-title"><i class="fas fa-plus-circle"></i> Tạo phòng mới</h2>
+                    <h2 class="form-title"><i class="fas fa-plus-circle"></i> Tạo phòng học mới</h2>
                     <div class="form-group">
                         <label for="roomName">Tên phòng học</label>
-                        <input type="text" id="roomName" placeholder="Ví dụ: Toán lớp 10 - Buổi 1">
+                        <input type="text" id="roomName" placeholder="Ví dụ: Lớp tiếng Anh 10 - Buổi 1">
                     </div>
                     
                     <div class="form-group">
-                        <label>Thời gian phòng hoạt động</label>
+                        <label>Thời gian phòng học</label>
                         <div class="duration-options">
                             <div class="duration-option" data-minutes="30">30 phút</div>
                             <div class="duration-option active" data-minutes="45">45 phút</div>
@@ -1307,10 +1342,10 @@
                         <span class="divider-text">hoặc</span>
                     </div>
                     
-                    <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Tham gia phòng</h2>
+                    <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Tham gia phòng học</h2>
                     <div class="form-group">
-                        <label for="roomId">Mã phòng</label>
-                        <input type="text" id="roomId" placeholder="Nhập mã phòng để tham gia">
+                        <label for="roomId">Mã phòng học</label>
+                        <input type="text" id="roomId" placeholder="Nhập mã phòng học để tham gia">
                     </div>
                     
                     <button class="btn btn-secondary" id="joinRoomBtn">
@@ -1325,7 +1360,7 @@
                     <div class="room-info">
                         <div class="room-title">
                             <i class="fas fa-chalkboard-teacher"></i>
-                            <span id="currentRoomName">Phòng học</span>
+                            <span id="currentRoomName">Lớp học tiếng Anh</span>
                         </div>
                         <div class="room-meta">
                             <div class="room-id">
@@ -1338,7 +1373,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="user-avatar" id="userAvatarHeader">U</div>
+                    <div class="user-avatar" id="userAvatarHeader">B</div>
                 </div>
                 
                 <div class="room-content">
@@ -1348,7 +1383,7 @@
                         <div class="participants-container" id="participantsList">
                             <div style="text-align: center; padding: 50px 15px;">
                                 <div class="loading" style="margin: 0 auto; border-color: #FFA500 rgba(255, 165, 0, 0.3) rgba(255, 165, 0, 0.3); border-top-color: #FFA500;"></div>
-                                <p style="margin-top: 12px; color: #666; font-size: 0.9rem;">Đang tải danh sách...</p>
+                                <p style="margin-top: 12px; color: #666; font-size: 0.9rem;">Đang tải danh sách người tham gia...</p>
                             </div>
                         </div>
                     </div>
@@ -1369,7 +1404,7 @@
                         
                         <div class="current-content-info">
                             <i class="fas fa-info-circle"></i>
-                            <span id="currentContentInfo">Đang tải nội dung...</span>
+                            <span id="currentContentInfo">Đang tải nội dung học...</span>
                         </div>
                         
                         <div class="content-container">
@@ -1382,7 +1417,7 @@
                                             <div class="flashcard-hint" id="frontHint"></div>
                                         </div>
                                         <div class="flashcard-back">
-                                            <div class="flashcard-hint" id="backHint"></div>
+                                            <div class="flashcard-word" id="flashcardMeaning"></div>
                                             <button class="pronunciation-btn" id="pronunciationBtn">
                                                 <i class="fas fa-volume-up"></i> Nghe phát âm
                                             </button>
@@ -1391,7 +1426,7 @@
                                 </div>
                                 
                                 <div class="answer-section">
-                                    <input type="text" class="answer-input" id="flashcardAnswerInput" placeholder="Nhập nghĩa tiếng Việt của từ...">
+                                    <input type="text" class="answer-input" id="flashcardAnswerInput" placeholder="Nhập nghĩa tiếng Anh của từ này...">
                                     <button class="submit-answer-btn" id="submitFlashcardAnswerBtn">Kiểm tra đáp án</button>
                                     <div class="answer-feedback" id="flashcardAnswerFeedback"></div>
                                 </div>
@@ -1401,12 +1436,12 @@
                             <div id="essayContent" class="content-type-content hidden">
                                 <div class="essay-question-container">
                                     <div class="essay-question-text" id="essayQuestionText">
-                                        Chưa có câu hỏi tự luận nào. Giáo viên hãy tạo câu hỏi để bắt đầu!
+                                        Chưa có câu hỏi tự luận. Giáo viên, vui lòng tạo câu hỏi để bắt đầu!
                                     </div>
                                     
                                     <textarea class="essay-answer-input" id="essayAnswerInput" placeholder="Nhập câu trả lời của bạn..."></textarea>
                                     
-                                    <button class="submit-answer-btn" id="submitEssayAnswerBtn">Nộp bài</button>
+                                    <button class="submit-answer-btn" id="submitEssayAnswerBtn">Nộp câu trả lời</button>
                                     <div class="answer-feedback" id="essayAnswerFeedback"></div>
                                 </div>
                             </div>
@@ -1415,14 +1450,14 @@
                             <div id="mcqContent" class="content-type-content hidden">
                                 <div class="mcq-question-container">
                                     <div class="mcq-question-text" id="mcqQuestionText">
-                                        Chưa có câu hỏi trắc nghiệm nào. Giáo viên hãy tạo câu hỏi để bắt đầu!
+                                        Chưa có câu hỏi trắc nghiệm. Giáo viên, vui lòng tạo câu hỏi để bắt đầu!
                                     </div>
                                     
                                     <div class="mcq-options" id="mcqOptionsContainer">
                                         <!-- Options will be dynamically generated here -->
                                     </div>
                                     
-                                    <button class="submit-answer-btn" id="submitMcqAnswerBtn">Nộp bài</button>
+                                    <button class="submit-answer-btn" id="submitMcqAnswerBtn">Nộp câu trả lời</button>
                                     <div class="answer-feedback" id="mcqAnswerFeedback"></div>
                                 </div>
                             </div>
@@ -1430,13 +1465,16 @@
                         
                         <div class="content-controls">
                             <button class="content-control-btn create-flashcard-btn" id="createFlashcardBtn">
-                                <i class="fas fa-plus-circle"></i> Tạo flashcard
+                                <i class="fas fa-plus-circle"></i> Tạo Flashcard
                             </button>
                             <button class="content-control-btn create-essay-btn" id="createEssayBtn">
-                                <i class="fas fa-plus-circle"></i> Tạo tự luận
+                                <i class="fas fa-plus-circle"></i> Tạo câu tự luận
                             </button>
                             <button class="content-control-btn create-mcq-btn" id="createMcqBtn">
-                                <i class="fas fa-plus-circle"></i> Tạo trắc nghiệm
+                                <i class="fas fa-plus-circle"></i> Tạo câu trắc nghiệm
+                            </button>
+                            <button class="content-control-btn ai-generate-btn" id="aiGenerateBtn">
+                                <i class="fas fa-robot"></i> Tạo bằng AI
                             </button>
                             <button class="content-control-btn next-content-btn" id="nextContentBtn">
                                 <i class="fas fa-forward"></i> Nội dung tiếp theo
@@ -1448,7 +1486,7 @@
                 <div class="room-controls">
                     <div class="participant-count">
                         <i class="fas fa-user-friends"></i>
-                        <span id="participantCount">0</span> người đang tham gia
+                        <span id="participantCount">0</span> người tham gia
                     </div>
                     <button class="btn-room btn-exit" id="leaveRoomBtn">
                         <i class="fas fa-sign-out-alt"></i> Rời phòng
@@ -1462,7 +1500,7 @@
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateFlashcardModal">close</span>
                 <div class="modal-header">
-                    <h3><i class="fas fa-plus-circle"></i> Tạo Flashcard Mới</h3>
+                    <h3><i class="fas fa-plus-circle"></i> Tạo Flashcard mới</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -1473,8 +1511,8 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <label for="flashcardVietnamese">Nghĩa tiếng Việt (Đáp án)</label>
-                        <input type="text" id="flashcardVietnamese" placeholder="Nhập nghĩa tiếng Việt">
+                        <label for="flashcardVietnamese">Nghĩa tiếng Anh (Đáp án)</label>
+                        <input type="text" id="flashcardVietnamese" placeholder="Nhập nghĩa bằng tiếng Anh">
                     </div>
                     <div class="form-group">
                         <label for="flashcardHint">Gợi ý (tùy chọn)</label>
@@ -1483,7 +1521,10 @@
                 </div>
                 <div class="modal-footer">
                     <button class="modal-btn secondary-btn" id="cancelCreateFlashcard">Hủy</button>
-                    <button class="modal-btn" id="saveFlashcardBtn">Tạo flashcard</button>
+                    <button class="modal-btn ai-generate-btn" id="aiGenerateFlashcardBtn">
+                        <i class="fas fa-robot"></i> AI tạo flashcard
+                    </button>
+                    <button class="modal-btn" id="saveFlashcardBtn">Tạo Flashcard</button>
                 </div>
             </div>
         </div>
@@ -1493,16 +1534,16 @@
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateEssayModal">close</span>
                 <div class="modal-header">
-                    <h3><i class="fas fa-plus-circle"></i> Tạo Câu Hỏi Tự Luận</h3>
+                    <h3><i class="fas fa-plus-circle"></i> Tạo câu hỏi tự luận</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="essayQuestion">Câu hỏi</label>
-                        <textarea id="essayQuestion" placeholder="Nhập câu hỏi tự luận"></textarea>
+                        <label for="essayQuestion">Câu hỏi (bằng tiếng Anh)</label>
+                        <textarea id="essayQuestion" placeholder="Nhập câu hỏi tự luận bằng tiếng Anh"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="essayCorrectAnswer">Đáp án đúng (có thể nhiều đáp án, mỗi đáp án một dòng)</label>
-                        <textarea id="essayCorrectAnswer" placeholder="Nhập đáp án đúng (mỗi đáp án một dòng)&#10;Ví dụ:&#10;Hà Nội&#10;Thủ đô Việt Nam"></textarea>
+                        <label for="essayCorrectAnswer">Đáp án đúng (có thể có nhiều đáp án, mỗi dòng một đáp án)</label>
+                        <textarea id="essayCorrectAnswer" placeholder="Nhập đáp án đúng (mỗi dòng một đáp án)&#10;Ví dụ:&#10;London&#10;Thủ đô của nước Anh"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="essayPoints">Điểm số</label>
@@ -1511,6 +1552,9 @@
                 </div>
                 <div class="modal-footer">
                     <button class="modal-btn secondary-btn" id="cancelCreateEssay">Hủy</button>
+                    <button class="modal-btn ai-generate-btn" id="aiGenerateEssayBtn">
+                        <i class="fas fa-robot"></i> AI tạo câu hỏi
+                    </button>
                     <button class="modal-btn" id="saveEssayBtn">Tạo câu hỏi</button>
                 </div>
             </div>
@@ -1521,16 +1565,16 @@
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateMcqModal">close</span>
                 <div class="modal-header">
-                    <h3><i class="fas fa-plus-circle"></i> Tạo Câu Hỏi Trắc Nghiệm</h3>
+                    <h3><i class="fas fa-plus-circle"></i> Tạo câu hỏi trắc nghiệm</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="mcqQuestion">Câu hỏi</label>
-                        <textarea id="mcqQuestion" placeholder="Nhập câu hỏi trắc nghiệm"></textarea>
+                        <label for="mcqQuestion">Câu hỏi (bằng tiếng Anh)</label>
+                        <textarea id="mcqQuestion" placeholder="Nhập câu hỏi trắc nghiệm bằng tiếng Anh"></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label>Các lựa chọn</label>
+                        <label>Lựa chọn (đánh dấu câu trả lời đúng)</label>
                         <div id="mcqOptionsList">
                             <!-- Options will be dynamically added here -->
                         </div>
@@ -1546,7 +1590,61 @@
                 </div>
                 <div class="modal-footer">
                     <button class="modal-btn secondary-btn" id="cancelCreateMcq">Hủy</button>
+                    <button class="modal-btn ai-generate-btn" id="aiGenerateMcqBtn">
+                        <i class="fas fa-robot"></i> AI tạo câu hỏi
+                    </button>
                     <button class="modal-btn" id="saveMcqBtn">Tạo câu hỏi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Generate Modal -->
+        <div id="aiGenerateModal" class="modal">
+            <div class="modal-content">
+                <span class="material-symbols-outlined close" id="closeAiGenerateModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-robot"></i> Tạo nội dung học bằng AI</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="aiTopic">Chủ đề (bằng tiếng Anh)</label>
+                        <input type="text" id="aiTopic" placeholder="Nhập chủ đề bằng tiếng Anh (ví dụ: Từ vựng tiếng Anh cơ bản, Ngữ pháp tiếng Anh)">
+                    </div>
+                    <div class="form-group">
+                        <label for="aiContentType">Loại nội dung</label>
+                        <select id="aiContentType">
+                            <option value="flashcard">Flashcard</option>
+                            <option value="essay">Câu hỏi tự luận</option>
+                            <option value="mcq">Câu hỏi trắc nghiệm</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="aiQuantity">Số lượng</label>
+                        <input type="number" id="aiQuantity" value="5" min="1" max="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="aiDifficulty">Độ khó</label>
+                        <select id="aiDifficulty">
+                            <option value="easy">Dễ</option>
+                            <option value="medium">Trung bình</option>
+                            <option value="hard">Khó</option>
+                        </select>
+                    </div>
+                    <div id="aiLoading" style="display: none; text-align: center; padding: 20px;">
+                        <div class="loading" style="margin: 0 auto; border-color: #9C27B0 rgba(156, 39, 176, 0.3) rgba(156, 39, 176, 0.3); border-top-color: #9C27B0;"></div>
+                        <p style="margin-top: 12px; color: #666;">AI đang tạo nội dung, vui lòng chờ...</p>
+                    </div>
+                    <div id="aiResult" style="display: none;">
+                        <h4 style="color: #9C27B0; margin-bottom: 10px;">Nội dung đã tạo:</h4>
+                        <div id="aiGeneratedContent" style="max-height: 200px; overflow-y: auto; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn secondary-btn" id="cancelAiGenerate">Hủy</button>
+                    <button class="modal-btn ai-generate-btn" id="generateWithAiBtn">
+                        <i class="fas fa-robot"></i> Tạo bằng AI
+                    </button>
                 </div>
             </div>
         </div>
@@ -1559,7 +1657,18 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     
-    <script>
+    <!-- Gemini AI SDK -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
         // Cấu hình Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBc55gGulDbOCgGp2USL_HXeVLwqqXFTTU",
@@ -1575,6 +1684,17 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
+        // Khởi tạo Gemini AI
+        const GEMINI_API_KEY = "AIzaSyCMcIshStrZdPEzZ22axJTJs9gZEnUFRFg";
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+        let aiModel;
+        
+        try {
+            aiModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+        } catch (error) {
+            console.error("Không thể khởi tạo AI:", error);
+        }
+        
         // Biến toàn cục
         let currentRoomId = null;
         let currentUserName = "";
@@ -1588,7 +1708,7 @@
         let currentContentIndex = 0;
         let roomContents = [];
         let hasAnsweredCurrentContent = false;
-        let currentContentType = 'flashcard'; // 'flashcard', 'essay', 'mcq'
+        let currentContentType = 'flashcard';
         
         // Khởi tạo ứng dụng
         document.addEventListener('DOMContentLoaded', function() {
@@ -1616,6 +1736,7 @@
             document.getElementById('pronunciationBtn').addEventListener('click', playCurrentPronunciation);
             document.getElementById('submitFlashcardAnswerBtn').addEventListener('click', submitFlashcardAnswer);
             document.getElementById('roomFlashcard').addEventListener('click', flipFlashcard);
+            document.getElementById('aiGenerateFlashcardBtn').addEventListener('click', generateFlashcardWithAI);
             
             // Essay events
             document.getElementById('createEssayBtn').addEventListener('click', openCreateEssayModal);
@@ -1623,6 +1744,7 @@
             document.getElementById('cancelCreateEssay').addEventListener('click', closeCreateEssayModal);
             document.getElementById('closeCreateEssayModal').addEventListener('click', closeCreateEssayModal);
             document.getElementById('submitEssayAnswerBtn').addEventListener('click', submitEssayAnswer);
+            document.getElementById('aiGenerateEssayBtn').addEventListener('click', generateEssayWithAI);
             
             // MCQ events
             document.getElementById('createMcqBtn').addEventListener('click', openCreateMcqModal);
@@ -1631,6 +1753,15 @@
             document.getElementById('closeCreateMcqModal').addEventListener('click', closeCreateMcqModal);
             document.getElementById('addMcqOptionBtn').addEventListener('click', addMcqOption);
             document.getElementById('submitMcqAnswerBtn').addEventListener('click', submitMcqAnswer);
+            document.getElementById('aiGenerateMcqBtn').addEventListener('click', generateMcqWithAI);
+            
+            // AI Generate events - ĐÃ SỬA: Đảm bảo nút AI hoạt động
+            document.getElementById('aiGenerateBtn').addEventListener('click', function() {
+                openAiGenerateModal();
+            });
+            document.getElementById('generateWithAiBtn').addEventListener('click', generateContentWithAI);
+            document.getElementById('cancelAiGenerate').addEventListener('click', closeAiGenerateModal);
+            document.getElementById('closeAiGenerateModal').addEventListener('click', closeAiGenerateModal);
             
             // Content navigation
             document.getElementById('nextContentBtn').addEventListener('click', showNextContent);
@@ -1640,6 +1771,12 @@
                 tab.addEventListener('click', function() {
                     const type = this.getAttribute('data-type');
                     switchContentType(type);
+                    
+                    // Update active tab
+                    document.querySelectorAll('.content-type-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
                 });
             });
             
@@ -1771,7 +1908,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi tạo phòng:', error);
-                showNotification('Có lỗi xảy ra khi tạo phòng', 'error');
+                showNotification('Lỗi khi tạo phòng', 'error');
             })
             .finally(() => {
                 createBtn.innerHTML = '<i class="fas fa-video"></i> Tạo phòng học';
@@ -1802,7 +1939,7 @@
                 const roomEndTime = roomData.endTime.toDate();
                 
                 if (now > roomEndTime) {
-                    showNotification('Phòng đã hết thời gian', 'warning');
+                    showNotification('Thời gian phòng đã hết', 'warning');
                     db.collection('rooms').doc(roomId).update({ status: 'expired' });
                     return;
                 }
@@ -1852,7 +1989,7 @@
                 })
                 .catch(error => {
                     console.error('Lỗi khi tham gia phòng:', error);
-                    showNotification('Có lỗi xảy ra khi tham gia phòng', 'error');
+                    showNotification('Lỗi khi tham gia phòng', 'error');
                 })
                 .finally(() => {
                     joinBtn.innerHTML = '<i class="fas fa-door-open"></i> Tham gia phòng';
@@ -1861,7 +1998,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi kiểm tra phòng:', error);
-                showNotification('Có lỗi xảy ra khi kiểm tra phòng', 'error');
+                showNotification('Lỗi khi kiểm tra phòng', 'error');
             });
         }
         
@@ -1941,7 +2078,7 @@
                 const timeRemaining = endTime - now;
                 
                 if (timeRemaining <= 0) {
-                    showNotification('Phòng đã hết thời gian', 'warning');
+                    showNotification('Thời gian phòng đã hết', 'warning');
                     leaveRoom();
                     return;
                 }
@@ -1989,7 +2126,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi rời phòng:', error);
-                showNotification('Có lỗi xảy ra khi rời phòng', 'error');
+                showNotification('Lỗi khi rời phòng', 'error');
             });
         }
         
@@ -2054,7 +2191,7 @@
                     participantsList.innerHTML = `
                         <div style="text-align: center; padding: 40px 15px; color: #777;">
                             <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; margin-bottom: 12px;"></i>
-                            <p>Lỗi khi tải danh sách</p>
+                            <p>Lỗi khi tải danh sách người tham gia</p>
                         </div>
                     `;
                 });
@@ -2075,7 +2212,7 @@
                     const roomData = doc.data();
                     
                     if (roomData.status === 'expired') {
-                        showNotification('Phòng đã hết thời gian', 'warning');
+                        showNotification('Thời gian phòng đã hết', 'warning');
                         leaveRoom();
                         return;
                     }
@@ -2140,7 +2277,7 @@
                     // Cập nhật thông tin hiển thị
                     updateContentInfo();
                 }, error => {
-                    console.error('Lỗi khi tải nội dung học tập:', error);
+                    console.error('Lỗi khi tải nội dung:', error);
                 });
         }
         
@@ -2163,17 +2300,15 @@
             // Hiển thị dữ liệu theo loại nội dung
             if (content.type === 'flashcard') {
                 document.getElementById('flashcardWord').textContent = content.english;
+                document.getElementById('flashcardMeaning').textContent = content.vietnamese;
                 
-                // Hiển thị gợi ý nếu có
+                // Hiển thị gợi ý nếu có (chỉ ở mặt trước)
                 const frontHint = document.getElementById('frontHint');
-                const backHint = document.getElementById('backHint');
                 
                 if (content.hint && content.hint.trim() !== '') {
                     frontHint.textContent = `💡 ${content.hint}`;
-                    backHint.textContent = `💡 ${content.hint}`;
                 } else {
                     frontHint.textContent = 'Không có gợi ý';
-                    backHint.textContent = 'Không có gợi ý';
                 }
                 
                 // Reset flashcard về mặt trước
@@ -2225,19 +2360,31 @@
             });
             
             // Hiển thị nội dung tương ứng
-            document.getElementById(`${type}Content`).classList.remove('hidden');
+            const contentElement = document.getElementById(`${type}Content`);
+            if (contentElement) {
+                contentElement.classList.remove('hidden');
+            }
             
             // Cập nhật loại nội dung hiện tại
             currentContentType = type;
+            
+            // Cập nhật tab active trong UI
+            document.querySelectorAll('.content-type-tab').forEach(tab => {
+                if (tab.getAttribute('data-type') === type) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
         }
         
         // Hiển thị thông báo không có nội dung
         function showNoContentMessage() {
             document.getElementById('flashcardWord').textContent = 'Chưa có nội dung';
             document.getElementById('frontHint').textContent = 'Tạo nội dung để bắt đầu';
-            document.getElementById('backHint').textContent = 'Tạo nội dung để bắt đầu';
-            document.getElementById('essayQuestionText').textContent = 'Chưa có câu hỏi tự luận nào. Giáo viên hãy tạo câu hỏi để bắt đầu!';
-            document.getElementById('mcqQuestionText').textContent = 'Chưa có câu hỏi trắc nghiệm nào. Giáo viên hãy tạo câu hỏi để bắt đầu!';
+            document.getElementById('flashcardMeaning').textContent = 'Tạo nội dung để bắt đầu';
+            document.getElementById('essayQuestionText').textContent = 'Chưa có câu hỏi tự luận. Giáo viên, vui lòng tạo câu hỏi để bắt đầu!';
+            document.getElementById('mcqQuestionText').textContent = 'Chưa có câu hỏi trắc nghiệm. Giáo viên, vui lòng tạo câu hỏi để bắt đầu!';
             
             resetAnswerControls();
         }
@@ -2272,7 +2419,7 @@
             let infoText = '';
             
             if (roomContents.length === 0) {
-                infoText = 'Chưa có nội dung nào';
+                infoText = 'Chưa có nội dung';
             } else {
                 const currentContent = roomContents[currentContentIndex];
                 const typeMap = {
@@ -2362,6 +2509,30 @@
             document.getElementById('createMcqModal').classList.remove('active');
         }
         
+        // Mở modal AI generate
+        function openAiGenerateModal() {
+            if (!isTeacher) {
+                showNotification('Chỉ giáo viên mới có thể sử dụng AI!', 'warning');
+                return;
+            }
+            
+            document.getElementById('aiGenerateModal').classList.add('active');
+            document.getElementById('aiTopic').value = '';
+            document.getElementById('aiQuantity').value = '5';
+            document.getElementById('aiResult').style.display = 'none';
+            document.getElementById('aiLoading').style.display = 'none';
+            
+            // Focus vào ô đầu tiên
+            setTimeout(() => {
+                document.getElementById('aiTopic').focus();
+            }, 100);
+        }
+        
+        // Đóng modal AI generate
+        function closeAiGenerateModal() {
+            document.getElementById('aiGenerateModal').classList.remove('active');
+        }
+        
         // Khởi tạo danh sách lựa chọn cho MCQ
         function initializeMcqOptions() {
             const optionsList = document.getElementById('mcqOptionsList');
@@ -2407,7 +2578,7 @@
             }
         }
         
-        // Kiểm tra phát âm flashcard
+        // Kiểm tra phát âm flashcard - ĐÃ SỬA: Sửa lỗi phát âm
         function testFlashcardPronunciation() {
             const word = document.getElementById('flashcardEnglish').value.trim();
             if (word) {
@@ -2417,7 +2588,7 @@
             }
         }
         
-        // Phát âm từ hiện tại
+        // Phát âm từ hiện tại - ĐÃ SỬA: Sửa lỗi phát âm
         function playCurrentPronunciation() {
             if (roomContents.length > 0 && currentContentIndex < roomContents.length) {
                 const currentContent = roomContents[currentContentIndex];
@@ -2431,14 +2602,6 @@
         function flipFlashcard() {
             const flashcard = document.getElementById('roomFlashcard');
             flashcard.classList.toggle('flipped');
-            
-            // Phát âm khi lật sang mặt sau
-            if (flashcard.classList.contains('flipped') && roomContents.length > 0) {
-                const currentContent = roomContents[currentContentIndex];
-                if (currentContent.type === 'flashcard') {
-                    speakText(currentContent.english);
-                }
-            }
         }
         
         // Lưu flashcard
@@ -2448,12 +2611,12 @@
             const hint = document.getElementById('flashcardHint').value.trim();
             
             if (!english || !vietnamese) {
-                showNotification('Vui lòng nhập đầy đủ từ và nghĩa!', 'warning');
+                showNotification('Vui lòng nhập cả từ và nghĩa!', 'warning');
                 return;
             }
             
             if (!currentRoomId) {
-                showNotification('Không tìm thấy phòng học!', 'error');
+                showNotification('Không tìm thấy phòng!', 'error');
                 return;
             }
             
@@ -2476,10 +2639,10 @@
             })
             .catch(error => {
                 console.error('Lỗi khi tạo flashcard:', error);
-                showNotification('Có lỗi xảy ra khi tạo flashcard', 'error');
+                showNotification('Lỗi khi tạo flashcard', 'error');
             })
             .finally(() => {
-                saveBtn.innerHTML = 'Tạo flashcard';
+                saveBtn.innerHTML = 'Tạo Flashcard';
                 saveBtn.disabled = false;
             });
         }
@@ -2491,7 +2654,7 @@
             const points = parseInt(document.getElementById('essayPoints').value) || 1;
             
             if (!question || !correctAnswer) {
-                showNotification('Vui lòng nhập đầy đủ câu hỏi và đáp án!', 'warning');
+                showNotification('Vui lòng nhập cả câu hỏi và đáp án!', 'warning');
                 return;
             }
             
@@ -2506,7 +2669,7 @@
             }
             
             if (!currentRoomId) {
-                showNotification('Không tìm thấy phòng học!', 'error');
+                showNotification('Không tìm thấy phòng!', 'error');
                 return;
             }
             
@@ -2529,7 +2692,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi tạo câu hỏi tự luận:', error);
-                showNotification('Có lỗi xảy ra khi tạo câu hỏi', 'error');
+                showNotification('Lỗi khi tạo câu hỏi', 'error');
             })
             .finally(() => {
                 saveBtn.innerHTML = 'Tạo câu hỏi';
@@ -2579,7 +2742,7 @@
             }
             
             if (!currentRoomId) {
-                showNotification('Không tìm thấy phòng học!', 'error');
+                showNotification('Không tìm thấy phòng!', 'error');
                 return;
             }
             
@@ -2602,7 +2765,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi tạo câu hỏi trắc nghiệm:', error);
-                showNotification('Có lỗi xảy ra khi tạo câu hỏi', 'error');
+                showNotification('Lỗi khi tạo câu hỏi', 'error');
             })
             .finally(() => {
                 saveBtn.innerHTML = 'Tạo câu hỏi';
@@ -2620,7 +2783,7 @@
             const answer = document.getElementById('flashcardAnswerInput').value.trim().toLowerCase();
             
             if (!answer) {
-                showNotification('Vui lòng nhập câu trả lời!', 'warning');
+                showNotification('Vui lòng nhập câu trả lời của bạn!', 'warning');
                 return;
             }
             
@@ -2645,13 +2808,13 @@
             const feedback = document.getElementById('flashcardAnswerFeedback');
             
             if (isCorrect) {
-                feedback.textContent = '🎉 Chính xác! +1 điểm';
+                feedback.textContent = '🎉 Đúng! +1 điểm';
                 feedback.className = 'answer-feedback answer-correct';
                 
                 // Cộng điểm cho người dùng
                 updateUserScore(1);
             } else {
-                feedback.textContent = `❌ Sai rồi! Đáp án đúng là: ${currentContent.vietnamese}`;
+                feedback.textContent = `❌ Sai! Đáp án đúng: ${currentContent.vietnamese}`;
                 feedback.className = 'answer-feedback answer-incorrect';
             }
             
@@ -2660,7 +2823,7 @@
             document.getElementById('submitFlashcardAnswerBtn').disabled = true;
             document.getElementById('flashcardAnswerInput').disabled = true;
             
-            // Tự động lật flashcard để hiển thị gợi ý
+            // Tự động lật flashcard để hiển thị nghĩa
             document.getElementById('roomFlashcard').classList.add('flipped');
         }
         
@@ -2674,7 +2837,7 @@
             const answer = document.getElementById('essayAnswerInput').value.trim().toLowerCase();
             
             if (!answer) {
-                showNotification('Vui lòng nhập câu trả lời!', 'warning');
+                showNotification('Vui lòng nhập câu trả lời của bạn!', 'warning');
                 return;
             }
             
@@ -2707,13 +2870,13 @@
             const feedback = document.getElementById('essayAnswerFeedback');
             
             if (isCorrect) {
-                feedback.textContent = `🎉 Chính xác! +${points} điểm`;
+                feedback.textContent = `🎉 Đúng! +${points} điểm`;
                 feedback.className = 'answer-feedback answer-correct';
                 
                 // Cộng điểm cho người dùng
                 updateUserScore(points);
             } else {
-                feedback.textContent = `❌ Sai rồi! Đáp án đúng có thể là một trong các đáp án sau: ${correctAnswers.join(', ')}`;
+                feedback.textContent = `❌ Sai! Đáp án đúng có thể là: ${correctAnswers.join(', ')}`;
                 feedback.className = 'answer-feedback answer-incorrect';
             }
             
@@ -2744,7 +2907,7 @@
             
             const currentContent = roomContents[currentContentIndex];
             if (currentContent.type !== 'mcq') {
-                showNotification('Nội dung hiện tại không phải câu hỏi trắc nghiệm!', 'error');
+                showNotification('Nội dung hiện tại không phải trắc nghiệm!', 'error');
                 return;
             }
             
@@ -2765,13 +2928,13 @@
             const feedback = document.getElementById('mcqAnswerFeedback');
             
             if (isCorrect) {
-                feedback.textContent = `🎉 Chính xác! +${points} điểm`;
+                feedback.textContent = `🎉 Đúng! +${points} điểm`;
                 feedback.className = 'answer-feedback answer-correct';
                 
                 // Cộng điểm cho người dùng
                 updateUserScore(points);
             } else {
-                feedback.textContent = `❌ Sai rồi! Đáp án đúng là: ${correctAnswer}`;
+                feedback.textContent = `❌ Sai! Đáp án đúng: ${correctAnswer}`;
                 feedback.className = 'answer-feedback answer-incorrect';
             }
             
@@ -2805,14 +2968,14 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Lỗi khi cập nhật điểm số:', error);
+                    console.error('Lỗi khi cập nhật điểm:', error);
                 });
         }
         
         // Hiển thị nội dung tiếp theo
         function showNextContent() {
             if (roomContents.length === 0) {
-                showNotification('Không có nội dung nào trong phòng!', 'warning');
+                showNotification('Không có nội dung trong phòng!', 'warning');
                 return;
             }
             
@@ -2836,7 +2999,8 @@
             const createButtons = [
                 document.getElementById('createFlashcardBtn'),
                 document.getElementById('createEssayBtn'),
-                document.getElementById('createMcqBtn')
+                document.getElementById('createMcqBtn'),
+                document.getElementById('aiGenerateBtn')
             ];
             
             if (isTeacher) {
@@ -2874,16 +3038,17 @@
                     // Tự động rời phòng khi đóng tab
                     db.collection('rooms').doc(currentRoomId).collection('participants').doc(currentUserId).delete()
                     .catch(error => {
-                        console.error('Lỗi khi tự động rời phòng:', error);
+                        console.error('Lỗi tự động rời phòng:', error);
                     });
                 }
             });
         }
         
-        // Hàm phát âm
+        // Hàm phát âm - ĐÃ SỬA: Sửa lỗi không phát âm
         function speakText(text) {
             if ('speechSynthesis' in window) {
-                speechSynthesis.cancel(); // Hủy phát âm trước đó nếu có
+                // Hủy phát âm trước đó nếu có
+                speechSynthesis.cancel();
                 
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'en-US';
@@ -2891,14 +3056,29 @@
                 utterance.pitch = 1;
                 utterance.volume = 1;
                 
-                // Thử chọn giọng nói tiếng Anh
+                // Tìm giọng nói tiếng Anh
                 const voices = speechSynthesis.getVoices();
-                const englishVoice = voices.find(voice => voice.lang.startsWith('en-'));
+                let englishVoice = null;
+                
+                // Ưu tiên giọng nói tiếng Anh
+                for (let voice of voices) {
+                    if (voice.lang.startsWith('en-')) {
+                        englishVoice = voice;
+                        break;
+                    }
+                }
+                
                 if (englishVoice) {
                     utterance.voice = englishVoice;
                 }
                 
-                speechSynthesis.speak(utterance);
+                // Thử phát âm
+                try {
+                    speechSynthesis.speak(utterance);
+                } catch (error) {
+                    console.error('Lỗi phát âm:', error);
+                    showNotification('Không thể phát âm từ này', 'warning');
+                }
             } else {
                 showNotification('Trình duyệt không hỗ trợ phát âm!', 'warning');
             }
@@ -2923,7 +3103,282 @@
         
         // Khởi tạo voices cho speech synthesis
         if ('speechSynthesis' in window) {
+            // Tải voices khi sẵn sàng
+            speechSynthesis.onvoiceschanged = function() {
+                console.log('Voices đã tải:', speechSynthesis.getVoices().length);
+            };
             speechSynthesis.getVoices(); // Khởi tạo voices
+        }
+        
+        // ============= AI FUNCTIONS =============
+        
+        // Tạo flashcard với AI
+        async function generateFlashcardWithAI() {
+            if (!aiModel) {
+                showNotification('AI chưa được khởi tạo!', 'error');
+                return;
+            }
+            
+            openAiGenerateModal();
+            
+            // Tự động chọn loại flashcard
+            document.getElementById('aiContentType').value = 'flashcard';
+            
+            showNotification('Hãy nhập chủ đề và nhấn "Tạo bằng AI" để tạo flashcard!', 'info');
+        }
+        
+        // Tạo câu hỏi tự luận với AI
+        async function generateEssayWithAI() {
+            if (!aiModel) {
+                showNotification('AI chưa được khởi tạo!', 'error');
+                return;
+            }
+            
+            openAiGenerateModal();
+            
+            // Tự động chọn loại essay
+            document.getElementById('aiContentType').value = 'essay';
+            
+            showNotification('Hãy nhập chủ đề và nhấn "Tạo bằng AI" để tạo câu hỏi tự luận!', 'info');
+        }
+        
+        // Tạo câu hỏi trắc nghiệm với AI
+        async function generateMcqWithAI() {
+            if (!aiModel) {
+                showNotification('AI chưa được khởi tạo!', 'error');
+                return;
+            }
+            
+            openAiGenerateModal();
+            
+            // Tự động chọn loại mcq
+            document.getElementById('aiContentType').value = 'mcq';
+            
+            showNotification('Hãy nhập chủ đề và nhấn "Tạo bằng AI" để tạo câu hỏi trắc nghiệm!', 'info');
+        }
+        
+        // Tạo nhiều nội dung với AI
+        async function generateContentWithAI() {
+            if (!aiModel) {
+                showNotification('AI chưa được khởi tạo!', 'error');
+                return;
+            }
+            
+            const topic = document.getElementById('aiTopic').value.trim();
+            const contentType = document.getElementById('aiContentType').value;
+            const quantity = parseInt(document.getElementById('aiQuantity').value);
+            const difficulty = document.getElementById('aiDifficulty').value;
+            
+            if (!topic) {
+                showNotification('Vui lòng nhập chủ đề!', 'warning');
+                return;
+            }
+            
+            if (quantity < 1 || quantity > 20) {
+                showNotification('Số lượng phải từ 1 đến 20!', 'warning');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('aiLoading').style.display = 'block';
+            document.getElementById('aiResult').style.display = 'none';
+            document.getElementById('generateWithAiBtn').disabled = true;
+            
+            let prompt = '';
+            
+            if (contentType === 'flashcard') {
+                prompt = `Tạo ${quantity} flashcard từ vựng tiếng Anh về chủ đề "${topic}" (độ khó: ${difficulty}). Mỗi flashcard cần:
+                1. Từ tiếng Anh
+                2. Nghĩa bằng tiếng Anh
+                3. Một gợi ý ngắn (tùy chọn)
+                
+                Định dạng: Mỗi flashcard trên một dòng, cách nhau bởi |
+                Ví dụ: computer|an electronic device for processing information|used for work and entertainment`;
+                
+            } else if (contentType === 'essay') {
+                prompt = `Tạo ${quantity} câu hỏi tự luận tiếng Anh về chủ đề "${topic}" (độ khó: ${difficulty}). Mỗi câu hỏi cần:
+                1. Câu hỏi
+                2. 2-3 đáp án đúng có thể
+                
+                Định dạng: Các câu hỏi cách nhau bởi ---
+                Ví dụ:
+                Question: [nội dung câu hỏi 1]
+                Answer 1: [đáp án đúng đầu tiên]
+                Answer 2: [đáp án đúng thứ hai]
+                ---
+                Question: [nội dung câu hỏi 2]
+                Answer 1: [đáp án đúng đầu tiên]
+                Answer 2: [đáp án đúng thứ hai]
+                Answer 3: [đáp án đúng thứ ba]`;
+                
+            } else if (contentType === 'mcq') {
+                prompt = `Tạo ${quantity} câu hỏi trắc nghiệm tiếng Anh về chủ đề "${topic}" (độ khó: ${difficulty}). Mỗi câu hỏi cần:
+                1. Câu hỏi
+                2. 4 lựa chọn (A, B, C, D)
+                3. Đáp án đúng
+                
+                Định dạng: Các câu hỏi cách nhau bởi ---
+                Ví dụ:
+                Question: [nội dung câu hỏi 1]
+                A. [lựa chọn A]
+                B. [lựa chọn B]
+                C. [lựa chọn C]
+                D. [lựa chọn D]
+                Correct Answer: A
+                ---
+                Question: [nội dung câu hỏi 2]
+                A. [lựa chọn A]
+                B. [lựa chọn B]
+                C. [lựa chọn C]
+                D. [lựa chọn D]
+                Correct Answer: C`;
+            }
+            
+            try {
+                const result = await aiModel.generateContent(prompt);
+                const response = await result.response;
+                const text = response.text();
+                
+                // Hiển thị kết quả
+                document.getElementById('aiLoading').style.display = 'none';
+                document.getElementById('aiGeneratedContent').textContent = text;
+                document.getElementById('aiResult').style.display = 'block';
+                
+                // Tự động lưu vào database
+                await saveAiGeneratedContent(topic, contentType, quantity, difficulty, text);
+                
+            } catch (error) {
+                console.error('Lỗi AI:', error);
+                document.getElementById('aiLoading').style.display = 'none';
+                showNotification('Lỗi khi tạo nội dung bằng AI: ' + error.message, 'error');
+            } finally {
+                document.getElementById('generateWithAiBtn').disabled = false;
+            }
+        }
+        
+        // Lưu nội dung được tạo bởi AI vào database
+        async function saveAiGeneratedContent(topic, contentType, quantity, difficulty, aiText) {
+            if (!currentRoomId) {
+                showNotification('Không tìm thấy phòng!', 'error');
+                return;
+            }
+            
+            let savedCount = 0;
+            
+            if (contentType === 'flashcard') {
+                const flashcards = aiText.split('\n').filter(line => line.includes('|'));
+                
+                for (const flashcard of flashcards) {
+                    if (savedCount >= quantity) break;
+                    
+                    const parts = flashcard.split('|');
+                    if (parts.length >= 2) {
+                        const english = parts[0].trim();
+                        const vietnamese = parts[1].trim();
+                        const hint = parts[2] ? parts[2].trim() : '';
+                        
+                        await db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                            type: 'flashcard',
+                            english: english,
+                            vietnamese: vietnamese,
+                            hint: hint,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true,
+                            aiTopic: topic,
+                            aiDifficulty: difficulty
+                        });
+                        
+                        savedCount++;
+                    }
+                }
+                
+            } else if (contentType === 'essay') {
+                const questions = aiText.split('---').filter(section => section.trim());
+                
+                for (const questionSection of questions) {
+                    if (savedCount >= quantity) break;
+                    
+                    const lines = questionSection.split('\n').filter(line => line.trim());
+                    let question = '';
+                    const answers = [];
+                    
+                    lines.forEach(line => {
+                        if (line.includes('Question:')) {
+                            question = line.replace('Question:', '').trim();
+                        } else if (line.includes('Answer')) {
+                            const answer = line.split(':').slice(1).join(':').trim();
+                            if (answer) answers.push(answer);
+                        }
+                    });
+                    
+                    if (question && answers.length > 0) {
+                        await db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                            type: 'essay',
+                            question: question,
+                            correctAnswers: answers,
+                            points: 1,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true,
+                            aiTopic: topic,
+                            aiDifficulty: difficulty
+                        });
+                        
+                        savedCount++;
+                    }
+                }
+                
+            } else if (contentType === 'mcq') {
+                const questions = aiText.split('---').filter(section => section.trim());
+                
+                for (const questionSection of questions) {
+                    if (savedCount >= quantity) break;
+                    
+                    const lines = questionSection.split('\n').filter(line => line.trim());
+                    let question = '';
+                    const options = [];
+                    let correctAnswer = '';
+                    
+                    lines.forEach(line => {
+                        if (line.includes('Question:')) {
+                            question = line.replace('Question:', '').trim();
+                        } else if (line.match(/^[A-D]\./)) {
+                            options.push({
+                                text: line.substring(3).trim(),
+                                correct: false
+                            });
+                        } else if (line.includes('Correct Answer:')) {
+                            correctAnswer = line.replace('Correct Answer:', '').trim();
+                        }
+                    });
+                    
+                    if (question && options.length === 4 && correctAnswer) {
+                        // Mark the correct option
+                        const correctIndex = 'ABCD'.indexOf(correctAnswer);
+                        if (correctIndex >= 0 && correctIndex < 4) {
+                            options[correctIndex].correct = true;
+                        }
+                        
+                        await db.collection('rooms').doc(currentRoomId).collection('contents').add({
+                            type: 'mcq',
+                            question: question,
+                            options: options,
+                            points: 1,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true,
+                            aiTopic: topic,
+                            aiDifficulty: difficulty
+                        });
+                        
+                        savedCount++;
+                    }
+                }
+            }
+            
+            showNotification(`Đã tạo và lưu ${savedCount} ${contentType} bằng AI!`, 'success');
+            closeAiGenerateModal();
         }
     </script>
 </body>
