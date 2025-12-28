@@ -26,28 +26,6 @@
             flex-direction: column;
         }
 
-        /* Header đơn giản */
-        .simple-header {
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            padding: 15px 25px;
-            text-align: center;
-            font-size: 1.4rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .logo i {
-            font-size: 1.6rem;
-        }
-
         /* Trang chính */
         .main-content {
             flex: 1;
@@ -67,69 +45,106 @@
         .home-container {
             width: 100%;
             max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.97);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             padding: 40px;
-            animation: slideUp 0.5s ease;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 3.5rem;
+            color: #6a11cb;
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            color: #2575fc;
+            font-size: 2rem;
+            font-weight: 700;
         }
 
         .form-title {
             color: #2575fc;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
-            text-align: center;
-            justify-content: center;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
             color: #555;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         input, select {
             width: 100%;
             padding: 14px 18px;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s;
-            background-color: white;
         }
 
         input:focus, select:focus {
             border-color: #6a11cb;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.15);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+
+        .duration-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .duration-option {
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .duration-option:hover {
+            border-color: #6a11cb;
+            background-color: #f9f5ff;
+        }
+
+        .duration-option.active {
+            border-color: #6a11cb;
+            background-color: #6a11cb;
+            color: white;
+        }
+
+        .time-display {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+            text-align: center;
         }
 
         .btn {
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 16px 25px;
-            border-radius: 12px;
+            padding: 16px;
+            border-radius: 10px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
@@ -137,40 +152,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
             margin-top: 10px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+            box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
         }
 
         .btn-secondary {
             background: linear-gradient(to right, #36d1dc, #5b86e5);
         }
 
-        .btn-exit {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-        }
-
         .divider {
             display: flex;
             align-items: center;
             margin: 30px 0;
-            color: #999;
+            color: #777;
         }
 
         .divider::before,
         .divider::after {
-            content: '';
+            content: "";
             flex: 1;
             height: 1px;
-            background-color: #eee;
+            background-color: #e0e0e0;
         }
 
-        .divider span {
+        .divider-text {
             padding: 0 15px;
             font-size: 0.9rem;
         }
@@ -187,11 +198,11 @@
         .room-header {
             background: linear-gradient(to right, #2575fc, #6a11cb);
             color: white;
-            padding: 20px 30px;
+            padding: 20px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .room-info {
@@ -199,74 +210,103 @@
         }
 
         .room-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 5px;
         }
 
         .room-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .room-id {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .room-time {
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background-color: rgba(255, 255, 255, 0.15);
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 50px;
-            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .room-time.warning {
-            background-color: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
+        .time-critical {
+            animation: pulse 2s infinite;
+            background-color: rgba(255, 87, 87, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            color: #6a11cb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-left: 15px;
         }
 
         .participants-container {
             flex: 1;
-            padding: 30px;
+            padding: 25px;
             overflow-y: auto;
         }
 
         .participants-title {
             color: #2575fc;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .participants-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
         }
 
         .participant-card {
             background-color: white;
-            border-radius: 16px;
+            border-radius: 15px;
             padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s;
             border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
         }
 
         .participant-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
         .participant-current {
             border-color: #6a11cb;
-            background: linear-gradient(135deg, #f9f5ff 0%, #f0f7ff 100%);
+            background-color: #f9f5ff;
         }
 
         .participant-avatar {
@@ -281,23 +321,18 @@
             font-size: 2rem;
             font-weight: bold;
             margin: 0 auto 15px;
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
         }
 
         .participant-name {
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-size: 1.1rem;
         }
 
         .participant-time {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #777;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
         }
 
         .participant-status {
@@ -310,41 +345,42 @@
         }
 
         .room-controls {
-            padding: 20px 30px;
+            padding: 20px 25px;
             background-color: white;
             border-top: 1px solid #eaeaea;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .participant-count {
             color: #666;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
         }
 
         .btn-room {
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
+            padding: 12px 25px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn-room:hover {
             transform: translateY(-3px);
             box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn-exit {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
         }
 
         /* Trạng thái ẩn */
@@ -373,16 +409,16 @@
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            border-radius: 12px;
+            border-radius: 10px;
             color: white;
             font-weight: 600;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             transform: translateX(150%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: transform 0.5s ease;
             max-width: 400px;
         }
 
@@ -406,126 +442,84 @@
             background: linear-gradient(to right, #ff416c, #ff4b2b);
         }
 
-        /* Countdown */
-        .countdown {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .home-container {
-                padding: 30px 25px;
-                margin: 20px;
+                padding: 25px;
+            }
+            
+            .participants-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
             
             .room-header {
                 flex-direction: column;
                 gap: 15px;
                 align-items: flex-start;
-                padding: 20px;
-            }
-            
-            .room-meta {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .room-time {
-                align-self: flex-start;
-            }
-            
-            .participants-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 20px;
-            }
-            
-            .participants-container {
-                padding: 20px;
             }
             
             .room-controls {
                 flex-direction: column;
-                gap: 20px;
-                padding: 20px;
+                gap: 15px;
             }
             
             .btn-room {
                 width: 100%;
                 justify-content: center;
             }
-        }
-
-        @media (max-width: 480px) {
-            .home-container {
-                padding: 25px 20px;
-            }
             
-            .form-title {
-                font-size: 1.5rem;
-            }
-            
-            .participants-grid {
-                grid-template-columns: 1fr;
+            .duration-options {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- Header đơn giản -->
-        <div class="simple-header">
-            <div class="logo">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Phòng học trực tuyến</span>
-            </div>
-        </div>
-
         <!-- Trang chính -->
         <div class="main-content">
             <!-- Trang trước khi tham gia -->
             <div id="homePage">
                 <div class="home-container">
-                    <h2 class="form-title"><i class="fas fa-user-circle"></i> Thiết lập tên</h2>
+                    <div class="logo">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h1>Phòng học trực tuyến</h1>
+                    </div>
                     
                     <div class="form-group">
                         <label for="userNameInput">Tên của bạn</label>
                         <input type="text" id="userNameInput" placeholder="Nhập tên hiển thị của bạn">
                     </div>
-
-                    <div class="divider"><span>HOẶC</span></div>
                     
                     <h2 class="form-title"><i class="fas fa-plus-circle"></i> Tạo phòng mới</h2>
-                    
                     <div class="form-group">
                         <label for="roomName">Tên phòng học</label>
                         <input type="text" id="roomName" placeholder="Ví dụ: Toán lớp 10 - Buổi 1">
                     </div>
                     
                     <div class="form-group">
-                        <label for="roomDuration">Thời gian phòng học</label>
-                        <select id="roomDuration">
-                            <option value="45">45 phút</option>
-                            <option value="60">1 giờ</option>
-                            <option value="90">1.5 giờ</option>
-                            <option value="120">2 giờ</option>
-                            <option value="180">3 giờ</option>
-                            <option value="0">Không giới hạn</option>
-                        </select>
+                        <label>Thời gian phòng hoạt động</label>
+                        <div class="duration-options">
+                            <div class="duration-option" data-minutes="30">30 phút</div>
+                            <div class="duration-option active" data-minutes="45">45 phút</div>
+                            <div class="duration-option" data-minutes="60">60 phút</div>
+                        </div>
+                        <input type="hidden" id="roomDuration" value="45">
+                        <div class="time-display" id="endTimeDisplay"></div>
                     </div>
                     
                     <button class="btn" id="createRoomBtn">
                         <i class="fas fa-video"></i> Tạo phòng học
                     </button>
                     
-                    <div class="divider"><span>HOẶC</span></div>
+                    <div class="divider">
+                        <span class="divider-text">hoặc</span>
+                    </div>
                     
                     <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Tham gia phòng</h2>
-                    
                     <div class="form-group">
-                        <label for="roomId">Mã phòng học</label>
-                        <input type="text" id="roomId" placeholder="Nhập mã phòng (ID)">
+                        <label for="roomId">Mã phòng</label>
+                        <input type="text" id="roomId" placeholder="Nhập mã phòng để tham gia">
                     </div>
                     
                     <button class="btn btn-secondary" id="joinRoomBtn">
@@ -540,14 +534,17 @@
                     <div class="room-info">
                         <div class="room-title" id="currentRoomName">Phòng học</div>
                         <div class="room-meta">
-                            <div>Mã phòng: <strong id="currentRoomId">room_12345</strong></div>
-                            <div>Người tạo: <strong id="roomCreator">Người dùng</strong></div>
+                            <div class="room-id">
+                                <i class="fas fa-hashtag"></i>
+                                <span id="currentRoomId">room_12345</span>
+                            </div>
+                            <div class="room-time" id="roomTimeRemaining">
+                                <i class="fas fa-clock"></i>
+                                <span>45:00</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="room-time" id="roomTimer">
-                        <i class="fas fa-clock"></i>
-                        <span class="countdown" id="countdownText">45:00</span>
-                    </div>
+                    <div class="user-avatar" id="userAvatarHeader">U</div>
                 </div>
                 
                 <div class="participants-container">
@@ -555,14 +552,13 @@
                     <div id="participantsList">
                         <div style="text-align: center; padding: 60px 20px;">
                             <div class="loading" style="margin: 0 auto; border-color: #6a11cb rgba(106, 17, 203, 0.3) rgba(106, 17, 203, 0.3); border-top-color: #6a11cb;"></div>
-                            <p style="margin-top: 20px; color: #666;">Đang tải danh sách người tham gia...</p>
+                            <p style="margin-top: 15px; color: #666;">Đang tải danh sách người tham gia...</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="room-controls">
                     <div class="participant-count">
-                        <i class="fas fa-user-friends"></i>
                         <span id="participantCount">0</span> người đang tham gia
                     </div>
                     <button class="btn-room btn-exit" id="leaveRoomBtn">
@@ -600,57 +596,92 @@
         let currentRoomId = null;
         let currentUserName = "";
         let currentUserId = null;
-        let roomEndTime = null;
-        let countdownInterval = null;
         let participantsListener = null;
         let roomListener = null;
-        let cleanupListener = null;
+        let roomTimer = null;
+        let endTime = null;
         
         // Khởi tạo ứng dụng
         document.addEventListener('DOMContentLoaded', function() {
             // Tạo ID ngẫu nhiên cho người dùng
             currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
             
-            // Lấy tên người dùng từ localStorage
-            const savedName = localStorage.getItem('userName');
-            if (savedName) {
-                currentUserName = savedName;
-                document.getElementById('userNameInput').value = savedName;
-            } else {
-                currentUserName = "Người dùng " + Math.floor(Math.random() * 1000);
-                document.getElementById('userNameInput').value = currentUserName;
-                localStorage.setItem('userName', currentUserName);
-            }
+            // Tải tên người dùng từ localStorage
+            loadUserName();
+            
+            // Cấu hình các tùy chọn thời gian
+            setupDurationOptions();
             
             // Gắn sự kiện cho các nút
             document.getElementById('createRoomBtn').addEventListener('click', createRoom);
             document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
             document.getElementById('leaveRoomBtn').addEventListener('click', leaveRoom);
-            document.getElementById('userNameInput').addEventListener('input', updateUserName);
+            document.getElementById('userNameInput').addEventListener('input', saveUserName);
             
             // Kiểm tra xem có phòng đang hoạt động trong localStorage không
             const savedRoom = localStorage.getItem('currentRoom');
+            const savedUser = localStorage.getItem('currentUser');
             
-            if (savedRoom) {
+            if (savedRoom && savedUser) {
+                currentRoomId = savedRoom;
+                currentUserId = savedUser;
                 joinRoomById(savedRoom, true);
             }
             
-            // Thiết lập listener để dọn dẹp phòng hết hạn
-            setupRoomCleanupListener();
+            // Xử lý khi người dùng thoát/đóng tab
+            setupBeforeUnload();
         });
         
-        // Cập nhật tên người dùng và lưu vào localStorage
-        function updateUserName() {
-            const nameInput = document.getElementById('userNameInput').value.trim();
-            if (nameInput) {
-                currentUserName = nameInput;
-                localStorage.setItem('userName', currentUserName);
-                
-                // Cập nhật tên trong phòng nếu đang tham gia
-                if (currentRoomId) {
-                    updateParticipantName();
-                }
+        // Tải tên người dùng từ localStorage
+        function loadUserName() {
+            const savedName = localStorage.getItem('userName');
+            if (savedName) {
+                currentUserName = savedName;
+                document.getElementById('userNameInput').value = savedName;
             }
+        }
+        
+        // Lưu tên người dùng vào localStorage
+        function saveUserName() {
+            const name = document.getElementById('userNameInput').value.trim();
+            if (name) {
+                currentUserName = name;
+                localStorage.setItem('userName', name);
+            }
+        }
+        
+        // Cấu hình các tùy chọn thời gian
+        function setupDurationOptions() {
+            const options = document.querySelectorAll('.duration-option');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const minutes = parseInt(this.getAttribute('data-minutes'));
+                    document.getElementById('roomDuration').value = minutes;
+                    
+                    // Cập nhật thời gian kết thúc dự kiến
+                    updateEndTimeDisplay(minutes);
+                });
+            });
+            
+            // Hiển thị thời gian mặc định
+            updateEndTimeDisplay(45);
+        }
+        
+        // Cập nhật hiển thị thời gian kết thúc
+        function updateEndTimeDisplay(minutes) {
+            const now = new Date();
+            const endTime = new Date(now.getTime() + minutes * 60000);
+            const timeString = endTime.toLocaleTimeString('vi-VN', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            
+            document.getElementById('endTimeDisplay').textContent = 
+                `Phòng sẽ đóng lúc: ${timeString}`;
         }
         
         // Tạo phòng mới
@@ -658,24 +689,22 @@
             const roomName = document.getElementById('roomName').value.trim();
             const duration = parseInt(document.getElementById('roomDuration').value);
             
-            if (!roomName) {
-                showNotification('Vui lòng nhập tên phòng học', 'warning');
-                return;
-            }
-            
             if (!currentUserName) {
                 showNotification('Vui lòng nhập tên của bạn', 'warning');
                 return;
             }
             
-            // Tính thời gian kết thúc
-            let endTime = null;
-            if (duration > 0) {
-                endTime = new Date(Date.now() + duration * 60000); // Chuyển phút thành mili giây
+            if (!roomName) {
+                showNotification('Vui lòng nhập tên phòng học', 'warning');
+                return;
             }
             
             // Tạo ID phòng ngẫu nhiên
             const roomId = 'room_' + Math.random().toString(36).substr(2, 9);
+            
+            // Tính thời gian kết thúc
+            const now = new Date();
+            const endTime = new Date(now.getTime() + duration * 60000);
             
             // Hiển thị thông báo đang tạo
             document.getElementById('createRoomBtn').innerHTML = '<div class="loading"></div> Đang tạo phòng...';
@@ -689,9 +718,8 @@
                 name: roomName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 createdBy: currentUserId,
-                createdByName: currentUserName,
-                endTime: endTime ? firebase.firestore.Timestamp.fromDate(endTime) : null,
                 duration: duration,
+                endTime: firebase.firestore.Timestamp.fromDate(endTime),
                 status: 'active'
             })
             .then(() => {
@@ -734,30 +762,27 @@
                 
                 const roomData = doc.data();
                 
-                // Kiểm tra phòng còn hoạt động không
+                // Kiểm tra xem phòng có còn hoạt động không
                 if (roomData.status !== 'active') {
-                    showNotification('Phòng này đã đóng', 'warning');
+                    showNotification('Phòng đã đóng', 'warning');
                     if (fromStorage) {
                         localStorage.removeItem('currentRoom');
                     }
                     return;
                 }
                 
-                // Kiểm tra thời gian hết hạn
-                if (roomData.endTime) {
-                    const now = new Date();
-                    const endTime = roomData.endTime.toDate();
-                    if (now > endTime) {
-                        showNotification('Phòng này đã hết thời gian', 'warning');
-                        closeRoom(roomId);
-                        if (fromStorage) {
-                            localStorage.removeItem('currentRoom');
-                        }
-                        return;
+                // Kiểm tra thời gian phòng
+                const now = new Date();
+                const roomEndTime = roomData.endTime.toDate();
+                
+                if (now > roomEndTime) {
+                    showNotification('Phòng đã hết thời gian', 'warning');
+                    // Đánh dấu phòng là đã đóng
+                    db.collection('rooms').doc(roomId).update({ status: 'expired' });
+                    if (fromStorage) {
+                        localStorage.removeItem('currentRoom');
                     }
-                    roomEndTime = endTime;
-                } else {
-                    roomEndTime = null;
+                    return;
                 }
                 
                 // Hiển thị thông báo đang tham gia
@@ -769,6 +794,13 @@
                 // Lưu thông tin phòng hiện tại
                 currentRoomId = roomId;
                 localStorage.setItem('currentRoom', roomId);
+                
+                // Lưu tên người dùng nếu chưa có
+                if (!currentUserName) {
+                    currentUserName = "Người dùng Ẩn danh";
+                    document.getElementById('userNameInput').value = currentUserName;
+                    localStorage.setItem('userName', currentUserName);
+                }
                 
                 // Thêm người dùng vào danh sách tham gia
                 db.collection('rooms').doc(roomId).collection('participants').doc(currentUserId).set({
@@ -783,12 +815,11 @@
                     // Hiển thị thông tin phòng
                     document.getElementById('currentRoomName').textContent = roomData.name;
                     document.getElementById('currentRoomId').textContent = roomId;
-                    document.getElementById('roomCreator').textContent = roomData.createdByName || 'Người dùng';
+                    document.getElementById('userAvatarHeader').textContent = currentUserName.charAt(0).toUpperCase();
                     
-                    // Bắt đầu đếm ngược nếu có
-                    if (roomEndTime) {
-                        startCountdown();
-                    }
+                    // Lưu thời gian kết thúc và bắt đầu đếm ngược
+                    endTime = roomEndTime;
+                    startRoomTimer();
                     
                     // Tải danh sách người tham gia
                     loadParticipants();
@@ -821,13 +852,13 @@
         function joinRoom() {
             const roomId = document.getElementById('roomId').value.trim();
             
-            if (!roomId) {
-                showNotification('Vui lòng nhập mã phòng', 'warning');
+            if (!currentUserName) {
+                showNotification('Vui lòng nhập tên của bạn', 'warning');
                 return;
             }
             
-            if (!currentUserName) {
-                showNotification('Vui lòng nhập tên của bạn', 'warning');
+            if (!roomId) {
+                showNotification('Vui lòng nhập mã phòng', 'warning');
                 return;
             }
             
@@ -846,11 +877,53 @@
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('roomPage').classList.add('hidden');
             
-            // Dừng đếm ngược
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
+            // Dừng timer
+            if (roomTimer) {
+                clearInterval(roomTimer);
+                roomTimer = null;
             }
+        }
+        
+        // Bắt đầu đếm ngược thời gian phòng
+        function startRoomTimer() {
+            if (roomTimer) {
+                clearInterval(roomTimer);
+            }
+            
+            function updateTimer() {
+                if (!endTime) return;
+                
+                const now = new Date();
+                const timeRemaining = endTime - now;
+                
+                if (timeRemaining <= 0) {
+                    // Thời gian đã hết
+                    showNotification('Phòng đã hết thời gian', 'warning');
+                    leaveRoom();
+                    return;
+                }
+                
+                // Chuyển đổi thời gian thành phút:giây
+                const minutes = Math.floor(timeRemaining / 60000);
+                const seconds = Math.floor((timeRemaining % 60000) / 1000);
+                
+                // Hiển thị thời gian
+                const timeDisplay = document.getElementById('roomTimeRemaining');
+                timeDisplay.innerHTML = `<i class="fas fa-clock"></i> <span>${minutes}:${seconds.toString().padStart(2, '0')}</span>`;
+                
+                // Thêm cảnh báo khi còn 5 phút
+                if (minutes < 5) {
+                    timeDisplay.classList.add('time-critical');
+                } else {
+                    timeDisplay.classList.remove('time-critical');
+                }
+            }
+            
+            // Cập nhật ngay lập tức
+            updateTimer();
+            
+            // Cập nhật mỗi giây
+            roomTimer = setInterval(updateTimer, 1000);
         }
         
         // Rời phòng
@@ -903,7 +976,7 @@
                     if (snapshot.empty) {
                         participantsList.innerHTML = `
                             <div style="text-align: center; padding: 60px 20px; color: #777;">
-                                <i class="fas fa-user-slash" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                                <i class="fas fa-user-slash" style="font-size: 3rem; margin-bottom: 15px;"></i>
                                 <p>Chưa có người tham gia trong phòng này</p>
                             </div>
                         `;
@@ -938,11 +1011,8 @@
                                 <span class="participant-status"></span>
                                 ${participant.name}
                             </div>
-                            <div class="participant-time">
-                                <i class="fas fa-clock"></i>
-                                Tham gia: ${joinedTime}
-                            </div>
-                            ${participantId === currentUserId ? '<div style="color: #6a11cb; font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-user-circle"></i> Bạn</div>' : ''}
+                            <div class="participant-time">Tham gia: ${joinedTime}</div>
+                            ${participantId === currentUserId ? '<div style="color: #6a11cb; font-size: 0.85rem; margin-top: 8px;"><i class="fas fa-user-circle"></i> Bạn</div>' : ''}
                         `;
                         
                         participantsGrid.appendChild(participantElement);
@@ -957,13 +1027,13 @@
                     console.error('Lỗi khi tải danh sách người tham gia:', error);
                     participantsList.innerHTML = `
                         <div style="text-align: center; padding: 60px 20px; color: #777;">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
                             <p>Lỗi khi tải danh sách người tham gia</p>
                         </div>
                     `;
                 });
             
-            // Lắng nghe thay đổi trong phòng
+            // Lắng nghe thay đổi trong phòng (ví dụ: phòng bị xóa hoặc hết thời gian)
             if (roomListener) {
                 roomListener();
             }
@@ -978,37 +1048,24 @@
                     
                     const roomData = doc.data();
                     
-                    // Kiểm tra trạng thái phòng
-                    if (roomData.status !== 'active') {
-                        showNotification('Phòng đã đóng', 'warning');
+                    // Kiểm tra nếu phòng đã hết thời gian
+                    if (roomData.status === 'expired') {
+                        showNotification('Phòng đã hết thời gian', 'warning');
                         leaveRoom();
                         return;
                     }
                     
-                    // Cập nhật thời gian kết thúc nếu có thay đổi
+                    // Cập nhật thời gian kết thúc
                     if (roomData.endTime) {
                         const newEndTime = roomData.endTime.toDate();
-                        if (!roomEndTime || newEndTime.getTime() !== roomEndTime.getTime()) {
-                            roomEndTime = newEndTime;
-                            startCountdown();
+                        if (newEndTime.getTime() !== endTime.getTime()) {
+                            endTime = newEndTime;
+                            startRoomTimer();
                         }
                     }
                 }, error => {
                     console.error('Lỗi khi lắng nghe thay đổi phòng:', error);
                 });
-        }
-        
-        // Cập nhật tên người tham gia
-        function updateParticipantName() {
-            if (!currentRoomId) return;
-            
-            db.collection('rooms').doc(currentRoomId).collection('participants').doc(currentUserId).update({
-                name: currentUserName,
-                lastActive: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .catch(error => {
-                console.error('Lỗi khi cập nhật tên:', error);
-            });
         }
         
         // Cập nhật trạng thái hoạt động của người dùng
@@ -1022,102 +1079,35 @@
             });
         }
         
-        // Bắt đầu đếm ngược
-        function startCountdown() {
-            if (!roomEndTime) return;
+        // Kiểm tra và đóng các phòng hết thời gian
+        function checkAndCloseExpiredRooms() {
+            const now = firebase.firestore.Timestamp.now();
             
-            // Dừng interval cũ nếu có
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-            
-            // Cập nhật ngay lần đầu
-            updateCountdown();
-            
-            // Cập nhật mỗi giây
-            countdownInterval = setInterval(updateCountdown, 1000);
-        }
-        
-        // Cập nhật đồng hồ đếm ngược
-        function updateCountdown() {
-            if (!roomEndTime) return;
-            
-            const now = new Date();
-            const timeLeft = roomEndTime.getTime() - now.getTime();
-            
-            if (timeLeft <= 0) {
-                // Thời gian đã hết
-                document.getElementById('countdownText').textContent = '00:00';
-                document.getElementById('roomTimer').classList.add('warning');
-                
-                // Đóng phòng
-                if (currentRoomId) {
-                    showNotification('Phòng đã hết thời gian', 'warning');
-                    closeRoom(currentRoomId);
-                    leaveRoom();
-                }
-                
-                if (countdownInterval) {
-                    clearInterval(countdownInterval);
-                    countdownInterval = null;
-                }
-                return;
-            }
-            
-            // Chuyển đổi thời gian còn lại thành phút:giây
-            const minutes = Math.floor(timeLeft / 60000);
-            const seconds = Math.floor((timeLeft % 60000) / 1000);
-            
-            // Hiển thị
-            const countdownText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            document.getElementById('countdownText').textContent = countdownText;
-            
-            // Thay đổi màu khi còn ít thời gian
-            const timerElement = document.getElementById('roomTimer');
-            if (minutes < 5) {
-                timerElement.classList.add('warning');
-            } else {
-                timerElement.classList.remove('warning');
-            }
-        }
-        
-        // Đóng phòng
-        function closeRoom(roomId) {
-            db.collection('rooms').doc(roomId).update({
-                status: 'closed',
-                closedAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                console.log('Đã đóng phòng:', roomId);
-            })
-            .catch(error => {
-                console.error('Lỗi khi đóng phòng:', error);
-            });
-        }
-        
-        // Thiết lập listener để dọn dẹp phòng hết hạn
-        function setupRoomCleanupListener() {
-            if (cleanupListener) {
-                cleanupListener();
-            }
-            
-            // Kiểm tra định kỳ các phòng đã hết hạn
-            cleanupListener = setInterval(() => {
-                const now = new Date();
-                
-                db.collection('rooms')
-                    .where('status', '==', 'active')
-                    .where('endTime', '<=', firebase.firestore.Timestamp.fromDate(now))
-                    .get()
-                    .then(snapshot => {
-                        snapshot.forEach(doc => {
-                            closeRoom(doc.id);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Lỗi khi dọn dẹp phòng:', error);
+            db.collection('rooms')
+                .where('status', '==', 'active')
+                .where('endTime', '<', now)
+                .get()
+                .then(snapshot => {
+                    snapshot.forEach(doc => {
+                        db.collection('rooms').doc(doc.id).update({ status: 'expired' });
                     });
-            }, 60000); // Kiểm tra mỗi phút
+                })
+                .catch(error => {
+                    console.error('Lỗi khi kiểm tra phòng hết hạn:', error);
+                });
+        }
+        
+        // Xử lý khi người dùng thoát/đóng tab
+        function setupBeforeUnload() {
+            window.addEventListener('beforeunload', function() {
+                if (currentRoomId) {
+                    // Tự động rời phòng khi đóng tab
+                    db.collection('rooms').doc(currentRoomId).collection('participants').doc(currentUserId).delete()
+                    .catch(error => {
+                        console.error('Lỗi khi tự động rời phòng:', error);
+                    });
+                }
+            });
         }
         
         // Hiển thị thông báo
@@ -1136,6 +1126,9 @@
                 notification.classList.remove('show');
             }, 5000);
         }
+        
+        // Kiểm tra phòng hết hạn mỗi phút
+        setInterval(checkAndCloseExpiredRooms, 60000);
     </script>
 </body>
 </html>
