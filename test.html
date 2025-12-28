@@ -26,49 +26,26 @@
             flex-direction: column;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(to right, #2575fc, #6a11cb);
+        /* Header đơn giản */
+        .simple-header {
+            background: rgba(0, 0, 0, 0.2);
             color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 100;
+            padding: 15px 25px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
-            font-size: 1.3rem;
         }
 
         .logo i {
-            font-size: 1.8rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 8px 15px;
-            border-radius: 50px;
-        }
-
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: white;
-            color: #6a11cb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.6rem;
         }
 
         /* Trang chính */
@@ -82,184 +59,120 @@
         #homePage {
             flex: 1;
             display: flex;
-            overflow-y: auto;
+            justify-content: center;
+            align-items: center;
             padding: 30px;
         }
 
         .home-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .welcome-section {
-            flex: 1;
-            min-width: 300px;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.97);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            animation: slideUp 0.5s ease;
         }
 
-        .welcome-title {
-            font-size: 2.5rem;
-            color: #2575fc;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .welcome-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .features {
-            margin-top: 30px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        .feature-item i {
-            color: #6a11cb;
-            font-size: 1.2rem;
-            width: 24px;
-        }
-
-        .actions-section {
-            flex: 1;
-            min-width: 300px;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .form-title {
             color: #2575fc;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            text-align: center;
+            justify-content: center;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: #555;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
-        input {
+        input, select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 18px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s;
+            background-color: white;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: #6a11cb;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.15);
         }
 
         .btn {
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 14px 25px;
-            border-radius: 10px;
-            font-size: 1rem;
+            padding: 16px 25px;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             margin-top: 10px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
         }
 
         .btn-secondary {
             background: linear-gradient(to right, #36d1dc, #5b86e5);
         }
 
-        .rooms-list {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
-            max-height: 300px;
-            overflow-y: auto;
+        .btn-exit {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
         }
 
-        .rooms-title {
-            color: #2575fc;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+        .divider {
             display: flex;
             align-items: center;
-            gap: 10px;
+            margin: 30px 0;
+            color: #999;
         }
 
-        .room-item {
-            padding: 15px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #eee;
         }
 
-        .room-item:hover {
-            background-color: #f8f9ff;
-            border-radius: 10px;
-        }
-
-        .room-name {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .room-info {
-            font-size: 0.85rem;
-            color: #777;
-        }
-
-        .room-participants {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #6a11cb;
-            font-weight: 600;
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
         }
 
         /* Trang phòng học */
@@ -274,67 +187,86 @@
         .room-header {
             background: linear-gradient(to right, #2575fc, #6a11cb);
             color: white;
-            padding: 15px 25px;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .room-info {
+            flex: 1;
         }
 
         .room-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
+            margin-bottom: 5px;
         }
 
-        .room-id {
+        .room-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .room-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background-color: rgba(255, 255, 255, 0.15);
             padding: 8px 15px;
             border-radius: 50px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        }
+
+        .room-time.warning {
+            background-color: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
         }
 
         .participants-container {
             flex: 1;
-            padding: 25px;
+            padding: 30px;
             overflow-y: auto;
         }
 
         .participants-title {
             color: #2575fc;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .participants-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
         }
 
         .participant-card {
             background-color: white;
-            border-radius: 15px;
+            border-radius: 16px;
             padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
             transition: all 0.3s;
             border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
         .participant-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
         }
 
         .participant-current {
             border-color: #6a11cb;
-            background-color: #f9f5ff;
+            background: linear-gradient(135deg, #f9f5ff 0%, #f0f7ff 100%);
         }
 
         .participant-avatar {
@@ -349,18 +281,23 @@
             font-size: 2rem;
             font-weight: bold;
             margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
         }
 
         .participant-name {
             font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-size: 1.1rem;
         }
 
         .participant-time {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #777;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
 
         .participant-status {
@@ -373,36 +310,41 @@
         }
 
         .room-controls {
-            padding: 20px 25px;
+            padding: 20px 30px;
             background-color: white;
             border-top: 1px solid #eaeaea;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .participant-count {
+            color: #666;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .btn-room {
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
+            padding: 14px 28px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .btn-room:hover {
             transform: translateY(-3px);
             box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
-        }
-
-        .btn-exit {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
         }
 
         /* Trạng thái ẩn */
@@ -431,16 +373,16 @@
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             font-weight: 600;
             z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             transform: translateX(150%);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             max-width: 400px;
         }
 
@@ -460,25 +402,53 @@
             background: linear-gradient(to right, #f46b45, #eea849);
         }
 
+        .notification.error {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+        }
+
+        /* Countdown */
+        .countdown {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .home-container {
-                flex-direction: column;
-            }
-            
-            .participants-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                padding: 30px 25px;
+                margin: 20px;
             }
             
             .room-header {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
                 align-items: flex-start;
+                padding: 20px;
+            }
+            
+            .room-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .room-time {
+                align-self: flex-start;
+            }
+            
+            .participants-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            
+            .participants-container {
+                padding: 20px;
             }
             
             .room-controls {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
+                padding: 20px;
             }
             
             .btn-room {
@@ -486,21 +456,29 @@
                 justify-content: center;
             }
         }
+
+        @media (max-width: 480px) {
+            .home-container {
+                padding: 25px 20px;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .participants-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- Header chung -->
-        <div class="header">
+        <!-- Header đơn giản -->
+        <div class="simple-header">
             <div class="logo">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <span>Phòng học trực tuyến</span>
-            </div>
-            <div class="user-info">
-                <div class="avatar" id="userAvatar">U</div>
-                <div>
-                    <div id="userName">Người dùng Ẩn danh</div>
-                </div>
             </div>
         </div>
 
@@ -509,90 +487,66 @@
             <!-- Trang trước khi tham gia -->
             <div id="homePage">
                 <div class="home-container">
-                    <div class="welcome-section">
-                        <h1 class="welcome-title">Học tập trực tuyến mọi lúc, mọi nơi</h1>
-                        <p class="welcome-subtitle">
-                            Tạo hoặc tham gia phòng học ảo để kết nối với giáo viên và bạn học. 
-                            Không cần đăng nhập, dễ dàng sử dụng và hoàn toàn miễn phí.
-                        </p>
-                        
-                        <div class="features">
-                            <div class="feature-item">
-                                <i class="fas fa-bolt"></i>
-                                <div>
-                                    <strong>Kết nối nhanh chóng</strong>
-                                    <p>Tham gia phòng học chỉ với một mã phòng</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-users"></i>
-                                <div>
-                                    <strong>Theo dõi người tham gia</strong>
-                                    <p>Xem ai đang có mặt trong phòng học của bạn</p>
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-sync-alt"></i>
-                                <div>
-                                    <strong>Cập nhật thời gian thực</strong>
-                                    <p>Thay đổi được cập nhật ngay lập tức</p>
-                                </div>
-                            </div>
-                        </div>
+                    <h2 class="form-title"><i class="fas fa-user-circle"></i> Thiết lập tên</h2>
+                    
+                    <div class="form-group">
+                        <label for="userNameInput">Tên của bạn</label>
+                        <input type="text" id="userNameInput" placeholder="Nhập tên hiển thị của bạn">
+                    </div>
+
+                    <div class="divider"><span>HOẶC</span></div>
+                    
+                    <h2 class="form-title"><i class="fas fa-plus-circle"></i> Tạo phòng mới</h2>
+                    
+                    <div class="form-group">
+                        <label for="roomName">Tên phòng học</label>
+                        <input type="text" id="roomName" placeholder="Ví dụ: Toán lớp 10 - Buổi 1">
                     </div>
                     
-                    <div class="actions-section">
-                        <h2 class="form-title"><i class="fas fa-plus-circle"></i> Tạo phòng mới</h2>
-                        <div class="form-group">
-                            <label for="roomName">Tên phòng học</label>
-                            <input type="text" id="roomName" placeholder="Ví dụ: Toán 10 - Buổi 1">
-                        </div>
-                        <div class="form-group">
-                            <label for="userNameInput">Tên của bạn (hiển thị trong phòng)</label>
-                            <input type="text" id="userNameInput" placeholder="Nhập tên của bạn" value="Người dùng Ẩn danh">
-                        </div>
-                        <button class="btn" id="createRoomBtn">
-                            <i class="fas fa-video"></i> Tạo phòng học
-                        </button>
-                        
-                        <div style="margin: 30px 0; border-top: 1px solid #eee;"></div>
-                        
-                        <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Tham gia phòng</h2>
-                        <div class="form-group">
-                            <label for="roomId">Mã phòng (ID)</label>
-                            <input type="text" id="roomId" placeholder="Nhập mã phòng">
-                        </div>
-                        <div class="form-group">
-                            <label for="userNameInputJoin">Tên của bạn (hiển thị trong phòng)</label>
-                            <input type="text" id="userNameInputJoin" placeholder="Nhập tên của bạn" value="Người dùng Ẩn danh">
-                        </div>
-                        <button class="btn btn-secondary" id="joinRoomBtn">
-                            <i class="fas fa-door-open"></i> Tham gia phòng
-                        </button>
-                        
-                        <div class="rooms-list">
-                            <h3 class="rooms-title"><i class="fas fa-list"></i> Phòng đang hoạt động</h3>
-                            <div id="roomsContainer">
-                                <div style="text-align: center; padding: 20px; color: #777;">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                    <p>Đang tải danh sách phòng...</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="roomDuration">Thời gian phòng học</label>
+                        <select id="roomDuration">
+                            <option value="45">45 phút</option>
+                            <option value="60">1 giờ</option>
+                            <option value="90">1.5 giờ</option>
+                            <option value="120">2 giờ</option>
+                            <option value="180">3 giờ</option>
+                            <option value="0">Không giới hạn</option>
+                        </select>
                     </div>
+                    
+                    <button class="btn" id="createRoomBtn">
+                        <i class="fas fa-video"></i> Tạo phòng học
+                    </button>
+                    
+                    <div class="divider"><span>HOẶC</span></div>
+                    
+                    <h2 class="form-title"><i class="fas fa-sign-in-alt"></i> Tham gia phòng</h2>
+                    
+                    <div class="form-group">
+                        <label for="roomId">Mã phòng học</label>
+                        <input type="text" id="roomId" placeholder="Nhập mã phòng (ID)">
+                    </div>
+                    
+                    <button class="btn btn-secondary" id="joinRoomBtn">
+                        <i class="fas fa-door-open"></i> Tham gia phòng
+                    </button>
                 </div>
             </div>
 
             <!-- Trang phòng học -->
             <div id="roomPage" class="hidden">
                 <div class="room-header">
-                    <div>
+                    <div class="room-info">
                         <div class="room-title" id="currentRoomName">Phòng học</div>
-                        <div style="font-size: 0.9rem; opacity: 0.9;">Đang hoạt động</div>
+                        <div class="room-meta">
+                            <div>Mã phòng: <strong id="currentRoomId">room_12345</strong></div>
+                            <div>Người tạo: <strong id="roomCreator">Người dùng</strong></div>
+                        </div>
                     </div>
-                    <div class="room-id">
-                        <i class="fas fa-hashtag"></i>
-                        <span id="currentRoomId">room_12345</span>
+                    <div class="room-time" id="roomTimer">
+                        <i class="fas fa-clock"></i>
+                        <span class="countdown" id="countdownText">45:00</span>
                     </div>
                 </div>
                 
@@ -601,13 +555,14 @@
                     <div id="participantsList">
                         <div style="text-align: center; padding: 60px 20px;">
                             <div class="loading" style="margin: 0 auto; border-color: #6a11cb rgba(106, 17, 203, 0.3) rgba(106, 17, 203, 0.3); border-top-color: #6a11cb;"></div>
-                            <p style="margin-top: 15px; color: #666;">Đang tải danh sách người tham gia...</p>
+                            <p style="margin-top: 20px; color: #666;">Đang tải danh sách người tham gia...</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="room-controls">
-                    <div style="color: #666; font-size: 0.9rem;">
+                    <div class="participant-count">
+                        <i class="fas fa-user-friends"></i>
                         <span id="participantCount">0</span> người đang tham gia
                     </div>
                     <button class="btn-room btn-exit" id="leaveRoomBtn">
@@ -643,71 +598,80 @@
         
         // Biến toàn cục
         let currentRoomId = null;
-        let currentUserName = "Người dùng Ẩn danh";
+        let currentUserName = "";
         let currentUserId = null;
-        let roomsListener = null;
+        let roomEndTime = null;
+        let countdownInterval = null;
         let participantsListener = null;
         let roomListener = null;
+        let cleanupListener = null;
         
         // Khởi tạo ứng dụng
         document.addEventListener('DOMContentLoaded', function() {
             // Tạo ID ngẫu nhiên cho người dùng
             currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
             
-            // Cập nhật tên người dùng
-            updateUserName();
+            // Lấy tên người dùng từ localStorage
+            const savedName = localStorage.getItem('userName');
+            if (savedName) {
+                currentUserName = savedName;
+                document.getElementById('userNameInput').value = savedName;
+            } else {
+                currentUserName = "Người dùng " + Math.floor(Math.random() * 1000);
+                document.getElementById('userNameInput').value = currentUserName;
+                localStorage.setItem('userName', currentUserName);
+            }
             
             // Gắn sự kiện cho các nút
             document.getElementById('createRoomBtn').addEventListener('click', createRoom);
             document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
             document.getElementById('leaveRoomBtn').addEventListener('click', leaveRoom);
             document.getElementById('userNameInput').addEventListener('input', updateUserName);
-            document.getElementById('userNameInputJoin').addEventListener('input', updateUserName);
-            
-            // Tải danh sách phòng
-            loadRooms();
             
             // Kiểm tra xem có phòng đang hoạt động trong localStorage không
             const savedRoom = localStorage.getItem('currentRoom');
-            const savedUser = localStorage.getItem('currentUser');
             
-            if (savedRoom && savedUser) {
-                currentRoomId = savedRoom;
-                currentUserId = savedUser;
+            if (savedRoom) {
                 joinRoomById(savedRoom, true);
             }
+            
+            // Thiết lập listener để dọn dẹp phòng hết hạn
+            setupRoomCleanupListener();
         });
         
-        // Cập nhật tên người dùng
+        // Cập nhật tên người dùng và lưu vào localStorage
         function updateUserName() {
-            const nameFromCreate = document.getElementById('userNameInput').value.trim();
-            const nameFromJoin = document.getElementById('userNameInputJoin').value.trim();
-            
-            if (nameFromCreate) {
-                currentUserName = nameFromCreate;
-                document.getElementById('userNameInputJoin').value = nameFromCreate;
-            } else if (nameFromJoin) {
-                currentUserName = nameFromJoin;
-                document.getElementById('userNameInput').value = nameFromJoin;
-            }
-            
-            // Cập nhật hiển thị
-            document.getElementById('userName').textContent = currentUserName;
-            document.getElementById('userAvatar').textContent = currentUserName.charAt(0).toUpperCase();
-            
-            // Cập nhật tên trong phòng nếu đang tham gia
-            if (currentRoomId) {
-                updateParticipantName();
+            const nameInput = document.getElementById('userNameInput').value.trim();
+            if (nameInput) {
+                currentUserName = nameInput;
+                localStorage.setItem('userName', currentUserName);
+                
+                // Cập nhật tên trong phòng nếu đang tham gia
+                if (currentRoomId) {
+                    updateParticipantName();
+                }
             }
         }
         
         // Tạo phòng mới
         function createRoom() {
             const roomName = document.getElementById('roomName').value.trim();
+            const duration = parseInt(document.getElementById('roomDuration').value);
             
             if (!roomName) {
                 showNotification('Vui lòng nhập tên phòng học', 'warning');
                 return;
+            }
+            
+            if (!currentUserName) {
+                showNotification('Vui lòng nhập tên của bạn', 'warning');
+                return;
+            }
+            
+            // Tính thời gian kết thúc
+            let endTime = null;
+            if (duration > 0) {
+                endTime = new Date(Date.now() + duration * 60000); // Chuyển phút thành mili giây
             }
             
             // Tạo ID phòng ngẫu nhiên
@@ -725,6 +689,9 @@
                 name: roomName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 createdBy: currentUserId,
+                createdByName: currentUserName,
+                endTime: endTime ? firebase.firestore.Timestamp.fromDate(endTime) : null,
+                duration: duration,
                 status: 'active'
             })
             .then(() => {
@@ -744,7 +711,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi tạo phòng:', error);
-                showNotification('Có lỗi xảy ra khi tạo phòng', 'warning');
+                showNotification('Có lỗi xảy ra khi tạo phòng', 'error');
             })
             .finally(() => {
                 document.getElementById('createRoomBtn').innerHTML = '<i class="fas fa-video"></i> Tạo phòng học';
@@ -765,8 +732,33 @@
                     return;
                 }
                 
-                // Lấy thông tin phòng
                 const roomData = doc.data();
+                
+                // Kiểm tra phòng còn hoạt động không
+                if (roomData.status !== 'active') {
+                    showNotification('Phòng này đã đóng', 'warning');
+                    if (fromStorage) {
+                        localStorage.removeItem('currentRoom');
+                    }
+                    return;
+                }
+                
+                // Kiểm tra thời gian hết hạn
+                if (roomData.endTime) {
+                    const now = new Date();
+                    const endTime = roomData.endTime.toDate();
+                    if (now > endTime) {
+                        showNotification('Phòng này đã hết thời gian', 'warning');
+                        closeRoom(roomId);
+                        if (fromStorage) {
+                            localStorage.removeItem('currentRoom');
+                        }
+                        return;
+                    }
+                    roomEndTime = endTime;
+                } else {
+                    roomEndTime = null;
+                }
                 
                 // Hiển thị thông báo đang tham gia
                 if (!fromStorage) {
@@ -791,6 +783,12 @@
                     // Hiển thị thông tin phòng
                     document.getElementById('currentRoomName').textContent = roomData.name;
                     document.getElementById('currentRoomId').textContent = roomId;
+                    document.getElementById('roomCreator').textContent = roomData.createdByName || 'Người dùng';
+                    
+                    // Bắt đầu đếm ngược nếu có
+                    if (roomEndTime) {
+                        startCountdown();
+                    }
                     
                     // Tải danh sách người tham gia
                     loadParticipants();
@@ -798,13 +796,10 @@
                     if (!fromStorage) {
                         showNotification(`Đã tham gia phòng "${roomData.name}"`, 'success');
                     }
-                    
-                    // Cập nhật danh sách phòng
-                    loadRooms();
                 })
                 .catch(error => {
                     console.error('Lỗi khi tham gia phòng:', error);
-                    showNotification('Có lỗi xảy ra khi tham gia phòng', 'warning');
+                    showNotification('Có lỗi xảy ra khi tham gia phòng', 'error');
                 })
                 .finally(() => {
                     if (!fromStorage) {
@@ -815,7 +810,7 @@
             })
             .catch(error => {
                 console.error('Lỗi khi kiểm tra phòng:', error);
-                showNotification('Có lỗi xảy ra khi kiểm tra phòng', 'warning');
+                showNotification('Có lỗi xảy ra khi kiểm tra phòng', 'error');
                 if (fromStorage) {
                     localStorage.removeItem('currentRoom');
                 }
@@ -828,6 +823,11 @@
             
             if (!roomId) {
                 showNotification('Vui lòng nhập mã phòng', 'warning');
+                return;
+            }
+            
+            if (!currentUserName) {
+                showNotification('Vui lòng nhập tên của bạn', 'warning');
                 return;
             }
             
@@ -845,6 +845,12 @@
         function showHomePage() {
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('roomPage').classList.add('hidden');
+            
+            // Dừng đếm ngược
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
         }
         
         // Rời phòng
@@ -870,83 +876,11 @@
                 showHomePage();
                 
                 showNotification('Đã rời phòng', 'info');
-                
-                // Cập nhật danh sách phòng
-                loadRooms();
             })
             .catch(error => {
                 console.error('Lỗi khi rời phòng:', error);
-                showNotification('Có lỗi xảy ra khi rời phòng', 'warning');
+                showNotification('Có lỗi xảy ra khi rời phòng', 'error');
             });
-        }
-        
-        // Tải danh sách phòng
-        function loadRooms() {
-            const roomsContainer = document.getElementById('roomsContainer');
-            
-            // Dừng listener cũ nếu có
-            if (roomsListener) {
-                roomsListener();
-            }
-            
-            // Lắng nghe thay đổi trong collection rooms
-            roomsListener = db.collection('rooms')
-                .where('status', '==', 'active')
-                .orderBy('createdAt', 'desc')
-                .limit(10)
-                .onSnapshot(snapshot => {
-                    roomsContainer.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        roomsContainer.innerHTML = `
-                            <div style="text-align: center; padding: 20px; color: #777;">
-                                <i class="fas fa-door-closed"></i>
-                                <p>Không có phòng nào đang hoạt động</p>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    snapshot.forEach(doc => {
-                        const room = doc.data();
-                        const roomId = doc.id;
-                        
-                        // Lấy số lượng người tham gia
-                        db.collection('rooms').doc(roomId).collection('participants').get()
-                        .then(participantsSnapshot => {
-                            const participantCount = participantsSnapshot.size;
-                            
-                            const roomElement = document.createElement('div');
-                            roomElement.className = `room-item`;
-                            roomElement.innerHTML = `
-                                <div>
-                                    <div class="room-name">${room.name}</div>
-                                    <div class="room-info">Tạo lúc: ${room.createdAt ? room.createdAt.toDate().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : '--:--'}</div>
-                                </div>
-                                <div class="room-participants">
-                                    <i class="fas fa-user"></i>
-                                    <span>${participantCount}</span>
-                                </div>
-                            `;
-                            
-                            // Gắn sự kiện click để tham gia phòng
-                            roomElement.addEventListener('click', () => {
-                                document.getElementById('roomId').value = roomId;
-                                joinRoomById(roomId);
-                            });
-                            
-                            roomsContainer.appendChild(roomElement);
-                        });
-                    });
-                }, error => {
-                    console.error('Lỗi khi tải danh sách phòng:', error);
-                    roomsContainer.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #777;">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>Lỗi khi tải danh sách phòng</p>
-                        </div>
-                    `;
-                });
         }
         
         // Tải danh sách người tham gia
@@ -969,7 +903,7 @@
                     if (snapshot.empty) {
                         participantsList.innerHTML = `
                             <div style="text-align: center; padding: 60px 20px; color: #777;">
-                                <i class="fas fa-user-slash" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                                <i class="fas fa-user-slash" style="font-size: 3rem; margin-bottom: 20px;"></i>
                                 <p>Chưa có người tham gia trong phòng này</p>
                             </div>
                         `;
@@ -1004,8 +938,11 @@
                                 <span class="participant-status"></span>
                                 ${participant.name}
                             </div>
-                            <div class="participant-time">Tham gia: ${joinedTime}</div>
-                            ${participantId === currentUserId ? '<div style="color: #6a11cb; font-size: 0.85rem; margin-top: 8px;"><i class="fas fa-user-circle"></i> Bạn</div>' : ''}
+                            <div class="participant-time">
+                                <i class="fas fa-clock"></i>
+                                Tham gia: ${joinedTime}
+                            </div>
+                            ${participantId === currentUserId ? '<div style="color: #6a11cb; font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-user-circle"></i> Bạn</div>' : ''}
                         `;
                         
                         participantsGrid.appendChild(participantElement);
@@ -1020,13 +957,13 @@
                     console.error('Lỗi khi tải danh sách người tham gia:', error);
                     participantsList.innerHTML = `
                         <div style="text-align: center; padding: 60px 20px; color: #777;">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
                             <p>Lỗi khi tải danh sách người tham gia</p>
                         </div>
                     `;
                 });
             
-            // Lắng nghe thay đổi trong phòng (ví dụ: phòng bị xóa)
+            // Lắng nghe thay đổi trong phòng
             if (roomListener) {
                 roomListener();
             }
@@ -1036,6 +973,25 @@
                     if (!doc.exists) {
                         showNotification('Phòng đã bị đóng', 'warning');
                         leaveRoom();
+                        return;
+                    }
+                    
+                    const roomData = doc.data();
+                    
+                    // Kiểm tra trạng thái phòng
+                    if (roomData.status !== 'active') {
+                        showNotification('Phòng đã đóng', 'warning');
+                        leaveRoom();
+                        return;
+                    }
+                    
+                    // Cập nhật thời gian kết thúc nếu có thay đổi
+                    if (roomData.endTime) {
+                        const newEndTime = roomData.endTime.toDate();
+                        if (!roomEndTime || newEndTime.getTime() !== roomEndTime.getTime()) {
+                            roomEndTime = newEndTime;
+                            startCountdown();
+                        }
                     }
                 }, error => {
                     console.error('Lỗi khi lắng nghe thay đổi phòng:', error);
@@ -1064,6 +1020,104 @@
             }).catch(error => {
                 console.error('Lỗi khi cập nhật trạng thái hoạt động:', error);
             });
+        }
+        
+        // Bắt đầu đếm ngược
+        function startCountdown() {
+            if (!roomEndTime) return;
+            
+            // Dừng interval cũ nếu có
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            // Cập nhật ngay lần đầu
+            updateCountdown();
+            
+            // Cập nhật mỗi giây
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+        
+        // Cập nhật đồng hồ đếm ngược
+        function updateCountdown() {
+            if (!roomEndTime) return;
+            
+            const now = new Date();
+            const timeLeft = roomEndTime.getTime() - now.getTime();
+            
+            if (timeLeft <= 0) {
+                // Thời gian đã hết
+                document.getElementById('countdownText').textContent = '00:00';
+                document.getElementById('roomTimer').classList.add('warning');
+                
+                // Đóng phòng
+                if (currentRoomId) {
+                    showNotification('Phòng đã hết thời gian', 'warning');
+                    closeRoom(currentRoomId);
+                    leaveRoom();
+                }
+                
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+                return;
+            }
+            
+            // Chuyển đổi thời gian còn lại thành phút:giây
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            
+            // Hiển thị
+            const countdownText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('countdownText').textContent = countdownText;
+            
+            // Thay đổi màu khi còn ít thời gian
+            const timerElement = document.getElementById('roomTimer');
+            if (minutes < 5) {
+                timerElement.classList.add('warning');
+            } else {
+                timerElement.classList.remove('warning');
+            }
+        }
+        
+        // Đóng phòng
+        function closeRoom(roomId) {
+            db.collection('rooms').doc(roomId).update({
+                status: 'closed',
+                closedAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                console.log('Đã đóng phòng:', roomId);
+            })
+            .catch(error => {
+                console.error('Lỗi khi đóng phòng:', error);
+            });
+        }
+        
+        // Thiết lập listener để dọn dẹp phòng hết hạn
+        function setupRoomCleanupListener() {
+            if (cleanupListener) {
+                cleanupListener();
+            }
+            
+            // Kiểm tra định kỳ các phòng đã hết hạn
+            cleanupListener = setInterval(() => {
+                const now = new Date();
+                
+                db.collection('rooms')
+                    .where('status', '==', 'active')
+                    .where('endTime', '<=', firebase.firestore.Timestamp.fromDate(now))
+                    .get()
+                    .then(snapshot => {
+                        snapshot.forEach(doc => {
+                            closeRoom(doc.id);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi dọn dẹp phòng:', error);
+                    });
+            }, 60000); // Kiểm tra mỗi phút
         }
         
         // Hiển thị thông báo
