@@ -990,29 +990,21 @@
         let overallProgressChart = null;
         let userDistributionChart = null;
 
-        // Check if user is admin
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentAdminId = user.uid;
-                // Check if user is admin
-                db.collection('users').doc(user.uid).get().then(doc => {
-                    if (doc.exists && doc.data().role === 'admin') {
-                        // Load admin data
-                        loadDashboard();
-                        loadCategories();
-                        loadCards();
-                        loadUsers();
-                        // Không load từ vựng tự động, chỉ khi click tab
-                    } else {
-                        // Redirect to main page if not admin
-                        window.location.href = 'main.html';
-                    }
-                });
-            } else {
-                // Redirect to login if not authenticated
-                window.location.href = 'login.html';
-            }
-        });
+      // Check if user is logged in
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        currentAdminId = user.uid;
+        // Bỏ kiểm tra admin, cho phép tất cả user đã đăng nhập truy cập
+        loadDashboard();
+        loadCategories();
+        loadCards();
+        loadUsers();
+        // Không load từ vựng tự động, chỉ khi click tab
+    } else {
+        // Redirect to login if not authenticated
+        window.location.href = 'login.html';
+    }
+});
 
         // Tab functionality
         document.querySelectorAll('.tab').forEach(tab => {
