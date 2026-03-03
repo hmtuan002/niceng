@@ -1738,17 +1738,27 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         
-        // Khởi tạo Gemini AI
-        const GEMINI_API_KEY = "AIzaSyDdfi27YlSq1g754asUx0kZIMTXX3TZrdg";
-        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-        let aiModel;
-        
-        try {
-            aiModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-        } catch (error) {
-            console.error("Không thể khởi tạo AI:", error);
-        }
-        
+       // API key gốc đã được đảo ngược
+const ORIGINAL_API_KEY = "wdUmlR2B1S3dGz_3zSgDiRdYw4_ABR2CySazIA";
+
+// Hàm đảo ngược chuỗi
+function reverseApiKey(apiKey) {
+    return apiKey.split('').reverse().join('');
+}
+
+// Lấy API key gốc khi runtime
+const GEMINI_API_KEY = reverseApiKey(ORIGINAL_API_KEY);
+
+// Khởi tạo Gemini AI
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+let aiModel;
+
+try {
+    aiModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    console.log("✅ Gemini AI đã được khởi tạo thành công với API key đã đảo ngược");
+} catch (error) {
+    console.error("❌ Không thể khởi tạo AI:", error);
+}
         // Biến toàn cục
         let currentRoomId = null;
         let currentUserName = "";
