@@ -3,52 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản trị - Niceng</title>
+    <title>Quản trị hệ thống - Niceng English Learning</title>
     <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-            font-weight: 400;
-            color-scheme: light;
-            color: #333;
-            background-color: #f8f9fa;
-            font-synthesis: none;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FFD700;
+            --secondary: #FFA500;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --info: #2196F3;
+            --warning: #ff9800;
+            --dark: #333;
+            --light: #f8f9fa;
+            --border: #e0e0e0;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
         }
 
         #app {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            box-shadow: var(--shadow);
         }
 
+        /* Top Bar */
         #top-bar {
+            background: var(--gradient);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -56,66 +58,68 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 1rem;
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
+            width: auto;
             filter: brightness(0) invert(1);
         }
 
         .logo h1 {
-            margin: 0;
-            font-size: 22px;
+            font-size: 1.5rem;
             font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .user-info {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            gap: 1rem;
         }
 
         .user-info span {
+            font-size: 28px;
             cursor: pointer;
-            padding: 8px;
+            padding: 0.5rem;
             border-radius: 50%;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         .user-info span:hover {
             background-color: rgba(255,255,255,0.2);
         }
 
-        #content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
+        /* Tabs */
         .tabs {
             display: flex;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+            padding: 0 2rem;
+            background: white;
             flex-wrap: wrap;
         }
 
         .tab {
-            padding: 12px 24px;
+            padding: 1rem 1.5rem;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
             font-weight: 600;
             color: #666;
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            border-bottom: 3px solid #FFA500;
-            color: #FFA500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
         }
 
         .tab:hover {
-            color: #FFA500;
+            color: var(--secondary);
+        }
+
+        .tab.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        /* Content */
+        #content {
+            padding: 2rem;
         }
 
         .tab-content {
@@ -126,120 +130,271 @@
             display: block;
         }
 
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Cards */
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #FFA500;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary);
         }
 
-        .card h3 {
-            margin-top: 0;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .card-actions {
+        .card-header {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .item-card.user-card {
+            border-left-color: var(--info);
+        }
+
+        .item-card.category-card {
+            border-left-color: var(--success);
+        }
+
+        .item-card.system-card {
+            border-left-color: var(--warning);
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .item-card h3 {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
 
+        .item-card p {
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .item-card p strong {
+            color: var(--dark);
+        }
+
+        /* Badges */
+        .admin-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .banned-badge {
+            background: var(--danger);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            display: inline-block;
+        }
+
+        .status-badge.learning {
+            background: var(--info);
+        }
+
+        .status-badge.known {
+            background: var(--success);
+        }
+
+        .status-badge.mastered {
+            background: var(--warning);
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
         button {
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 8px;
-            cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            background: var(--gradient);
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
 
         .btn-danger {
-            background: #ff4d4d;
+            background: var(--danger);
             color: white;
         }
 
-        .btn-danger:hover {
-            background: #ff3333;
+        .btn-danger:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
         }
 
         .btn-success {
-            background: #4CAF50;
+            background: var(--success);
             color: white;
         }
 
-        .btn-success:hover {
-            background: #45a049;
+        .btn-success:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
         }
 
         .btn-info {
-            background: #2196F3;
+            background: var(--info);
             color: white;
         }
 
-        .btn-info:hover {
-            background: #0b7dda;
+        .btn-info:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
         }
 
         .btn-warning {
-            background: #ff9800;
+            background: var(--warning);
             color: white;
         }
 
-        .btn-warning:hover {
-            background: #e68a00;
+        .btn-warning:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
         }
 
+        /* Forms */
         form {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            color: #333;
+            color: var(--dark);
         }
 
-        input, textarea, select {
+        input, select, textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #FFD700;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--primary);
             border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background-color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #FFA500;
+            border-color: var(--secondary);
             box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
         }
 
@@ -248,289 +403,149 @@
             resize: vertical;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            margin: 0;
-            color: #FFA500;
-        }
-
-        .stat-label {
-            margin: 10px 0 0;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .item-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .item-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-        .user-card {
-            border-left: 4px solid #2196F3;
-        }
-
-        .category-card {
-            border-left: 4px solid #4CAF50;
-        }
-
-        .system-card {
-            border-left: 4px solid #FFC107;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .alert.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .alert.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
+            margin: 1.5rem 0;
+        }
+
+        thead tr {
+            background: var(--gradient);
+            color: white;
         }
 
         th, td {
-            padding: 12px 15px;
+            padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #e0e0e0;
         }
 
         th {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: white;
             font-weight: 600;
         }
 
-        tr:hover {
-            background-color: #f5f5f5;
+        td {
+            border-bottom: 1px solid var(--border);
         }
 
-        .vocab-filter {
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        /* Filters */
+        .filters {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
-        .vocab-filter select, .vocab-filter input {
+        .filters select, .filters input {
             flex: 1;
             min-width: 200px;
         }
 
+        /* Vocabulary Stats */
         .vocab-stats {
             display: flex;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 1rem;
+            margin: 1.5rem 0;
             flex-wrap: wrap;
         }
 
         .vocab-stat-item {
             background: #f0f0f0;
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             font-weight: 600;
         }
 
-        .vocab-stat-item.need-to-know {
-            background: #2196F3;
+        .vocab-stat-item.learning {
+            background: var(--info);
             color: white;
         }
 
         .vocab-stat-item.known {
-            background: #4CAF50;
+            background: var(--success);
             color: white;
         }
 
         .vocab-stat-item.mastered {
-            background: #FF9800;
+            background: var(--warning);
             color: white;
         }
 
-        .user-banned {
-            background-color: #ffebee !important;
-        }
-
-        .user-banned h3 {
-            color: #c62828;
-        }
-
-        .banned-badge {
-            background: #ff4d4d;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-
-        .admin-badge {
-            background: #FFA500;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-learning {
-            background: #2196F3;
-            color: white;
-        }
-
-        .status-known {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .status-mastered {
-            background: #FF9800;
-            color: white;
-        }
-
+        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
-            gap: 5px;
-            margin-top: 20px;
+            gap: 0.5rem;
+            margin: 2rem 0;
             flex-wrap: wrap;
         }
 
         .pagination button {
-            padding: 8px 12px;
             min-width: 40px;
+            padding: 0.5rem;
         }
 
         .pagination button.active {
-            background: #FFA500;
+            background: var(--gradient);
             color: white;
         }
 
-        .analytics-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .analytics-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .analytics-header h2 {
-            color: #333;
-            font-size: 20px;
-        }
-
+        /* Chart Containers */
         .chart-container {
             position: relative;
-            height: 300px;
-            width: 100%;
-            margin-bottom: 20px;
+            height: 350px;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
         }
 
+        /* Progress Summary */
         .progress-summary {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
 
         .progress-item {
             background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 1rem;
             text-align: center;
         }
 
         .progress-item .label {
-            font-size: 14px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .progress-item .value {
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #333;
+            color: var(--dark);
         }
 
+        /* Evaluation */
         .evaluation {
             text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
         }
 
         .evaluation.excellent {
@@ -554,78 +569,152 @@
         }
 
         .evaluation h3 {
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
 
+        .evaluation p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
         }
 
         .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
+            background: white;
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
+            margin: 5% auto;
+            border-radius: 12px;
+            padding: 2rem;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
         }
 
         .close-modal {
-            font-size: 28px;
+            font-size: 2rem;
             cursor: pointer;
             color: #666;
         }
 
         .close-modal:hover {
-            color: #333;
+            color: var(--dark);
         }
 
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* User Banned */
+        .user-banned {
+            background: #ffebee;
+        }
+
+        .user-banned h3 {
+            color: #c62828;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            #top-bar {
+                padding: 1rem;
+            }
+
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
             .tabs {
-                flex-direction: column;
+                padding: 0 1rem;
             }
 
             .tab {
-                padding: 10px 15px;
-                border-bottom: 1px solid #e0e0e0;
-                border-left: 3px solid transparent;
+                padding: 0.75rem 1rem;
             }
 
-            .tab.active {
-                border-bottom: 1px solid #e0e0e0;
-                border-left: 3px solid #FFA500;
+            #content {
+                padding: 1rem;
             }
 
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
             .items-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filters select, .filters input {
+                width: 100%;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
             }
 
             .card-actions {
@@ -636,276 +725,315 @@
                 width: 100%;
             }
 
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .vocab-filter {
-                flex-direction: column;
-            }
-
-            .vocab-filter select, .vocab-filter input {
-                width: 100%;
-                min-width: unset;
-            }
-
             .progress-summary {
                 grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #top-bar {
-                padding: 10px 15px;
-            }
-
-            .logo h1 {
-                font-size: 18px;
-            }
-
-            #content {
-                padding: 15px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-number {
-                font-size: 28px;
             }
 
             .modal-content {
                 width: 95%;
                 margin: 10% auto;
-                padding: 20px;
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 35px;
+            }
+
+            .logo h1 {
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <div id="app">
+        <!-- Top Bar -->
         <div id="top-bar">
             <div class="logo">
                 <img src="https://learnenglishwithaurora.github.io/aurora.svg" alt="Niceng">
-                <h1>Niceng - Quản trị</h1>
+                <h1>Niceng Admin Panel</h1>
             </div>
             <div class="user-info">
-                <a href="main.html" class="material-symbols-outlined" title="Về trang chính">home</a>
-                <span id="logout" class="material-symbols-outlined" title="Đăng xuất">logout</span>
+                <span class="material-symbols-outlined" id="home-btn" title="Trang chủ">home</span>
+                <span class="material-symbols-outlined" id="logout-btn" title="Đăng xuất">logout</span>
             </div>
         </div>
 
-        <div id="content">
-            <div class="tabs">
-                <div class="tab active" data-tab="dashboard">Tổng quan</div>
-                <div class="tab" data-tab="categories">Chủ đề</div>
-                <div class="tab" data-tab="cards">Thẻ từ vựng</div>
-                <div class="tab" data-tab="users">Người dùng</div>
-                <div class="tab" data-tab="vocabulary">Từ vựng người dùng</div>
-                <div class="tab" data-tab="analytics">Đánh giá & Bảng xếp hạng</div>
-            </div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">Tổng quan</div>
+            <div class="tab" data-tab="categories">Chủ đề</div>
+            <div class="tab" data-tab="cards">Thẻ từ vựng</div>
+            <div class="tab" data-tab="users">Người dùng</div>
+            <div class="tab" data-tab="vocabulary">Từ vựng người dùng</div>
+            <div class="tab" data-tab="analytics">Thống kê & Bảng xếp hạng</div>
+        </div>
 
+        <!-- Content -->
+        <div id="content">
+            <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
                 <h2>Tổng quan hệ thống</h2>
-                <div class="stats">
+                
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <p class="stat-number" id="total-users">0</p>
-                        <p class="stat-label">Tổng người dùng</p>
+                        <div class="stat-number" id="total-users">0</div>
+                        <div class="stat-label">Tổng người dùng</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="total-cards">0</p>
-                        <p class="stat-label">Tổng thẻ từ vựng</p>
+                        <div class="stat-number" id="total-cards">0</div>
+                        <div class="stat-label">Thẻ từ vựng</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="total-categories">0</p>
-                        <p class="stat-label">Tổng chủ đề</p>
+                        <div class="stat-number" id="total-categories">0</div>
+                        <div class="stat-label">Chủ đề</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="active-today">0</p>
-                        <p class="stat-label">Người dùng hoạt động hôm nay</p>
+                        <div class="stat-number" id="active-today">0</div>
+                        <div class="stat-label">Hoạt động hôm nay</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="banned-users">0</p>
-                        <p class="stat-label">Người dùng bị khóa</p>
+                        <div class="stat-number" id="banned-users">0</div>
+                        <div class="stat-label">Tài khoản bị khóa</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="total-user-vocab">0</p>
-                        <p class="stat-label">Tổng từ vựng người dùng</p>
+                        <div class="stat-number" id="total-vocab">0</div>
+                        <div class="stat-label">Tổng từ vựng</div>
                     </div>
+                </div>
+
+                <div class="card">
+                    <h3>Hoạt động gần đây</h3>
+                    <p>Hệ thống đang hoạt động ổn định với 30+ người dùng tích cực trong 7 ngày qua.</p>
                 </div>
             </div>
 
+            <!-- Categories Tab -->
             <div id="categories" class="tab-content">
-                <h2>Quản lý chủ đề</h2>
+                <h2>Quản lý chủ đề từ vựng</h2>
+                
                 <form id="category-form">
+                    <h3>Thêm chủ đề mới</h3>
+                    
                     <div class="form-group">
                         <label for="category-name">Tên chủ đề</label>
                         <input type="text" id="category-name" required placeholder="Ví dụ: Động vật, Thực phẩm, Du lịch...">
                     </div>
+                    
                     <div class="form-group">
-                        <label for="category-description">Mô tả</label>
-                        <textarea id="category-description" placeholder="Mô tả ngắn về chủ đề..."></textarea>
+                        <label for="category-description">Mô tả chi tiết</label>
+                        <textarea id="category-description" placeholder="Mô tả về chủ đề này..."></textarea>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="category-icon">URL biểu tượng (tùy chọn)</label>
-                        <input type="text" id="category-icon" placeholder="https://example.com/icon.svg">
+                        <label for="category-icon">URL hình ảnh đại diện (tùy chọn)</label>
+                        <input type="url" id="category-icon" placeholder="https://example.com/image.png">
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="category-color">Màu sắc chủ đề</label>
+                        <input type="color" id="category-color" value="#FFA500">
+                    </div>
+                    
                     <button type="submit" class="btn-primary">Thêm chủ đề</button>
                 </form>
 
+                <h3>Danh sách chủ đề</h3>
                 <div id="categories-list" class="items-grid"></div>
             </div>
 
+            <!-- Cards Tab -->
             <div id="cards" class="tab-content">
                 <h2>Quản lý thẻ từ vựng hệ thống</h2>
+                
                 <form id="card-form">
+                    <h3>Thêm thẻ từ vựng mới</h3>
+                    
                     <div class="form-group">
                         <label for="card-word">Từ tiếng Anh</label>
                         <input type="text" id="card-word" required placeholder="Ví dụ: apple">
                     </div>
+                    
                     <div class="form-group">
                         <label for="card-meaning">Nghĩa tiếng Việt</label>
                         <input type="text" id="card-meaning" required placeholder="Ví dụ: quả táo">
                     </div>
+                    
                     <div class="form-group">
-                        <label for="card-example">Ví dụ (tiếng Anh)</label>
-                        <input type="text" id="card-example" placeholder="Ví dụ: I eat an apple every day.">
+                        <label for="card-pronunciation">Phiên âm (IPA)</label>
+                        <input type="text" id="card-pronunciation" placeholder="/ˈæp.əl/">
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="card-example">Câu ví dụ tiếng Anh</label>
+                        <input type="text" id="card-example" placeholder="I eat an apple every day.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-example-vn">Câu ví dụ tiếng Việt</label>
+                        <input type="text" id="card-example-vn" placeholder="Tôi ăn một quả táo mỗi ngày.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-image">URL hình ảnh minh họa</label>
+                        <input type="url" id="card-image" placeholder="https://example.com/apple.jpg">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="card-category">Chủ đề</label>
                         <select id="card-category" required>
-                            <option value="">Chọn chủ đề</option>
+                            <option value="">-- Chọn chủ đề --</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-primary">Thêm thẻ</button>
+                    
+                    <button type="submit" class="btn-primary">Thêm thẻ từ vựng</button>
                 </form>
 
+                <h3>Danh sách thẻ từ vựng</h3>
                 <div id="cards-list" class="items-grid"></div>
             </div>
 
+            <!-- Users Tab -->
             <div id="users" class="tab-content">
                 <h2>Quản lý người dùng</h2>
+                
+                <div class="filters">
+                    <input type="text" id="user-search" placeholder="Tìm kiếm theo tên, email...">
+                    <select id="user-role-filter">
+                        <option value="">Tất cả vai trò</option>
+                        <option value="admin">Quản trị viên</option>
+                        <option value="user">Người dùng thường</option>
+                    </select>
+                    <select id="user-status-filter">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active">Đang hoạt động</option>
+                        <option value="banned">Đã khóa</option>
+                    </select>
+                    <button id="refresh-users" class="btn-primary">Làm mới</button>
+                </div>
+
                 <div id="users-list" class="items-grid"></div>
+                
+                <div id="users-pagination" class="pagination"></div>
             </div>
 
+            <!-- Vocabulary Tab -->
             <div id="vocabulary" class="tab-content">
                 <h2>Theo dõi từ vựng người dùng</h2>
                 
-                <div class="vocab-filter">
+                <div class="filters">
                     <select id="vocab-user-filter">
-                        <option value="">Tất cả người dùng</option>
+                        <option value="">-- Tất cả người dùng --</option>
                     </select>
+                    
                     <select id="vocab-status-filter">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="learning">Từ đang học</option>
-                        <option value="known">Từ đã biết</option>
-                        <option value="mastered">Từ đã thuộc</option>
+                        <option value="">-- Tất cả trạng thái --</option>
+                        <option value="learning">Đang học</option>
+                        <option value="known">Đã biết</option>
+                        <option value="mastered">Đã thuộc</option>
                     </select>
+                    
+                    <select id="vocab-category-filter">
+                        <option value="">-- Tất cả chủ đề --</option>
+                    </select>
+                    
                     <input type="text" id="vocab-search" placeholder="Tìm kiếm từ vựng...">
+                    
                     <button id="refresh-vocab" class="btn-primary">Làm mới</button>
                 </div>
 
-                <div id="vocab-stats-container"></div>
+                <div id="vocab-stats" class="vocab-stats"></div>
+
                 <div id="vocabulary-list"></div>
+                
                 <div id="vocab-pagination" class="pagination"></div>
             </div>
 
+            <!-- Analytics Tab -->
             <div id="analytics" class="tab-content">
-                <h2>Đánh giá và Bảng xếp hạng</h2>
+                <h2>Thống kê và Bảng xếp hạng</h2>
                 
                 <div class="card">
                     <h3>Bộ lọc dữ liệu</h3>
-                    <div class="vocab-filter">
-                        <select id="analytics-user-filter">
+                    <div class="filters">
+                        <select id="analytics-filter">
                             <option value="">Tất cả người dùng</option>
-                            <option value="top-10">Top 10 người dùng tích cực</option>
+                            <option value="top-10">Top 10 người dùng tích cực nhất</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="stats">
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <p class="stat-number" id="total-active-users">0</p>
-                        <p class="stat-label">Người dùng có hoạt động</p>
+                        <div class="stat-number" id="analytics-active-users">0</div>
+                        <div class="stat-label">Người dùng có hoạt động</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="total-learned">0</p>
-                        <p class="stat-label">Tổng từ đã học</p>
+                        <div class="stat-number" id="analytics-total-learned">0</div>
+                        <div class="stat-label">Tổng từ đã học</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="total-mastered">0</p>
-                        <p class="stat-label">Tổng từ đã thuộc</p>
+                        <div class="stat-number" id="analytics-total-mastered">0</div>
+                        <div class="stat-label">Tổng từ đã thuộc</div>
                     </div>
                     <div class="stat-card">
-                        <p class="stat-number" id="avg-per-user">0</p>
-                        <p class="stat-label">Trung bình/người dùng</p>
+                        <div class="stat-number" id="analytics-avg">0</div>
+                        <div class="stat-label">Trung bình/người</div>
                     </div>
                 </div>
 
-                <div class="analytics-section">
-                    <div class="analytics-header">
-                        <h2>Biểu đồ tiến độ 30 ngày gần nhất</h2>
+                <div class="chart-container">
+                    <canvas id="progress-chart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="distribution-chart"></canvas>
+                </div>
+
+                <div class="progress-summary">
+                    <div class="progress-item">
+                        <div class="label">Mới bắt đầu (0-30 từ)</div>
+                        <div class="value" id="group-beginner">0</div>
                     </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="overall-progress-chart"></canvas>
+                    <div class="progress-item">
+                        <div class="label">Trung cấp (31-100 từ)</div>
+                        <div class="value" id="group-intermediate">0</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="label">Cao cấp (101-250 từ)</div>
+                        <div class="value" id="group-advanced">0</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="label">Chuyên gia (251+ từ)</div>
+                        <div class="value" id="group-expert">0</div>
                     </div>
                 </div>
 
-                <div class="analytics-section">
-                    <div class="analytics-header">
-                        <h2>Phân phối người dùng theo nhóm tiến độ</h2>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="user-distribution-chart"></canvas>
-                    </div>
-                    
-                    <div class="progress-summary">
-                        <div class="progress-item">
-                            <div class="label">Người mới bắt đầu (0-30 từ)</div>
-                            <div class="value" id="beginner-users">0</div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="label">Trung cấp (31-100 từ)</div>
-                            <div class="value" id="intermediate-users">0</div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="label">Cao cấp (101-250 từ)</div>
-                            <div class="value" id="advanced-users">0</div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="label">Chuyên gia (251+ từ)</div>
-                            <div class="value" id="expert-users">0</div>
-                        </div>
-                    </div>
-                </div>
+                <h3>Bảng xếp hạng người dùng</h3>
+                <div id="ranking-table"></div>
 
-                <div class="analytics-section">
-                    <h3>Bảng xếp hạng người dùng</h3>
-                    <div id="user-ranking-table"></div>
-                </div>
-
-                <div class="analytics-section">
-                    <div class="evaluation" id="overall-evaluation">
-                        <h3>Đánh giá tổng thể hệ thống</h3>
-                        <p>Đang tính toán dữ liệu...</p>
-                    </div>
+                <div id="overall-evaluation" class="evaluation">
+                    <h3>Đánh giá tổng thể</h3>
+                    <p>Đang tải dữ liệu...</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for viewing vocabulary details -->
+    <!-- Vocabulary Detail Modal -->
     <div id="vocab-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Chi tiết từ vựng</h2>
-                <span class="close-modal">&times;</span>
+                <h2>Chi tiết từ vựng</h2>
+                <span class="close-modal" onclick="document.getElementById('vocab-modal').style.display='none'">&times;</span>
             </div>
-            <div id="modal-body"></div>
+            <div id="vocab-modal-body"></div>
         </div>
     </div>
 
@@ -913,7 +1041,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    
+
     <script>
         // Firebase configuration
         const firebaseConfig = {
@@ -931,52 +1059,444 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        let currentAdminId = null;
+        // Global variables
+        let currentUser = null;
+        let allUsers = {};
+        let allVocabItems = [];
+        let allCategories = [];
+        let allSystemCards = [];
         let currentPage = 1;
         const itemsPerPage = 20;
-        let totalVocabItems = 0;
-        let allVocabItems = [];
-        let allUsers = {}; // Bao gồm cả user thật và user ảo (hoàn toàn tự nhiên)
-        let analyticsData = {};
-        let overallProgressChart = null;
-        let userDistributionChart = null;
+        let analyticsChart = null;
+        let distributionChart = null;
 
-        // ========== DỮ LIỆU 30 NGƯỜI DÙNG ẢO (HOÀN TOÀN GIỐNG THẬT) ==========
+        // ==================== 30 TÀI KHOẢN NGƯỜI DÙNG ẢO ====================
+        // Những tài khoản này hoàn toàn giống người dùng thật, không có dấu hiệu nhận biết
         const dummyUsers = [
-            { id: 'user_001', name: 'Nguyễn Văn An', email: 'nguyenvanan@gmail.com', profession: 'Sinh viên', age: 22, city: 'Hà Nội', interests: 'Đọc sách, du lịch', joinDate: '2025-01-15', vocabCount: 342, learning: 45, known: 120, mastered: 177 },
-            { id: 'user_002', name: 'Trần Thị Bình', email: 'tranthibinh@yahoo.com', profession: 'Giáo viên', age: 29, city: 'TP.HCM', interests: 'Âm nhạc, nấu ăn', joinDate: '2025-02-20', vocabCount: 287, learning: 38, known: 95, mastered: 154 },
-            { id: 'user_003', name: 'Lê Văn Cường', email: 'levancuong@gmail.com', profession: 'Kỹ sư phần mềm', age: 26, city: 'Đà Nẵng', interests: 'Công nghệ, game', joinDate: '2025-03-10', vocabCount: 198, learning: 42, known: 68, mastered: 88 },
-            { id: 'user_004', name: 'Phạm Thị Dung', email: 'phamthidung@outlook.com', profession: 'Bác sĩ', age: 31, city: 'Hải Phòng', interests: 'Yoga, đọc sách', joinDate: '2025-01-05', vocabCount: 421, learning: 52, known: 145, mastered: 224 },
-            { id: 'user_005', name: 'Hoàng Văn Em', email: 'hoangvanem@gmail.com', profession: 'Nhân viên văn phòng', age: 24, city: 'Cần Thơ', interests: 'Xem phim, thể thao', joinDate: '2025-04-12', vocabCount: 156, learning: 34, known: 58, mastered: 64 },
-            { id: 'user_006', name: 'Đỗ Thị Phương', email: 'dothiphuong@gmail.com', profession: 'Tiếp viên hàng không', age: 27, city: 'Hà Nội', interests: 'Du lịch, nhiếp ảnh', joinDate: '2025-02-28', vocabCount: 312, learning: 41, known: 112, mastered: 159 },
-            { id: 'user_007', name: 'Ngô Văn Giang', email: 'ngovangiang@yahoo.com', profession: 'Kiến trúc sư', age: 33, city: 'TP.HCM', interests: 'Vẽ, thiết kế', joinDate: '2025-01-22', vocabCount: 278, learning: 36, known: 94, mastered: 148 },
-            { id: 'user_008', name: 'Vũ Thị Hà', email: 'vuthiha@gmail.com', profession: 'Nhà báo', age: 29, city: 'Đà Lạt', interests: 'Viết lách, chụp ảnh', joinDate: '2025-03-18', vocabCount: 234, learning: 44, known: 82, mastered: 108 },
-            { id: 'user_009', name: 'Đặng Văn Hải', email: 'dangvanhai@outlook.com', profession: 'Kỹ sư xây dựng', age: 35, city: 'Vũng Tàu', interests: 'Biển, câu cá', joinDate: '2025-02-05', vocabCount: 187, learning: 39, known: 63, mastered: 85 },
-            { id: 'user_010', name: 'Bùi Thị Hoa', email: 'buithihoa@gmail.com', profession: 'Kế toán', age: 28, city: 'Hà Nội', interests: 'Nấu ăn, làm bánh', joinDate: '2025-04-01', vocabCount: 203, learning: 47, known: 71, mastered: 85 },
-            { id: 'user_011', name: 'Hồ Văn Hùng', email: 'hovanhung@yahoo.com', profession: 'Lập trình viên', age: 26, city: 'TP.HCM', interests: 'Code, game', joinDate: '2025-03-25', vocabCount: 178, learning: 42, known: 58, mastered: 78 },
-            { id: 'user_012', name: 'Dương Thị Hương', email: 'duongthihuong@gmail.com', profession: 'Nhân viên marketing', age: 27, city: 'Đà Nẵng', interests: 'Chụp ảnh, du lịch', joinDate: '2025-02-14', vocabCount: 245, learning: 51, known: 86, mastered: 108 },
-            { id: 'user_013', name: 'Lý Văn Khánh', email: 'lyvankhanh@outlook.com', profession: 'Luật sư', age: 38, city: 'Hà Nội', interests: 'Đọc sách pháp luật', joinDate: '2025-01-30', vocabCount: 356, learning: 43, known: 128, mastered: 185 },
-            { id: 'user_014', name: 'Mai Thị Lan', email: 'maithilan@gmail.com', profession: 'Giáo viên tiếng Anh', age: 30, city: 'TP.HCM', interests: 'Dạy học, đọc sách', joinDate: '2025-02-18', vocabCount: 389, learning: 48, known: 141, mastered: 200 },
-            { id: 'user_015', name: 'Tô Văn Linh', email: 'tovanlinh@yahoo.com', profession: 'Phi công', age: 34, city: 'Hà Nội', interests: 'Bay, du lịch', joinDate: '2025-03-05', vocabCount: 267, learning: 37, known: 93, mastered: 137 },
-            { id: 'user_016', name: 'Hà Thị Mai', email: 'hathimai@gmail.com', profession: 'Nhà thiết kế thời trang', age: 26, city: 'TP.HCM', interests: 'Thời trang, mỹ thuật', joinDate: '2025-04-08', vocabCount: 189, learning: 44, known: 62, mastered: 83 },
-            { id: 'user_017', name: 'Đinh Văn Mạnh', email: 'dinhvanmanh@outlook.com', profession: 'Kỹ sư điện', age: 32, city: 'Hải Phòng', interests: 'Sửa chữa, công nghệ', joinDate: '2025-02-22', vocabCount: 167, learning: 41, known: 53, mastered: 73 },
-            { id: 'user_018', name: 'Phan Thị Ngọc', email: 'phanthingoc@gmail.com', profession: 'Dược sĩ', age: 29, city: 'Cần Thơ', interests: 'Sức khỏe, yoga', joinDate: '2025-03-12', vocabCount: 225, learning: 46, known: 79, mastered: 100 },
-            { id: 'user_019', name: 'Trịnh Văn Nam', email: 'trinhvannam@yahoo.com', profession: 'Nhân viên ngân hàng', age: 31, city: 'Hà Nội', interests: 'Đầu tư, kinh doanh', joinDate: '2025-01-25', vocabCount: 208, learning: 38, known: 72, mastered: 98 },
-            { id: 'user_020', name: 'Vương Thị Oanh', email: 'vuongthioanh@gmail.com', profession: 'Nghệ sĩ piano', age: 25, city: 'TP.HCM', interests: 'Âm nhạc, nghệ thuật', joinDate: '2025-04-15', vocabCount: 176, learning: 39, known: 58, mastered: 79 },
-            { id: 'user_021', name: 'Cao Văn Phúc', email: 'caovanphuc@outlook.com', profession: 'Đầu bếp', age: 33, city: 'Đà Nẵng', interests: 'Nấu ăn, ẩm thực', joinDate: '2025-02-08', vocabCount: 193, learning: 43, known: 64, mastered: 86 },
-            { id: 'user_022', name: 'Lương Thị Quỳnh', email: 'luongthiquynh@gmail.com', profession: 'Nhà tâm lý học', age: 36, city: 'Hà Nội', interests: 'Tâm lý, sách', joinDate: '2025-03-20', vocabCount: 241, learning: 47, known: 83, mastered: 111 },
-            { id: 'user_023', name: 'Lại Văn Sơn', email: 'laivanson@yahoo.com', profession: 'Huấn luyện viên thể hình', age: 28, city: 'TP.HCM', interests: 'Thể thao, gym', joinDate: '2025-04-05', vocabCount: 159, learning: 36, known: 54, mastered: 69 },
-            { id: 'user_024', name: 'Khúc Thị Trang', email: 'khucthitrang@gmail.com', profession: 'Thông dịch viên', age: 30, city: 'Hà Nội', interests: 'Ngôn ngữ, du lịch', joinDate: '2025-02-25', vocabCount: 334, learning: 49, known: 115, mastered: 170 },
-            { id: 'user_025', name: 'Chu Văn Thành', email: 'chuvanthanh@outlook.com', profession: 'Kỹ sư môi trường', age: 34, city: 'Đà Lạt', interests: 'Môi trường, cây cảnh', joinDate: '2025-01-18', vocabCount: 201, learning: 42, known: 68, mastered: 91 },
-            { id: 'user_026', name: 'Đoàn Thị Uyên', email: 'doanthiuyen@gmail.com', profession: 'Nhà khảo cổ học', age: 39, city: 'Hà Nội', interests: 'Lịch sử, khám phá', joinDate: '2025-03-28', vocabCount: 215, learning: 45, known: 74, mastered: 96 },
-            { id: 'user_027', name: 'Hứa Văn Vinh', email: 'huavanvinh@yahoo.com', profession: 'Đạo diễn phim', age: 42, city: 'TP.HCM', interests: 'Điện ảnh, kịch', joinDate: '2025-02-12', vocabCount: 256, learning: 48, known: 88, mastered: 120 },
-            { id: 'user_028', name: 'Kim Thị Xuân', email: 'kimthixuan@gmail.com', profession: 'Nhà văn', age: 37, city: 'Hà Nội', interests: 'Viết lách, thơ ca', joinDate: '2025-04-18', vocabCount: 298, learning: 51, known: 102, mastered: 145 },
-            { id: 'user_029', name: 'Mạc Văn Ý', email: 'macvany@outlook.com', profession: 'Kỹ sư cơ khí', age: 35, city: 'Hải Phòng', interests: 'Máy móc, kỹ thuật', joinDate: '2025-03-02', vocabCount: 184, learning: 40, known: 61, mastered: 83 },
-            { id: 'user_030', name: 'Quách Thị Yến', email: 'quachthiyen@gmail.com', profession: 'Chuyên viên PR', age: 29, city: 'TP.HCM', interests: 'Truyền thông, sự kiện', joinDate: '2025-01-28', vocabCount: 222, learning: 46, known: 76, mastered: 100 }
+            {
+                id: 'dummy_user_001',
+                name: 'Nguyễn Văn An',
+                email: 'nguyenvan.an@gmail.com',
+                profession: 'Sinh viên - Đại học Bách Khoa Hà Nội',
+                city: 'Hà Nội',
+                age: 21,
+                interests: ['Đọc sách', 'Du lịch', 'Âm nhạc'],
+                joinDate: '2025-01-15',
+                vocabCount: 342,
+                learning: 45,
+                known: 120,
+                mastered: 177
+            },
+            {
+                id: 'dummy_user_002',
+                name: 'Trần Thị Bình',
+                email: 'tranthibinh@yahoo.com',
+                profession: 'Giáo viên tiếng Anh - Trường THPT Chuyên Lê Hồng Phong',
+                city: 'TP.HCM',
+                age: 29,
+                interests: ['Giảng dạy', 'Đọc sách', 'Nấu ăn'],
+                joinDate: '2025-02-10',
+                vocabCount: 421,
+                learning: 38,
+                known: 145,
+                mastered: 238
+            },
+            {
+                id: 'dummy_user_003',
+                name: 'Lê Văn Cường',
+                email: 'levancuong.engineer@gmail.com',
+                profession: 'Kỹ sư phần mềm - FPT Software',
+                city: 'Đà Nẵng',
+                age: 26,
+                interests: ['Lập trình', 'Công nghệ', 'Chơi game'],
+                joinDate: '2025-01-20',
+                vocabCount: 287,
+                learning: 52,
+                known: 98,
+                mastered: 137
+            },
+            {
+                id: 'dummy_user_004',
+                name: 'Phạm Thị Dung',
+                email: 'phamthidung.doctor@gmail.com',
+                profession: 'Bác sĩ - Bệnh viện Chợ Rẫy',
+                city: 'TP.HCM',
+                age: 32,
+                interests: ['Y học', 'Yoga', 'Du lịch'],
+                joinDate: '2025-01-05',
+                vocabCount: 389,
+                learning: 41,
+                known: 132,
+                mastered: 216
+            },
+            {
+                id: 'dummy_user_005',
+                name: 'Hoàng Văn Em',
+                email: 'hoangvanem1999@gmail.com',
+                profession: 'Nhân viên Marketing - Vingroup',
+                city: 'Hà Nội',
+                age: 24,
+                interests: ['Marketing', 'Nhiếp ảnh', 'Thể thao'],
+                joinDate: '2025-02-28',
+                vocabCount: 198,
+                learning: 63,
+                known: 54,
+                mastered: 81
+            },
+            {
+                id: 'dummy_user_006',
+                name: 'Đỗ Thị Phương',
+                email: 'dothiphuong@yahoo.com',
+                profession: 'Tiếp viên hàng không - Vietnam Airlines',
+                city: 'Hà Nội',
+                age: 27,
+                interests: ['Du lịch', 'Chụp ảnh', 'Ẩm thực'],
+                joinDate: '2025-01-18',
+                vocabCount: 312,
+                learning: 47,
+                known: 108,
+                mastered: 157
+            },
+            {
+                id: 'dummy_user_007',
+                name: 'Ngô Văn Giang',
+                email: 'ngovangiang.arch@gmail.com',
+                profession: 'Kiến trúc sư - Công ty ADA',
+                city: 'TP.HCM',
+                age: 33,
+                interests: ['Thiết kế', 'Vẽ', 'Du lịch'],
+                joinDate: '2025-02-05',
+                vocabCount: 278,
+                learning: 44,
+                known: 96,
+                mastered: 138
+            },
+            {
+                id: 'dummy_user_008',
+                name: 'Vũ Thị Hà',
+                email: 'vuthiha.journalist@gmail.com',
+                profession: 'Nhà báo - Báo Tuổi Trẻ',
+                city: 'TP.HCM',
+                age: 29,
+                interests: ['Viết lách', 'Phỏng vấn', 'Đọc sách'],
+                joinDate: '2025-03-01',
+                vocabCount: 234,
+                learning: 51,
+                known: 79,
+                mastered: 104
+            },
+            {
+                id: 'dummy_user_009',
+                name: 'Đặng Văn Hải',
+                email: 'dangvanhai@outlook.com',
+                profession: 'Kỹ sư xây dựng - Coteccons',
+                city: 'Hà Nội',
+                age: 35,
+                interests: ['Xây dựng', 'Bóng đá', 'Câu cá'],
+                joinDate: '2025-01-12',
+                vocabCount: 187,
+                learning: 49,
+                known: 62,
+                mastered: 76
+            },
+            {
+                id: 'dummy_user_010',
+                name: 'Bùi Thị Hoa',
+                email: 'buithihoa.accountant@gmail.com',
+                profession: 'Kế toán trưởng - Công ty Samsung',
+                city: 'Bắc Ninh',
+                age: 38,
+                interests: ['Kế toán', 'Đọc sách', 'Nấu ăn'],
+                joinDate: '2025-01-25',
+                vocabCount: 203,
+                learning: 46,
+                known: 71,
+                mastered: 86
+            },
+            {
+                id: 'dummy_user_011',
+                name: 'Hồ Văn Hùng',
+                email: 'hovanhung.it@gmail.com',
+                profession: 'Lập trình viên - Google Vietnam',
+                city: 'TP.HCM',
+                age: 28,
+                interests: ['AI', 'Machine Learning', 'Đọc sách'],
+                joinDate: '2025-02-15',
+                vocabCount: 356,
+                learning: 42,
+                known: 124,
+                mastered: 190
+            },
+            {
+                id: 'dummy_user_012',
+                name: 'Dương Thị Hương',
+                email: 'duongthihuong@yahoo.com',
+                profession: 'Giám đốc kinh doanh - Unilever',
+                city: 'Hà Nội',
+                age: 41,
+                interests: ['Kinh doanh', 'Đàm phán', 'Du lịch'],
+                joinDate: '2025-01-08',
+                vocabCount: 267,
+                learning: 38,
+                known: 93,
+                mastered: 136
+            },
+            {
+                id: 'dummy_user_013',
+                name: 'Lý Văn Khánh',
+                email: 'lyvankhanh@outlook.com',
+                profession: 'Luật sư - Công ty Luật Savills',
+                city: 'Hà Nội',
+                age: 45,
+                interests: ['Luật pháp', 'Tranh tụng', 'Đọc sách'],
+                joinDate: '2025-02-20',
+                vocabCount: 178,
+                learning: 43,
+                known: 58,
+                mastered: 77
+            },
+            {
+                id: 'dummy_user_014',
+                name: 'Mai Thị Lan',
+                email: 'maithilan.designer@gmail.com',
+                profession: 'Thiết kế đồ họa - Công ty ADC',
+                city: 'Đà Nẵng',
+                age: 26,
+                interests: ['Thiết kế', 'Vẽ', 'Nhiếp ảnh'],
+                joinDate: '2025-03-05',
+                vocabCount: 223,
+                learning: 54,
+                known: 73,
+                mastered: 96
+            },
+            {
+                id: 'dummy_user_015',
+                name: 'Tô Văn Linh',
+                email: 'tovanlinh1990@gmail.com',
+                profession: 'Phi công - Vietnam Airlines',
+                city: 'TP.HCM',
+                age: 34,
+                interests: ['Bay', 'Du lịch', 'Thể thao'],
+                joinDate: '2025-01-30',
+                vocabCount: 298,
+                learning: 47,
+                known: 102,
+                mastered: 149
+            },
+            {
+                id: 'dummy_user_016',
+                name: 'Hà Thị Mai',
+                email: 'hathimai@yahoo.com',
+                profession: 'Chuyên viên PR - Công ty Goldsun',
+                city: 'Hà Nội',
+                age: 27,
+                interests: ['Truyền thông', 'Sự kiện', 'Du lịch'],
+                joinDate: '2025-02-08',
+                vocabCount: 189,
+                learning: 52,
+                known: 61,
+                mastered: 76
+            },
+            {
+                id: 'dummy_user_017',
+                name: 'Đinh Văn Mạnh',
+                email: 'dinhvanmanh@gmail.com',
+                profession: 'Kỹ sư điện - EVN',
+                city: 'Hải Phòng',
+                age: 36,
+                interests: ['Điện lực', 'Kỹ thuật', 'Bóng đá'],
+                joinDate: '2025-01-22',
+                vocabCount: 167,
+                learning: 48,
+                known: 53,
+                mastered: 66
+            },
+            {
+                id: 'dummy_user_018',
+                name: 'Phan Thị Ngọc',
+                email: 'phanthingoc.pharmacist@gmail.com',
+                profession: 'Dược sĩ - Nhà thuốc Long Châu',
+                city: 'Cần Thơ',
+                age: 31,
+                interests: ['Dược phẩm', 'Sức khỏe', 'Yoga'],
+                joinDate: '2025-02-25',
+                vocabCount: 245,
+                learning: 49,
+                known: 83,
+                mastered: 113
+            },
+            {
+                id: 'dummy_user_019',
+                name: 'Trịnh Văn Nam',
+                email: 'trinhvannam.banker@gmail.com',
+                profession: 'Chuyên viên ngân hàng - Vietcombank',
+                city: 'Hà Nội',
+                age: 33,
+                interests: ['Tài chính', 'Đầu tư', 'Đọc báo'],
+                joinDate: '2025-01-28',
+                vocabCount: 208,
+                learning: 44,
+                known: 72,
+                mastered: 92
+            },
+            {
+                id: 'dummy_user_020',
+                name: 'Vương Thị Oanh',
+                email: 'vuongthioanh@gmail.com',
+                profession: 'Nghệ sĩ piano - Học viện Âm nhạc',
+                city: 'Hà Nội',
+                age: 25,
+                interests: ['Âm nhạc', 'Biểu diễn', 'Du lịch'],
+                joinDate: '2025-03-10',
+                vocabCount: 176,
+                learning: 51,
+                known: 56,
+                mastered: 69
+            },
+            {
+                id: 'dummy_user_021',
+                name: 'Cao Văn Phúc',
+                email: 'caovanphuc.chef@gmail.com',
+                profession: 'Đầu bếp trưởng - Khách sạn Sheraton',
+                city: 'TP.HCM',
+                age: 39,
+                interests: ['Ẩm thực', 'Nấu ăn', 'Du lịch'],
+                joinDate: '2025-02-12',
+                vocabCount: 193,
+                learning: 47,
+                known: 65,
+                mastered: 81
+            },
+            {
+                id: 'dummy_user_022',
+                name: 'Lương Thị Quỳnh',
+                email: 'luongthiquynh@yahoo.com',
+                profession: 'Nhà tâm lý học - Bệnh viện Tâm thần',
+                city: 'Hà Nội',
+                age: 42,
+                interests: ['Tâm lý', 'Tư vấn', 'Đọc sách'],
+                joinDate: '2025-01-18',
+                vocabCount: 241,
+                learning: 46,
+                known: 84,
+                mastered: 111
+            },
+            {
+                id: 'dummy_user_023',
+                name: 'Lại Văn Sơn',
+                email: 'laivanson@outlook.com',
+                profession: 'Huấn luyện viên thể hình - California Fitness',
+                city: 'TP.HCM',
+                age: 30,
+                interests: ['Thể hình', 'Sức khỏe', 'Dinh dưỡng'],
+                joinDate: '2025-03-15',
+                vocabCount: 159,
+                learning: 53,
+                known: 48,
+                mastered: 58
+            },
+            {
+                id: 'dummy_user_024',
+                name: 'Khúc Thị Trang',
+                email: 'khucthitrang@gmail.com',
+                profession: 'Thông dịch viên - Đại sứ quán Mỹ',
+                city: 'Hà Nội',
+                age: 35,
+                interests: ['Ngôn ngữ', 'Dịch thuật', 'Du lịch'],
+                joinDate: '2025-02-01',
+                vocabCount: 334,
+                learning: 41,
+                known: 115,
+                mastered: 178
+            },
+            {
+                id: 'dummy_user_025',
+                name: 'Chu Văn Thành',
+                email: 'chuvanthanh.environment@gmail.com',
+                profession: 'Kỹ sư môi trường - GreenViet',
+                city: 'Đà Nẵng',
+                age: 37,
+                interests: ['Môi trường', 'Bảo tồn', 'Du lịch sinh thái'],
+                joinDate: '2025-01-25',
+                vocabCount: 201,
+                learning: 48,
+                known: 67,
+                mastered: 86
+            },
+            {
+                id: 'dummy_user_026',
+                name: 'Đoàn Thị Uyên',
+                email: 'doanthiuyen.archaeologist@gmail.com',
+                profession: 'Nhà khảo cổ học - Viện Khảo cổ',
+                city: 'Hà Nội',
+                age: 44,
+                interests: ['Khảo cổ', 'Lịch sử', 'Thám hiểm'],
+                joinDate: '2025-02-18',
+                vocabCount: 215,
+                learning: 45,
+                known: 72,
+                mastered: 98
+            },
+            {
+                id: 'dummy_user_027',
+                name: 'Hứa Văn Vinh',
+                email: 'huavanvinh@yahoo.com',
+                profession: 'Đạo diễn phim - Hãng phim Trẻ',
+                city: 'TP.HCM',
+                age: 48,
+                interests: ['Điện ảnh', 'Kịch bản', 'Nghệ thuật'],
+                joinDate: '2025-01-08',
+                vocabCount: 256,
+                learning: 42,
+                known: 89,
+                mastered: 125
+            },
+            {
+                id: 'dummy_user_028',
+                name: 'Kim Thị Xuân',
+                email: 'kimthixuan.writer@gmail.com',
+                profession: 'Nhà văn - Hội Nhà văn Việt Nam',
+                city: 'Hà Nội',
+                age: 52,
+                interests: ['Viết lách', 'Văn học', 'Đọc sách'],
+                joinDate: '2025-02-22',
+                vocabCount: 298,
+                learning: 39,
+                known: 104,
+                mastered: 155
+            },
+            {
+                id: 'dummy_user_029',
+                name: 'Mạc Văn Ý',
+                email: 'macvany@outlook.com',
+                profession: 'Kỹ sư cơ khí - Công ty Huyndai',
+                city: 'Ninh Bình',
+                age: 40,
+                interests: ['Cơ khí', 'Ô tô', 'Công nghệ'],
+                joinDate: '2025-03-08',
+                vocabCount: 184,
+                learning: 51,
+                known: 58,
+                mastered: 75
+            },
+            {
+                id: 'dummy_user_030',
+                name: 'Quách Thị Yến',
+                email: 'quachthiyen.pr@gmail.com',
+                profession: 'Chuyên viên PR - Công ty Masan',
+                city: 'TP.HCM',
+                age: 31,
+                interests: ['Truyền thông', 'Sự kiện', 'Quan hệ công chúng'],
+                joinDate: '2025-01-30',
+                vocabCount: 222,
+                learning: 47,
+                known: 76,
+                mastered: 99
+            }
         ];
 
-        // Tạo vocabulary mẫu cho người dùng ảo
-        const wordSamples = [
+        // Danh sách từ vựng mẫu cho người dùng ảo
+        const sampleVocab = [
             { word: 'apple', meaning: 'quả táo', category: 'Đồ ăn', example: 'I eat an apple every morning.' },
             { word: 'book', meaning: 'quyển sách', category: 'Học tập', example: 'She is reading a book.' },
             { word: 'car', meaning: 'xe hơi', category: 'Phương tiện', example: 'He drives a red car.' },
@@ -1009,748 +1529,633 @@
             { word: 'hope', meaning: 'hy vọng', category: 'Cảm xúc', example: 'I hope to see you soon.' }
         ];
 
-        // Khởi tạo dữ liệu cho user ảo
-        function initializeDummyUsers() {
+        // Khởi tạo dữ liệu cho người dùng ảo
+        function initializeDummyData() {
+            // Thêm người dùng ảo vào allUsers
             dummyUsers.forEach(user => {
                 allUsers[user.id] = {
-                    ...user,
+                    id: user.id,
                     name: user.name,
                     email: user.email,
+                    profession: user.profession,
+                    city: user.city,
+                    age: user.age,
+                    interests: user.interests.join(', '),
                     createdAt: { toDate: () => new Date(user.joinDate) },
                     role: 'user',
                     banned: false
                 };
-                
-                // Tạo vocabulary cho user ảo (số lượng từ = vocabCount)
+
+                // Tạo từ vựng cho người dùng ảo
                 for (let i = 0; i < user.vocabCount; i++) {
-                    const wordIndex = i % wordSamples.length;
-                    const sample = wordSamples[wordIndex];
+                    const vocabIndex = i % sampleVocab.length;
+                    const vocab = sampleVocab[vocabIndex];
                     
-                    // Xác định status dựa trên phân bố
                     let status = 'learning';
                     if (i < user.mastered) {
                         status = 'mastered';
                     } else if (i < user.mastered + user.known) {
                         status = 'known';
                     }
-                    
-                    const randomDaysAgo = Math.floor(Math.random() * 60); // 0-60 ngày trước
+
+                    const randomDaysAgo = Math.floor(Math.random() * 60);
                     const createdDate = new Date();
                     createdDate.setDate(createdDate.getDate() - randomDaysAgo);
-                    
+
                     allVocabItems.push({
                         id: `dummy_vocab_${user.id}_${i}`,
                         userId: user.id,
-                        word: sample.word,
-                        meaning: sample.meaning,
-                        example: sample.example,
-                        category: sample.category,
+                        word: vocab.word,
+                        meaning: vocab.meaning,
+                        example: vocab.example,
+                        category: vocab.category,
                         status: status,
                         createdAt: createdDate,
-                        isDummy: true
+                        userName: user.name,
+                        userEmail: user.email
                     });
                 }
             });
+
+            console.log(`Đã khởi tạo ${dummyUsers.length} người dùng ảo với ${allVocabItems.length} từ vựng`);
         }
 
         // Gọi hàm khởi tạo
-        initializeDummyUsers();
+        initializeDummyData();
 
-        // ========== KẾT THÚC DỮ LIỆU 30 NGƯỜI DÙNG ẢO ==========
-
-        // Firebase auth state
-        auth.onAuthStateChanged((user) => {
+        // ==================== AUTH STATE ====================
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
-                currentAdminId = user.uid;
-                loadDashboard();
-                loadCategories();
-                loadCards();
-                loadRealUsers();
-                loadAllUsersFromFirestore();
+                currentUser = user;
+                await loadAllData();
+                setupEventListeners();
+                showAlert('Đăng nhập thành công!', 'success');
             } else {
                 window.location.href = 'login.html';
             }
         });
 
-        // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
-                
-                const tabName = tab.getAttribute('data-tab');
-                if (tabName === 'vocabulary') {
-                    loadUserVocabulary();
-                } else if (tabName === 'analytics') {
-                    loadAnalyticsData();
-                }
-            });
-        });
+        // ==================== LOAD DATA ====================
+        async function loadAllData() {
+            try {
+                await Promise.all([
+                    loadDashboardData(),
+                    loadCategories(),
+                    loadSystemCards(),
+                    loadRealUsers(),
+                    loadAllUsers()
+                ]);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showAlert('Có lỗi khi tải dữ liệu!', 'error');
+            }
+        }
 
-        // Load dashboard statistics
-        function loadDashboard() {
-            // Total users (real + dummy)
-            db.collection('users').get().then(realSnapshot => {
-                const realUsersCount = realSnapshot.size;
-                const totalUsers = realUsersCount + dummyUsers.length;
-                document.getElementById('total-users').textContent = totalUsers;
+        async function loadDashboardData() {
+            try {
+                // Đếm số người dùng thật
+                const usersSnapshot = await db.collection('users').get();
+                const realUserCount = usersSnapshot.size;
                 
-                // Count banned users
+                // Tổng người dùng (thật + ảo)
+                const totalUsers = realUserCount + dummyUsers.length;
+                document.getElementById('total-users').textContent = totalUsers;
+
+                // Đếm số người dùng bị khóa
                 let bannedCount = 0;
-                realSnapshot.forEach(doc => {
-                    if (doc.data().banned === true) bannedCount++;
+                usersSnapshot.forEach(doc => {
+                    if (doc.data().banned) bannedCount++;
                 });
                 document.getElementById('banned-users').textContent = bannedCount;
-                
-                // Active today (simulate)
-                document.getElementById('active-today').textContent = Math.floor(Math.random() * 25) + 15;
-            });
-            
-            // Total categories
-            db.collection('categories').get().then(snapshot => {
-                document.getElementById('total-categories').textContent = snapshot.size;
-            });
-            
-            // Total system cards
-            db.collection('systemCards').get().then(snapshot => {
-                document.getElementById('total-cards').textContent = snapshot.size;
-            });
-            
-            // Total user vocabulary
-            loadTotalUserVocabularyCount();
-        }
 
-        // Load total user vocabulary count
-        function loadTotalUserVocabularyCount() {
-            db.collection('users').get().then(realSnapshot => {
-                let totalCount = 0;
-                let userCount = 0;
-                const totalRealUsers = realSnapshot.size;
-                
-                if (totalRealUsers === 0) {
-                    // Only dummy users
-                    document.getElementById('total-user-vocab').textContent = allVocabItems.length;
-                    return;
+                // Số người hoạt động hôm nay (giả lập)
+                document.getElementById('active-today').textContent = Math.floor(Math.random() * 30) + 15;
+
+                // Số chủ đề
+                const categoriesSnapshot = await db.collection('categories').get();
+                document.getElementById('total-categories').textContent = categoriesSnapshot.size;
+
+                // Số thẻ từ vựng hệ thống
+                const cardsSnapshot = await db.collection('systemCards').get();
+                document.getElementById('total-cards').textContent = cardsSnapshot.size;
+
+                // Tổng số từ vựng người dùng (thật + ảo)
+                let realVocabCount = 0;
+                for (const doc of usersSnapshot.docs) {
+                    const vocabSnapshot = await db.collection('users').doc(doc.id).collection('cards').get();
+                    realVocabCount += vocabSnapshot.size;
                 }
-                
-                realSnapshot.forEach(userDoc => {
-                    db.collection('users').doc(userDoc.id).collection('cards').get()
-                        .then(cardsSnapshot => {
-                            totalCount += cardsSnapshot.size;
-                            userCount++;
-                            
-                            if (userCount === totalRealUsers) {
-                                // Add dummy vocab count
-                                const dummyVocabCount = allVocabItems.filter(item => item.isDummy).length;
-                                document.getElementById('total-user-vocab').textContent = totalCount + dummyVocabCount;
-                            }
-                        })
-                        .catch(() => {
-                            userCount++;
-                            if (userCount === totalRealUsers) {
-                                const dummyVocabCount = allVocabItems.filter(item => item.isDummy).length;
-                                document.getElementById('total-user-vocab').textContent = totalCount + dummyVocabCount;
-                            }
-                        });
-                });
-            });
+                const totalVocab = realVocabCount + allVocabItems.length;
+                document.getElementById('total-vocab').textContent = totalVocab;
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
         }
 
-        // Load real users from Firestore
-        function loadRealUsers() {
-            const usersList = document.getElementById('users-list');
-            usersList.innerHTML = '';
-            
-            db.collection('users').get().then(snapshot => {
-                if (snapshot.empty && dummyUsers.length === 0) {
-                    usersList.innerHTML = '<div class="card"><p>Chưa có người dùng nào.</p></div>';
-                    return;
-                }
+        async function loadCategories() {
+            try {
+                const snapshot = await db.collection('categories').orderBy('name').get();
+                const categoriesList = document.getElementById('categories-list');
+                const categorySelect = document.getElementById('card-category');
                 
-                // Hiển thị cả user thật và user ảo - HOÀN TOÀN TỰ NHIÊN
-                const allDisplayUsers = [];
-                
-                // Thêm user thật
-                snapshot.forEach(doc => {
-                    const user = doc.data();
-                    allDisplayUsers.push({
-                        id: doc.id,
-                        ...user,
-                        isReal: true
-                    });
-                });
-                
-                // Thêm user ảo - KHÔNG CÓ BẤT KỲ DẤU HIỆU NÀO
-                dummyUsers.forEach(user => {
-                    allDisplayUsers.push({
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        profession: user.profession,
-                        age: user.age,
-                        city: user.city,
-                        interests: user.interests,
-                        createdAt: { toDate: () => new Date(user.joinDate) },
-                        role: 'user',
-                        banned: false,
-                        vocabCount: user.vocabCount
-                    });
-                });
-                
-                // Sắp xếp theo ngày tham gia (mới nhất lên đầu)
-                allDisplayUsers.sort((a, b) => {
-                    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.joinDate || 0);
-                    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.joinDate || 0);
-                    return dateB - dateA;
-                });
-                
-                allDisplayUsers.forEach(user => {
-                    const userId = user.id;
-                    const isBanned = user.banned === true;
-                    const isAdmin = user.role === 'admin';
-                    const isCurrentUser = userId === currentAdminId;
-                    
-                    // Lưu vào allUsers
-                    allUsers[userId] = user;
-                    
-                    const joinDate = user.createdAt?.toDate ? 
-                        user.createdAt.toDate().toLocaleDateString('vi-VN') : 
-                        (user.joinDate ? new Date(user.joinDate).toLocaleDateString('vi-VN') : 'Không rõ');
-                    
-                    const userElement = document.createElement('div');
-                    userElement.className = `item-card user-card ${isBanned ? 'user-banned' : ''}`;
-                    
-                    // Thêm thông tin nghề nghiệp nếu có (cho user ảo)
-                    const professionInfo = user.profession ? `<p><strong>Nghề nghiệp:</strong> ${user.profession}</p>` : '';
-                    const locationInfo = user.city ? `<p><strong>Thành phố:</strong> ${user.city}</p>` : '';
-                    
-                    userElement.innerHTML = `
-                        <h3>${user.name || 'Không có tên'} 
-                            ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
-                            ${isBanned ? '<span class="banned-badge">ĐÃ KHÓA</span>' : ''}
-                        </h3>
-                        <p><strong>Email:</strong> ${user.email}</p>
-                        ${professionInfo}
-                        ${locationInfo}
-                        <p><strong>Vai trò:</strong> ${isAdmin ? 'Quản trị viên' : 'Người dùng'}</p>
-                        <p><strong>Ngày tham gia:</strong> ${joinDate}</p>
-                        <p><strong>ID:</strong> <small>${userId}</small></p>
-                        <div class="card-actions">
-                            ${!isAdmin ? 
-                                `<button class="btn-success make-admin" data-id="${userId}">Thành admin</button>` : 
-                                (!isCurrentUser ? `<button class="btn-danger remove-admin" data-id="${userId}">Bỏ admin</button>` : '<button class="btn-warning" disabled>Bạn đang đăng nhập</button>')
-                            }
-                            ${!isCurrentUser ? 
-                                (!isBanned ? 
-                                    `<button class="btn-danger ban-user" data-id="${userId}">Khóa tài khoản</button>` :
-                                    `<button class="btn-success unban-user" data-id="${userId}">Mở khóa</button>`
-                                ) : ''
-                            }
-                            <button class="btn-info view-vocab" data-id="${userId}" data-name="${user.name || user.email}">Xem từ vựng</button>
-                        </div>
-                    `;
-                    usersList.appendChild(userElement);
-                });
-                
-                // Add event listeners
-                addUserEventListeners();
-                
-                // Populate filters
-                populateUserFilters();
-            });
-        }
+                allCategories = [];
+                categoriesList.innerHTML = '';
+                categorySelect.innerHTML = '<option value="">-- Chọn chủ đề --</option>';
 
-        // Load all users from Firestore (real only)
-        function loadAllUsersFromFirestore() {
-            db.collection('users').get().then(realSnapshot => {
-                realSnapshot.forEach(doc => {
-                    const user = doc.data();
-                    allUsers[doc.id] = { ...user, id: doc.id, isReal: true };
-                });
-                
-                // Add dummy users to allUsers (không đánh dấu là ảo)
-                dummyUsers.forEach(user => {
-                    allUsers[user.id] = {
-                        ...user,
-                        id: user.id,
-                        name: user.name,
-                        email: user.email
-                    };
-                });
-                
-                populateUserFilters();
-            });
-        }
-
-        // Populate user filters
-        function populateUserFilters() {
-            const vocabFilter = document.getElementById('vocab-user-filter');
-            const analyticsFilter = document.getElementById('analytics-user-filter');
-            
-            vocabFilter.innerHTML = '<option value="">Tất cả người dùng</option>';
-            analyticsFilter.innerHTML = '<option value="">Tất cả người dùng</option><option value="top-10">Top 10 người dùng tích cực</option>';
-            
-            // Thêm tất cả users (thật + ảo) - KHÔNG PHÂN BIỆT
-            Object.values(allUsers).forEach(user => {
-                const option1 = document.createElement('option');
-                option1.value = user.id;
-                option1.textContent = `${user.name || 'Không tên'} (${user.email})`;
-                vocabFilter.appendChild(option1);
-                
-                const option2 = document.createElement('option');
-                option2.value = user.id;
-                option2.textContent = `${user.name || 'Không tên'} (${user.email})`;
-                analyticsFilter.appendChild(option2);
-            });
-        }
-
-        // Add user event listeners
-        function addUserEventListeners() {
-            document.querySelectorAll('.make-admin').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-id');
-                    // Chỉ cho phép thay đổi user thật, không phải ảo
-                    if (userId.startsWith('user_')) {
-                        showAlert('Không thể thay đổi quyền của người dùng này!', 'error');
-                        return;
-                    }
-                    if (confirm('Bạn có chắc chắn muốn cấp quyền admin?')) {
-                        updateUserRole(userId, 'admin');
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.remove-admin').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-id');
-                    if (userId.startsWith('user_')) {
-                        showAlert('Không thể thay đổi quyền của người dùng này!', 'error');
-                        return;
-                    }
-                    if (confirm('Bạn có chắc chắn muốn bỏ quyền admin?')) {
-                        updateUserRole(userId, 'user');
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.ban-user').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-id');
-                    if (userId.startsWith('user_')) {
-                        showAlert('Không thể khóa người dùng này!', 'error');
-                        return;
-                    }
-                    if (confirm('Bạn có chắc chắn muốn khóa tài khoản?')) {
-                        banUser(userId, true);
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.unban-user').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-id');
-                    if (userId.startsWith('user_')) {
-                        showAlert('Không thể mở khóa người dùng này!', 'error');
-                        return;
-                    }
-                    if (confirm('Bạn có chắc chắn muốn mở khóa tài khoản?')) {
-                        banUser(userId, false);
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.view-vocab').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-id');
-                    const userName = e.target.getAttribute('data-name');
-                    document.querySelector('[data-tab="vocabulary"]').click();
-                    document.getElementById('vocab-user-filter').value = userId;
-                    loadUserVocabulary(userId);
-                    showAlert(`Đang hiển thị từ vựng của: ${userName}`, 'success');
-                });
-            });
-        }
-
-        // Update user role
-        function updateUserRole(userId, role) {
-            db.collection('users').doc(userId).update({ role: role })
-                .then(() => {
-                    loadRealUsers();
-                    showAlert('Đã cập nhật vai trò!', 'success');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Có lỗi xảy ra!', 'error');
-                });
-        }
-
-        // Ban/unban user
-        function banUser(userId, ban) {
-            db.collection('users').doc(userId).update({
-                banned: ban,
-                bannedAt: ban ? firebase.firestore.FieldValue.serverTimestamp() : null
-            })
-            .then(() => {
-                loadRealUsers();
-                loadDashboard();
-                showAlert(ban ? 'Đã khóa tài khoản!' : 'Đã mở khóa tài khoản!', 'success');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Có lỗi xảy ra!', 'error');
-            });
-        }
-
-        // Load categories
-        function loadCategories() {
-            const categoriesList = document.getElementById('categories-list');
-            categoriesList.innerHTML = '';
-            
-            db.collection('categories').get().then(snapshot => {
                 if (snapshot.empty) {
                     categoriesList.innerHTML = '<div class="card"><p>Chưa có chủ đề nào.</p></div>';
                     return;
                 }
-                
+
                 snapshot.forEach(doc => {
-                    const category = doc.data();
-                    const categoryElement = document.createElement('div');
-                    categoryElement.className = 'item-card category-card';
-                    categoryElement.innerHTML = `
+                    const category = { id: doc.id, ...doc.data() };
+                    allCategories.push(category);
+
+                    // Thêm vào danh sách hiển thị
+                    const card = document.createElement('div');
+                    card.className = 'item-card category-card';
+                    card.innerHTML = `
                         <h3>${category.name}</h3>
                         <p>${category.description || 'Không có mô tả'}</p>
+                        <p><small>ID: ${doc.id}</small></p>
                         <div class="card-actions">
-                            <button class="btn-danger delete-category" data-id="${doc.id}">Xóa</button>
+                            <button class="btn-danger" onclick="deleteCategory('${doc.id}')">Xóa chủ đề</button>
                         </div>
                     `;
-                    categoriesList.appendChild(categoryElement);
-                });
-                
-                document.querySelectorAll('.delete-category').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const categoryId = e.target.getAttribute('data-id');
-                        if (confirm('Bạn có chắc chắn muốn xóa chủ đề này?')) {
-                            deleteCategory(categoryId);
-                        }
-                    });
-                });
-                
-                // Populate category dropdown
-                const categoryDropdown = document.getElementById('card-category');
-                categoryDropdown.innerHTML = '<option value="">Chọn chủ đề</option>';
-                snapshot.forEach(doc => {
-                    const category = doc.data();
+                    categoriesList.appendChild(card);
+
+                    // Thêm vào select
                     const option = document.createElement('option');
                     option.value = doc.id;
                     option.textContent = category.name;
-                    categoryDropdown.appendChild(option);
+                    categorySelect.appendChild(option);
                 });
-            });
+
+                // Cập nhật filter cho tab vocabulary
+                updateVocabCategoryFilter();
+
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                showAlert('Lỗi khi tải danh sách chủ đề!', 'error');
+            }
         }
 
-        // Add new category
-        document.getElementById('category-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('category-name').value;
-            const description = document.getElementById('category-description').value;
-            const icon = document.getElementById('category-icon').value;
-            
-            db.collection('categories').add({
-                name: name,
-                description: description,
-                icon: icon,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                document.getElementById('category-form').reset();
-                loadCategories();
-                loadDashboard();
-                showAlert('Đã thêm chủ đề mới!', 'success');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Có lỗi xảy ra!', 'error');
-            });
-        });
+        async function loadSystemCards() {
+            try {
+                const snapshot = await db.collection('systemCards').orderBy('word').get();
+                const cardsList = document.getElementById('cards-list');
+                
+                allSystemCards = [];
+                cardsList.innerHTML = '';
 
-        // Delete category
-        function deleteCategory(categoryId) {
-            db.collection('systemCards').where('categoryId', '==', categoryId).get()
-                .then((snapshot) => {
-                    const batch = db.batch();
-                    snapshot.forEach(doc => batch.delete(doc.ref));
-                    return batch.commit();
-                })
-                .then(() => db.collection('categories').doc(categoryId).delete())
-                .then(() => {
-                    loadCategories();
-                    loadDashboard();
-                    loadCards();
-                    showAlert('Đã xóa chủ đề!', 'success');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Có lỗi xảy ra!', 'error');
-                });
-        }
-
-        // Load cards
-        function loadCards() {
-            const cardsList = document.getElementById('cards-list');
-            cardsList.innerHTML = '';
-            
-            db.collection('systemCards').get().then(snapshot => {
                 if (snapshot.empty) {
                     cardsList.innerHTML = '<div class="card"><p>Chưa có thẻ từ vựng nào.</p></div>';
                     return;
                 }
-                
+
                 snapshot.forEach(doc => {
-                    const card = doc.data();
+                    const card = { id: doc.id, ...doc.data() };
+                    allSystemCards.push(card);
+
                     const cardElement = document.createElement('div');
                     cardElement.className = 'item-card system-card';
                     cardElement.innerHTML = `
                         <h3>${card.word} - ${card.meaning}</h3>
+                        ${card.pronunciation ? `<p><strong>Phiên âm:</strong> ${card.pronunciation}</p>` : ''}
                         ${card.example ? `<p><strong>Ví dụ:</strong> ${card.example}</p>` : ''}
                         <p><strong>Chủ đề:</strong> ${card.categoryName || 'Không có'}</p>
+                        <p><small>ID: ${doc.id}</small></p>
                         <div class="card-actions">
-                            <button class="btn-danger delete-card" data-id="${doc.id}">Xóa</button>
+                            <button class="btn-danger" onclick="deleteSystemCard('${doc.id}')">Xóa thẻ</button>
                         </div>
                     `;
                     cardsList.appendChild(cardElement);
                 });
+
+            } catch (error) {
+                console.error('Error loading system cards:', error);
+                showAlert('Lỗi khi tải thẻ từ vựng!', 'error');
+            }
+        }
+
+        async function loadRealUsers() {
+            try {
+                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
+                const usersList = document.getElementById('users-list');
                 
-                document.querySelectorAll('.delete-card').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const cardId = e.target.getAttribute('data-id');
-                        if (confirm('Bạn có chắc chắn muốn xóa thẻ này?')) {
-                            deleteCard(cardId);
-                        }
-                    });
+                usersList.innerHTML = '';
+
+                // Thêm người dùng thật
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    allUsers[doc.id] = { id: doc.id, ...user };
+
+                    const card = createUserCard(doc.id, user);
+                    usersList.appendChild(card);
                 });
+
+                // Thêm người dùng ảo (hoàn toàn giống thật, không có dấu hiệu nhận biết)
+                dummyUsers.forEach(user => {
+                    const card = createUserCard(user.id, {
+                        name: user.name,
+                        email: user.email,
+                        profession: user.profession,
+                        city: user.city,
+                        createdAt: { toDate: () => new Date(user.joinDate) },
+                        role: 'user',
+                        banned: false
+                    });
+                    usersList.appendChild(card);
+                });
+
+                // Cập nhật filter cho tab vocabulary
+                updateVocabUserFilter();
+
+            } catch (error) {
+                console.error('Error loading real users:', error);
+                showAlert('Lỗi khi tải danh sách người dùng!', 'error');
+            }
+        }
+
+        function createUserCard(userId, user) {
+            const card = document.createElement('div');
+            card.className = `item-card user-card ${user.banned ? 'user-banned' : ''}`;
+            
+            const joinDate = user.createdAt?.toDate ? 
+                user.createdAt.toDate().toLocaleDateString('vi-VN') : 
+                new Date().toLocaleDateString('vi-VN');
+
+            const isAdmin = user.role === 'admin';
+            const isCurrentUser = userId === currentUser?.uid;
+            const isDummyUser = userId.startsWith('dummy_user_');
+
+            card.innerHTML = `
+                <h3>
+                    ${user.name || 'Không có tên'}
+                    ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
+                    ${user.banned ? '<span class="banned-badge">ĐÃ KHÓA</span>' : ''}
+                </h3>
+                <p><strong>Email:</strong> ${user.email}</p>
+                ${user.profession ? `<p><strong>Nghề nghiệp:</strong> ${user.profession}</p>` : ''}
+                ${user.city ? `<p><strong>Thành phố:</strong> ${user.city}</p>` : ''}
+                <p><strong>Vai trò:</strong> ${isAdmin ? 'Quản trị viên' : 'Người dùng'}</p>
+                <p><strong>Ngày tham gia:</strong> ${joinDate}</p>
+                <p><small>ID: ${userId}</small></p>
+                <div class="card-actions">
+                    ${!isDummyUser ? `
+                        ${!isAdmin ? 
+                            `<button class="btn-success" onclick="makeAdmin('${userId}')">Thành admin</button>` : 
+                            (!isCurrentUser ? `<button class="btn-danger" onclick="removeAdmin('${userId}')">Bỏ admin</button>` : '')
+                        }
+                        ${!isCurrentUser ? 
+                            (user.banned ? 
+                                `<button class="btn-success" onclick="unbanUser('${userId}')">Mở khóa</button>` :
+                                `<button class="btn-danger" onclick="banUser('${userId}')">Khóa tài khoản</button>`
+                            ) : ''
+                        }
+                    ` : ''}
+                    <button class="btn-info" onclick="viewUserVocab('${userId}', '${user.name || user.email}')">Xem từ vựng</button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        async function loadAllUsers() {
+            try {
+                const snapshot = await db.collection('users').get();
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    allUsers[doc.id] = { id: doc.id, ...user };
+                });
+
+                // Thêm user ảo vào allUsers (đã được thêm từ initializeDummyData)
+                
+                updateVocabUserFilter();
+
+            } catch (error) {
+                console.error('Error loading all users:', error);
+            }
+        }
+
+        function updateVocabUserFilter() {
+            const filter = document.getElementById('vocab-user-filter');
+            filter.innerHTML = '<option value="">-- Tất cả người dùng --</option>';
+
+            Object.values(allUsers).forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = `${user.name || 'Không tên'} (${user.email})`;
+                filter.appendChild(option);
             });
         }
 
-        // Add new card
-        document.getElementById('card-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const word = document.getElementById('card-word').value;
-            const meaning = document.getElementById('card-meaning').value;
-            const example = document.getElementById('card-example').value;
-            const categoryId = document.getElementById('card-category').value;
-            const categoryName = document.getElementById('card-category').options[document.getElementById('card-category').selectedIndex].text;
-            
-            db.collection('systemCards').add({
-                word: word,
-                meaning: meaning,
-                example: example,
-                categoryId: categoryId,
-                categoryName: categoryName,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                document.getElementById('card-form').reset();
-                loadCards();
-                loadDashboard();
-                showAlert('Đã thêm thẻ từ vựng!', 'success');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Có lỗi xảy ra!', 'error');
+        function updateVocabCategoryFilter() {
+            const filter = document.getElementById('vocab-category-filter');
+            filter.innerHTML = '<option value="">-- Tất cả chủ đề --</option>';
+
+            allCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = cat.name;
+                filter.appendChild(option);
             });
+        }
+
+        // ==================== CATEGORY FUNCTIONS ====================
+        document.getElementById('category-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('category-name').value;
+            const description = document.getElementById('category-description').value;
+            const icon = document.getElementById('category-icon').value;
+            const color = document.getElementById('category-color').value;
+
+            try {
+                await db.collection('categories').add({
+                    name: name,
+                    description: description,
+                    icon: icon,
+                    color: color,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                document.getElementById('category-form').reset();
+                await loadCategories();
+                showAlert('Thêm chủ đề thành công!', 'success');
+
+            } catch (error) {
+                console.error('Error adding category:', error);
+                showAlert('Lỗi khi thêm chủ đề!', 'error');
+            }
         });
 
-        // Delete card
-        function deleteCard(cardId) {
-            db.collection('systemCards').doc(cardId).delete()
-                .then(() => {
-                    loadCards();
-                    loadDashboard();
-                    showAlert('Đã xóa thẻ!', 'success');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Có lỗi xảy ra!', 'error');
+        window.deleteCategory = async (categoryId) => {
+            if (!confirm('Bạn có chắc chắn muốn xóa chủ đề này? Tất cả thẻ từ vựng liên quan sẽ bị xóa.')) return;
+
+            try {
+                // Xóa các thẻ liên quan
+                const cardsSnapshot = await db.collection('systemCards').where('categoryId', '==', categoryId).get();
+                const batch = db.batch();
+                cardsSnapshot.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+
+                // Xóa chủ đề
+                await db.collection('categories').doc(categoryId).delete();
+
+                await Promise.all([loadCategories(), loadSystemCards()]);
+                showAlert('Xóa chủ đề thành công!', 'success');
+
+            } catch (error) {
+                console.error('Error deleting category:', error);
+                showAlert('Lỗi khi xóa chủ đề!', 'error');
+            }
+        };
+
+        // ==================== CARD FUNCTIONS ====================
+        document.getElementById('card-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const word = document.getElementById('card-word').value;
+            const meaning = document.getElementById('card-meaning').value;
+            const pronunciation = document.getElementById('card-pronunciation').value;
+            const example = document.getElementById('card-example').value;
+            const exampleVn = document.getElementById('card-example-vn').value;
+            const image = document.getElementById('card-image').value;
+            const categoryId = document.getElementById('card-category').value;
+            const category = allCategories.find(c => c.id === categoryId);
+
+            try {
+                await db.collection('systemCards').add({
+                    word: word,
+                    meaning: meaning,
+                    pronunciation: pronunciation,
+                    example: example,
+                    exampleVn: exampleVn,
+                    image: image,
+                    categoryId: categoryId,
+                    categoryName: category?.name || 'Không có',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-        }
 
-        // Load user vocabulary (including dummy)
-        function loadUserVocabulary(userId = null) {
+                document.getElementById('card-form').reset();
+                await loadSystemCards();
+                showAlert('Thêm thẻ từ vựng thành công!', 'success');
+
+            } catch (error) {
+                console.error('Error adding card:', error);
+                showAlert('Lỗi khi thêm thẻ từ vựng!', 'error');
+            }
+        });
+
+        window.deleteSystemCard = async (cardId) => {
+            if (!confirm('Bạn có chắc chắn muốn xóa thẻ từ vựng này?')) return;
+
+            try {
+                await db.collection('systemCards').doc(cardId).delete();
+                await loadSystemCards();
+                showAlert('Xóa thẻ từ vựng thành công!', 'success');
+
+            } catch (error) {
+                console.error('Error deleting card:', error);
+                showAlert('Lỗi khi xóa thẻ từ vựng!', 'error');
+            }
+        };
+
+        // ==================== USER FUNCTIONS ====================
+        window.makeAdmin = async (userId) => {
+            if (!confirm('Bạn có chắc chắn muốn cấp quyền admin cho người dùng này?')) return;
+
+            try {
+                await db.collection('users').doc(userId).update({ role: 'admin' });
+                await loadRealUsers();
+                showAlert('Đã cấp quyền admin!', 'success');
+
+            } catch (error) {
+                console.error('Error making admin:', error);
+                showAlert('Lỗi khi cấp quyền admin!', 'error');
+            }
+        };
+
+        window.removeAdmin = async (userId) => {
+            if (!confirm('Bạn có chắc chắn muốn bỏ quyền admin của người dùng này?')) return;
+
+            try {
+                await db.collection('users').doc(userId).update({ role: 'user' });
+                await loadRealUsers();
+                showAlert('Đã bỏ quyền admin!', 'success');
+
+            } catch (error) {
+                console.error('Error removing admin:', error);
+                showAlert('Lỗi khi bỏ quyền admin!', 'error');
+            }
+        };
+
+        window.banUser = async (userId) => {
+            if (!confirm('Bạn có chắc chắn muốn khóa tài khoản này?')) return;
+
+            try {
+                await db.collection('users').doc(userId).update({
+                    banned: true,
+                    bannedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await loadRealUsers();
+                showAlert('Đã khóa tài khoản!', 'success');
+
+            } catch (error) {
+                console.error('Error banning user:', error);
+                showAlert('Lỗi khi khóa tài khoản!', 'error');
+            }
+        };
+
+        window.unbanUser = async (userId) => {
+            if (!confirm('Bạn có chắc chắn muốn mở khóa tài khoản này?')) return;
+
+            try {
+                await db.collection('users').doc(userId).update({
+                    banned: false,
+                    bannedAt: null
+                });
+                await loadRealUsers();
+                showAlert('Đã mở khóa tài khoản!', 'success');
+
+            } catch (error) {
+                console.error('Error unbanning user:', error);
+                showAlert('Lỗi khi mở khóa tài khoản!', 'error');
+            }
+        };
+
+        // ==================== VOCABULARY FUNCTIONS ====================
+        window.viewUserVocab = (userId, userName) => {
+            document.querySelector('[data-tab="vocabulary"]').click();
+            document.getElementById('vocab-user-filter').value = userId;
+            loadUserVocabulary();
+            showAlert(`Đang xem từ vựng của: ${userName}`, 'info');
+        };
+
+        async function loadUserVocabulary() {
             const vocabList = document.getElementById('vocabulary-list');
-            const statsContainer = document.getElementById('vocab-stats-container');
             vocabList.innerHTML = '<div class="card"><p>Đang tải từ vựng...</p></div>';
-            statsContainer.innerHTML = '';
-            
-            // Get all user IDs to load
-            let userIds = [];
-            if (userId) {
-                userIds = [userId];
-            } else {
-                // All users (real + dummy)
-                userIds = [...Object.keys(allUsers)];
-            }
-            
-            loadAllUserVocabulary(userIds);
-        }
 
-        // Load all user vocabulary
-        function loadAllUserVocabulary(userIds) {
-            allVocabItems = allVocabItems.filter(item => !item.isDummy); // Clear dummy items
-            
-            if (userIds.length === 0) {
-                displayVocabularyResults();
-                return;
-            }
-            
-            const realUserIds = userIds.filter(id => !id.startsWith('user_'));
-            const dummyUserIds = userIds.filter(id => id.startsWith('user_'));
-            
-            const promises = [];
-            
-            // Load real users from Firestore
-            realUserIds.forEach(userId => {
-                promises.push(
-                    db.collection('users').doc(userId).collection('cards').get()
-                        .then(snapshot => {
+            try {
+                const userId = document.getElementById('vocab-user-filter').value;
+                const statusFilter = document.getElementById('vocab-status-filter').value;
+                const categoryFilter = document.getElementById('vocab-category-filter').value;
+                const searchFilter = document.getElementById('vocab-search').value.toLowerCase();
+
+                let vocabItems = [];
+
+                if (userId) {
+                    // Lấy từ vựng của một người dùng cụ thể
+                    if (userId.startsWith('dummy_user_')) {
+                        vocabItems = allVocabItems.filter(item => item.userId === userId);
+                    } else {
+                        const snapshot = await db.collection('users').doc(userId).collection('cards').get();
+                        snapshot.forEach(doc => {
+                            const data = doc.data();
+                            vocabItems.push({
+                                id: doc.id,
+                                userId: userId,
+                                ...data,
+                                userName: allUsers[userId]?.name || 'Không rõ'
+                            });
+                        });
+                    }
+                } else {
+                    // Lấy tất cả từ vựng (thật + ảo)
+                    vocabItems = [...allVocabItems];
+
+                    // Thêm từ vựng thật
+                    const userPromises = Object.keys(allUsers).map(async (uid) => {
+                        if (uid.startsWith('dummy_user_')) return;
+                        try {
+                            const snapshot = await db.collection('users').doc(uid).collection('cards').get();
                             snapshot.forEach(doc => {
                                 const data = doc.data();
-                                allVocabItems.push({
+                                vocabItems.push({
                                     id: doc.id,
-                                    userId: userId,
-                                    ...data
+                                    userId: uid,
+                                    ...data,
+                                    userName: allUsers[uid]?.name || 'Không rõ'
                                 });
                             });
-                        })
-                        .catch(() => {})
-                );
-            });
-            
-            // Add dummy users vocabulary (already in allVocabItems)
-            dummyUserIds.forEach(userId => {
-                const dummyUser = dummyUsers.find(u => u.id === userId);
-                if (dummyUser) {
-                    // Generate vocabulary if not already present
-                    const existingCount = allVocabItems.filter(item => item.userId === userId && item.isDummy).length;
-                    if (existingCount === 0) {
-                        for (let i = 0; i < dummyUser.vocabCount; i++) {
-                            const wordIndex = i % wordSamples.length;
-                            const sample = wordSamples[wordIndex];
-                            
-                            let status = 'learning';
-                            if (i < dummyUser.mastered) status = 'mastered';
-                            else if (i < dummyUser.mastered + dummyUser.known) status = 'known';
-                            
-                            const randomDaysAgo = Math.floor(Math.random() * 60);
-                            const createdDate = new Date();
-                            createdDate.setDate(createdDate.getDate() - randomDaysAgo);
-                            
-                            allVocabItems.push({
-                                id: `dummy_${userId}_${i}`,
-                                userId: userId,
-                                word: sample.word,
-                                meaning: sample.meaning,
-                                example: sample.example,
-                                category: sample.category,
-                                status: status,
-                                createdAt: createdDate,
-                                isDummy: true
-                            });
+                        } catch (error) {
+                            console.error(`Error loading vocab for user ${uid}:`, error);
                         }
-                    }
+                    });
+
+                    await Promise.all(userPromises);
                 }
-            });
-            
-            Promise.all(promises).then(() => {
-                displayVocabularyResults();
-            });
+
+                // Áp dụng filters
+                let filtered = vocabItems.filter(item => {
+                    let match = true;
+                    
+                    if (statusFilter) {
+                        match = match && (item.status || 'learning') === statusFilter;
+                    }
+                    
+                    if (categoryFilter) {
+                        match = match && item.category === categoryFilter;
+                    }
+                    
+                    if (searchFilter) {
+                        const word = (item.word || '').toLowerCase();
+                        const meaning = (item.meaning || '').toLowerCase();
+                        match = match && (word.includes(searchFilter) || meaning.includes(searchFilter));
+                    }
+                    
+                    return match;
+                });
+
+                // Tính thống kê
+                const stats = {
+                    total: filtered.length,
+                    learning: filtered.filter(v => (v.status || 'learning') === 'learning').length,
+                    known: filtered.filter(v => v.status === 'known').length,
+                    mastered: filtered.filter(v => v.status === 'mastered').length
+                };
+
+                displayVocabStats(stats);
+                displayVocabTable(filtered);
+
+            } catch (error) {
+                console.error('Error loading vocabulary:', error);
+                vocabList.innerHTML = '<div class="card"><p>Có lỗi khi tải dữ liệu!</p></div>';
+            }
         }
 
-        // Display vocabulary results
-        function displayVocabularyResults() {
-            totalVocabItems = allVocabItems.length;
-            
-            if (totalVocabItems === 0) {
-                document.getElementById('vocabulary-list').innerHTML = '<div class="card"><p>Không có từ vựng nào.</p></div>';
-                return;
-            }
-            
-            applyVocabFilters();
-        }
-
-        // Apply vocabulary filters
-        function applyVocabFilters() {
-            const statusFilter = document.getElementById('vocab-status-filter').value;
-            const searchFilter = document.getElementById('vocab-search').value.toLowerCase();
-            const userFilter = document.getElementById('vocab-user-filter').value;
-            
-            let filteredVocab = allVocabItems;
-            
-            if (userFilter) {
-                filteredVocab = filteredVocab.filter(item => item.userId === userFilter);
-            }
-            
-            if (statusFilter) {
-                filteredVocab = filteredVocab.filter(item => (item.status || 'learning') === statusFilter);
-            }
-            
-            if (searchFilter) {
-                filteredVocab = filteredVocab.filter(item => 
-                    (item.word || '').toLowerCase().includes(searchFilter) || 
-                    (item.meaning || '').toLowerCase().includes(searchFilter)
-                );
-            }
-            
-            // Calculate stats
-            const stats = {
-                total: filteredVocab.length,
-                learning: filteredVocab.filter(item => (item.status || 'learning') === 'learning').length,
-                known: filteredVocab.filter(item => item.status === 'known').length,
-                mastered: filteredVocab.filter(item => item.status === 'mastered').length
-            };
-            
-            displayVocabStats(stats);
-            displayVocabTable(filteredVocab);
-        }
-
-        // Display vocabulary stats
         function displayVocabStats(stats) {
-            document.getElementById('vocab-stats-container').innerHTML = `
-                <div class="vocab-stats">
-                    <div class="vocab-stat-item">Tổng: ${stats.total}</div>
-                    <div class="vocab-stat-item need-to-know">Đang học: ${stats.learning}</div>
-                    <div class="vocab-stat-item known">Đã biết: ${stats.known}</div>
-                    <div class="vocab-stat-item mastered">Đã thuộc: ${stats.mastered}</div>
-                </div>
-                <p><small>Tổng số từ vựng trong hệ thống: ${totalVocabItems}</small></p>
+            const statsDiv = document.getElementById('vocab-stats');
+            statsDiv.innerHTML = `
+                <div class="vocab-stat-item">Tổng: ${stats.total}</div>
+                <div class="vocab-stat-item learning">Đang học: ${stats.learning}</div>
+                <div class="vocab-stat-item known">Đã biết: ${stats.known}</div>
+                <div class="vocab-stat-item mastered">Đã thuộc: ${stats.mastered}</div>
             `;
         }
 
-        // Display vocabulary table
-        function displayVocabTable(vocabItems) {
+        function displayVocabTable(items) {
             const vocabList = document.getElementById('vocabulary-list');
-            const totalPages = Math.ceil(vocabItems.length / itemsPerPage);
+            const totalPages = Math.ceil(items.length / itemsPerPage);
             
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const pageItems = vocabItems.slice(startIndex, endIndex);
-            
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = items.slice(start, end);
+
             if (pageItems.length === 0) {
                 vocabList.innerHTML = '<div class="card"><p>Không có từ vựng nào.</p></div>';
                 document.getElementById('vocab-pagination').innerHTML = '';
                 return;
             }
-            
-            let tableHTML = `
+
+            let tableHtml = `
                 <table>
                     <thead>
                         <tr>
                             <th>Người dùng</th>
-                            <th>Từ tiếng Anh</th>
+                            <th>Từ vựng</th>
                             <th>Nghĩa</th>
                             <th>Trạng thái</th>
                             <th>Chủ đề</th>
@@ -1760,343 +2165,249 @@
                     </thead>
                     <tbody>
             `;
-            
+
             pageItems.forEach(item => {
-                const user = allUsers[item.userId];
-                const userName = user ? (user.name || user.email) : item.userId;
+                const userName = item.userName || allUsers[item.userId]?.name || 'Không rõ';
                 const status = item.status || 'learning';
-                const statusText = { 'learning': 'Đang học', 'known': 'Đã biết', 'mastered': 'Đã thuộc' }[status] || status;
-                const statusClass = { 'learning': 'status-learning', 'known': 'status-known', 'mastered': 'status-mastered' }[status] || '';
-                
-                const createdAt = item.createdAt ? 
-                    (item.createdAt.toDate ? item.createdAt.toDate().toLocaleDateString('vi-VN') : new Date(item.createdAt).toLocaleDateString('vi-VN')) : 
-                    'Không rõ';
-                
-                tableHTML += `
+                const statusText = {
+                    'learning': 'Đang học',
+                    'known': 'Đã biết',
+                    'mastered': 'Đã thuộc'
+                }[status];
+
+                const createdDate = item.createdAt?.toDate ? 
+                    item.createdAt.toDate().toLocaleDateString('vi-VN') : 
+                    (item.createdAt ? new Date(item.createdAt).toLocaleDateString('vi-VN') : 'Không rõ');
+
+                tableHtml += `
                     <tr>
                         <td>${userName}</td>
                         <td><strong>${item.word || ''}</strong></td>
                         <td>${item.meaning || ''}</td>
-                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td><span class="status-badge ${status}">${statusText}</span></td>
                         <td>${item.category || 'Không có'}</td>
-                        <td>${createdAt}</td>
+                        <td>${createdDate}</td>
                         <td>
-                            <button class="btn-info view-vocab-detail" data-userid="${item.userId}" data-vocabid="${item.id}">Chi tiết</button>
+                            <button class="btn-info" onclick="showVocabDetail('${item.userId}', '${item.id}')">Chi tiết</button>
                         </td>
                     </tr>
                 `;
             });
-            
-            tableHTML += `</tbody></table>`;
-            vocabList.innerHTML = tableHTML;
-            
+
+            tableHtml += '</tbody></table>';
+            vocabList.innerHTML = tableHtml;
+
+            // Hiển thị phân trang
             displayVocabPagination(totalPages);
-            
-            document.querySelectorAll('.view-vocab-detail').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const userId = e.target.getAttribute('data-userid');
-                    const vocabId = e.target.getAttribute('data-vocabid');
-                    showVocabDetail(userId, vocabId);
-                });
-            });
         }
 
-        // Display vocabulary pagination
         function displayVocabPagination(totalPages) {
             const pagination = document.getElementById('vocab-pagination');
             pagination.innerHTML = '';
-            
+
             if (totalPages <= 1) return;
-            
+
+            // Nút Previous
             if (currentPage > 1) {
-                const firstBtn = document.createElement('button');
-                firstBtn.textContent = '«';
-                firstBtn.addEventListener('click', () => { currentPage = 1; applyVocabFilters(); });
-                pagination.appendChild(firstBtn);
-                
                 const prevBtn = document.createElement('button');
-                prevBtn.textContent = '<';
-                prevBtn.addEventListener('click', () => { currentPage--; applyVocabFilters(); });
+                prevBtn.textContent = '←';
+                prevBtn.onclick = () => {
+                    currentPage--;
+                    loadUserVocabulary();
+                };
                 pagination.appendChild(prevBtn);
             }
-            
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, currentPage + 2);
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const btn = document.createElement('button');
-                btn.textContent = i;
-                if (i === currentPage) btn.classList.add('active');
-                btn.addEventListener('click', () => { currentPage = i; applyVocabFilters(); });
-                pagination.appendChild(btn);
+
+            // Các số trang
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    const btn = document.createElement('button');
+                    btn.textContent = i;
+                    btn.className = i === currentPage ? 'active' : '';
+                    btn.onclick = () => {
+                        currentPage = i;
+                        loadUserVocabulary();
+                    };
+                    pagination.appendChild(btn);
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    const span = document.createElement('span');
+                    span.textContent = '...';
+                    span.style.padding = '0.5rem';
+                    pagination.appendChild(span);
+                }
             }
-            
+
+            // Nút Next
             if (currentPage < totalPages) {
                 const nextBtn = document.createElement('button');
-                nextBtn.textContent = '>';
-                nextBtn.addEventListener('click', () => { currentPage++; applyVocabFilters(); });
+                nextBtn.textContent = '→';
+                nextBtn.onclick = () => {
+                    currentPage++;
+                    loadUserVocabulary();
+                };
                 pagination.appendChild(nextBtn);
-                
-                const lastBtn = document.createElement('button');
-                lastBtn.textContent = '»';
-                lastBtn.addEventListener('click', () => { currentPage = totalPages; applyVocabFilters(); });
-                pagination.appendChild(lastBtn);
             }
         }
 
-        // Show vocabulary detail
-        function showVocabDetail(userId, vocabId) {
+        window.showVocabDetail = (userId, vocabId) => {
             const item = allVocabItems.find(i => i.id === vocabId && i.userId === userId);
             if (!item) return;
-            
-            const user = allUsers[userId];
+
             const modal = document.getElementById('vocab-modal');
-            const modalBody = document.getElementById('modal-body');
-            
+            const modalBody = document.getElementById('vocab-modal-body');
+
+            const user = allUsers[userId];
+            const userName = user?.name || 'Không rõ';
             const status = item.status || 'learning';
-            const statusText = { 'learning': 'Đang học', 'known': 'Đã biết', 'mastered': 'Đã thuộc' }[status] || status;
-            const statusClass = { 'learning': 'status-learning', 'known': 'status-known', 'mastered': 'status-mastered' }[status] || '';
-            
-            const createdAt = item.createdAt ? 
-                (item.createdAt.toDate ? item.createdAt.toDate().toLocaleString('vi-VN') : new Date(item.createdAt).toLocaleString('vi-VN')) : 
-                'Không rõ';
-            
+            const statusText = {
+                'learning': 'Đang học',
+                'known': 'Đã biết',
+                'mastered': 'Đã thuộc'
+            }[status];
+
+            const createdDate = item.createdAt?.toDate ? 
+                item.createdAt.toDate().toLocaleString('vi-VN') : 
+                (item.createdAt ? new Date(item.createdAt).toLocaleString('vi-VN') : 'Không rõ');
+
             modalBody.innerHTML = `
                 <div class="card">
                     <h3>${item.word} - ${item.meaning}</h3>
-                    <p><strong>Người dùng:</strong> ${user ? (user.name || user.email) : userId}</p>
-                    <p><strong>Trạng thái:</strong> <span class="status-badge ${statusClass}">${statusText}</span></p>
-                    <p><strong>Ngày tạo:</strong> ${createdAt}</p>
-                    ${item.example ? `<p><strong>Ví dụ:</strong> ${item.example}</p>` : ''}
+                    <p><strong>Người dùng:</strong> ${userName}</p>
+                    <p><strong>Email:</strong> ${user?.email || 'Không rõ'}</p>
+                    <p><strong>Trạng thái:</strong> <span class="status-badge ${status}">${statusText}</span></p>
                     <p><strong>Chủ đề:</strong> ${item.category || 'Không có'}</p>
-                    <p><strong>ID từ vựng:</strong> <small>${vocabId}</small></p>
+                    ${item.example ? `<p><strong>Ví dụ:</strong> ${item.example}</p>` : ''}
+                    <p><strong>Ngày tạo:</strong> ${createdDate}</p>
+                    <p><strong>ID từ vựng:</strong> ${vocabId}</p>
+                    <p><strong>ID người dùng:</strong> ${userId}</p>
                 </div>
             `;
-            
+
             modal.style.display = 'block';
-        }
+        };
 
-        // ========== ANALYTICS FUNCTIONS ==========
-
-        // Load analytics data
-        function loadAnalyticsData() {
-            document.getElementById('user-ranking-table').innerHTML = '<p>Đang tải dữ liệu...</p>';
+        // ==================== ANALYTICS FUNCTIONS ====================
+        async function loadAnalytics() {
+            const filter = document.getElementById('analytics-filter').value;
             
-            const filter = document.getElementById('analytics-user-filter').value;
-            
-            analyticsData = {
-                users: [],
-                userStats: {},
-                dailyData: { labels: [], learnedData: [], masteredData: [] },
-                userGroups: { beginner: 0, intermediate: 0, advanced: 0, expert: 0 },
-                totalLearned: 0,
-                totalMastered: 0,
-                activeUsers: 0
-            };
-            
-            // Prepare daily data for last 30 days
-            const today = new Date();
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(date.getDate() - i);
-                analyticsData.dailyData.labels.push(date.getDate() + '/' + (date.getMonth() + 1));
-                analyticsData.dailyData.learnedData.push(0);
-                analyticsData.dailyData.masteredData.push(0);
-            }
-            
-            // Get users to analyze
             let usersToAnalyze = [];
-            
+            let vocabData = [];
+
             if (filter === 'top-10') {
-                // Will handle after collecting stats
-                usersToAnalyze = Object.values(allUsers);
-            } else if (filter) {
-                const user = allUsers[filter];
-                if (user) usersToAnalyze = [user];
+                // Lấy top 10 người dùng có điểm cao nhất
+                const userScores = [];
+                
+                // Tính điểm cho từng người dùng
+                for (const userId in allUsers) {
+                    const userVocab = allVocabItems.filter(item => item.userId === userId);
+                    const mastered = userVocab.filter(v => v.status === 'mastered').length;
+                    const known = userVocab.filter(v => v.status === 'known').length;
+                    const learning = userVocab.filter(v => (v.status || 'learning') === 'learning').length;
+                    
+                    const score = mastered * 3 + known * 2 + learning;
+                    userScores.push({
+                        userId,
+                        score,
+                        mastered,
+                        known,
+                        learning,
+                        total: userVocab.length
+                    });
+                }
+
+                // Sắp xếp và lấy top 10
+                userScores.sort((a, b) => b.score - a.score);
+                const top10Ids = userScores.slice(0, 10).map(u => u.userId);
+
+                usersToAnalyze = top10Ids.map(id => allUsers[id]).filter(u => u);
+                vocabData = allVocabItems.filter(item => top10Ids.includes(item.userId));
+
             } else {
                 usersToAnalyze = Object.values(allUsers);
+                vocabData = allVocabItems;
             }
-            
-            analyticsData.users = usersToAnalyze;
-            
-            // Process each user
+
+            // Tính toán thống kê
+            const totalLearned = vocabData.filter(v => v.status === 'known' || v.status === 'mastered').length;
+            const totalMastered = vocabData.filter(v => v.status === 'mastered').length;
+            const activeUsers = new Set(vocabData.map(v => v.userId)).size;
+
+            document.getElementById('analytics-active-users').textContent = activeUsers;
+            document.getElementById('analytics-total-learned').textContent = totalLearned;
+            document.getElementById('analytics-total-mastered').textContent = totalMastered;
+            document.getElementById('analytics-avg').textContent = activeUsers > 0 ? 
+                Math.round(totalLearned / activeUsers) : 0;
+
+            // Phân loại người dùng theo nhóm
+            const groups = {
+                beginner: 0,
+                intermediate: 0,
+                advanced: 0,
+                expert: 0
+            };
+
             usersToAnalyze.forEach(user => {
-                // Get user's vocabulary
-                const userVocab = allVocabItems.filter(item => item.userId === user.id);
+                const userVocab = vocabData.filter(v => v.userId === user.id);
+                const count = userVocab.length;
                 
-                const vocab = {
-                    total: userVocab.length,
-                    learning: userVocab.filter(v => (v.status || 'learning') === 'learning').length,
-                    known: userVocab.filter(v => v.status === 'known').length,
-                    mastered: userVocab.filter(v => v.status === 'mastered').length
-                };
-                
-                const learnedTotal = vocab.known + vocab.mastered;
-                const activityLevel = calculateActivityLevel(vocab.total, vocab.mastered);
-                
-                analyticsData.userStats[user.id] = {
-                    userInfo: user,
-                    vocab: vocab,
-                    learnedTotal: learnedTotal,
-                    masteredTotal: vocab.mastered,
-                    activityLevel: activityLevel
-                };
-                
-                if (vocab.total > 0) analyticsData.activeUsers++;
-                analyticsData.totalLearned += learnedTotal;
-                analyticsData.totalMastered += vocab.mastered;
-                
-                // Generate daily learning data
-                for (let i = 0; i < 30; i++) {
-                    // Simulate learning activity
-                    const dailyLearned = Math.floor(Math.random() * 3) + (vocab.total > 100 ? 2 : 1);
-                    const dailyMastered = Math.floor(Math.random() * 2);
-                    analyticsData.dailyData.learnedData[i] += dailyLearned;
-                    analyticsData.dailyData.masteredData[i] += dailyMastered;
+                if (count <= 30) groups.beginner++;
+                else if (count <= 100) groups.intermediate++;
+                else if (count <= 250) groups.advanced++;
+                else groups.expert++;
+            });
+
+            document.getElementById('group-beginner').textContent = groups.beginner;
+            document.getElementById('group-intermediate').textContent = groups.intermediate;
+            document.getElementById('group-advanced').textContent = groups.advanced;
+            document.getElementById('group-expert').textContent = groups.expert;
+
+            // Tạo biểu đồ phân phối
+            if (distributionChart) distributionChart.destroy();
+            const distCtx = document.getElementById('distribution-chart').getContext('2d');
+            distributionChart = new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mới bắt đầu', 'Trung cấp', 'Cao cấp', 'Chuyên gia'],
+                    datasets: [{
+                        data: [groups.beginner, groups.intermediate, groups.advanced, groups.expert],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
                 }
             });
-            
-            // Handle top-10 filter
-            if (filter === 'top-10') {
-                const sortedUsers = Object.entries(analyticsData.userStats)
-                    .sort((a, b) => (b[1].vocab.mastered * 3 + b[1].vocab.known * 2 + b[1].vocab.learning) - 
-                                     (a[1].vocab.mastered * 3 + a[1].vocab.known * 2 + a[1].vocab.learning))
-                    .slice(0, 10);
-                
-                const topUserStats = {};
-                sortedUsers.forEach(([id, stats]) => { topUserStats[id] = stats; });
-                analyticsData.userStats = topUserStats;
-                analyticsData.activeUsers = 10;
+
+            // Tạo dữ liệu 30 ngày
+            const labels = [];
+            const learnedData = [];
+            const masteredData = [];
+
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                labels.push(`${date.getDate()}/${date.getMonth() + 1}`);
+
+                // Giả lập dữ liệu học tập
+                learnedData.push(Math.floor(Math.random() * 50) + 20);
+                masteredData.push(Math.floor(Math.random() * 30) + 10);
             }
-            
-            // Classify users
-            classifyUsersByProgress();
-            
-            // Update UI
-            updateAnalyticsUI();
-            createCharts();
-        }
 
-        // Calculate activity level
-        function calculateActivityLevel(totalWords, masteredWords) {
-            if (totalWords === 0) return 'Không hoạt động';
-            if (totalWords >= 250) return 'Xuất sắc';
-            if (totalWords >= 100) return 'Tích cực';
-            if (totalWords >= 30) return 'Trung bình';
-            return 'Bắt đầu';
-        }
-
-        // Classify users by progress
-        function classifyUsersByProgress() {
-            const userStats = analyticsData.userStats;
-            analyticsData.userGroups = { beginner: 0, intermediate: 0, advanced: 0, expert: 0 };
-            
-            for (const userId in userStats) {
-                const totalWords = userStats[userId].vocab.total;
-                if (totalWords <= 30) analyticsData.userGroups.beginner++;
-                else if (totalWords <= 100) analyticsData.userGroups.intermediate++;
-                else if (totalWords <= 250) analyticsData.userGroups.advanced++;
-                else analyticsData.userGroups.expert++;
-            }
-        }
-
-        // Update analytics UI
-        function updateAnalyticsUI() {
-            document.getElementById('total-active-users').textContent = analyticsData.activeUsers || 0;
-            document.getElementById('total-learned').textContent = analyticsData.totalLearned || 0;
-            document.getElementById('total-mastered').textContent = analyticsData.totalMastered || 0;
-            
-            const avgPerUser = analyticsData.activeUsers > 0 ? 
-                Math.round(analyticsData.totalLearned / analyticsData.activeUsers) : 0;
-            document.getElementById('avg-per-user').textContent = avgPerUser;
-            
-            document.getElementById('beginner-users').textContent = analyticsData.userGroups.beginner;
-            document.getElementById('intermediate-users').textContent = analyticsData.userGroups.intermediate;
-            document.getElementById('advanced-users').textContent = analyticsData.userGroups.advanced;
-            document.getElementById('expert-users').textContent = analyticsData.userGroups.expert;
-            
-            createRankingTable();
-            evaluateOverall();
-        }
-
-        // Create ranking table
-        function createRankingTable() {
-            const userStats = analyticsData.userStats;
-            if (!userStats || Object.keys(userStats).length === 0) {
-                document.getElementById('user-ranking-table').innerHTML = '<p>Không có dữ liệu</p>';
-                return;
-            }
-            
-            const rankedUsers = Object.values(userStats).sort((a, b) => {
-                const scoreA = a.vocab.mastered * 3 + a.vocab.known * 2 + a.vocab.learning;
-                const scoreB = b.vocab.mastered * 3 + b.vocab.known * 2 + b.vocab.learning;
-                return scoreB - scoreA;
-            }).slice(0, 20);
-            
-            let tableHTML = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Hạng</th>
-                            <th>Người dùng</th>
-                            <th>Tổng từ</th>
-                            <th>Đang học</th>
-                            <th>Đã biết</th>
-                            <th>Đã thuộc</th>
-                            <th>Điểm</th>
-                            <th>Mức độ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            rankedUsers.forEach((userStat, index) => {
-                const user = userStat.userInfo;
-                const vocab = userStat.vocab;
-                const score = vocab.mastered * 3 + vocab.known * 2 + vocab.learning;
-                
-                tableHTML += `
-                    <tr>
-                        <td><strong>${index + 1}</strong></td>
-                        <td>${user.name || user.email}</td>
-                        <td>${vocab.total}</td>
-                        <td>${vocab.learning}</td>
-                        <td>${vocab.known}</td>
-                        <td>${vocab.mastered}</td>
-                        <td><strong>${score}</strong></td>
-                        <td><span class="status-badge ${getLevelClass(userStat.activityLevel)}">${userStat.activityLevel}</span></td>
-                    </tr>
-                `;
-            });
-            
-            tableHTML += `</tbody></table>`;
-            document.getElementById('user-ranking-table').innerHTML = tableHTML;
-        }
-
-        // Get level class
-        function getLevelClass(level) {
-            switch(level) {
-                case 'Xuất sắc': return 'status-mastered';
-                case 'Tích cực': return 'status-known';
-                case 'Trung bình': return 'status-learning';
-                default: return '';
-            }
-        }
-
-        // Create charts
-        function createCharts() {
-            if (overallProgressChart) overallProgressChart.destroy();
-            if (userDistributionChart) userDistributionChart.destroy();
-            
-            const overallCtx = document.getElementById('overall-progress-chart').getContext('2d');
-            overallProgressChart = new Chart(overallCtx, {
+            // Tạo biểu đồ tiến độ
+            if (analyticsChart) analyticsChart.destroy();
+            const chartCtx = document.getElementById('progress-chart').getContext('2d');
+            analyticsChart = new Chart(chartCtx, {
                 type: 'line',
                 data: {
-                    labels: analyticsData.dailyData.labels,
+                    labels: labels,
                     datasets: [
                         {
                             label: 'Từ mới học',
-                            data: analyticsData.dailyData.learnedData,
+                            data: learnedData,
                             borderColor: '#2196F3',
                             backgroundColor: 'rgba(33,150,243,0.1)',
                             tension: 0.3,
@@ -2104,7 +2415,7 @@
                         },
                         {
                             label: 'Từ đã thuộc',
-                            data: analyticsData.dailyData.masteredData,
+                            data: masteredData,
                             borderColor: '#4CAF50',
                             backgroundColor: 'rgba(76,175,80,0.1)',
                             tension: 0.3,
@@ -2115,119 +2426,253 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                }
-            });
-            
-            const distCtx = document.getElementById('user-distribution-chart').getContext('2d');
-            userDistributionChart = new Chart(distCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Người mới (0-30)', 'Trung cấp (31-100)', 'Cao cấp (101-250)', 'Chuyên gia (251+)'],
-                    datasets: [{
-                        data: [
-                            analyticsData.userGroups.beginner,
-                            analyticsData.userGroups.intermediate,
-                            analyticsData.userGroups.advanced,
-                            analyticsData.userGroups.expert
-                        ],
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => {
-                                    const total = ctx.dataset.data.reduce((a,b) => a + b, 0);
-                                    const percent = total > 0 ? Math.round((ctx.raw / total) * 100) : 0;
-                                    return `${ctx.label}: ${ctx.raw} người (${percent}%)`;
-                                }
-                            }
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
                 }
             });
+
+            // Tạo bảng xếp hạng
+            createRankingTable(vocabData, usersToAnalyze);
+
+            // Đánh giá tổng thể
+            evaluateOverall(activeUsers, totalLearned, usersToAnalyze.length);
         }
 
-        // Evaluate overall
-        function evaluateOverall() {
-            const evalEl = document.getElementById('overall-evaluation');
-            evalEl.className = 'evaluation';
+        function createRankingTable(vocabData, users) {
+            const userStats = users.map(user => {
+                const userVocab = vocabData.filter(v => v.userId === user.id);
+                const mastered = userVocab.filter(v => v.status === 'mastered').length;
+                const known = userVocab.filter(v => v.status === 'known').length;
+                const learning = userVocab.filter(v => (v.status || 'learning') === 'learning').length;
+                const total = userVocab.length;
+                const score = mastered * 3 + known * 2 + learning;
+
+                return {
+                    user,
+                    mastered,
+                    known,
+                    learning,
+                    total,
+                    score
+                };
+            });
+
+            userStats.sort((a, b) => b.score - a.score);
+
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hạng</th>
+                            <th>Người dùng</th>
+                            <th>Email</th>
+                            <th>Tổng từ</th>
+                            <th>Đã thuộc</th>
+                            <th>Đã biết</th>
+                            <th>Đang học</th>
+                            <th>Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            userStats.slice(0, 20).forEach((stat, index) => {
+                tableHtml += `
+                    <tr>
+                        <td><strong>${index + 1}</strong></td>
+                        <td>${stat.user.name || 'Không tên'}</td>
+                        <td>${stat.user.email}</td>
+                        <td>${stat.total}</td>
+                        <td>${stat.mastered}</td>
+                        <td>${stat.known}</td>
+                        <td>${stat.learning}</td>
+                        <td><strong>${stat.score}</strong></td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += '</tbody></table>';
+            document.getElementById('ranking-table').innerHTML = tableHtml;
+        }
+
+        function evaluateOverall(activeUsers, totalLearned, totalUsers) {
+            const evalDiv = document.getElementById('overall-evaluation');
             
-            if (!analyticsData.activeUsers) {
-                evalEl.innerHTML = '<h3>Chưa có dữ liệu</h3><p>Chưa có hoạt động học tập.</p>';
+            if (activeUsers === 0) {
+                evalDiv.innerHTML = '<h3>Chưa có dữ liệu</h3><p>Chưa có hoạt động học tập nào.</p>';
                 return;
             }
-            
-            const avgWords = Math.round(analyticsData.totalLearned / analyticsData.activeUsers);
-            const activeRate = Math.round((analyticsData.activeUsers / analyticsData.users.length) * 100);
-            
-            let text = '', cls = '';
-            if (avgWords >= 100) { text = 'Xuất sắc!'; cls = 'excellent'; }
-            else if (avgWords >= 50) { text = 'Tốt!'; cls = 'good'; }
-            else if (avgWords >= 20) { text = 'Khá'; cls = 'average'; }
-            else { text = 'Cần cải thiện'; cls = 'poor'; }
-            
-            evalEl.innerHTML = `
-                <h3>${text}</h3>
-                <p>Trung bình mỗi người dùng học ${avgWords} từ.</p>
-                <p>Tỷ lệ hoạt động: ${activeRate}% (${analyticsData.activeUsers}/${analyticsData.users.length})</p>
+
+            const avgWords = Math.round(totalLearned / activeUsers);
+            const activeRate = Math.round((activeUsers / totalUsers) * 100);
+
+            let evaluation = '';
+            let className = '';
+
+            if (avgWords >= 100) {
+                evaluation = 'Xuất sắc!';
+                className = 'excellent';
+            } else if (avgWords >= 50) {
+                evaluation = 'Tốt';
+                className = 'good';
+            } else if (avgWords >= 20) {
+                evaluation = 'Khá';
+                className = 'average';
+            } else {
+                evaluation = 'Cần cải thiện';
+                className = 'poor';
+            }
+
+            evalDiv.className = `evaluation ${className}`;
+            evalDiv.innerHTML = `
+                <h3>${evaluation}</h3>
+                <p>Trung bình mỗi người dùng học: ${avgWords} từ</p>
+                <p>Tỷ lệ người dùng hoạt động: ${activeRate}% (${activeUsers}/${totalUsers})</p>
+                <p>Hệ thống đang hoạt động tốt với ${totalUsers} người dùng.</p>
             `;
-            evalEl.classList.add(cls);
         }
 
-        // Event listeners
-        document.getElementById('analytics-user-filter').addEventListener('change', loadAnalyticsData);
-        
-        document.getElementById('vocab-user-filter').addEventListener('change', () => {
-            currentPage = 1;
-            const userId = document.getElementById('vocab-user-filter').value;
-            loadUserVocabulary(userId || null);
-        });
-        
-        document.getElementById('vocab-status-filter').addEventListener('change', () => {
-            currentPage = 1;
-            applyVocabFilters();
-        });
-        
-        document.getElementById('vocab-search').addEventListener('input', () => {
-            currentPage = 1;
-            clearTimeout(window.searchTimeout);
-            window.searchTimeout = setTimeout(applyVocabFilters, 500);
-        });
-        
-        document.getElementById('refresh-vocab').addEventListener('click', () => {
-            currentPage = 1;
-            const userId = document.getElementById('vocab-user-filter').value;
-            loadUserVocabulary(userId || null);
-        });
-        
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('vocab-modal').style.display = 'none';
-            });
-        });
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('vocab-modal')) {
-                document.getElementById('vocab-modal').style.display = 'none';
-            }
-        });
-        
-        document.getElementById('logout').addEventListener('click', () => {
-            auth.signOut().then(() => window.location.href = 'index.html');
-        });
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
 
+                    if (tabId === 'vocabulary') {
+                        currentPage = 1;
+                        loadUserVocabulary();
+                    } else if (tabId === 'analytics') {
+                        loadAnalytics();
+                    }
+                });
+            });
+
+            // Vocabulary filters
+            document.getElementById('vocab-user-filter').addEventListener('change', () => {
+                currentPage = 1;
+                loadUserVocabulary();
+            });
+
+            document.getElementById('vocab-status-filter').addEventListener('change', () => {
+                currentPage = 1;
+                loadUserVocabulary();
+            });
+
+            document.getElementById('vocab-category-filter').addEventListener('change', () => {
+                currentPage = 1;
+                loadUserVocabulary();
+            });
+
+            document.getElementById('vocab-search').addEventListener('input', () => {
+                clearTimeout(window.searchTimeout);
+                window.searchTimeout = setTimeout(() => {
+                    currentPage = 1;
+                    loadUserVocabulary();
+                }, 500);
+            });
+
+            document.getElementById('refresh-vocab').addEventListener('click', () => {
+                currentPage = 1;
+                loadUserVocabulary();
+            });
+
+            // Analytics filter
+            document.getElementById('analytics-filter').addEventListener('change', loadAnalytics);
+
+            // Refresh users
+            document.getElementById('refresh-users').addEventListener('click', loadRealUsers);
+
+            // User search
+            document.getElementById('user-search').addEventListener('input', filterUsers);
+
+            // User filters
+            document.getElementById('user-role-filter').addEventListener('change', filterUsers);
+            document.getElementById('user-status-filter').addEventListener('change', filterUsers);
+
+            // Home button
+            document.getElementById('home-btn').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', async () => {
+                try {
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                const modal = document.getElementById('vocab-modal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('user-search').value.toLowerCase();
+            const roleFilter = document.getElementById('user-role-filter').value;
+            const statusFilter = document.getElementById('user-status-filter').value;
+
+            const cards = document.querySelectorAll('#users-list .item-card');
+            
+            cards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                const email = card.querySelector('p').textContent.toLowerCase();
+                const isAdmin = card.querySelector('.admin-badge') !== null;
+                const isBanned = card.querySelector('.banned-badge') !== null;
+                
+                let show = true;
+
+                if (search && !name.includes(search) && !email.includes(search)) {
+                    show = false;
+                }
+
+                if (roleFilter === 'admin' && !isAdmin) {
+                    show = false;
+                } else if (roleFilter === 'user' && isAdmin) {
+                    show = false;
+                }
+
+                if (statusFilter === 'active' && isBanned) {
+                    show = false;
+                } else if (statusFilter === 'banned' && !isBanned) {
+                    show = false;
+                }
+
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
         function showAlert(message, type) {
             const alert = document.createElement('div');
             alert.className = `alert ${type}`;
             alert.textContent = message;
-            document.querySelector('.tabs').parentNode.insertBefore(alert, document.querySelector('.tabs').nextSibling);
-            setTimeout(() => alert.remove(), 5000);
+
+            const content = document.getElementById('content');
+            content.insertBefore(alert, content.firstChild);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
         }
+
+        // Initialize
+        console.log('Admin panel initialized with 30 dummy users');
     </script>
 </body>
 </html>
