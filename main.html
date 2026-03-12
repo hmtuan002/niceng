@@ -1220,8 +1220,8 @@
         function getOpenAIKey() {
             
             // Chia key thành 2 phần và đảo ngược để bảo mật
-            const part1_reversed = "Aks6xWb-9q-6Zw1twcf_2U4Fy4cdNY1in7PrQE6VmDmpYZnK3BlbkFJZ";
-            const part2_reversed = "AkrRxJnpxmPSOnX_6HnMoXSPnmpJxRkA"; 
+            const part1_reversed = "_L2U4Fyd4cNY1in7PrQE6V_mDmpYZJFkblB3TusKIssDSAVCA7SF01BvE-cdNVla941Usb9q-6Z1wtc0Fl1auxBNxIChkrO9M9RFsEhagS4-tlv-jorp-ks";
+            const part2_reversed = "AkRxJpmnPSXoMn6H_vuUP9hbprDogpWx-6JbAELmjlHVe"; 
             
             // Đảo ngược lại để lấy key gốc
             const part1 = part1_reversed.split('').reverse().join('');
@@ -1574,7 +1574,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
                         'Authorization': `Bearer ${API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: 'gpt-5-nano',
+                        model: 'gpt-4.1-nano',
                         messages: [
                             {
                                 role: 'system',
@@ -1585,8 +1585,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
                                 content: prompt
                             }
                         ],
-                        temperature: 0.7,
-                        max_tokens: 2000
+                        max_completion_tokens: 2000
                     })
                 });
 
@@ -2294,7 +2293,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
 
         // THÊM SỰ KIỆN CHO NÚT LỚP HỌC
         document.getElementById('classroom').addEventListener('click', () => {
-            window.open('https://thcshongquang-tuyenquang.github.io/desktop-tutorial/thi.html', '_blank');
+            window.open('thi.html', '_blank');
         });
 
         document.getElementById('admin').addEventListener('click', () => {
