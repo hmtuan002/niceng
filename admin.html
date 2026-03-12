@@ -900,6 +900,13 @@
                         <p>Đang tải dữ liệu...</p>
                     </div>
                 </div>
+
+                <div class="analytics-section">
+                    <h3>Chi tiết từng người dùng</h3>
+                    <div id="user-details-list">
+                        <p>Đang tải dữ liệu...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1011,7 +1018,7 @@
 
         const dummyUsers = [];
         for (let i = 0; i < 30; i++) {
-            const joinDate = getRandomDate(12, 2); // Từ tháng 12 đến tháng 2
+            const joinDate = getRandomDate(12, 2);
             dummyUsers.push({
                 id: generateRandomUID(),
                 name: dummyNames[i],
@@ -1020,7 +1027,7 @@
                 banned: false,
                 isDummy: true,
                 joinDate: joinDate,
-                vocabCount: Math.floor(Math.random() * 5) + 1 // Chỉ 1-5 từ vựng
+                vocabCount: Math.floor(Math.random() * 5) + 1
             });
         }
 
@@ -1383,9 +1390,8 @@
                         const user = allDisplayUsers.find(u => u.id === userId);
                         
                         if (user && user.isDummy) {
-                            // CHO PHÉP thành admin user ảo - chỉ cập nhật trong memory
                             user.role = 'admin';
-                            loadRealUsers(); // Reload để hiển thị badge admin
+                            loadRealUsers();
                             showAlert(`Đã cấp quyền admin cho người dùng ảo!`, 'success');
                             return;
                         }
@@ -1403,7 +1409,6 @@
                         const user = allDisplayUsers.find(u => u.id === userId);
                         
                         if (user && user.isDummy) {
-                            // CHO PHÉP bỏ admin user ảo
                             user.role = 'user';
                             loadRealUsers();
                             showAlert(`Đã bỏ quyền admin của người dùng ảo!`, 'success');
@@ -1423,7 +1428,6 @@
                         const user = allDisplayUsers.find(u => u.id === userId);
                         
                         if (user && user.isDummy) {
-                            // CHO PHÉP khóa user ảo
                             user.banned = true;
                             loadRealUsers();
                             showAlert(`Đã khóa tài khoản người dùng ảo!`, 'success');
@@ -1443,7 +1447,6 @@
                         const user = allDisplayUsers.find(u => u.id === userId);
                         
                         if (user && user.isDummy) {
-                            // CHO PHÉP mở khóa user ảo
                             user.banned = false;
                             loadRealUsers();
                             showAlert(`Đã mở khóa tài khoản người dùng ảo!`, 'success');
@@ -1858,6 +1861,8 @@
             modal.style.display = 'block';
         }
 
+        // ================== PHẦN ĐÁNH GIÁ VÀ TỔNG KẾT (ĐÃ SỬA LỖI) ==================
+
         function loadAnalyticsData(userId = null) {
             document.getElementById('user-details-list').innerHTML = '<div class="card"><p>Đang tải dữ liệu đánh giá...</p></div>';
             document.getElementById('user-ranking-table').innerHTML = '<p>Đang tải bảng xếp hạng...</p>';
@@ -1878,77 +1883,169 @@
                 
                 analyticsData.users = users;
                 analyticsData.totalUsers = users.length;
+                analyticsData.activeUsers = 0;
+                analyticsData.totalLearned = 0;
+                analyticsData.totalMastered = 0;
+                analyticsData.userStats = {};
+                analyticsData.userGroups = {
+                    beginner: 0,
+                    intermediate: 0,
+                    advanced: 0,
+                    expert: 0
+                };
                 
-                loadAllUserVocabForAnalytics(userId);
+                const today = new Date();
+                const last30Days = [];
+                const last30DaysLabels = [];
+                for (let i = 29; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    last30Days.push(date.toISOString().split('T')[0]);
+                    last30DaysLabels.push(date.getDate() + '/' + (date.getMonth() + 1));
+                }
+                
+                analyticsData.dailyData = {
+                    labels: last30DaysLabels,
+                    learnedData: new Array(30).fill(0),
+                    masteredData: new Array(30).fill(0)
+                };
+                
+                if (users.length === 0) {
+                    updateAnalyticsUI();
+                    return;
+                }
+                
+                let usersToProcess = users;
+                
+                if (userId && userId !== 'top-10') {
+                    usersToProcess = users.filter(u => u.id === userId);
+                }
+                
+                loadUserVocabForAnalytics(usersToProcess, userId);
+            }).catch(error => {
+                console.error('Error loading users for analytics:', error);
+                document.getElementById('user-details-list').innerHTML = '<div class="card error"><p>Có lỗi khi tải dữ liệu người dùng!</p></div>';
             });
         }
 
-        function loadAllUserVocabForAnalytics(userId = null) {
-            const users = analyticsData.users;
-            const userStats = {};
-            
-            analyticsData.totalLearned = 0;
-            analyticsData.totalMastered = 0;
-            analyticsData.activeUsers = 0;
-            
-            if (users.length === 0) {
+        function loadUserVocabForAnalytics(usersToProcess, filterType = null) {
+            if (!usersToProcess || usersToProcess.length === 0) {
                 updateAnalyticsUI();
                 return;
             }
             
+            let completedCount = 0;
+            
+            usersToProcess.forEach(user => {
+                db.collection('users').doc(user.id).collection('cards').get()
+                    .then(snapshot => {
+                        const userVocab = {
+                            total: 0,
+                            learning: 0,
+                            known: 0,
+                            mastered: 0,
+                            words: []
+                        };
+                        
+                        snapshot.forEach(doc => {
+                            const card = doc.data();
+                            userVocab.total++;
+                            userVocab.words.push(card);
+                            
+                            const status = card.status || 'learning';
+                            if (status === 'learning') userVocab.learning++;
+                            else if (status === 'known') userVocab.known++;
+                            else if (status === 'mastered') userVocab.mastered++;
+                        });
+                        
+                        analyticsData.userStats[user.id] = {
+                            userInfo: user,
+                            vocab: userVocab,
+                            learnedTotal: userVocab.known + userVocab.mastered,
+                            masteredTotal: userVocab.mastered,
+                            activityLevel: calculateActivityLevel(userVocab.total, userVocab.mastered)
+                        };
+                        
+                        if (userVocab.total > 0) analyticsData.activeUsers++;
+                        analyticsData.totalLearned += userVocab.known + userVocab.mastered;
+                        analyticsData.totalMastered += userVocab.mastered;
+                        
+                        if (userVocab.total <= 10) {
+                            analyticsData.userGroups.beginner++;
+                        } else if (userVocab.total <= 50) {
+                            analyticsData.userGroups.intermediate++;
+                        } else if (userVocab.total <= 200) {
+                            analyticsData.userGroups.advanced++;
+                        } else {
+                            analyticsData.userGroups.expert++;
+                        }
+                        
+                        loadUserLearningHistory(user.id);
+                        
+                        completedCount++;
+                        
+                        if (completedCount === usersToProcess.length) {
+                            if (filterType === 'top-10') {
+                                filterTop10Users();
+                            }
+                            
+                            setTimeout(() => {
+                                updateAnalyticsUI();
+                            }, 500);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error loading vocab for user ${user.id}:`, error);
+                        
+                        analyticsData.userStats[user.id] = {
+                            userInfo: user,
+                            vocab: { total: 0, learning: 0, known: 0, mastered: 0, words: [] },
+                            learnedTotal: 0,
+                            masteredTotal: 0,
+                            activityLevel: 'Không hoạt động'
+                        };
+                        
+                        analyticsData.userGroups.beginner++;
+                        
+                        completedCount++;
+                        
+                        if (completedCount === usersToProcess.length) {
+                            if (filterType === 'top-10') {
+                                filterTop10Users();
+                            }
+                            updateAnalyticsUI();
+                        }
+                    });
+            });
+        }
+
+        function loadUserLearningHistory(userId) {
+            const today = new Date();
             const promises = [];
             
-            users.forEach(user => {
-                if (userId === 'top-10') {
-                } else if (userId && user.id !== userId) {
-                    return;
-                }
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
                 
                 promises.push(
-                    db.collection('users').doc(user.id).collection('cards').get()
-                        .then(snapshot => {
-                            const userVocab = {
-                                total: 0,
-                                learning: 0,
-                                known: 0,
-                                mastered: 0,
-                                words: []
-                            };
-                            
-                            snapshot.forEach(doc => {
-                                const card = doc.data();
-                                userVocab.total++;
-                                userVocab.words.push(card);
-                                
-                                const status = card.status || 'learning';
-                                if (status === 'learning') userVocab.learning++;
-                                else if (status === 'known') userVocab.known++;
-                                else if (status === 'mastered') userVocab.mastered++;
-                            });
-                            
-                            userStats[user.id] = {
-                                userInfo: user,
-                                vocab: userVocab,
-                                learnedTotal: userVocab.known + userVocab.mastered,
-                                masteredTotal: userVocab.mastered,
-                                activityLevel: calculateActivityLevel(userVocab.total, userVocab.mastered)
-                            };
-                            
-                            if (userVocab.total > 0) analyticsData.activeUsers++;
-                            analyticsData.totalLearned += userVocab.known + userVocab.mastered;
-                            analyticsData.totalMastered += userVocab.mastered;
+                    db.collection('users').doc(userId).collection('learningHistory').doc(dateStr).get()
+                        .then(doc => {
+                            if (doc.exists) {
+                                const data = doc.data();
+                                const index = 29 - i;
+                                analyticsData.dailyData.learnedData[index] += data.learnedToday || 0;
+                                analyticsData.dailyData.masteredData[index] += data.masteredToday || 0;
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Error loading history for user ${userId} on date:`, error);
                         })
                 );
-            });
+            }
             
             Promise.all(promises).then(() => {
-                analyticsData.userStats = userStats;
-                
-                if (userId === 'top-10') {
-                    filterTop10Users();
-                }
-                
-                loadLearningHistoryForAnalytics(userId);
+                createCharts();
             });
         }
 
@@ -1956,85 +2053,31 @@
             const userStats = analyticsData.userStats;
             if (!userStats) return;
             
-            const sortedUsers = Object.entries(userStats).sort((a, b) => {
-                const scoreA = a[1].vocab.mastered * 3 + a[1].vocab.known * 2 + a[1].vocab.learning;
-                const scoreB = b[1].vocab.mastered * 3 + b[1].vocab.known * 2 + b[1].vocab.learning;
+            const userArray = Object.entries(userStats).map(([id, stat]) => ({
+                id,
+                ...stat
+            }));
+            
+            userArray.sort((a, b) => {
+                const scoreA = a.vocab.mastered * 3 + a.vocab.known * 2 + a.vocab.learning;
+                const scoreB = b.vocab.mastered * 3 + b.vocab.known * 2 + b.vocab.learning;
                 return scoreB - scoreA;
             });
             
-            const top10UserIds = sortedUsers.slice(0, 10).map(entry => entry[0]);
+            const top10Ids = userArray.slice(0, 10).map(item => item.id);
             
-            const filteredUserStats = {};
-            top10UserIds.forEach(userId => {
-                if (userStats[userId]) {
-                    filteredUserStats[userId] = userStats[userId];
+            const newUserStats = {};
+            top10Ids.forEach(id => {
+                if (userStats[id]) {
+                    newUserStats[id] = userStats[id];
                 }
             });
             
-            analyticsData.userStats = filteredUserStats;
+            analyticsData.userStats = newUserStats;
             
-            analyticsData.activeUsers = Object.keys(filteredUserStats).length;
+            analyticsData.activeUsers = 0;
             analyticsData.totalLearned = 0;
             analyticsData.totalMastered = 0;
-            
-            Object.values(filteredUserStats).forEach(userStat => {
-                analyticsData.totalLearned += userStat.vocab.known + userStat.vocab.mastered;
-                analyticsData.totalMastered += userStat.vocab.mastered;
-            });
-        }
-
-        function loadLearningHistoryForAnalytics(userId = null) {
-            const users = analyticsData.users;
-            const today = new Date();
-            
-            const last30Days = [];
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                last30Days.push(date.toISOString().split('T')[0]);
-            }
-            
-            analyticsData.dailyData = {
-                labels: last30Days.map(date => {
-                    const d = new Date(date);
-                    return d.getDate() + '/' + (d.getMonth() + 1);
-                }),
-                learnedData: new Array(30).fill(0),
-                masteredData: new Array(30).fill(0)
-            };
-            
-            const historyPromises = [];
-            
-            const usersToProcess = userId === 'top-10' 
-                ? Object.values(analyticsData.userStats).map(stat => stat.userInfo)
-                : analyticsData.users;
-            
-            usersToProcess.forEach(user => {
-                if (userId && userId !== 'top-10' && user.id !== userId) return;
-                
-                last30Days.forEach((date, index) => {
-                    historyPromises.push(
-                        db.collection('users').doc(user.id).collection('learningHistory').doc(date).get()
-                            .then(doc => {
-                                if (doc.exists) {
-                                    const data = doc.data();
-                                    analyticsData.dailyData.learnedData[index] += data.learnedToday || 0;
-                                    analyticsData.dailyData.masteredData[index] += data.masteredToday || 0;
-                                }
-                            })
-                    );
-                });
-            });
-            
-            Promise.all(historyPromises).then(() => {
-                classifyUsersByProgress();
-                updateAnalyticsUI();
-                createCharts();
-            });
-        }
-
-        function classifyUsersByProgress() {
-            const userStats = analyticsData.userStats;
             analyticsData.userGroups = {
                 beginner: 0,
                 intermediate: 0,
@@ -2042,19 +2085,21 @@
                 expert: 0
             };
             
-            for (const userId in userStats) {
-                const totalWords = userStats[userId].vocab.total;
+            Object.values(newUserStats).forEach(userStat => {
+                if (userStat.vocab.total > 0) analyticsData.activeUsers++;
+                analyticsData.totalLearned += userStat.vocab.known + userStat.vocab.mastered;
+                analyticsData.totalMastered += userStat.vocab.mastered;
                 
-                if (totalWords <= 10) {
+                if (userStat.vocab.total <= 10) {
                     analyticsData.userGroups.beginner++;
-                } else if (totalWords <= 50) {
+                } else if (userStat.vocab.total <= 50) {
                     analyticsData.userGroups.intermediate++;
-                } else if (totalWords <= 200) {
+                } else if (userStat.vocab.total <= 200) {
                     analyticsData.userGroups.advanced++;
                 } else {
                     analyticsData.userGroups.expert++;
                 }
-            }
+            });
         }
 
         function calculateActivityLevel(totalWords, masteredWords) {
@@ -2086,7 +2131,7 @@
 
         function createUserRankingTable() {
             const userStats = analyticsData.userStats;
-            if (!userStats) {
+            if (!userStats || Object.keys(userStats).length === 0) {
                 document.getElementById('user-ranking-table').innerHTML = '<p>Không có dữ liệu người dùng</p>';
                 return;
             }
@@ -2098,11 +2143,6 @@
             });
             
             const displayUsers = rankedUsers.slice(0, 10);
-            
-            if (displayUsers.length === 0) {
-                document.getElementById('user-ranking-table').innerHTML = '<p>Không có dữ liệu người dùng</p>';
-                return;
-            }
             
             let tableHTML = `
                 <table>
@@ -2129,7 +2169,7 @@
                 tableHTML += `
                     <tr>
                         <td>${index + 1}</td>
-                        <td>${user.name || 'Không tên'}</td>
+                        <td>${user.name || 'Không tên'}<br><small>${user.email}</small></td>
                         <td>${vocab.total}</td>
                         <td>${vocab.learning}</td>
                         <td>${vocab.known}</td>
@@ -2146,7 +2186,7 @@
 
         function createUserDetailsList() {
             const userStats = analyticsData.userStats;
-            if (!userStats) {
+            if (!userStats || Object.keys(userStats).length === 0) {
                 document.getElementById('user-details-list').innerHTML = '<p>Không có dữ liệu người dùng</p>';
                 return;
             }
@@ -2154,11 +2194,8 @@
             let detailsHTML = '';
             const userFilter = document.getElementById('analytics-user-filter').value;
             
-            if (userFilter && userFilter !== 'top-10') {
-                const userStat = userStats[userFilter];
-                if (userStat) {
-                    detailsHTML = createUserDetailCard(userStat);
-                }
+            if (userFilter && userFilter !== 'top-10' && userStats[userFilter]) {
+                detailsHTML = createUserDetailCard(userStats[userFilter]);
             } else {
                 const userArray = Object.values(userStats);
                 userArray.forEach(userStat => {
@@ -2179,25 +2216,36 @@
             
             return `
                 <div class="card">
-                    <h3>${user.name || 'Không tên'} (${user.email}) 
+                    <h3>${user.name || 'Không tên'} 
+                        <small>${user.email}</small>
                         <span class="status-badge ${getLevelClass(activityLevel)}">${activityLevel}</span>
                     </h3>
-                    <div class="progress-summary">
-                        <div class="progress-item">
-                            <div class="label">Tổng từ vựng</div>
-                            <div class="value">${vocab.total}</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #333;">${vocab.total}</div>
+                            <div style="font-size: 12px; color: #666;">Tổng từ</div>
                         </div>
-                        <div class="progress-item">
-                            <div class="label">Đang học</div>
-                            <div class="value">${vocab.learning}</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #2196F3;">${vocab.learning}</div>
+                            <div style="font-size: 12px; color: #666;">Đang học</div>
                         </div>
-                        <div class="progress-item">
-                            <div class="label">Đã biết</div>
-                            <div class="value">${vocab.known} (${knownPercent}%)</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #4CAF50;">${vocab.known}</div>
+                            <div style="font-size: 12px; color: #666;">Đã biết</div>
                         </div>
-                        <div class="progress-item">
-                            <div class="label">Đã thuộc</div>
-                            <div class="value">${vocab.mastered} (${masteredPercent}%)</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #FF9800;">${vocab.mastered}</div>
+                            <div style="font-size: 12px; color: #666;">Đã thuộc</div>
+                        </div>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <div style="background: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden;">
+                            <div style="background: #4CAF50; width: ${knownPercent}%; height: 100%; float: left;"></div>
+                            <div style="background: #FF9800; width: ${masteredPercent}%; height: 100%; float: left;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px;">
+                            <span>Đã biết: ${knownPercent}%</span>
+                            <span>Đã thuộc: ${masteredPercent}%</span>
                         </div>
                     </div>
                     <div class="card-actions">
@@ -2212,11 +2260,15 @@
                 case 'Xuất sắc': return 'status-mastered';
                 case 'Tích cực': return 'status-known';
                 case 'Trung bình': return 'status-learning';
+                case 'Bắt đầu': return '';
+                case 'Không hoạt động': return '';
                 default: return '';
             }
         }
 
         function createCharts() {
+            if (!analyticsData.dailyData) return;
+            
             if (overallProgressChart) {
                 overallProgressChart.destroy();
             }
@@ -2224,79 +2276,104 @@
                 userDistributionChart.destroy();
             }
             
-            const overallCtx = document.getElementById('overall-progress-chart').getContext('2d');
-            overallProgressChart = new Chart(overallCtx, {
-                type: 'line',
-                data: {
-                    labels: analyticsData.dailyData.labels || [],
-                    datasets: [
-                        {
-                            label: 'Từ đã học',
-                            data: analyticsData.dailyData.learnedData || [],
-                            borderColor: '#2196F3',
-                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                            tension: 0.3,
-                            fill: true
-                        },
-                        {
-                            label: 'Từ đã thuộc',
-                            data: analyticsData.dailyData.masteredData || [],
-                            borderColor: '#4CAF50',
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            tension: 0.3,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
+            const overallCtx = document.getElementById('overall-progress-chart');
+            if (overallCtx) {
+                overallProgressChart = new Chart(overallCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: analyticsData.dailyData.labels || [],
+                        datasets: [
+                            {
+                                label: 'Từ đã học (tất cả người dùng)',
+                                data: analyticsData.dailyData.learnedData || [],
+                                borderColor: '#2196F3',
+                                backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'Từ đã thuộc (tất cả người dùng)',
+                                data: analyticsData.dailyData.masteredData || [],
+                                borderColor: '#4CAF50',
+                                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }
+                        ]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
             
-            const distributionCtx = document.getElementById('user-distribution-chart').getContext('2d');
-            userDistributionChart = new Chart(distributionCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Bắt đầu (0-10 từ)', 'Trung bình (11-50 từ)', 'Tích cực (51-200 từ)', 'Xuất sắc (201+ từ)'],
-                    datasets: [{
-                        data: [
-                            analyticsData.userGroups?.beginner || 0,
-                            analyticsData.userGroups?.intermediate || 0,
-                            analyticsData.userGroups?.advanced || 0,
-                            analyticsData.userGroups?.expert || 0
-                        ],
-                        backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-                            '#4BC0C0'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
+            const distributionCtx = document.getElementById('user-distribution-chart');
+            if (distributionCtx) {
+                userDistributionChart = new Chart(distributionCtx.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Bắt đầu (0-10 từ)', 'Trung bình (11-50 từ)', 'Tích cực (51-200 từ)', 'Xuất sắc (201+ từ)'],
+                        datasets: [{
+                            data: [
+                                analyticsData.userGroups?.beginner || 0,
+                                analyticsData.userGroups?.intermediate || 0,
+                                analyticsData.userGroups?.advanced || 0,
+                                analyticsData.userGroups?.expert || 0
+                            ],
+                            backgroundColor: [
+                                '#FF6384',
+                                '#36A2EB',
+                                '#FFCE56',
+                                '#4BC0C0'
+                            ],
+                            hoverBackgroundColor: [
+                                '#FF6384',
+                                '#36A2EB',
+                                '#FFCE56',
+                                '#4BC0C0'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.raw || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                        return `${label}: ${value} người dùng (${percentage}%)`;
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         function evaluateOverallProgress() {
@@ -2315,40 +2392,37 @@
             const totalUsers = analyticsData.totalUsers;
             const activeRate = totalUsers > 0 ? Math.round((analyticsData.activeUsers / totalUsers) * 100) : 0;
             
-            let evaluationText = '';
             let evaluationClass = '';
             
             if (avgWordsPerUser >= 50) {
-                evaluationText = 'Xuất sắc!';
                 evaluationClass = 'excellent';
                 evaluationElement.innerHTML = `
-                    <h3>${evaluationText}</h3>
-                    <p>Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
+                    <h3>Xuất sắc!</h3>
+                    <p>Hệ thống hoạt động rất tốt! Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
                     <p>Tỷ lệ người dùng hoạt động: ${activeRate}% (${analyticsData.activeUsers}/${totalUsers})</p>
                 `;
             } else if (avgWordsPerUser >= 20) {
-                evaluationText = 'Tốt!';
                 evaluationClass = 'good';
                 evaluationElement.innerHTML = `
-                    <h3>${evaluationText}</h3>
-                    <p>Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
+                    <h3>Tốt!</h3>
+                    <p>Hệ thống hoạt động tốt. Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
                     <p>Tỷ lệ người dùng hoạt động: ${activeRate}% (${analyticsData.activeUsers}/${totalUsers})</p>
                 `;
             } else if (avgWordsPerUser >= 5) {
-                evaluationText = 'Khá';
                 evaluationClass = 'average';
                 evaluationElement.innerHTML = `
-                    <h3>${evaluationText}</h3>
-                    <p>Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
+                    <h3>Khá</h3>
+                    <p>Hệ thống hoạt động khá. Trung bình mỗi người dùng đã học ${avgWordsPerUser} từ.</p>
                     <p>Tỷ lệ người dùng hoạt động: ${activeRate}% (${analyticsData.activeUsers}/${totalUsers})</p>
+                    <p>Hãy khuyến khích người dùng học thêm từ mới!</p>
                 `;
             } else {
-                evaluationText = 'Cần cải thiện';
                 evaluationClass = 'poor';
                 evaluationElement.innerHTML = `
-                    <h3>${evaluationText}</h3>
-                    <p>Trung bình mỗi người dùng chỉ học được ${avgWordsPerUser} từ.</p>
+                    <h3>Cần cải thiện</h3>
+                    <p>Hệ thống cần được cải thiện. Trung bình mỗi người dùng chỉ học được ${avgWordsPerUser} từ.</p>
                     <p>Tỷ lệ người dùng hoạt động: ${activeRate}% (${analyticsData.activeUsers}/${totalUsers})</p>
+                    <p>Cần có biện pháp thu hút và khuyến khích người dùng học tập nhiều hơn!</p>
                 `;
             }
             
