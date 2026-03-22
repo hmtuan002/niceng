@@ -356,6 +356,7 @@
             margin: 0 auto;
             width: 100%;
             overflow: hidden;
+            min-height: 0;
         }
 
         @media (max-width: 1100px) {
@@ -372,8 +373,8 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
-            height: fit-content;
-            max-height: 650px;
+            height: calc(100vh - 160px);
+            min-height: 500px;
             overflow: hidden;
         }
 
@@ -386,12 +387,14 @@
             gap: 10px;
             padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
+            flex-shrink: 0;
         }
 
         .participants-container {
             flex: 1;
             overflow-y: auto;
             padding-right: 5px;
+            max-height: 300px;
         }
 
         .participants-grid {
@@ -448,6 +451,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            flex-wrap: wrap;
         }
 
         .participant-score {
@@ -489,6 +493,25 @@
             border: 2px solid white;
         }
 
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .role-badge.student {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .role-badge.teacher {
+            background-color: #FFA500;
+            color: white;
+        }
+
         .content-section {
             background: white;
             border-radius: 16px;
@@ -496,8 +519,9 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
-            height: fit-content;
+            height: calc(100vh - 160px);
             min-height: 500px;
+            overflow-y: auto;
         }
 
         .content-title {
@@ -518,6 +542,75 @@
             align-items: center;
             justify-content: center;
             padding: 15px;
+        }
+
+        .student-submissions-section {
+            margin-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            padding-top: 20px;
+            flex-shrink: 0;
+            max-height: 280px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .student-submissions-section h4 {
+            flex-shrink: 0;
+            margin-bottom: 12px;
+        }
+
+        #submissionsList {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 8px;
+        }
+
+        .submission-item {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid #FFA500;
+        }
+
+        .submission-student {
+            font-weight: bold;
+            color: #FFA500;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .submission-answer {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .submission-status {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .submission-correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .submission-incorrect {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .submission-pending {
+            background: #fff3e0;
+            color: #f57c00;
         }
 
         .flashcard {
@@ -1165,7 +1258,6 @@
         .ai-generate-btn {
             background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
             color: white;
-            margin-left: auto;
         }
         
         .ai-generate-btn:hover {
@@ -1175,54 +1267,6 @@
         .view-submissions-btn {
             background: linear-gradient(135deg, #00bcd4 0%, #009688 100%);
             color: white;
-        }
-
-        .student-submissions-section {
-            margin-top: 15px;
-            border-top: 2px solid #f0f0f0;
-            padding-top: 15px;
-        }
-
-        .submission-item {
-            background: #f9f9f9;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-left: 3px solid #FFA500;
-        }
-
-        .submission-student {
-            font-weight: bold;
-            color: #FFA500;
-            margin-bottom: 5px;
-        }
-
-        .submission-answer {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .submission-status {
-            font-size: 0.8rem;
-            padding: 3px 8px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-
-        .submission-correct {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .submission-incorrect {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .submission-pending {
-            background: #fff3e0;
-            color: #f57c00;
         }
 
         ::-webkit-scrollbar {
@@ -1264,6 +1308,7 @@
             .participants-section, .content-section {
                 padding: 15px;
                 min-height: auto;
+                height: auto;
             }
             
             .participants-grid {
@@ -1462,9 +1507,9 @@
                             </div>
                         </div>
                         
-                        <div class="student-submissions-section hidden" id="studentSubmissionsSection">
+                        <div class="student-submissions-section" id="studentSubmissionsSection">
                             <h4 style="color: #FFA500; margin-bottom: 12px;">
-                                <i class="fas fa-clipboard-list"></i> Bài làm của học sinh
+                                <i class="fas fa-clipboard-list"></i> Bài làm của người dùng
                             </h4>
                             <div id="submissionsList"></div>
                         </div>
@@ -1506,7 +1551,7 @@
                                 </div>
                                 
                                 <div class="answer-section">
-                                    <input type="text" class="answer-input" id="flashcardAnswerInput" placeholder="Nhập nghĩa tiếng Anh của từ này...">
+                                    <input type="text" class="answer-input" id="flashcardAnswerInput" placeholder="Nhập nghĩa tiếng Việt của từ này...">
                                     <button class="submit-answer-btn" id="submitFlashcardAnswerBtn">Kiểm tra đáp án</button>
                                     <div class="answer-feedback" id="flashcardAnswerFeedback"></div>
                                 </div>
@@ -1587,8 +1632,8 @@
                         </button>
                     </div>
                     <div class="form-group">
-                        <label for="flashcardVietnamese">Nghĩa tiếng Anh (Đáp án)</label>
-                        <input type="text" id="flashcardVietnamese" placeholder="Nhập nghĩa bằng tiếng Anh">
+                        <label for="flashcardVietnamese">Nghĩa tiếng Việt (Đáp án)</label>
+                        <input type="text" id="flashcardVietnamese" placeholder="Nhập nghĩa bằng tiếng Việt">
                     </div>
                     <div class="form-group">
                         <label for="flashcardHint">Gợi ý (tùy chọn)</label>
@@ -2164,6 +2209,7 @@
                                 <div class="participant-name">
                                     <span class="participant-status"></span>
                                     ${participant.name}
+                                    ${participant.isTeacher ? '<span class="role-badge teacher">Giáo viên</span>' : '<span class="role-badge student">Học sinh</span>'}
                                 </div>
                                 <div class="participant-score ${participantId === currentUserId ? 'score-updated' : ''}">${participant.score || 0} điểm</div>
                                 ${participantId === currentUserId ? '<div style="color: #FFA500; font-size: 0.8rem; margin-top: 6px;"><i class="fas fa-user-circle"></i> Bạn</div>' : ''}
@@ -2220,7 +2266,7 @@
                     if (isTeacher) {
                         document.getElementById('studentSubmissionsSection').classList.remove('hidden');
                     } else {
-                        document.getElementById('studentSubmissionsSection').classList.add('hidden');
+                        document.getElementById('studentSubmissionsSection').classList.remove('hidden');
                     }
                 }, error => {
                     console.error('Lỗi khi lắng nghe thay đổi phòng:', error);
@@ -2293,10 +2339,16 @@
                         const statusClass = submission.isCorrect ? 'submission-correct' : (submission.isCorrect === false ? 'submission-incorrect' : 'submission-pending');
                         const statusText = submission.isCorrect ? 'Đúng' : (submission.isCorrect === false ? 'Sai' : 'Chờ chấm');
                         
+                        // Xác định vai trò của người làm bài (học sinh hay giáo viên)
+                        const isSubmissionTeacher = submission.isTeacher === true;
+                        const roleText = isSubmissionTeacher ? 'Giáo viên' : 'Học sinh';
+                        const roleClass = isSubmissionTeacher ? 'teacher' : 'student';
+                        
                         submissionsHTML += `
                             <div class="submission-item">
                                 <div class="submission-student">
                                     <i class="fas fa-user"></i> ${submission.studentName || submission.studentId}
+                                    <span class="role-badge ${roleClass}" style="font-size: 0.7rem; padding: 2px 6px;">${roleText}</span>
                                 </div>
                                 <div class="submission-answer">
                                     <strong>Câu trả lời:</strong> ${submission.answer || submission.selectedOption || 'Không có'}
@@ -2325,6 +2377,7 @@
                 contentId: contentId,
                 studentId: currentUserId,
                 studentName: currentUserName,
+                isTeacher: isTeacher,
                 answer: answer,
                 isCorrect: isCorrect,
                 pointsEarned: pointsEarned,
@@ -2349,7 +2402,8 @@
             
             if (content.type === 'flashcard') {
                 document.getElementById('flashcardWord').textContent = content.english;
-                document.getElementById('flashcardMeaning').textContent = content.vietnamese;
+                // Sửa: Hiển thị nghĩa tiếng Việt (vietnamese) thay vì nghĩa tiếng Anh
+                document.getElementById('flashcardMeaning').textContent = content.vietnamese || content.meaning || content.vietnamese;
                 
                 const frontHint = document.getElementById('frontHint');
                 
@@ -2861,7 +2915,8 @@
                 return;
             }
             
-            const correctAnswer = currentContent.vietnamese.toLowerCase().trim();
+            // Sửa: So sánh với nghĩa tiếng Việt
+            const correctAnswer = (currentContent.vietnamese || currentContent.meaning || '').toLowerCase().trim();
             
             const normalizedAnswer = answer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
             const normalizedCorrect = correctAnswer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
@@ -2876,7 +2931,7 @@
                 updateUserScore(1);
                 saveSubmission(currentContent.id, currentContent, answer, true, 1);
             } else {
-                feedback.textContent = `❌ Sai! Đáp án đúng: ${currentContent.vietnamese}`;
+                feedback.textContent = `❌ Sai! Đáp án đúng: ${currentContent.vietnamese || currentContent.meaning}`;
                 feedback.className = 'answer-feedback answer-incorrect';
                 saveSubmission(currentContent.id, currentContent, answer, false, 0);
             }
@@ -3151,16 +3206,16 @@
             if (contentType === 'flashcard') {
                 prompt = `Tạo ${quantity} flashcard từ vựng tiếng Anh về chủ đề "${topic}" (độ khó: ${difficulty}). Mỗi flashcard cần:
                 1. Từ tiếng Anh
-                2. Nghĩa bằng tiếng Anh
-                3. Một gợi ý ngắn (tùy chọn)
+                2. Nghĩa bằng tiếng Việt
+                3. Một gợi ý ngắn bằng tiếng Việt (tùy chọn)
                 
                 Định dạng trả về phải là JSON như sau:
                 {
                     "flashcards": [
                         {
-                            "english": "computer",
-                            "meaning": "an electronic device for processing information",
-                            "hint": "used for work and entertainment"
+                            "english": "tree",
+                            "vietnamese": "cái cây",
+                            "hint": "thực vật có thân gỗ"
                         }
                     ]
                 }
@@ -3170,14 +3225,14 @@
             } else if (contentType === 'essay') {
                 prompt = `Tạo ${quantity} câu hỏi tự luận tiếng Anh về chủ đề "${topic}" (độ khó: ${difficulty}). Mỗi câu hỏi cần:
                 1. Câu hỏi
-                2. 2-3 đáp án đúng có thể
+                2. 2-3 đáp án đúng có thể bằng tiếng Việt
                 
                 Định dạng trả về phải là JSON như sau:
                 {
                     "essays": [
                         {
                             "question": "What is the capital of England?",
-                            "answers": ["London", "City of London"]
+                            "answers": ["London", "Thủ đô nước Anh"]
                         }
                     ]
                 }
@@ -3280,7 +3335,7 @@
                     await db.collection('rooms').doc(currentRoomId).collection('contents').add({
                         type: 'flashcard',
                         english: flashcard.english,
-                        vietnamese: flashcard.meaning,
+                        vietnamese: flashcard.vietnamese,
                         hint: flashcard.hint || '',
                         createdBy: currentUserId,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
