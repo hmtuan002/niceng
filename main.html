@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Toàn bộ CSS giữ nguyên như code cũ, không thay đổi */
         :root {
             font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
             line-height: 1.5;
@@ -212,7 +213,6 @@
             color: white;
         }
 
-        /* Nút Lớp học - Màu xanh lá cây */
         .action-btn.classroom {
             background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
             color: white;
@@ -223,7 +223,6 @@
             margin-bottom: 8px;
         }
 
-        /* Popup Styles */
         .pop-up {
             display: none;
             position: fixed;
@@ -275,7 +274,6 @@
             text-align: center;
         }
 
-        /* Form Styles */
         .form-group {
             margin-bottom: 20px;
             position: relative;
@@ -322,7 +320,6 @@
             box-shadow: none;
         }
 
-        /* Loading spinner */
         .loading {
             display: inline-block;
             width: 20px;
@@ -338,7 +335,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* AI Generated Words List */
         .ai-words-list {
             margin-top: 20px;
             max-height: 300px;
@@ -388,7 +384,6 @@
             cursor: default;
         }
 
-        /* Card List */
         #card-list, #mastered-list {
             max-height: 400px;
             overflow-y: auto;
@@ -425,7 +420,6 @@
             background-color: #ff3333;
         }
 
-        /* Flashcard Styles */
         #attention-reveal, #attention-drag {
             text-align: center;
             margin-bottom: 15px;
@@ -516,7 +510,6 @@
             transform: scale(1.05);
         }
 
-        /* REVIEW CARD STYLES */
         #review-wrong {
             background: rgba(244, 67, 54, 0.8);
         }
@@ -535,7 +528,6 @@
             transform: scale(1.05);
         }
 
-        /* Library Styles */
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -595,7 +587,6 @@
             transform: scale(1.05);
         }
 
-        /* Alert */
         #alert {
             position: fixed;
             bottom: 20px;
@@ -610,7 +601,6 @@
             z-index: 1001;
         }
 
-        /* Navigation */
         .navigation {
             display: flex;
             justify-content: center;
@@ -646,7 +636,6 @@
             margin-bottom: 5px;
         }
 
-        /* Voice button styles */
         .voice-btn {
             background: none;
             border: none;
@@ -677,7 +666,6 @@
             margin-top: 10px;
         }
 
-        /* Test pronunciation button */
         .test-pronunciation-btn {
             position: absolute;
             right: 10px;
@@ -697,7 +685,6 @@
             color: #FFA500;
         }
 
-        /* Tab styles */
         .tab-container {
             display: flex;
             margin-bottom: 20px;
@@ -717,7 +704,6 @@
             font-weight: 600;
         }
 
-        /* AI Usage Message - Updated */
         .ai-usage-message {
             background-color: #E8F5E9;
             border: 1px solid #A5D6A7;
@@ -729,7 +715,6 @@
             text-align: center;
         }
 
-        /* Login Button Styles */
         .login-btn {
             background: none;
             border: none;
@@ -747,7 +732,6 @@
             background-color: rgba(255,255,255,0.2);
         }
 
-        /* Progress and Analytics Styles */
         .analytics-section {
             background: white;
             border-radius: 15px;
@@ -845,33 +829,27 @@
             margin-bottom: 10px;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             #stats {
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
-
             #buttons {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
-
             .action-btn {
                 min-height: 80px;
                 padding: 15px;
             }
-
             .category-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 15px;
             }
-
             .pop-up-content {
                 margin: 10px;
                 padding: 20px;
             }
-
             .progress-summary {
                 grid-template-columns: 1fr;
             }
@@ -881,45 +859,35 @@
             #top-bar {
                 padding: 10px 15px;
             }
-
             .logo h1 {
                 font-size: 18px;
             }
-
             #content {
                 padding: 15px;
             }
-
             .welcome-section h2 {
                 font-size: 20px;
             }
-
             .flashcard-icon {
                 width: 100px;
                 height: 100px;
             }
-
             .number {
                 font-size: 24px;
             }
-
             .navigation {
                 padding: 10px;
             }
-
             .nav-item span {
                 font-size: 20px;
             }
-
             .word-with-voice {
                 flex-direction: column;
                 gap: 10px;
             }
-
             .voice-btn {
                 margin-left: 0;
             }
-
             #buttons {
                 grid-template-columns: 1fr;
             }
@@ -940,7 +908,6 @@
             </div>
         </div>
 
-        <!-- Popup Menus -->
         <div class="pop-up" id="add-menu">
             <div class="pop-up-content">
                 <span id="close-add-menu" class="material-symbols-outlined close">close</span>
@@ -987,7 +954,6 @@
                     <input type="number" id="ai-count" min="1" max="30" value="10" />
                 </div>
                 <button type="button" id="generate-words" class="btn">
-                    <span class="loading" style="display: none;"></span>
                     Tạo từ vựng
                 </button>
                 
@@ -1019,12 +985,8 @@
                 <span id="attention-drag">Kéo thẻ sang trái hoặc phải</span>
                 <div class="card" id="flashcard">
                     <div class="card-inner">
-                        <div class="front">
-                            <!-- Content will be filled by JavaScript -->
-                        </div>
-                        <div class="back">
-                            <!-- Content will be filled by JavaScript -->
-                        </div>
+                        <div class="front"></div>
+                        <div class="back"></div>
                     </div>
                 </div>
             </div>
@@ -1037,12 +999,8 @@
                 <span id="attention-drag-review">Kéo thẻ sang trái hoặc phải</span>
                 <div class="card" id="review-flashcard">
                     <div class="card-inner">
-                        <div class="front">
-                            <!-- Content will be filled by JavaScript -->
-                        </div>
-                        <div class="back">
-                            <!-- Content will be filled by JavaScript -->
-                        </div>
+                        <div class="front"></div>
+                        <div class="back"></div>
                     </div>
                 </div>
             </div>
@@ -1053,13 +1011,10 @@
                 <span id="close-library-menu" class="material-symbols-outlined close">close</span>
                 <h2>Thư viện chủ đề</h2>
                 <p>Chọn chủ đề để thêm vào bộ thẻ của bạn</p>
-                <div id="library-content" class="category-grid">
-                    <!-- Categories will be loaded here -->
-                </div>
+                <div id="library-content" class="category-grid"></div>
             </div>
         </div>
 
-        <!-- Analytics Popup -->
         <div class="pop-up" id="analytics-menu">
             <div class="pop-up-content">
                 <span id="close-analytics-menu" class="material-symbols-outlined close">close</span>
@@ -1095,7 +1050,6 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div id="content">
             <div class="dashboard">
                 <div class="welcome-section">
@@ -1148,7 +1102,6 @@
                         <span class="material-symbols-outlined">analytics</span>
                         Đánh giá
                     </button>
-                    <!-- NÚT LỚP HỌC MỚI -->
                     <button class="action-btn classroom" id="classroom">
                         <span class="material-symbols-outlined">school</span>
                         Lớp học
@@ -1165,7 +1118,6 @@
             Đã xóa từ này khỏi bộ thẻ.
         </div>
 
-        <!-- Navigation -->
         <div class="navigation">
             <a class="nav-item active" id="nav-home">
                 <span class="material-symbols-outlined">home</span>
@@ -1178,7 +1130,6 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
@@ -1211,7 +1162,6 @@
 
         // Hàm lấy API key đã được bảo vệ
         function getOpenAIKey() {
-            
             // Chia key thành 2 phần và đảo ngược để bảo mật
             const part1_reversed = "_L2U4Fyd4cNY1in7PrQE6V_mDmpYZJFkblB3TusKIssDSAVCA7SF01BvE-cdNVla941Usb9q-6Z1wtc0Fl1auxBNxIChkrO9M9RFsEhagS4-tlv-jorp-ks";
             const part2_reversed = "AkRxJpmnPSXoMn6H_vuUP9hbprDogpWx-6JbAELmjlHVe"; 
@@ -1670,7 +1620,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             return enrichedWords;
         }
 
-        // Generate words with AI
+        // Generate words with AI - ĐÃ SỬA LỖI
         document.getElementById('generate-words').addEventListener('click', async () => {
             const topic = document.getElementById('ai-topic').value.trim();
             const level = document.getElementById('ai-level').value;
@@ -1687,10 +1637,10 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             }
             
             const generateBtn = document.getElementById('generate-words');
-            const loading = generateBtn.querySelector('.loading');
+            // LƯU LẠI HTML GỐC TRƯỚC KHI THAY ĐỔI
+            const originalHTML = generateBtn.innerHTML;
             
             generateBtn.disabled = true;
-            loading.style.display = 'inline-block';
             generateBtn.innerHTML = '<span class="loading"></span>Đang tạo từ vựng...';
             
             try {
@@ -1704,19 +1654,16 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
                 aiGeneratedWords = enrichedWords;
                 
                 // Hiển thị kết quả
-                generateBtn.disabled = false;
-                loading.style.display = 'none';
-                generateBtn.innerHTML = 'Tạo từ vựng';
-                
                 displayAIWords(aiGeneratedWords);
                 document.getElementById('ai-results').style.display = 'block';
                 
             } catch (error) {
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi tạo từ vựng: ' + error.message);
+            } finally {
+                // LUÔN LUÔN RESTORE LẠI HTML GỐC DÙ THÀNH CÔNG HAY LỖI
+                generateBtn.innerHTML = originalHTML;
                 generateBtn.disabled = false;
-                loading.style.display = 'none';
-                generateBtn.innerHTML = 'Tạo từ vựng';
             }
         });
 
@@ -1730,7 +1677,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
                 wordItem.className = 'ai-word-item';
                 wordItem.innerHTML = `
                     <div class="ai-word-content">
-                        <strong>${word.english}</strong> ${word.pronunciation ? `<span style="font-size: 0.85em; color: #666;">${word.pronunciation}</span>` : ''}<br>
+                        <strong>${word.english}</strong> ${word.pronunciation ? `<span style="font-size: 0.85em; color: #666;">/${word.pronunciation}/</span>` : ''}<br>
                         <span style="color: #2196F3;">${word.vietnamese}</span><br>
                         ${word.example ? `<small><em>${word.example}</em></small>` : ''}
                         ${word.exampleTranslation ? `<br><small style="color: #4CAF50;">→ ${word.exampleTranslation}</small>` : ''}
@@ -1757,7 +1704,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             
             if (!user) return;
             
-            // Lưu thêm phiên âm và bản dịch ví dụ vào Firestore (nếu có)
+            // Lưu thêm phiên âm và bản dịch ví dụ vào Firestore
             const cardData = {
                 word: wordData.english,
                 meaning: wordData.vietnamese,
@@ -1919,7 +1866,6 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             front.appendChild(wordContainer);
             
             const back = flashcard.querySelector('.back');
-            const backContent = document.createElement('div');
             
             // Xây dựng nội dung mặt sau
             let backHtml = `
@@ -1940,7 +1886,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
                 if (card.exampleTranslation) {
                     backHtml += `<p style="font-size: 0.85rem; opacity: 0.9;">→ ${card.exampleTranslation}</p>`;
                 }
-                backHtml += `<div style="margin-top: 5px;"></div>`; // placeholder for voice button
+                backHtml += `<div style="margin-top: 5px;"></div>`;
                 backHtml += `</div>`;
             }
             
@@ -2117,7 +2063,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             if (!user) return;
             
             const today = new Date();
-            const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
+            const dateString = today.toISOString().split('T')[0];
             
             db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).get()
                 .then((doc) => {
@@ -2174,7 +2120,7 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             if (!user) return;
             
             const today = new Date();
-            const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
+            const dateString = today.toISOString().split('T')[0];
             
             // Lấy dữ liệu hôm nay
             db.collection('users').doc(user.uid).collection('learningHistory').doc(dateString).get()
@@ -2396,7 +2342,6 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             showAnalytics();
         });
 
-        // THÊM SỰ KIỆN CHO NÚT LỚP HỌC
         document.getElementById('classroom').addEventListener('click', () => {
             window.open('thi.html', '_blank');
         });
@@ -2439,7 +2384,6 @@ Chỉ trả về JSON, không thêm bất kỳ văn bản nào khác.`;
             document.getElementById('analytics-menu').classList.remove('active');
         });
 
-        // THÊM SỰ KIỆN CLICK RA NGOÀI ĐỂ ĐÓNG POPUP VÀ RESET
         document.addEventListener('click', (e) => {
             const aiPopup = document.getElementById('ai-add-menu');
             if (aiPopup.classList.contains('active') && e.target === aiPopup) {
