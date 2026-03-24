@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lớp học tiếng Anh Online - Niceng</title>
+    <title>Lớp học tiếng Anh Online - Niceng với Ngân hàng đề</title>
     <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -1095,6 +1095,41 @@
             box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.08);
         }
 
+        .bank-controls {
+            padding: 15px 25px;
+            background: rgba(255, 165, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .bank-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .bank-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+        }
+
+        .bank-btn.secondary {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
         .participant-count {
             color: white;
             font-size: 1rem;
@@ -1269,6 +1304,83 @@
             color: white;
         }
 
+        .bank-item {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #FFA500;
+            transition: all 0.2s;
+        }
+
+        .bank-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .bank-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bank-item-name {
+            font-weight: 700;
+            color: #FFA500;
+            font-size: 1.1rem;
+        }
+
+        .bank-item-meta {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .bank-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .bank-item-actions button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .bank-add-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+        }
+
+        .bank-edit-btn {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        .bank-delete-btn {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+        }
+
+        .bank-view-btn {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+        }
+
+        .bank-item-preview {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -1324,13 +1436,13 @@
                 font-size: 1.8rem;
             }
             
-            .room-controls {
+            .room-controls, .bank-controls {
                 padding: 15px;
                 flex-direction: column;
                 gap: 12px;
             }
             
-            .btn-room {
+            .btn-room, .bank-btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -1398,6 +1510,11 @@
                 left: 10px;
                 padding: 6px 12px;
                 font-size: 12px;
+            }
+            
+            .bank-item-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
         
@@ -1495,6 +1612,15 @@
                         </div>
                     </div>
                     <div class="user-avatar" id="userAvatarHeader">B</div>
+                </div>
+                
+                <div class="bank-controls" id="bankControls">
+                    <button class="bank-btn" id="manageBankBtn">
+                        <i class="fas fa-database"></i> Quản lý ngân hàng đề
+                    </button>
+                    <button class="bank-btn secondary" id="addFromBankBtn">
+                        <i class="fas fa-plus-circle"></i> Thêm đề từ ngân hàng
+                    </button>
                 </div>
                 
                 <div class="room-content">
@@ -1617,6 +1743,7 @@
             </div>
         </div>
 
+        <!-- Modal tạo Flashcard -->
         <div id="createFlashcardModal" class="modal">
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateFlashcardModal">close</span>
@@ -1650,6 +1777,7 @@
             </div>
         </div>
 
+        <!-- Modal tạo câu hỏi tự luận -->
         <div id="createEssayModal" class="modal">
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateEssayModal">close</span>
@@ -1680,6 +1808,7 @@
             </div>
         </div>
 
+        <!-- Modal tạo câu hỏi trắc nghiệm -->
         <div id="createMcqModal" class="modal">
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeCreateMcqModal">close</span>
@@ -1716,6 +1845,7 @@
             </div>
         </div>
 
+        <!-- Modal tạo bằng AI -->
         <div id="aiGenerateModal" class="modal">
             <div class="modal-content">
                 <span class="material-symbols-outlined close" id="closeAiGenerateModal">close</span>
@@ -1762,6 +1892,87 @@
                     <button class="modal-btn ai-generate-btn" id="generateWithAiBtn">
                         <i class="fas fa-robot"></i> Tạo bằng AI
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal quản lý ngân hàng đề -->
+        <div id="bankManagerModal" class="modal">
+            <div class="modal-content" style="max-width: 800px;">
+                <span class="material-symbols-outlined close" id="closeBankManagerModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-database"></i> Quản lý ngân hàng đề</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newBankName">Tên đề mới</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="newBankName" placeholder="Ví dụ: Đề thi giữa kỳ - Từ vựng Unit 1-5" style="flex: 1;">
+                            <button class="modal-btn" id="createBankBtn" style="margin-top: 0;">Tạo đề mới</button>
+                        </div>
+                    </div>
+                    <hr style="margin: 20px 0;">
+                    <h4>Danh sách đề của bạn</h4>
+                    <div id="bankList" style="max-height: 400px; overflow-y: auto;">
+                        <div style="text-align: center; padding: 20px;">Đang tải...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal thêm đề từ ngân hàng vào phòng -->
+        <div id="addBankModal" class="modal">
+            <div class="modal-content" style="max-width: 800px;">
+                <span class="material-symbols-outlined close" id="closeAddBankModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-plus-circle"></i> Thêm đề từ ngân hàng</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="addBankList" style="max-height: 500px; overflow-y: auto;">
+                        <div style="text-align: center; padding: 20px;">Đang tải danh sách đề...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xem chi tiết đề -->
+        <div id="viewBankModal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <span class="material-symbols-outlined close" id="closeViewBankModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-eye"></i> Chi tiết đề: <span id="viewBankName"></span></h3>
+                </div>
+                <div class="modal-body">
+                    <div id="viewBankContent" style="max-height: 500px; overflow-y: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal sửa đề -->
+        <div id="editBankModal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
+                <span class="material-symbols-outlined close" id="closeEditBankModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-edit"></i> Sửa đề: <span id="editBankName"></span></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editBankTitle">Tên đề</label>
+                        <input type="text" id="editBankTitle" placeholder="Nhập tên đề">
+                    </div>
+                    <div class="form-group">
+                        <label>Nội dung đề</label>
+                        <div id="editBankContentsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px;">
+                        </div>
+                        <button class="modal-btn" id="addContentToBankBtn" style="margin-top: 10px; width: 100%;">
+                            <i class="fas fa-plus"></i> Thêm nội dung mới
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn secondary-btn" id="cancelEditBank">Hủy</button>
+                    <button class="modal-btn" id="saveEditBankBtn">Lưu thay đổi</button>
                 </div>
             </div>
         </div>
@@ -1855,6 +2066,18 @@
             document.getElementById('closeAiGenerateModal').addEventListener('click', closeAiGenerateModal);
             
             document.getElementById('nextContentBtn').addEventListener('click', showNextContent);
+            
+            // Bank management event listeners
+            document.getElementById('manageBankBtn').addEventListener('click', openBankManagerModal);
+            document.getElementById('addFromBankBtn').addEventListener('click', openAddBankModal);
+            document.getElementById('createBankBtn').addEventListener('click', createNewBank);
+            document.getElementById('closeBankManagerModal').addEventListener('click', closeBankManagerModal);
+            document.getElementById('closeAddBankModal').addEventListener('click', closeAddBankModal);
+            document.getElementById('closeViewBankModal').addEventListener('click', closeViewBankModal);
+            document.getElementById('closeEditBankModal').addEventListener('click', closeEditBankModal);
+            document.getElementById('cancelEditBank').addEventListener('click', closeEditBankModal);
+            document.getElementById('saveEditBankBtn').addEventListener('click', saveBankEdit);
+            document.getElementById('addContentToBankBtn').addEventListener('click', addContentToBank);
             
             document.querySelectorAll('.content-type-tab').forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -2039,6 +2262,14 @@
                     loadStudentSubmissions();
                     
                     updateContentControls();
+                    
+                    // Show/hide bank controls based on teacher role
+                    const bankControls = document.getElementById('bankControls');
+                    if (isTeacher) {
+                        bankControls.style.display = 'flex';
+                    } else {
+                        bankControls.style.display = 'none';
+                    }
                     
                     showNotification(`Đã tham gia phòng "${roomData.name}"`, 'success');
                 })
@@ -2263,6 +2494,14 @@
                     isTeacher = roomData.teacherId === currentUserId;
                     updateContentControls();
                     
+                    // Show/hide bank controls
+                    const bankControls = document.getElementById('bankControls');
+                    if (isTeacher) {
+                        bankControls.style.display = 'flex';
+                    } else {
+                        bankControls.style.display = 'none';
+                    }
+                    
                     if (isTeacher) {
                         document.getElementById('studentSubmissionsSection').classList.remove('hidden');
                     } else {
@@ -2339,7 +2578,6 @@
                         const statusClass = submission.isCorrect ? 'submission-correct' : (submission.isCorrect === false ? 'submission-incorrect' : 'submission-pending');
                         const statusText = submission.isCorrect ? 'Đúng' : (submission.isCorrect === false ? 'Sai' : 'Chờ chấm');
                         
-                        // Xác định vai trò của người làm bài (học sinh hay giáo viên)
                         const isSubmissionTeacher = submission.isTeacher === true;
                         const roleText = isSubmissionTeacher ? 'Giáo viên' : 'Học sinh';
                         const roleClass = isSubmissionTeacher ? 'teacher' : 'student';
@@ -2402,7 +2640,6 @@
             
             if (content.type === 'flashcard') {
                 document.getElementById('flashcardWord').textContent = content.english;
-                // Sửa: Hiển thị nghĩa tiếng Việt (vietnamese) thay vì nghĩa tiếng Anh
                 document.getElementById('flashcardMeaning').textContent = content.vietnamese || content.meaning || content.vietnamese;
                 
                 const frontHint = document.getElementById('frontHint');
@@ -2915,7 +3152,6 @@
                 return;
             }
             
-            // Sửa: So sánh với nghĩa tiếng Việt
             const correctAnswer = (currentContent.vietnamese || currentContent.meaning || '').toLowerCase().trim();
             
             const normalizedAnswer = answer.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').trim();
@@ -3389,6 +3625,553 @@
             showNotification(`Đã tạo và lưu ${savedCount} ${contentType} bằng AI!`, 'success');
             closeAiGenerateModal();
         }
+        
+        // ============= NGÂN HÀNG ĐỀ THI (QUESTION BANK) =============
+        
+        function openBankManagerModal() {
+            if (!isTeacher) {
+                showNotification('Chỉ giáo viên mới có thể quản lý ngân hàng đề!', 'warning');
+                return;
+            }
+            
+            document.getElementById('bankManagerModal').classList.add('active');
+            loadBankList();
+        }
+        
+        function closeBankManagerModal() {
+            document.getElementById('bankManagerModal').classList.remove('active');
+        }
+        
+        function openAddBankModal() {
+            if (!isTeacher) {
+                showNotification('Chỉ giáo viên mới có thể thêm đề từ ngân hàng!', 'warning');
+                return;
+            }
+            
+            document.getElementById('addBankModal').classList.add('active');
+            loadAddBankList();
+        }
+        
+        function closeAddBankModal() {
+            document.getElementById('addBankModal').classList.remove('active');
+        }
+        
+        function closeViewBankModal() {
+            document.getElementById('viewBankModal').classList.remove('active');
+        }
+        
+        function closeEditBankModal() {
+            document.getElementById('editBankModal').classList.remove('active');
+        }
+        
+        function loadBankList() {
+            const bankList = document.getElementById('bankList');
+            bankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+            
+            db.collection('questionBanks')
+                .where('teacherId', '==', currentUserId)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        bankList.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #999;">
+                                <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                                <p>Bạn chưa có đề nào trong ngân hàng</p>
+                                <p style="font-size: 0.85rem;">Hãy tạo đề mới ở trên để bắt đầu!</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let banksHTML = '';
+                    snapshot.forEach(doc => {
+                        const bank = doc.data();
+                        const contentCount = bank.contents ? bank.contents.length : 0;
+                        const createdAt = bank.createdAt ? new Date(bank.createdAt.toDate()).toLocaleDateString('vi-VN') : 'N/A';
+                        
+                        banksHTML += `
+                            <div class="bank-item" data-bank-id="${doc.id}">
+                                <div class="bank-item-header">
+                                    <div>
+                                        <div class="bank-item-name">
+                                            <i class="fas fa-folder-open"></i> ${escapeHtml(bank.name)}
+                                        </div>
+                                        <div class="bank-item-meta">
+                                            ${contentCount} nội dung • Tạo: ${createdAt}
+                                        </div>
+                                    </div>
+                                    <div class="bank-item-actions">
+                                        <button class="bank-view-btn" onclick="viewBankDetails('${doc.id}', '${escapeHtml(bank.name)}')">
+                                            <i class="fas fa-eye"></i> Xem
+                                        </button>
+                                        <button class="bank-edit-btn" onclick="editBank('${doc.id}', '${escapeHtml(bank.name)}')">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </button>
+                                        <button class="bank-delete-btn" onclick="deleteBank('${doc.id}')">
+                                            <i class="fas fa-trash"></i> Xóa
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bank-item-preview">
+                                    ${getBankPreview(bank.contents)}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    bankList.innerHTML = banksHTML;
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải ngân hàng đề:', error);
+                    bankList.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
+                });
+        }
+        
+        function getBankPreview(contents) {
+            if (!contents || contents.length === 0) {
+                return 'Chưa có nội dung nào';
+            }
+            
+            const previews = contents.slice(0, 3).map(content => {
+                if (content.type === 'flashcard') {
+                    return `📖 Flashcard: ${content.english} - ${content.vietnamese}`;
+                } else if (content.type === 'essay') {
+                    return `✍️ Tự luận: ${content.question.substring(0, 40)}...`;
+                } else if (content.type === 'mcq') {
+                    return `☑️ Trắc nghiệm: ${content.question.substring(0, 40)}...`;
+                }
+                return 'Nội dung khác';
+            });
+            
+            if (contents.length > 3) {
+                previews.push(`... và ${contents.length - 3} nội dung khác`);
+            }
+            
+            return previews.join('<br>');
+        }
+        
+        function loadAddBankList() {
+            const addBankList = document.getElementById('addBankList');
+            addBankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+            
+            db.collection('questionBanks')
+                .where('teacherId', '==', currentUserId)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        addBankList.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #999;">
+                                <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                                <p>Không có đề nào trong ngân hàng</p>
+                                <p style="font-size: 0.85rem;">Hãy vào "Quản lý ngân hàng đề" để tạo đề trước</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let banksHTML = '';
+                    snapshot.forEach(doc => {
+                        const bank = doc.data();
+                        const contentCount = bank.contents ? bank.contents.length : 0;
+                        
+                        banksHTML += `
+                            <div class="bank-item" data-bank-id="${doc.id}">
+                                <div class="bank-item-header">
+                                    <div>
+                                        <div class="bank-item-name">
+                                            <i class="fas fa-folder-open"></i> ${escapeHtml(bank.name)}
+                                        </div>
+                                        <div class="bank-item-meta">
+                                            ${contentCount} nội dung
+                                        </div>
+                                    </div>
+                                    <div class="bank-item-actions">
+                                        <button class="bank-add-btn" onclick="addBankToRoom('${doc.id}', '${escapeHtml(bank.name)}')">
+                                            <i class="fas fa-plus-circle"></i> Thêm vào phòng
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bank-item-preview">
+                                    ${getBankPreview(bank.contents)}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    addBankList.innerHTML = banksHTML;
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải danh sách đề:', error);
+                    addBankList.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
+                });
+        }
+        
+        function createNewBank() {
+            const bankName = document.getElementById('newBankName').value.trim();
+            
+            if (!bankName) {
+                showNotification('Vui lòng nhập tên đề!', 'warning');
+                return;
+            }
+            
+            const createBtn = document.getElementById('createBankBtn');
+            createBtn.innerHTML = '<div class="loading"></div>';
+            createBtn.disabled = true;
+            
+            db.collection('questionBanks').add({
+                name: bankName,
+                teacherId: currentUserId,
+                teacherName: currentUserName,
+                contents: [],
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                showNotification('Đã tạo đề mới thành công!', 'success');
+                document.getElementById('newBankName').value = '';
+                loadBankList();
+            })
+            .catch(error => {
+                console.error('Lỗi khi tạo đề:', error);
+                showNotification('Lỗi khi tạo đề', 'error');
+            })
+            .finally(() => {
+                createBtn.innerHTML = 'Tạo đề mới';
+                createBtn.disabled = false;
+            });
+        }
+        
+        window.viewBankDetails = function(bankId, bankName) {
+            document.getElementById('viewBankName').textContent = bankName;
+            const viewContent = document.getElementById('viewBankContent');
+            viewContent.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+            
+            db.collection('questionBanks').doc(bankId).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        viewContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Không tìm thấy đề</div>';
+                        return;
+                    }
+                    
+                    const bank = doc.data();
+                    const contents = bank.contents || [];
+                    
+                    if (contents.length === 0) {
+                        viewContent.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">Đề chưa có nội dung nào</div>';
+                    } else {
+                        let contentsHTML = '';
+                        contents.forEach((content, index) => {
+                            contentsHTML += `
+                                <div style="background: #f9f9f9; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 4px solid #FFA500;">
+                                    <div style="font-weight: bold; color: #FFA500; margin-bottom: 8px;">
+                                        ${index + 1}. ${getContentTypeIcon(content.type)} ${getContentTypeName(content.type)}
+                                    </div>
+                                    ${renderContentPreview(content)}
+                                </div>
+                            `;
+                        });
+                        viewContent.innerHTML = contentsHTML;
+                    }
+                    
+                    document.getElementById('viewBankModal').classList.add('active');
+                })
+                .catch(error => {
+                    console.error('Lỗi khi xem chi tiết đề:', error);
+                    viewContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
+                });
+        };
+        
+        window.editBank = function(bankId, bankName) {
+            document.getElementById('editBankName').textContent = bankName;
+            document.getElementById('editBankTitle').value = bankName;
+            document.getElementById('editBankModal').dataset.bankId = bankId;
+            document.getElementById('editBankContentsList').innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+            
+            db.collection('questionBanks').doc(bankId).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        document.getElementById('editBankContentsList').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Không tìm thấy đề</div>';
+                        return;
+                    }
+                    
+                    const bank = doc.data();
+                    const contents = bank.contents || [];
+                    
+                    if (contents.length === 0) {
+                        document.getElementById('editBankContentsList').innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">Chưa có nội dung nào</div>';
+                    } else {
+                        let contentsHTML = '';
+                        contents.forEach((content, index) => {
+                            contentsHTML += `
+                                <div style="background: #f9f9f9; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 4px solid #FFA500;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <div style="font-weight: bold; color: #FFA500;">
+                                            ${index + 1}. ${getContentTypeIcon(content.type)} ${getContentTypeName(content.type)}
+                                        </div>
+                                        <button class="remove-option-btn" onclick="removeContentFromBank(${index})" style="padding: 4px 8px;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    ${renderContentPreview(content)}
+                                </div>
+                            `;
+                        });
+                        document.getElementById('editBankContentsList').innerHTML = contentsHTML;
+                    }
+                    
+                    document.getElementById('editBankModal').classList.add('active');
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải đề để sửa:', error);
+                    document.getElementById('editBankContentsList').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
+                });
+        };
+        
+        window.removeContentFromBank = function(index) {
+            window.pendingRemoveIndex = index;
+            if (confirm('Bạn có chắc chắn muốn xóa nội dung này khỏi đề?')) {
+                const bankId = document.getElementById('editBankModal').dataset.bankId;
+                db.collection('questionBanks').doc(bankId).get()
+                    .then(doc => {
+                        const bank = doc.data();
+                        const contents = bank.contents || [];
+                        contents.splice(index, 1);
+                        return db.collection('questionBanks').doc(bankId).update({
+                            contents: contents,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    })
+                    .then(() => {
+                        showNotification('Đã xóa nội dung khỏi đề!', 'success');
+                        editBank(bankId, document.getElementById('editBankName').textContent);
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi xóa nội dung:', error);
+                        showNotification('Lỗi khi xóa nội dung', 'error');
+                    });
+            }
+        };
+        
+        function addContentToBank() {
+            const bankId = document.getElementById('editBankModal').dataset.bankId;
+            const currentRoomContents = roomContents;
+            
+            if (currentRoomContents.length === 0) {
+                showNotification('Phòng chưa có nội dung nào để thêm vào đề!', 'warning');
+                return;
+            }
+            
+            const contentOptions = currentRoomContents.map((content, index) => {
+                return `${index + 1}. ${getContentTypeIcon(content.type)} ${getContentPreview(content)}`;
+            }).join('\n');
+            
+            const contentIndex = prompt(`Chọn nội dung để thêm vào đề (nhập số thứ tự):\n\n${contentOptions}\n\nNhập số thứ tự (có thể nhập nhiều số cách nhau bằng dấu phẩy):`);
+            
+            if (!contentIndex) return;
+            
+            const indexes = contentIndex.split(',').map(i => parseInt(i.trim()) - 1).filter(i => !isNaN(i) && i >= 0 && i < currentRoomContents.length);
+            
+            if (indexes.length === 0) {
+                showNotification('Số thứ tự không hợp lệ!', 'warning');
+                return;
+            }
+            
+            db.collection('questionBanks').doc(bankId).get()
+                .then(doc => {
+                    const bank = doc.data();
+                    const contents = bank.contents || [];
+                    
+                    indexes.forEach(idx => {
+                        const contentToAdd = {...currentRoomContents[idx]};
+                        delete contentToAdd.id;
+                        delete contentToAdd.createdAt;
+                        delete contentToAdd.createdBy;
+                        contents.push(contentToAdd);
+                    });
+                    
+                    return db.collection('questionBanks').doc(bankId).update({
+                        contents: contents,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => {
+                    showNotification(`Đã thêm ${indexes.length} nội dung vào đề!`, 'success');
+                    editBank(bankId, document.getElementById('editBankName').textContent);
+                })
+                .catch(error => {
+                    console.error('Lỗi khi thêm nội dung vào đề:', error);
+                    showNotification('Lỗi khi thêm nội dung', 'error');
+                });
+        }
+        
+        function saveBankEdit() {
+            const bankId = document.getElementById('editBankModal').dataset.bankId;
+            const newName = document.getElementById('editBankTitle').value.trim();
+            
+            if (!newName) {
+                showNotification('Vui lòng nhập tên đề!', 'warning');
+                return;
+            }
+            
+            const saveBtn = document.getElementById('saveEditBankBtn');
+            saveBtn.innerHTML = '<div class="loading"></div>';
+            saveBtn.disabled = true;
+            
+            db.collection('questionBanks').doc(bankId).update({
+                name: newName,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                showNotification('Đã lưu thay đổi!', 'success');
+                closeEditBankModal();
+                loadBankList();
+            })
+            .catch(error => {
+                console.error('Lỗi khi lưu đề:', error);
+                showNotification('Lỗi khi lưu thay đổi', 'error');
+            })
+            .finally(() => {
+                saveBtn.innerHTML = 'Lưu thay đổi';
+                saveBtn.disabled = false;
+            });
+        }
+        
+        window.deleteBank = function(bankId) {
+            if (confirm('Bạn có chắc chắn muốn xóa đề này? Hành động này không thể hoàn tác!')) {
+                db.collection('questionBanks').doc(bankId).delete()
+                    .then(() => {
+                        showNotification('Đã xóa đề thành công!', 'success');
+                        loadBankList();
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi xóa đề:', error);
+                        showNotification('Lỗi khi xóa đề', 'error');
+                    });
+            }
+        };
+        
+        window.addBankToRoom = function(bankId, bankName) {
+            if (!currentRoomId) {
+                showNotification('Không tìm thấy phòng!', 'error');
+                return;
+            }
+            
+            if (confirm(`Bạn có chắc chắn muốn thêm đề "${bankName}" vào phòng hiện tại?`)) {
+                db.collection('questionBanks').doc(bankId).get()
+                    .then(doc => {
+                        if (!doc.exists) {
+                            throw new Error('Không tìm thấy đề');
+                        }
+                        
+                        const bank = doc.data();
+                        const contents = bank.contents || [];
+                        
+                        if (contents.length === 0) {
+                            showNotification('Đề này không có nội dung nào để thêm!', 'warning');
+                            return;
+                        }
+                        
+                        const batch = db.batch();
+                        const roomContentsRef = db.collection('rooms').doc(currentRoomId).collection('contents');
+                        
+                        contents.forEach(content => {
+                            const newContentRef = roomContentsRef.doc();
+                            batch.set(newContentRef, {
+                                ...content,
+                                createdBy: currentUserId,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                fromBank: true,
+                                fromBankId: bankId,
+                                fromBankName: bank.name
+                            });
+                        });
+                        
+                        return batch.commit();
+                    })
+                    .then(() => {
+                        showNotification(`Đã thêm đề "${bankName}" vào phòng thành công!`, 'success');
+                        closeAddBankModal();
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi thêm đề vào phòng:', error);
+                        showNotification('Lỗi khi thêm đề vào phòng', 'error');
+                    });
+            }
+        };
+        
+        function getContentTypeIcon(type) {
+            switch(type) {
+                case 'flashcard': return '📖';
+                case 'essay': return '✍️';
+                case 'mcq': return '☑️';
+                default: return '📄';
+            }
+        }
+        
+        function getContentTypeName(type) {
+            switch(type) {
+                case 'flashcard': return 'Flashcard';
+                case 'essay': return 'Tự luận';
+                case 'mcq': return 'Trắc nghiệm';
+                default: return 'Khác';
+            }
+        }
+        
+        function getContentPreview(content) {
+            if (content.type === 'flashcard') {
+                return `${content.english} - ${content.vietnamese}`;
+            } else if (content.type === 'essay') {
+                return content.question.length > 50 ? content.question.substring(0, 50) + '...' : content.question;
+            } else if (content.type === 'mcq') {
+                return content.question.length > 50 ? content.question.substring(0, 50) + '...' : content.question;
+            }
+            return 'Nội dung';
+        }
+        
+        function renderContentPreview(content) {
+            if (content.type === 'flashcard') {
+                return `
+                    <div><strong>Từ:</strong> ${escapeHtml(content.english)}</div>
+                    <div><strong>Nghĩa:</strong> ${escapeHtml(content.vietnamese)}</div>
+                    ${content.hint ? `<div><strong>Gợi ý:</strong> ${escapeHtml(content.hint)}</div>` : ''}
+                `;
+            } else if (content.type === 'essay') {
+                return `
+                    <div><strong>Câu hỏi:</strong> ${escapeHtml(content.question)}</div>
+                    <div><strong>Đáp án:</strong> ${Array.isArray(content.correctAnswers) ? content.correctAnswers.join(', ') : ''}</div>
+                    <div><strong>Điểm:</strong> ${content.points || 1}</div>
+                `;
+            } else if (content.type === 'mcq') {
+                const options = content.options || [];
+                const correctOptions = options.filter(opt => opt.correct).map(opt => opt.text);
+                return `
+                    <div><strong>Câu hỏi:</strong> ${escapeHtml(content.question)}</div>
+                    <div><strong>Lựa chọn:</strong> ${options.map(opt => opt.text).join(' | ')}</div>
+                    <div><strong>Đáp án đúng:</strong> ${correctOptions.join(', ')}</div>
+                    <div><strong>Điểm:</strong> ${content.points || 1}</div>
+                `;
+            }
+            return '';
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        // Make functions available globally for onclick handlers
+        window.viewBankDetails = viewBankDetails;
+        window.editBank = editBank;
+        window.deleteBank = deleteBank;
+        window.addBankToRoom = addBankToRoom;
+        window.removeContentFromBank = removeContentFromBank;
     </script>
 </body>
 </html>
