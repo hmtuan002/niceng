@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lớp học tiếng Anh Online - Niceng với Ngân hàng đề & Thi có giờ</title>
+    <title>Lớp học tiếng Anh Online - Niceng với Ngân hàng đề</title>
     <link rel="icon" type="image/svg+xml" href="https://learnenglishwithaurora.github.io/aurora.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -106,7 +106,7 @@
 
         .home-container {
             width: 100%;
-            max-width: 550px;
+            max-width: 480px;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -220,14 +220,6 @@
             text-align: center;
         }
 
-        .exam-time-display {
-            font-size: 0.9rem;
-            color: #FFA500;
-            margin-top: 5px;
-            text-align: center;
-            font-weight: 600;
-        }
-
         .btn {
             width: 100%;
             padding: 13px;
@@ -253,10 +245,6 @@
 
         .btn-secondary {
             background: linear-gradient(135deg, #36d1dc, #5b86e5);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
         }
 
         .divider {
@@ -310,7 +298,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: wrap;
         }
 
         .room-meta {
@@ -322,7 +309,7 @@
             flex-wrap: wrap;
         }
 
-        .room-id, .room-time, .exam-timer {
+        .room-id, .room-time {
             background-color: rgba(255, 255, 255, 0.15);
             padding: 6px 12px;
             border-radius: 50px;
@@ -331,11 +318,6 @@
             align-items: center;
             gap: 6px;
             font-weight: 500;
-        }
-
-        .exam-timer {
-            background-color: #f44336;
-            animation: pulse 1s infinite;
         }
 
         .time-critical {
@@ -391,7 +373,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 200px);
+            height: calc(100vh - 160px);
             min-height: 500px;
             overflow: hidden;
         }
@@ -537,9 +519,41 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 200px);
+            height: calc(100vh - 160px);
             min-height: 500px;
             overflow-y: auto;
+            position: relative;
+        }
+        
+        .waiting-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            flex-direction: column;
+            gap: 20px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .waiting-overlay i {
+            font-size: 4rem;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .waiting-overlay p {
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         .content-title {
@@ -949,12 +963,6 @@
             color: white;
         }
 
-        .start-exam-btn {
-            background: linear-gradient(135deg, #f44336, #c62828);
-            color: white;
-            animation: pulse 1.5s infinite;
-        }
-
         .content-type-tabs {
             display: flex;
             margin-bottom: 20px;
@@ -1184,6 +1192,18 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
         }
+        
+        .start-exam-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            font-size: 1.2rem;
+            padding: 14px 32px;
+        }
+        
+        .start-exam-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #1b5e20 100%);
+            transform: scale(1.02);
+        }
 
         .btn-exit {
             background: linear-gradient(135deg, #ff416c, #ff4b2b);
@@ -1405,26 +1425,6 @@
             border-top: 1px solid #e0e0e0;
         }
 
-        .selected-bank-item {
-            background: linear-gradient(135deg, #FFF9E6, #FFFAF0);
-            border: 2px solid #FFA500;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .remove-bank-btn {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -1441,6 +1441,33 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #FF8C00, #FFA500);
+        }
+        
+        .selected-bank-info {
+            background-color: #f0f8ff;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #FFA500;
+        }
+        
+        .remove-bank-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        
+        .remove-bank-btn:hover {
+            background-color: #d32f2f;
+            transform: scale(1.02);
         }
 
         @media (max-width: 768px) {
@@ -1607,7 +1634,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Thời gian phòng học (phút)</label>
+                        <label>Thời gian phòng học</label>
                         <div class="duration-options">
                             <div class="duration-option" data-minutes="30">30 phút</div>
                             <div class="duration-option active" data-minutes="45">45 phút</div>
@@ -1617,18 +1644,15 @@
                         <div class="time-display" id="endTimeDisplay"></div>
                     </div>
                     
+                    <!-- New UI for selecting bank when creating room -->
                     <div class="form-group">
-                        <label for="examDuration">Thời gian làm bài thi (phút) - Để trống nếu không dùng</label>
-                        <input type="number" id="examDuration" placeholder="Ví dụ: 30" min="5" max="120">
-                        <div class="exam-time-display" id="examTimeDisplay"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Chọn đề từ ngân hàng (tùy chọn)</label>
-                        <div id="selectedBankPreview" style="margin-bottom: 10px;"></div>
-                        <button type="button" class="btn-secondary" id="selectBankForRoomBtn" style="margin-top: 0; width: auto; padding: 10px;">
-                            <i class="fas fa-folder-open"></i> Chọn đề từ ngân hàng
+                        <button type="button" class="bank-btn secondary" id="selectBankForRoomBtn" style="width: 100%; margin-bottom: 10px;">
+                            <i class="fas fa-folder-open"></i> Chọn đề từ ngân hàng (tùy chọn)
                         </button>
+                        <div id="selectedBankDisplay" style="display: none;" class="selected-bank-info">
+                            <span><i class="fas fa-check-circle" style="color: #4CAF50;"></i> <strong>Đề đã chọn:</strong> <span id="selectedBankName"></span></span>
+                            <button type="button" id="clearSelectedBankBtn" class="remove-bank-btn">Bỏ chọn</button>
+                        </div>
                     </div>
                     
                     <button class="btn" id="createRoomBtn">
@@ -1657,7 +1681,6 @@
                         <div class="room-title">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <span id="currentRoomName">Lớp học tiếng Anh</span>
-                            <span id="examStatusBadge" style="font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px;"></span>
                         </div>
                         <div class="room-meta">
                             <div class="room-id">
@@ -1667,10 +1690,6 @@
                             <div class="room-time" id="roomTimeRemaining">
                                 <i class="fas fa-clock"></i>
                                 <span>45:00</span>
-                            </div>
-                            <div class="exam-timer hidden" id="examTimerDisplay">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span id="examTimeRemaining">00:00</span>
                             </div>
                         </div>
                     </div>
@@ -1683,9 +1702,6 @@
                     </button>
                     <button class="bank-btn secondary" id="addFromBankBtn">
                         <i class="fas fa-plus-circle"></i> Thêm đề từ ngân hàng
-                    </button>
-                    <button class="bank-btn start-exam-btn" id="startExamBtn" style="display: none;">
-                        <i class="fas fa-play"></i> Bắt đầu thi
                     </button>
                 </div>
                 
@@ -1708,6 +1724,10 @@
                     </div>
                     
                     <div class="content-section">
+                        <div class="waiting-overlay hidden" id="waitingOverlay">
+                            <i class="fas fa-hourglass-half"></i>
+                            <p>Chờ giáo viên bắt đầu thi...</p>
+                        </div>
                         <div class="content-type-tabs">
                             <div class="content-type-tab active" data-type="flashcard">
                                 <i class="fas fa-lightbulb"></i> Flashcard
@@ -1802,6 +1822,9 @@
                         <i class="fas fa-user-friends"></i>
                         <span id="participantCount">0</span> người tham gia
                     </div>
+                    <button class="btn-room start-exam-btn" id="startExamBtn" style="display: none;">
+                        <i class="fas fa-play"></i> Bắt đầu thi
+                    </button>
                     <button class="btn-room btn-exit" id="leaveRoomBtn">
                         <i class="fas fa-sign-out-alt"></i> Rời phòng
                     </button>
@@ -1986,22 +2009,7 @@
             </div>
         </div>
 
-        <!-- Modal chọn đề khi tạo phòng -->
-        <div id="selectBankForRoomModal" class="modal">
-            <div class="modal-content" style="max-width: 800px;">
-                <span class="material-symbols-outlined close" id="closeSelectBankModal">close</span>
-                <div class="modal-header">
-                    <h3><i class="fas fa-folder-open"></i> Chọn đề cho phòng học</h3>
-                </div>
-                <div class="modal-body">
-                    <div id="selectBankList" style="max-height: 500px; overflow-y: auto;">
-                        <div style="text-align: center; padding: 20px;">Đang tải danh sách đề...</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal thêm đề từ ngân hàng vào phòng (trong phòng) -->
+        <!-- Modal thêm đề từ ngân hàng vào phòng -->
         <div id="addBankModal" class="modal">
             <div class="modal-content" style="max-width: 800px;">
                 <span class="material-symbols-outlined close" id="closeAddBankModal">close</span>
@@ -2011,6 +2019,21 @@
                 <div class="modal-body">
                     <div id="addBankList" style="max-height: 500px; overflow-y: auto;">
                         <div style="text-align: center; padding: 20px;">Đang tải danh sách đề...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal chọn đề khi tạo phòng (Home Bank Modal) -->
+        <div id="homeBankModal" class="modal">
+            <div class="modal-content" style="max-width: 800px;">
+                <span class="material-symbols-outlined close" id="closeHomeBankModal">close</span>
+                <div class="modal-header">
+                    <h3><i class="fas fa-folder-open"></i> Chọn đề từ ngân hàng</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="homeBankList" style="max-height: 500px; overflow-y: auto;">
+                        <div style="text-align: center; padding: 20px;">Đang tải...</div>
                     </div>
                 </div>
             </div>
@@ -2093,12 +2116,10 @@
         let hasAnsweredCurrentContent = false;
         let currentContentType = 'flashcard';
         
-        // Biến cho tính năng thi có giờ
-        let selectedBankForRoom = null;
-        let examDurationMinutes = null;
-        let examStartTime = null;
-        let examTimer = null;
-        let isExamActive = false;
+        // New variables for exam mode
+        let selectedBankForRoom = null; // { id, name, contents }
+        let isExamMode = false;
+        let examStarted = false;
         
         function getOpenAIKey() {
             const part1_reversed = "_L2U4Fyd4cNY1in7PrQE6V_mDmpYZJFkblB3TusKIssDSAVCA7SF01BvE-cdNVla941Usb9q-6Z1wtc0Fl1auxBNxIChkrO9M9RFsEhagS4-tlv-jorp-ks";
@@ -2167,11 +2188,10 @@
             document.getElementById('saveEditBankBtn').addEventListener('click', saveBankEdit);
             document.getElementById('addContentToBankBtn').addEventListener('click', addContentToBank);
             
-            // Select bank for room
-            document.getElementById('selectBankForRoomBtn').addEventListener('click', openSelectBankForRoomModal);
-            document.getElementById('closeSelectBankModal').addEventListener('click', closeSelectBankModal);
-            
-            // Start exam button
+            // New: Home bank selection
+            document.getElementById('selectBankForRoomBtn').addEventListener('click', openHomeBankModal);
+            document.getElementById('clearSelectedBankBtn').addEventListener('click', clearSelectedBank);
+            document.getElementById('closeHomeBankModal').addEventListener('click', closeHomeBankModal);
             document.getElementById('startExamBtn').addEventListener('click', startExam);
             
             document.querySelectorAll('.content-type-tab').forEach(tab => {
@@ -2192,15 +2212,6 @@
             
             document.getElementById('essayAnswerInput').addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && e.ctrlKey) submitEssayAnswer();
-            });
-            
-            document.getElementById('examDuration').addEventListener('input', function(e) {
-                const minutes = parseInt(e.target.value);
-                if (minutes && minutes > 0) {
-                    document.getElementById('examTimeDisplay').textContent = `Thời gian làm bài: ${minutes} phút`;
-                } else {
-                    document.getElementById('examTimeDisplay').textContent = '';
-                }
             });
             
             localStorage.removeItem('currentRoom');
@@ -2256,165 +2267,9 @@
                 `Phòng sẽ đóng lúc: ${timeString}`;
         }
         
-        function openSelectBankForRoomModal() {
-            if (!currentUserName) {
-                showNotification('Vui lòng nhập tên của bạn trước!', 'warning');
-                return;
-            }
-            
-            const modal = document.getElementById('selectBankForRoomModal');
-            const bankList = document.getElementById('selectBankList');
-            bankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
-            modal.classList.add('active');
-            
-            db.collection('questionBanks')
-                .where('teacherId', '==', currentUserId)
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(snapshot => {
-                    if (snapshot.empty) {
-                        bankList.innerHTML = `
-                            <div style="text-align: center; padding: 40px; color: #999;">
-                                <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                                <p>Bạn chưa có đề nào trong ngân hàng</p>
-                                <p style="font-size: 0.85rem;">Hãy vào "Quản lý ngân hàng đề" để tạo đề trước</p>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    let banksHTML = '';
-                    snapshot.forEach(doc => {
-                        const bank = doc.data();
-                        const contentCount = bank.contents ? bank.contents.length : 0;
-                        const isSelected = selectedBankForRoom && selectedBankForRoom.id === doc.id;
-                        
-                        banksHTML += `
-                            <div class="bank-item" data-bank-id="${doc.id}">
-                                <div class="bank-item-header">
-                                    <div>
-                                        <div class="bank-item-name">
-                                            <i class="fas fa-folder-open"></i> ${escapeHtml(bank.name)}
-                                        </div>
-                                        <div class="bank-item-meta">
-                                            ${contentCount} nội dung
-                                        </div>
-                                    </div>
-                                    <div class="bank-item-actions">
-                                        <button class="bank-view-btn" onclick="viewBankDetailsForSelect('${doc.id}', '${escapeHtml(bank.name)}')">
-                                            <i class="fas fa-eye"></i> Xem
-                                        </button>
-                                        <button class="bank-add-btn" onclick="selectBankForRoom('${doc.id}', '${escapeHtml(bank.name)}')">
-                                            ${isSelected ? '<i class="fas fa-check"></i> Đã chọn' : '<i class="fas fa-check-circle"></i> Chọn đề này'}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="bank-item-preview">
-                                    ${getBankPreview(bank.contents)}
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    bankList.innerHTML = banksHTML;
-                })
-                .catch(error => {
-                    console.error('Lỗi khi tải danh sách đề:', error);
-                    bankList.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
-                });
-        }
-        
-        window.viewBankDetailsForSelect = function(bankId, bankName) {
-            document.getElementById('viewBankName').textContent = bankName;
-            const viewContent = document.getElementById('viewBankContent');
-            viewContent.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
-            
-            db.collection('questionBanks').doc(bankId).get()
-                .then(doc => {
-                    if (!doc.exists) {
-                        viewContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Không tìm thấy đề</div>';
-                        return;
-                    }
-                    
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    
-                    if (contents.length === 0) {
-                        viewContent.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">Đề chưa có nội dung nào</div>';
-                    } else {
-                        let contentsHTML = '';
-                        contents.forEach((content, index) => {
-                            contentsHTML += `
-                                <div style="background: #f9f9f9; border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 4px solid #FFA500;">
-                                    <div style="font-weight: bold; color: #FFA500; margin-bottom: 8px;">
-                                        ${index + 1}. ${getContentTypeIcon(content.type)} ${getContentTypeName(content.type)}
-                                    </div>
-                                    ${renderContentPreview(content)}
-                                </div>
-                            `;
-                        });
-                        viewContent.innerHTML = contentsHTML;
-                    }
-                    
-                    document.getElementById('viewBankModal').classList.add('active');
-                })
-                .catch(error => {
-                    console.error('Lỗi khi xem chi tiết đề:', error);
-                    viewContent.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
-                });
-        };
-        
-        window.selectBankForRoom = function(bankId, bankName) {
-            db.collection('questionBanks').doc(bankId).get()
-                .then(doc => {
-                    if (!doc.exists) {
-                        showNotification('Không tìm thấy đề!', 'error');
-                        return;
-                    }
-                    
-                    selectedBankForRoom = {
-                        id: bankId,
-                        name: bankName,
-                        contents: doc.data().contents || []
-                    };
-                    
-                    const previewDiv = document.getElementById('selectedBankPreview');
-                    previewDiv.innerHTML = `
-                        <div class="selected-bank-item">
-                            <div>
-                                <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-                                <strong>Đã chọn đề:</strong> ${escapeHtml(bankName)}
-                                <span style="font-size: 0.8rem; color: #666; margin-left: 10px;">(${selectedBankForRoom.contents.length} nội dung)</span>
-                            </div>
-                            <button class="remove-bank-btn" onclick="removeSelectedBank()">
-                                <i class="fas fa-times"></i> Bỏ chọn
-                            </button>
-                        </div>
-                    `;
-                    
-                    showNotification(`Đã chọn đề "${bankName}"!`, 'success');
-                    closeSelectBankModal();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi chọn đề:', error);
-                    showNotification('Lỗi khi chọn đề', 'error');
-                });
-        };
-        
-        window.removeSelectedBank = function() {
-            selectedBankForRoom = null;
-            document.getElementById('selectedBankPreview').innerHTML = '';
-            showNotification('Đã bỏ chọn đề', 'info');
-        };
-        
-        function closeSelectBankModal() {
-            document.getElementById('selectBankForRoomModal').classList.remove('active');
-        }
-        
         function createRoom() {
             const roomName = document.getElementById('roomName').value.trim();
             const duration = parseInt(document.getElementById('roomDuration').value);
-            const examDuration = parseInt(document.getElementById('examDuration').value);
             
             if (!currentUserName) {
                 showNotification('Vui lòng nhập tên của bạn', 'warning');
@@ -2429,33 +2284,30 @@
             const roomId = 'room_' + Math.random().toString(36).substr(2, 9);
             
             const now = new Date();
-            const endTime = new Date(now.getTime() + duration * 60000);
+            const endTimeDate = new Date(now.getTime() + duration * 60000);
             
             const createBtn = document.getElementById('createRoomBtn');
             createBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
             createBtn.disabled = true;
             
-            const roomData = {
+            let roomData = {
                 name: roomName,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 createdBy: currentUserId,
                 duration: duration,
-                endTime: firebase.firestore.Timestamp.fromDate(endTime),
+                endTime: firebase.firestore.Timestamp.fromDate(endTimeDate),
                 status: 'active',
                 teacherId: currentUserId
             };
             
+            // Check if a bank was selected
             if (selectedBankForRoom && selectedBankForRoom.contents && selectedBankForRoom.contents.length > 0) {
-                roomData.presetBank = {
-                    id: selectedBankForRoom.id,
-                    name: selectedBankForRoom.name,
-                    contents: selectedBankForRoom.contents
-                };
-            }
-            
-            if (examDuration && examDuration > 0) {
-                roomData.examDuration = examDuration;
-                roomData.examStatus = 'waiting';
+                roomData.examMode = true;
+                roomData.examContents = selectedBankForRoom.contents;
+                roomData.examStarted = false;
+                roomData.selectedBankId = selectedBankForRoom.id;
+                roomData.selectedBankName = selectedBankForRoom.name;
+                showNotification(`Phòng được tạo với đề "${selectedBankForRoom.name}". Sẽ bắt đầu thi khi bạn nhấn "Bắt đầu thi".`, 'info');
             }
             
             db.collection('rooms').doc(roomId).set(roomData)
@@ -2471,9 +2323,9 @@
             .then(() => {
                 showNotification(`Đã tạo phòng "${roomName}" thành công!`, 'success');
                 document.getElementById('roomName').value = '';
-                document.getElementById('examDuration').value = '';
-                selectedBankForRoom = null;
-                document.getElementById('selectedBankPreview').innerHTML = '';
+                
+                // Clear selected bank after creation
+                clearSelectedBank();
                 
                 joinRoomById(roomId);
             })
@@ -2517,6 +2369,8 @@
                 
                 currentRoomId = roomId;
                 isTeacher = roomData.teacherId === currentUserId;
+                isExamMode = roomData.examMode === true;
+                examStarted = roomData.examStarted === true;
                 
                 db.collection('rooms').doc(roomId).collection('participants').doc(currentUserId).set({
                     name: currentUserName,
@@ -2533,59 +2387,15 @@
                     document.getElementById('userAvatarHeader').textContent = currentUserName.charAt(0).toUpperCase();
                     
                     endTime = roomEndTime;
-                    startRoomTimer();
                     
-                    // Xử lý đề đã được preset khi tạo phòng
-                    if (roomData.presetBank && roomData.presetBank.contents && roomData.presetBank.contents.length > 0) {
-                        const batch = db.batch();
-                        const roomContentsRef = db.collection('rooms').doc(currentRoomId).collection('contents');
-                        
-                        roomData.presetBank.contents.forEach(content => {
-                            const newContentRef = roomContentsRef.doc();
-                            batch.set(newContentRef, {
-                                ...content,
-                                createdBy: currentUserId,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                fromBank: true,
-                                fromBankId: roomData.presetBank.id,
-                                fromBankName: roomData.presetBank.name,
-                                isPresetExam: true
-                            });
-                        });
-                        
-                        batch.commit().then(() => {
-                            showNotification('Đã tải đề thi vào phòng!', 'success');
-                        }).catch(error => {
-                            console.error('Lỗi khi tải đề preset:', error);
-                        });
-                    }
-                    
-                    // Xử lý thời gian thi
-                    if (roomData.examDuration && roomData.examDuration > 0) {
-                        examDurationMinutes = roomData.examDuration;
-                        document.getElementById('examTimerDisplay').classList.remove('hidden');
-                        
-                        if (roomData.examStatus === 'started' && roomData.examStartTime) {
-                            examStartTime = roomData.examStartTime.toDate();
-                            isExamActive = true;
-                            startExamTimer();
-                            updateExamUIForActive();
-                        } else if (roomData.examStatus === 'waiting' && isTeacher) {
-                            document.getElementById('startExamBtn').style.display = 'flex';
-                            document.getElementById('examStatusBadge').textContent = '⏳ Chờ bắt đầu thi';
-                            document.getElementById('examStatusBadge').style.background = 'rgba(255,255,255,0.2)';
-                        } else if (roomData.examStatus === 'waiting' && !isTeacher) {
-                            document.getElementById('examStatusBadge').textContent = '⏳ Giáo viên sẽ bắt đầu thi';
-                            document.getElementById('examStatusBadge').style.background = 'rgba(255,255,255,0.2)';
-                            // Vô hiệu hóa trả lời khi chưa bắt đầu thi
-                            disableAnswers(true);
-                        } else if (roomData.examStatus === 'ended') {
-                            document.getElementById('examStatusBadge').textContent = '📝 Đã kết thúc thi';
-                            document.getElementById('examStatusBadge').style.background = '#f44336';
-                            disableAnswers(true);
-                        }
+                    // Only start timer if not in exam mode or exam has started
+                    if (!isExamMode || examStarted) {
+                        startRoomTimer();
                     } else {
-                        document.getElementById('examTimerDisplay').classList.add('hidden');
+                        // Show waiting overlay for students if exam mode but not started
+                        if (!isTeacher && isExamMode && !examStarted) {
+                            document.getElementById('waitingOverlay').classList.remove('hidden');
+                        }
                     }
                     
                     loadParticipants();
@@ -2594,11 +2404,20 @@
                     
                     updateContentControls();
                     
+                    // Show/hide bank controls based on teacher role and exam mode
                     const bankControls = document.getElementById('bankControls');
-                    if (isTeacher) {
+                    if (isTeacher && !(isExamMode && !examStarted)) {
                         bankControls.style.display = 'flex';
                     } else {
                         bankControls.style.display = 'none';
+                    }
+                    
+                    // Show start exam button for teacher if exam mode and not started
+                    const startExamBtn = document.getElementById('startExamBtn');
+                    if (isTeacher && isExamMode && !examStarted) {
+                        startExamBtn.style.display = 'flex';
+                    } else {
+                        startExamBtn.style.display = 'none';
                     }
                     
                     showNotification(`Đã tham gia phòng "${roomData.name}"`, 'success');
@@ -2615,104 +2434,6 @@
             .catch(error => {
                 console.error('Lỗi khi kiểm tra phòng:', error);
                 showNotification('Lỗi khi kiểm tra phòng', 'error');
-            });
-        }
-        
-        function startExam() {
-            if (!isTeacher || !currentRoomId) return;
-            
-            if (confirm('Bạn có chắc chắn muốn bắt đầu thi? Học sinh sẽ được hiển thị đề và thời gian làm bài sẽ được tính ngay lập tức!')) {
-                examStartTime = new Date();
-                isExamActive = true;
-                
-                db.collection('rooms').doc(currentRoomId).update({
-                    examStatus: 'started',
-                    examStartTime: firebase.firestore.Timestamp.fromDate(examStartTime)
-                }).then(() => {
-                    showNotification('Đã bắt đầu thi!', 'success');
-                    document.getElementById('startExamBtn').style.display = 'none';
-                    document.getElementById('examStatusBadge').textContent = '📝 Đang thi';
-                    document.getElementById('examStatusBadge').style.background = '#4CAF50';
-                    startExamTimer();
-                    updateExamUIForActive();
-                }).catch(error => {
-                    console.error('Lỗi khi bắt đầu thi:', error);
-                    showNotification('Lỗi khi bắt đầu thi', 'error');
-                });
-            }
-        }
-        
-        function startExamTimer() {
-            if (examTimer) clearInterval(examTimer);
-            
-            function updateExamTimer() {
-                if (!examStartTime || !isExamActive) return;
-                
-                const now = new Date();
-                const elapsed = Math.floor((now - examStartTime) / 1000);
-                const remaining = (examDurationMinutes * 60) - elapsed;
-                
-                if (remaining <= 0) {
-                    clearInterval(examTimer);
-                    examTimer = null;
-                    isExamActive = false;
-                    
-                    document.getElementById('examTimeRemaining').textContent = '00:00';
-                    document.getElementById('examStatusBadge').textContent = '📝 Đã kết thúc thi';
-                    document.getElementById('examStatusBadge').style.background = '#f44336';
-                    
-                    if (isTeacher) {
-                        db.collection('rooms').doc(currentRoomId).update({
-                            examStatus: 'ended'
-                        });
-                    }
-                    
-                    disableAnswers(true);
-                    showNotification('Thời gian làm bài đã hết!', 'warning');
-                    return;
-                }
-                
-                const minutes = Math.floor(remaining / 60);
-                const seconds = remaining % 60;
-                document.getElementById('examTimeRemaining').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (remaining < 60) {
-                    document.getElementById('examTimerDisplay').style.animation = 'pulse 1s infinite';
-                }
-            }
-            
-            updateExamTimer();
-            examTimer = setInterval(updateExamTimer, 1000);
-        }
-        
-        function updateExamUIForActive() {
-            disableAnswers(false);
-            document.getElementById('examTimerDisplay').classList.remove('hidden');
-            document.getElementById('examTimerDisplay').classList.add('exam-timer');
-            
-            if (!isTeacher) {
-                const contentControls = document.querySelectorAll('.content-control-btn');
-                contentControls.forEach(btn => {
-                    btn.style.display = 'none';
-                });
-            }
-        }
-        
-        function disableAnswers(disabled) {
-            document.getElementById('flashcardAnswerInput').disabled = disabled;
-            document.getElementById('submitFlashcardAnswerBtn').disabled = disabled;
-            document.getElementById('essayAnswerInput').disabled = disabled;
-            document.getElementById('submitEssayAnswerBtn').disabled = disabled;
-            document.getElementById('submitMcqAnswerBtn').disabled = disabled;
-            
-            document.querySelectorAll('.mcq-option').forEach(option => {
-                if (disabled) {
-                    option.style.pointerEvents = 'none';
-                    option.style.opacity = '0.6';
-                } else {
-                    option.style.pointerEvents = 'auto';
-                    option.style.opacity = '1';
-                }
             });
         }
         
@@ -2753,11 +2474,6 @@
                 roomTimer = null;
             }
             
-            if (examTimer) {
-                clearInterval(examTimer);
-                examTimer = null;
-            }
-            
             if (participantsListener) {
                 participantsListener();
                 participantsListener = null;
@@ -2781,9 +2497,8 @@
             roomContents = [];
             currentContentIndex = 0;
             hasAnsweredCurrentContent = false;
-            isExamActive = false;
-            examStartTime = null;
-            examDurationMinutes = null;
+            isExamMode = false;
+            examStarted = false;
         }
         
         function startRoomTimer() {
@@ -2921,36 +2636,49 @@
                     
                     if (roomData.endTime) {
                         const newEndTime = roomData.endTime.toDate();
-                        if (newEndTime.getTime() !== endTime.getTime()) {
+                        if (!endTime || newEndTime.getTime() !== endTime.getTime()) {
                             endTime = newEndTime;
                             startRoomTimer();
                         }
                     }
                     
                     isTeacher = roomData.teacherId === currentUserId;
+                    // Update exam mode state
+                    const newExamMode = roomData.examMode === true;
+                    const newExamStarted = roomData.examStarted === true;
+                    
+                    if (newExamMode !== isExamMode || newExamStarted !== examStarted) {
+                        isExamMode = newExamMode;
+                        examStarted = newExamStarted;
+                        
+                        // Handle UI changes based on exam start
+                        if (!isTeacher && isExamMode) {
+                            if (examStarted) {
+                                document.getElementById('waitingOverlay').classList.add('hidden');
+                                // Load contents if not loaded
+                                if (roomContents.length === 0) {
+                                    loadContents();
+                                }
+                                startRoomTimer();
+                            } else {
+                                document.getElementById('waitingOverlay').classList.remove('hidden');
+                            }
+                        } else if (isTeacher && isExamMode && !examStarted) {
+                            document.getElementById('startExamBtn').style.display = 'flex';
+                            document.getElementById('waitingOverlay').classList.add('hidden');
+                        } else if (isTeacher && isExamMode && examStarted) {
+                            document.getElementById('startExamBtn').style.display = 'none';
+                        }
+                    }
+                    
                     updateContentControls();
                     
+                    // Show/hide bank controls
                     const bankControls = document.getElementById('bankControls');
-                    if (isTeacher) {
+                    if (isTeacher && !(isExamMode && !examStarted)) {
                         bankControls.style.display = 'flex';
                     } else {
                         bankControls.style.display = 'none';
-                    }
-                    
-                    // Cập nhật trạng thái thi từ Firestore
-                    if (roomData.examStatus === 'started' && roomData.examStartTime && !isExamActive) {
-                        examStartTime = roomData.examStartTime.toDate();
-                        examDurationMinutes = roomData.examDuration;
-                        isExamActive = true;
-                        startExamTimer();
-                        updateExamUIForActive();
-                        document.getElementById('examStatusBadge').textContent = '📝 Đang thi';
-                        document.getElementById('examStatusBadge').style.background = '#4CAF50';
-                    } else if (roomData.examStatus === 'ended') {
-                        isExamActive = false;
-                        document.getElementById('examStatusBadge').textContent = '📝 Đã kết thúc thi';
-                        document.getElementById('examStatusBadge').style.background = '#f44336';
-                        disableAnswers(true);
                     }
                     
                     if (isTeacher) {
@@ -3170,24 +2898,29 @@
         }
         
         function resetAnswerControls() {
-            if (isExamActive || !isExamActive) {
-                document.getElementById('flashcardAnswerInput').value = '';
-                document.getElementById('flashcardAnswerFeedback').style.display = 'none';
-                document.getElementById('essayAnswerInput').value = '';
-                document.getElementById('essayAnswerFeedback').style.display = 'none';
-                document.querySelectorAll('.mcq-option').forEach(option => {
-                    option.classList.remove('selected');
-                });
-                document.querySelectorAll('input[name="mcq_option"]').forEach(radio => {
-                    radio.checked = false;
-                });
-                document.getElementById('mcqAnswerFeedback').style.display = 'none';
-                document.querySelectorAll('.mcq-option').forEach(option => {
-                    option.style.pointerEvents = 'auto';
-                    option.style.backgroundColor = '';
-                    option.style.borderColor = '';
-                });
-            }
+            document.getElementById('flashcardAnswerInput').value = '';
+            document.getElementById('flashcardAnswerFeedback').style.display = 'none';
+            document.getElementById('submitFlashcardAnswerBtn').disabled = false;
+            document.getElementById('flashcardAnswerInput').disabled = false;
+            
+            document.getElementById('essayAnswerInput').value = '';
+            document.getElementById('essayAnswerFeedback').style.display = 'none';
+            document.getElementById('submitEssayAnswerBtn').disabled = false;
+            document.getElementById('essayAnswerInput').disabled = false;
+            
+            document.querySelectorAll('.mcq-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelectorAll('input[name="mcq_option"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('mcqAnswerFeedback').style.display = 'none';
+            document.getElementById('submitMcqAnswerBtn').disabled = false;
+            document.querySelectorAll('.mcq-option').forEach(option => {
+                option.style.pointerEvents = 'auto';
+                option.style.backgroundColor = '';
+                option.style.borderColor = '';
+            });
         }
         
         function updateContentInfo() {
@@ -3218,6 +2951,10 @@
                 showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
                 return;
             }
+            if (isExamMode && !examStarted) {
+                showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
+                return;
+            }
             
             document.getElementById('createFlashcardModal').classList.add('active');
             document.getElementById('flashcardEnglish').value = '';
@@ -3236,6 +2973,10 @@
         function openCreateEssayModal() {
             if (!isTeacher) {
                 showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
+                return;
+            }
+            if (isExamMode && !examStarted) {
+                showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
             }
             
@@ -3258,6 +2999,10 @@
                 showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
                 return;
             }
+            if (isExamMode && !examStarted) {
+                showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
+                return;
+            }
             
             document.getElementById('createMcqModal').classList.add('active');
             document.getElementById('mcqQuestion').value = '';
@@ -3277,6 +3022,10 @@
         function openAiGenerateModal() {
             if (!isTeacher) {
                 showNotification('Chỉ giáo viên mới có thể sử dụng AI!', 'warning');
+                return;
+            }
+            if (isExamMode && !examStarted) {
+                showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
             }
             
@@ -3580,11 +3329,6 @@
                 return;
             }
             
-            if (isExamActive && !isTeacher && (!examStartTime || (new Date() - examStartTime) > examDurationMinutes * 60000)) {
-                showNotification('Thời gian làm bài đã hết!', 'warning');
-                return;
-            }
-            
             const answer = document.getElementById('flashcardAnswerInput').value.trim().toLowerCase();
             
             if (!answer) {
@@ -3634,11 +3378,6 @@
         function submitEssayAnswer() {
             if (hasAnsweredCurrentContent) {
                 showNotification('Bạn đã trả lời nội dung này rồi!', 'warning');
-                return;
-            }
-            
-            if (isExamActive && !isTeacher && (!examStartTime || (new Date() - examStartTime) > examDurationMinutes * 60000)) {
-                showNotification('Thời gian làm bài đã hết!', 'warning');
                 return;
             }
             
@@ -3697,11 +3436,6 @@
         function submitMcqAnswer() {
             if (hasAnsweredCurrentContent) {
                 showNotification('Bạn đã trả lời nội dung này rồi!', 'warning');
-                return;
-            }
-            
-            if (isExamActive && !isTeacher && (!examStartTime || (new Date() - examStartTime) > examDurationMinutes * 60000)) {
-                showNotification('Thời gian làm bài đã hết!', 'warning');
                 return;
             }
             
@@ -3809,7 +3543,8 @@
                 document.getElementById('aiGenerateBtn')
             ];
             
-            if (isTeacher && !isExamActive) {
+            // Hide creation buttons if in exam mode and exam not started yet
+            if (isTeacher && !(isExamMode && !examStarted)) {
                 createButtons.forEach(button => {
                     button.style.display = 'flex';
                 });
@@ -4125,13 +3860,13 @@
             document.getElementById('editBankModal').classList.remove('active');
         }
         
+        // Fixed: Removed orderBy to avoid index error, sort manually
         function loadBankList() {
             const bankList = document.getElementById('bankList');
             bankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
             
             db.collection('questionBanks')
                 .where('teacherId', '==', currentUserId)
-                .orderBy('createdAt', 'desc')
                 .get()
                 .then(snapshot => {
                     if (snapshot.empty) {
@@ -4145,14 +3880,24 @@
                         return;
                     }
                     
-                    let banksHTML = '';
+                    // Sort manually by createdAt descending
+                    const banks = [];
                     snapshot.forEach(doc => {
-                        const bank = doc.data();
+                        banks.push({ id: doc.id, ...doc.data() });
+                    });
+                    banks.sort((a, b) => {
+                        const timeA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                        const timeB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                        return timeB - timeA;
+                    });
+                    
+                    let banksHTML = '';
+                    banks.forEach(bank => {
                         const contentCount = bank.contents ? bank.contents.length : 0;
                         const createdAt = bank.createdAt ? new Date(bank.createdAt.toDate()).toLocaleDateString('vi-VN') : 'N/A';
                         
                         banksHTML += `
-                            <div class="bank-item" data-bank-id="${doc.id}">
+                            <div class="bank-item" data-bank-id="${bank.id}">
                                 <div class="bank-item-header">
                                     <div>
                                         <div class="bank-item-name">
@@ -4163,13 +3908,13 @@
                                         </div>
                                     </div>
                                     <div class="bank-item-actions">
-                                        <button class="bank-view-btn" onclick="viewBankDetails('${doc.id}', '${escapeHtml(bank.name)}')">
+                                        <button class="bank-view-btn" onclick="viewBankDetails('${bank.id}', '${escapeHtml(bank.name)}')">
                                             <i class="fas fa-eye"></i> Xem
                                         </button>
-                                        <button class="bank-edit-btn" onclick="editBank('${doc.id}', '${escapeHtml(bank.name)}')">
+                                        <button class="bank-edit-btn" onclick="editBank('${bank.id}', '${escapeHtml(bank.name)}')">
                                             <i class="fas fa-edit"></i> Sửa
                                         </button>
-                                        <button class="bank-delete-btn" onclick="deleteBank('${doc.id}')">
+                                        <button class="bank-delete-btn" onclick="deleteBank('${bank.id}')">
                                             <i class="fas fa-trash"></i> Xóa
                                         </button>
                                     </div>
@@ -4212,13 +3957,13 @@
             return previews.join('<br>');
         }
         
+        // Fixed: Removed orderBy to avoid index error, sort manually
         function loadAddBankList() {
             const addBankList = document.getElementById('addBankList');
             addBankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
             
             db.collection('questionBanks')
                 .where('teacherId', '==', currentUserId)
-                .orderBy('createdAt', 'desc')
                 .get()
                 .then(snapshot => {
                     if (snapshot.empty) {
@@ -4232,13 +3977,23 @@
                         return;
                     }
                     
-                    let banksHTML = '';
+                    // Sort manually by createdAt descending
+                    const banks = [];
                     snapshot.forEach(doc => {
-                        const bank = doc.data();
+                        banks.push({ id: doc.id, ...doc.data() });
+                    });
+                    banks.sort((a, b) => {
+                        const timeA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                        const timeB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                        return timeB - timeA;
+                    });
+                    
+                    let banksHTML = '';
+                    banks.forEach(bank => {
                         const contentCount = bank.contents ? bank.contents.length : 0;
                         
                         banksHTML += `
-                            <div class="bank-item" data-bank-id="${doc.id}">
+                            <div class="bank-item" data-bank-id="${bank.id}">
                                 <div class="bank-item-header">
                                     <div>
                                         <div class="bank-item-name">
@@ -4249,7 +4004,7 @@
                                         </div>
                                     </div>
                                     <div class="bank-item-actions">
-                                        <button class="bank-add-btn" onclick="addBankToRoom('${doc.id}', '${escapeHtml(bank.name)}')">
+                                        <button class="bank-add-btn" onclick="addBankToRoom('${bank.id}', '${escapeHtml(bank.name)}')">
                                             <i class="fas fa-plus-circle"></i> Thêm vào phòng
                                         </button>
                                     </div>
@@ -4562,6 +4317,179 @@
             }
         };
         
+        // New functions for Home Bank Selection
+        function openHomeBankModal() {
+            if (!currentUserId) {
+                showNotification('Vui lòng đợi hệ thống khởi tạo...', 'warning');
+                return;
+            }
+            document.getElementById('homeBankModal').classList.add('active');
+            loadHomeBankList();
+        }
+        
+        function closeHomeBankModal() {
+            document.getElementById('homeBankModal').classList.remove('active');
+        }
+        
+        // Fixed: Removed orderBy to avoid index error, sort manually
+        function loadHomeBankList() {
+            const homeBankList = document.getElementById('homeBankList');
+            homeBankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+            
+            db.collection('questionBanks')
+                .where('teacherId', '==', currentUserId)
+                .get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        homeBankList.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #999;">
+                                <i class="fas fa-database" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                                <p>Bạn chưa có đề nào trong ngân hàng</p>
+                                <p style="font-size: 0.85rem;">Hãy vào "Quản lý ngân hàng đề" để tạo đề trước</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Sort manually by createdAt descending
+                    const banks = [];
+                    snapshot.forEach(doc => {
+                        banks.push({ id: doc.id, ...doc.data() });
+                    });
+                    banks.sort((a, b) => {
+                        const timeA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                        const timeB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                        return timeB - timeA;
+                    });
+                    
+                    let banksHTML = '';
+                    banks.forEach(bank => {
+                        const contentCount = bank.contents ? bank.contents.length : 0;
+                        
+                        banksHTML += `
+                            <div class="bank-item" data-bank-id="${bank.id}">
+                                <div class="bank-item-header">
+                                    <div>
+                                        <div class="bank-item-name">
+                                            <i class="fas fa-folder-open"></i> ${escapeHtml(bank.name)}
+                                        </div>
+                                        <div class="bank-item-meta">
+                                            ${contentCount} nội dung
+                                        </div>
+                                    </div>
+                                    <div class="bank-item-actions">
+                                        <button class="bank-add-btn" onclick="selectBankForRoom('${bank.id}', '${escapeHtml(bank.name)}')">
+                                            <i class="fas fa-check-circle"></i> Chọn đề này
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bank-item-preview">
+                                    ${getBankPreview(bank.contents)}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    homeBankList.innerHTML = banksHTML;
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải danh sách đề:', error);
+                    homeBankList.innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Lỗi khi tải dữ liệu</div>';
+                });
+        }
+        
+        window.selectBankForRoom = function(bankId, bankName) {
+            db.collection('questionBanks').doc(bankId).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        showNotification('Không tìm thấy đề!', 'error');
+                        return;
+                    }
+                    const bank = doc.data();
+                    const contents = bank.contents || [];
+                    if (contents.length === 0) {
+                        showNotification('Đề này không có nội dung. Vui lòng thêm nội dung vào đề trước.', 'warning');
+                        return;
+                    }
+                    
+                    selectedBankForRoom = {
+                        id: bankId,
+                        name: bankName,
+                        contents: contents
+                    };
+                    
+                    document.getElementById('selectedBankName').textContent = bankName;
+                    document.getElementById('selectedBankDisplay').style.display = 'flex';
+                    closeHomeBankModal();
+                    showNotification(`Đã chọn đề "${bankName}" cho phòng học mới.`, 'success');
+                })
+                .catch(error => {
+                    console.error('Lỗi khi chọn đề:', error);
+                    showNotification('Lỗi khi chọn đề', 'error');
+                });
+        };
+        
+        function clearSelectedBank() {
+            selectedBankForRoom = null;
+            document.getElementById('selectedBankDisplay').style.display = 'none';
+            document.getElementById('selectedBankName').textContent = '';
+            showNotification('Đã bỏ chọn đề.', 'info');
+        }
+        
+        function startExam() {
+            if (!isTeacher || !currentRoomId) return;
+            
+            const startBtn = document.getElementById('startExamBtn');
+            startBtn.innerHTML = '<div class="loading"></div> Đang bắt đầu...';
+            startBtn.disabled = true;
+            
+            const roomRef = db.collection('rooms').doc(currentRoomId);
+            roomRef.get().then(doc => {
+                if (!doc.exists) return;
+                const roomData = doc.data();
+                if (!roomData.examMode) return;
+                
+                const batch = db.batch();
+                // Update room: set examStarted to true and examStartTime
+                batch.update(roomRef, {
+                    examStarted: true,
+                    examStartTime: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Add exam contents to subcollection
+                const examContents = roomData.examContents || [];
+                if (examContents.length > 0) {
+                    const contentsCollectionRef = roomRef.collection('contents');
+                    examContents.forEach(content => {
+                        const newContentRef = contentsCollectionRef.doc();
+                        batch.set(newContentRef, {
+                            ...content,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            fromBank: true,
+                            fromBankId: roomData.selectedBankId,
+                            fromBankName: roomData.selectedBankName
+                        });
+                    });
+                }
+                
+                return batch.commit();
+            })
+            .then(() => {
+                showNotification('Đã bắt đầu thi! Học sinh có thể làm bài ngay bây giờ.', 'success');
+                startBtn.style.display = 'none';
+                startRoomTimer();
+                // Reload contents for teacher as well
+                loadContents();
+            })
+            .catch(error => {
+                console.error('Lỗi khi bắt đầu thi:', error);
+                showNotification('Lỗi khi bắt đầu thi', 'error');
+                startBtn.innerHTML = '<i class="fas fa-play"></i> Bắt đầu thi';
+                startBtn.disabled = false;
+            });
+        }
+        
         function getContentTypeIcon(type) {
             switch(type) {
                 case 'flashcard': return '📖';
@@ -4633,9 +4561,7 @@
         window.deleteBank = deleteBank;
         window.addBankToRoom = addBankToRoom;
         window.removeContentFromBank = removeContentFromBank;
-        window.viewBankDetailsForSelect = viewBankDetailsForSelect;
         window.selectBankForRoom = selectBankForRoom;
-        window.removeSelectedBank = removeSelectedBank;
     </script>
 </body>
 </html>
