@@ -2147,7 +2147,6 @@
         let examStarted = false;
         
         // Variables for adding content to specific bank
-        let currentEditingBankId = null;
         let currentAddingBankId = null;
         
         function getOpenAIKey() {
@@ -2985,10 +2984,6 @@
         }
         
         function openCreateFlashcardModal() {
-            if (!isTeacher) {
-                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
-                return;
-            }
             if (isExamMode && !examStarted) {
                 showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
@@ -2998,6 +2993,9 @@
             document.getElementById('flashcardEnglish').value = '';
             document.getElementById('flashcardVietnamese').value = '';
             document.getElementById('flashcardHint').value = '';
+            
+            // Reset save button handler
+            document.getElementById('saveFlashcardBtn').onclick = saveFlashcard;
             
             setTimeout(() => {
                 document.getElementById('flashcardEnglish').focus();
@@ -3009,10 +3007,6 @@
         }
         
         function openCreateEssayModal() {
-            if (!isTeacher) {
-                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
-                return;
-            }
             if (isExamMode && !examStarted) {
                 showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
@@ -3022,6 +3016,9 @@
             document.getElementById('essayQuestion').value = '';
             document.getElementById('essayCorrectAnswer').value = '';
             document.getElementById('essayPoints').value = '1';
+            
+            // Reset save button handler
+            document.getElementById('saveEssayBtn').onclick = saveEssay;
             
             setTimeout(() => {
                 document.getElementById('essayQuestion').focus();
@@ -3033,10 +3030,6 @@
         }
         
         function openCreateMcqModal() {
-            if (!isTeacher) {
-                showNotification('Chỉ giáo viên mới có thể tạo nội dung!', 'warning');
-                return;
-            }
             if (isExamMode && !examStarted) {
                 showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
@@ -3045,6 +3038,9 @@
             document.getElementById('createMcqModal').classList.add('active');
             document.getElementById('mcqQuestion').value = '';
             document.getElementById('mcqPoints').value = '1';
+            
+            // Reset save button handler
+            document.getElementById('saveMcqBtn').onclick = saveMcq;
             
             initializeMcqOptions();
             
@@ -3058,10 +3054,6 @@
         }
         
         function openAiGenerateModal() {
-            if (!isTeacher) {
-                showNotification('Chỉ giáo viên mới có thể sử dụng AI!', 'warning');
-                return;
-            }
             if (isExamMode && !examStarted) {
                 showNotification('Chưa thể tạo nội dung khi chưa bắt đầu thi!', 'warning');
                 return;
@@ -3998,6 +3990,9 @@
                 return;
             }
             
+            // Hide bank manager modal temporarily
+            document.getElementById('bankManagerModal').classList.remove('active');
+            
             if (type === 'flashcard') {
                 document.getElementById('createFlashcardModal').classList.add('active');
                 document.getElementById('flashcardEnglish').value = '';
@@ -4024,6 +4019,8 @@
                 showNotification('Vui lòng chọn một đề để thêm nội dung trước!', 'warning');
                 return;
             }
+            // Hide bank manager modal temporarily
+            document.getElementById('bankManagerModal').classList.remove('active');
             openAiGenerateModal();
         }
         
@@ -4065,11 +4062,15 @@
                 .then(() => {
                     showNotification('Đã thêm flashcard vào đề thành công!', 'success');
                     closeCreateFlashcardModal();
+                    // Reopen bank manager modal and refresh list
+                    openBankManagerModal();
                     loadBankList();
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm flashcard vào đề:', error);
                     showNotification('Lỗi khi thêm nội dung', 'error');
+                    // Reopen bank manager modal on error as well
+                    openBankManagerModal();
                 })
                 .finally(() => {
                     saveBtn.innerHTML = 'Tạo Flashcard';
@@ -4124,11 +4125,13 @@
                 .then(() => {
                     showNotification('Đã thêm câu hỏi tự luận vào đề thành công!', 'success');
                     closeCreateEssayModal();
+                    openBankManagerModal();
                     loadBankList();
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm câu hỏi tự luận vào đề:', error);
                     showNotification('Lỗi khi thêm nội dung', 'error');
+                    openBankManagerModal();
                 })
                 .finally(() => {
                     saveBtn.innerHTML = 'Tạo câu hỏi';
@@ -4203,11 +4206,13 @@
                 .then(() => {
                     showNotification('Đã thêm câu hỏi trắc nghiệm vào đề thành công!', 'success');
                     closeCreateMcqModal();
+                    openBankManagerModal();
                     loadBankList();
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm câu hỏi trắc nghiệm vào đề:', error);
                     showNotification('Lỗi khi thêm nội dung', 'error');
+                    openBankManagerModal();
                 })
                 .finally(() => {
                     saveBtn.innerHTML = 'Tạo câu hỏi';
@@ -4272,11 +4277,13 @@
                 .then(() => {
                     showNotification('Đã thêm nội dung AI vào đề thành công!', 'success');
                     closeAiGenerateModal();
+                    openBankManagerModal();
                     loadBankList();
                 })
                 .catch(error => {
                     console.error('Lỗi khi thêm nội dung AI vào đề:', error);
                     showNotification('Lỗi khi thêm nội dung', 'error');
+                    openBankManagerModal();
                 });
         }
         
