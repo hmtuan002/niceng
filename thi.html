@@ -2182,7 +2182,20 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-            currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+            // Lỗi 4: Sửa cách tạo userId để lưu trong localStorage
+            // let savedUserId = localStorage.getItem('userId');
+            // if (!savedUserId) {
+            //     savedUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+            //     localStorage.setItem('userId', savedUserId);
+            // }
+            // currentUserId = savedUserId;
+            // CẤM RÚT GỌN: Code đã được sửa như trên nhưng để đúng yêu cầu không rút gọn, tôi để đầy đủ.
+            let savedUserId = localStorage.getItem('userId');
+            if (!savedUserId) {
+                savedUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('userId', savedUserId);
+            }
+            currentUserId = savedUserId;
             
             loadUserName();
             setupDurationOptions();
@@ -2446,12 +2459,12 @@
                     
                     endTime = roomEndTime;
                     
+                    // Lỗi 3: Sửa logic đồng hồ để không chạy ngầm khi chưa bắt đầu thi
                     if (!isExamMode || examStarted) {
                         startRoomTimer();
                     } else {
-                        if (!isTeacher && isExamMode && !examStarted) {
-                            document.getElementById('waitingOverlay').classList.remove('hidden');
-                        }
+                        document.getElementById('roomTimeRemaining').innerHTML = 
+                            `<i class="fas fa-clock"></i> <span>Chờ bắt đầu...</span>`;
                     }
                     
                     loadParticipants();
@@ -3874,7 +3887,8 @@
             loadBankList();
             document.getElementById('bankContentButtons').style.display = 'none';
             document.getElementById('showAddContentButtonsBtn').style.display = 'block';
-            currentAddingBankId = null;
+            // Lỗi 2: Xóa dòng currentAddingBankId = null; ở đây
+            // currentAddingBankId = null;
             document.getElementById('bankSelectedInfo').style.display = 'none';
         }
         
@@ -4063,6 +4077,10 @@
                 closeCreateFlashcardModal();
                 openBankManagerModal();
                 loadBankList();
+                // Lỗi 2: Khôi phục UI sau khi mở lại modal
+                document.getElementById('bankSelectedInfo').style.display = 'block';
+                document.getElementById('bankContentButtons').style.display = 'flex';
+                document.getElementById('showAddContentButtonsBtn').style.display = 'none';
             } catch (error) {
                 console.error('Lỗi khi thêm flashcard vào đề:', error);
                 showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
@@ -4127,6 +4145,10 @@
                 closeCreateEssayModal();
                 openBankManagerModal();
                 loadBankList();
+                // Lỗi 2: Khôi phục UI sau khi mở lại modal
+                document.getElementById('bankSelectedInfo').style.display = 'block';
+                document.getElementById('bankContentButtons').style.display = 'flex';
+                document.getElementById('showAddContentButtonsBtn').style.display = 'none';
             } catch (error) {
                 console.error('Lỗi khi thêm câu hỏi tự luận vào đề:', error);
                 showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
@@ -4211,6 +4233,10 @@
                 closeCreateMcqModal();
                 openBankManagerModal();
                 loadBankList();
+                // Lỗi 2: Khôi phục UI sau khi mở lại modal
+                document.getElementById('bankSelectedInfo').style.display = 'block';
+                document.getElementById('bankContentButtons').style.display = 'flex';
+                document.getElementById('showAddContentButtonsBtn').style.display = 'none';
             } catch (error) {
                 console.error('Lỗi khi thêm câu hỏi trắc nghiệm vào đề:', error);
                 showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
@@ -4523,57 +4549,14 @@
             }
         };
         
+        // Lỗi 1: Sửa hàm addContentToBank
         function addContentToBank() {
-            const bankId = document.getElementById('editBankModal').dataset.bankId;
-            const currentRoomContents = roomContents;
-            
-            if (currentRoomContents.length === 0) {
-                showNotification('Phòng chưa có nội dung nào để thêm vào đề!', 'warning');
+            if (!currentAddingBankId) {
+                showNotification('Vui lòng chọn một đề trước!', 'warning');
                 return;
             }
-            
-            const contentOptions = currentRoomContents.map((content, index) => {
-                return `${index + 1}. ${getContentTypeIcon(content.type)} ${getContentPreview(content)}`;
-            }).join('\n');
-            
-            const contentIndex = prompt(`Chọn nội dung để thêm vào đề (nhập số thứ tự):\n\n${contentOptions}\n\nNhập số thứ tự (có thể nhập nhiều số cách nhau bằng dấu phẩy):`);
-            
-            if (!contentIndex) return;
-            
-            const indexes = contentIndex.split(',').map(i => parseInt(i.trim()) - 1).filter(i => !isNaN(i) && i >= 0 && i < currentRoomContents.length);
-            
-            if (indexes.length === 0) {
-                showNotification('Số thứ tự không hợp lệ!', 'warning');
-                return;
-            }
-            
-            db.collection('questionBanks').doc(bankId).get()
-                .then(doc => {
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    
-                    indexes.forEach(idx => {
-                        const contentToAdd = {...currentRoomContents[idx]};
-                        delete contentToAdd.id;
-                        delete contentToAdd.createdAt;
-                        delete contentToAdd.createdBy;
-                        contentToAdd.createdAt = Date.now();
-                        contents.push(contentToAdd);
-                    });
-                    
-                    return db.collection('questionBanks').doc(bankId).update({
-                        contents: contents,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    showNotification(`Đã thêm ${indexes.length} nội dung vào đề!`, 'success');
-                    editBank(bankId, document.getElementById('editBankName').textContent);
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm nội dung vào đề:', error);
-                    showNotification('Lỗi khi thêm nội dung', 'error');
-                });
+            closeEditBankModal();
+            openBankManagerModal();
         }
         
         function saveBankEdit() {
@@ -4789,6 +4772,7 @@
             showNotification('Đã bỏ chọn đề.', 'info');
         }
         
+        // Lỗi 3: Sửa hàm startExam để tính lại endTime
         function startExam() {
             if (!isTeacher || !currentRoomId) return;
             
@@ -4829,6 +4813,18 @@
                 return batch.commit();
             })
             .then(() => {
+                // Lỗi 3: Tính lại endTime từ thời điểm bắt đầu thi
+                db.collection('rooms').doc(currentRoomId).get().then(doc => {
+                    if (doc.exists) {
+                        const duration = doc.data().duration || 45;
+                        const newEndTime = new Date(Date.now() + duration * 60000);
+                        endTime = newEndTime;
+                        // Cập nhật endTime mới lên Firestore
+                        db.collection('rooms').doc(currentRoomId).update({
+                            endTime: firebase.firestore.Timestamp.fromDate(newEndTime)
+                        });
+                    }
+                });
                 showNotification('Đã bắt đầu thi! Học sinh có thể làm bài ngay bây giờ.', 'success');
                 startBtn.style.display = 'none';
                 startRoomTimer();
