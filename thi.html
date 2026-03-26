@@ -581,10 +581,11 @@
             border-top: 2px solid #f0f0f0;
             padding-top: 20px;
             flex-shrink: 0;
-            max-height: 280px;
+            flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            min-height: 200px;
         }
 
         .student-submissions-section h4 {
@@ -596,6 +597,7 @@
             overflow-y: auto;
             flex: 1;
             padding-right: 8px;
+            max-height: 100%;
         }
 
         .submission-item {
@@ -1470,7 +1472,6 @@
             transform: scale(1.02);
         }
         
-        /* New styles for bank content buttons */
         .bank-content-buttons {
             margin: 20px 0;
             display: flex;
@@ -2164,7 +2165,6 @@
         let examStarted = false;
         let currentAddingBankId = null;
         
-        // Helper function to format timestamp from milliseconds
         function formatTimestamp(timestampMs) {
             if (!timestampMs) return 'N/A';
             const date = new Date(timestampMs);
@@ -2430,7 +2430,7 @@
                 isExamMode = roomData.examMode === true;
                 examStarted = roomData.examStarted === true;
                 
-                db.collection('rooms').doc(roomId).collection('participants').doc(currentUserId).set({
+                db.collection('rooms').doc(currentRoomId).collection('participants').doc(currentUserId).set({
                     name: currentUserName,
                     joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     lastActive: firebase.firestore.FieldValue.serverTimestamp(),
@@ -2890,7 +2890,7 @@
                         const optionElement = document.createElement('div');
                         optionElement.className = 'mcq-option';
                         optionElement.innerHTML = `
-                            <input type="radio" id="${optionId}" name="mcq_option" value="${option.text}">
+                            <input type="radio" id="${optionId}" name="mcq_option" value="${option.text.replace(/"/g, '&quot;')}">
                             <label for="${optionId}">${option.text}</label>
                         `;
                         optionsContainer.appendChild(optionElement);
@@ -4037,7 +4037,6 @@
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
             saveBtn.disabled = true;
             
-            // Use Date.now() instead of serverTimestamp() for array storage
             const newContent = {
                 type: 'flashcard',
                 english: english,
@@ -4102,7 +4101,6 @@
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
             saveBtn.disabled = true;
             
-            // Use Date.now() instead of serverTimestamp() for array storage
             const newContent = {
                 type: 'essay',
                 question: question,
@@ -4187,7 +4185,6 @@
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
             saveBtn.disabled = true;
             
-            // Use Date.now() instead of serverTimestamp() for array storage
             const newContent = {
                 type: 'mcq',
                 question: question,
