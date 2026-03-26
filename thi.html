@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
+        /* CSS giữ nguyên như cũ, không thay đổi */
         :root {
             font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
             line-height: 1.5;
@@ -1469,6 +1470,19 @@
             background-color: #d32f2f;
             transform: scale(1.02);
         }
+        
+        /* New styles for bank content buttons */
+        .bank-content-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .bank-content-buttons .modal-btn {
+            flex: 1;
+            text-align: center;
+        }
 
         @media (max-width: 768px) {
             .room-content {
@@ -1650,7 +1664,6 @@
                         <div class="time-display" id="endTimeDisplay"></div>
                     </div>
                     
-                    <!-- New UI for selecting bank when creating room -->
                     <div class="form-group">
                         <button type="button" class="bank-btn secondary" id="selectBankForRoomBtn" style="width: 100%; margin-bottom: 10px;">
                             <i class="fas fa-folder-open"></i> Chọn đề từ ngân hàng (tùy chọn)
@@ -2007,8 +2020,15 @@
                         </div>
                     </div>
                     
-                    <!-- New: Content creation buttons inside bank manager -->
-                    <div style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <!-- New: Thêm nội dung button - only one button initially -->
+                    <div style="margin: 20px 0;">
+                        <button class="modal-btn" id="showAddContentButtonsBtn" style="width: 100%; background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">
+                            <i class="fas fa-plus-circle"></i> Thêm nội dung
+                        </button>
+                    </div>
+                    
+                    <!-- Hidden content creation buttons, shown only when "Thêm nội dung" is clicked -->
+                    <div id="bankContentButtons" class="bank-content-buttons" style="display: none;">
                         <button class="modal-btn" id="bankCreateFlashcardBtn" style="background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);">
                             <i class="fas fa-plus-circle"></i> Tạo Flashcard
                         </button>
@@ -2018,10 +2038,11 @@
                         <button class="modal-btn" id="bankCreateMcqBtn" style="background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);">
                             <i class="fas fa-plus-circle"></i> Tạo trắc nghiệm
                         </button>
-                        <button class="modal-btn ai-generate-btn" id="bankAiGenerateBtn">
-                            <i class="fas fa-robot"></i> Tạo bằng AI
+                        <button class="modal-btn" id="bankHideContentButtonsBtn" class="secondary-btn" style="background: linear-gradient(135deg, #666 0%, #555 100%);">
+                            <i class="fas fa-times"></i> Ẩn
                         </button>
                     </div>
+                    
                     <div id="bankSelectedInfo" style="display: none; background: #e8f5e9; padding: 8px 12px; border-radius: 8px; margin-bottom: 15px;">
                         <i class="fas fa-check-circle" style="color: #4CAF50;"></i> Đang thêm vào đề: <strong id="bankTargetName"></strong>
                     </div>
@@ -2142,7 +2163,7 @@
         let currentContentType = 'flashcard';
         
         // New variables for exam mode
-        let selectedBankForRoom = null; // { id, name, contents }
+        let selectedBankForRoom = null;
         let isExamMode = false;
         let examStarted = false;
         
@@ -2219,11 +2240,20 @@
             // Home bank management button
             document.getElementById('homeManageBankBtn').addEventListener('click', openHomeBankManagerModal);
             
+            // New: Show/Hide content buttons in bank manager
+            document.getElementById('showAddContentButtonsBtn').addEventListener('click', function() {
+                document.getElementById('bankContentButtons').style.display = 'flex';
+                document.getElementById('showAddContentButtonsBtn').style.display = 'none';
+            });
+            document.getElementById('bankHideContentButtonsBtn').addEventListener('click', function() {
+                document.getElementById('bankContentButtons').style.display = 'none';
+                document.getElementById('showAddContentButtonsBtn').style.display = 'block';
+            });
+            
             // Bank content creation buttons
             document.getElementById('bankCreateFlashcardBtn').addEventListener('click', () => openBankCreateModal('flashcard'));
             document.getElementById('bankCreateEssayBtn').addEventListener('click', () => openBankCreateModal('essay'));
             document.getElementById('bankCreateMcqBtn').addEventListener('click', () => openBankCreateModal('mcq'));
-            document.getElementById('bankAiGenerateBtn').addEventListener('click', openBankAiGenerateModal);
             
             // New: Home bank selection
             document.getElementById('selectBankForRoomBtn').addEventListener('click', openHomeBankModal);
@@ -2337,7 +2367,6 @@
                 teacherId: currentUserId
             };
             
-            // Check if a bank was selected
             if (selectedBankForRoom && selectedBankForRoom.contents && selectedBankForRoom.contents.length > 0) {
                 roomData.examMode = true;
                 roomData.examContents = selectedBankForRoom.contents;
@@ -2360,10 +2389,7 @@
             .then(() => {
                 showNotification(`Đã tạo phòng "${roomName}" thành công!`, 'success');
                 document.getElementById('roomName').value = '';
-                
-                // Clear selected bank after creation
                 clearSelectedBank();
-                
                 joinRoomById(roomId);
             })
             .catch(error => {
@@ -2425,11 +2451,9 @@
                     
                     endTime = roomEndTime;
                     
-                    // Only start timer if not in exam mode or exam has started
                     if (!isExamMode || examStarted) {
                         startRoomTimer();
                     } else {
-                        // Show waiting overlay for students if exam mode but not started
                         if (!isTeacher && isExamMode && !examStarted) {
                             document.getElementById('waitingOverlay').classList.remove('hidden');
                         }
@@ -2441,7 +2465,6 @@
                     
                     updateContentControls();
                     
-                    // Show/hide bank controls based on teacher role and exam mode
                     const bankControls = document.getElementById('bankControls');
                     if (isTeacher && !(isExamMode && !examStarted)) {
                         bankControls.style.display = 'flex';
@@ -2449,7 +2472,6 @@
                         bankControls.style.display = 'none';
                     }
                     
-                    // Show start exam button for teacher if exam mode and not started
                     const startExamBtn = document.getElementById('startExamBtn');
                     if (isTeacher && isExamMode && !examStarted) {
                         startExamBtn.style.display = 'flex';
@@ -2501,7 +2523,6 @@
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('roomPage').classList.add('hidden');
             document.getElementById('homeButton').classList.add('hidden');
-            
             cleanupRoom();
         }
         
@@ -2510,27 +2531,22 @@
                 clearInterval(roomTimer);
                 roomTimer = null;
             }
-            
             if (participantsListener) {
                 participantsListener();
                 participantsListener = null;
             }
-            
             if (roomListener) {
                 roomListener();
                 roomListener = null;
             }
-            
             if (contentListener) {
                 contentListener();
                 contentListener = null;
             }
-            
             if (submissionsListener) {
                 submissionsListener();
                 submissionsListener = null;
             }
-            
             roomContents = [];
             currentContentIndex = 0;
             hasAnsweredCurrentContent = false;
@@ -2680,7 +2696,6 @@
                     }
                     
                     isTeacher = roomData.teacherId === currentUserId;
-                    // Update exam mode state
                     const newExamMode = roomData.examMode === true;
                     const newExamStarted = roomData.examStarted === true;
                     
@@ -2688,11 +2703,9 @@
                         isExamMode = newExamMode;
                         examStarted = newExamStarted;
                         
-                        // Handle UI changes based on exam start
                         if (!isTeacher && isExamMode) {
                             if (examStarted) {
                                 document.getElementById('waitingOverlay').classList.add('hidden');
-                                // Load contents if not loaded
                                 if (roomContents.length === 0) {
                                     loadContents();
                                 }
@@ -2710,7 +2723,6 @@
                     
                     updateContentControls();
                     
-                    // Show/hide bank controls
                     const bankControls = document.getElementById('bankControls');
                     if (isTeacher && !(isExamMode && !examStarted)) {
                         bankControls.style.display = 'flex';
@@ -2994,7 +3006,6 @@
             document.getElementById('flashcardVietnamese').value = '';
             document.getElementById('flashcardHint').value = '';
             
-            // Reset save button handler
             document.getElementById('saveFlashcardBtn').onclick = saveFlashcard;
             
             setTimeout(() => {
@@ -3017,7 +3028,6 @@
             document.getElementById('essayCorrectAnswer').value = '';
             document.getElementById('essayPoints').value = '1';
             
-            // Reset save button handler
             document.getElementById('saveEssayBtn').onclick = saveEssay;
             
             setTimeout(() => {
@@ -3039,7 +3049,6 @@
             document.getElementById('mcqQuestion').value = '';
             document.getElementById('mcqPoints').value = '1';
             
-            // Reset save button handler
             document.getElementById('saveMcqBtn').onclick = saveMcq;
             
             initializeMcqOptions();
@@ -3573,7 +3582,6 @@
                 document.getElementById('aiGenerateBtn')
             ];
             
-            // Hide creation buttons if in exam mode and exam not started yet
             if (isTeacher && !(isExamMode && !examStarted)) {
                 createButtons.forEach(button => {
                     button.style.display = 'flex';
@@ -3869,6 +3877,9 @@
         function openBankManagerModal() {
             document.getElementById('bankManagerModal').classList.add('active');
             loadBankList();
+            // Reset UI: hide content buttons, show "Thêm nội dung" button
+            document.getElementById('bankContentButtons').style.display = 'none';
+            document.getElementById('showAddContentButtonsBtn').style.display = 'block';
             currentAddingBankId = null;
             document.getElementById('bankSelectedInfo').style.display = 'none';
         }
@@ -3900,7 +3911,6 @@
             document.getElementById('editBankModal').classList.remove('active');
         }
         
-        // Fixed: Removed orderBy to avoid index error, sort manually
         function loadBankList() {
             const bankList = document.getElementById('bankList');
             bankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
@@ -3920,7 +3930,6 @@
                         return;
                     }
                     
-                    // Sort manually by createdAt descending
                     const banks = [];
                     snapshot.forEach(doc => {
                         banks.push({ id: doc.id, ...doc.data() });
@@ -3981,6 +3990,9 @@
             currentAddingBankId = bankId;
             document.getElementById('bankTargetName').textContent = bankName;
             document.getElementById('bankSelectedInfo').style.display = 'block';
+            // Show the content buttons area
+            document.getElementById('bankContentButtons').style.display = 'flex';
+            document.getElementById('showAddContentButtonsBtn').style.display = 'none';
             showNotification(`Đã chọn đề "${bankName}". Bây giờ bạn có thể thêm nội dung vào đề này.`, 'success');
         }
         
@@ -4014,16 +4026,6 @@
             }
         }
         
-        function openBankAiGenerateModal() {
-            if (!currentAddingBankId) {
-                showNotification('Vui lòng chọn một đề để thêm nội dung trước!', 'warning');
-                return;
-            }
-            // Hide bank manager modal temporarily
-            document.getElementById('bankManagerModal').classList.remove('active');
-            openAiGenerateModal();
-        }
-        
         async function saveFlashcardToBank() {
             const english = document.getElementById('flashcardEnglish').value.trim();
             const vietnamese = document.getElementById('flashcardVietnamese').value.trim();
@@ -4034,7 +4036,10 @@
                 return;
             }
             
-            if (!currentAddingBankId) return;
+            if (!currentAddingBankId) {
+                showNotification('Không tìm thấy đề để thêm!', 'error');
+                return;
+            }
             
             const saveBtn = document.getElementById('saveFlashcardBtn');
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
@@ -4049,33 +4054,32 @@
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            db.collection('questionBanks').doc(currentAddingBankId).get()
-                .then(doc => {
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    contents.push(newContent);
-                    return db.collection('questionBanks').doc(currentAddingBankId).update({
-                        contents: contents,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    showNotification('Đã thêm flashcard vào đề thành công!', 'success');
-                    closeCreateFlashcardModal();
-                    // Reopen bank manager modal and refresh list
-                    openBankManagerModal();
-                    loadBankList();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm flashcard vào đề:', error);
-                    showNotification('Lỗi khi thêm nội dung', 'error');
-                    // Reopen bank manager modal on error as well
-                    openBankManagerModal();
-                })
-                .finally(() => {
-                    saveBtn.innerHTML = 'Tạo Flashcard';
-                    saveBtn.disabled = false;
+            try {
+                const bankRef = db.collection('questionBanks').doc(currentAddingBankId);
+                const doc = await bankRef.get();
+                if (!doc.exists) {
+                    throw new Error('Không tìm thấy đề');
+                }
+                const bank = doc.data();
+                const contents = bank.contents || [];
+                contents.push(newContent);
+                await bankRef.update({
+                    contents: contents,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                showNotification('Đã thêm flashcard vào đề thành công!', 'success');
+                closeCreateFlashcardModal();
+                // Reopen bank manager modal and refresh list
+                openBankManagerModal();
+                loadBankList();
+            } catch (error) {
+                console.error('Lỗi khi thêm flashcard vào đề:', error);
+                showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
+                openBankManagerModal();
+            } finally {
+                saveBtn.innerHTML = 'Tạo Flashcard';
+                saveBtn.disabled = false;
+            }
         }
         
         async function saveEssayToBank() {
@@ -4097,7 +4101,10 @@
                 return;
             }
             
-            if (!currentAddingBankId) return;
+            if (!currentAddingBankId) {
+                showNotification('Không tìm thấy đề để thêm!', 'error');
+                return;
+            }
             
             const saveBtn = document.getElementById('saveEssayBtn');
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
@@ -4112,31 +4119,31 @@
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            db.collection('questionBanks').doc(currentAddingBankId).get()
-                .then(doc => {
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    contents.push(newContent);
-                    return db.collection('questionBanks').doc(currentAddingBankId).update({
-                        contents: contents,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    showNotification('Đã thêm câu hỏi tự luận vào đề thành công!', 'success');
-                    closeCreateEssayModal();
-                    openBankManagerModal();
-                    loadBankList();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm câu hỏi tự luận vào đề:', error);
-                    showNotification('Lỗi khi thêm nội dung', 'error');
-                    openBankManagerModal();
-                })
-                .finally(() => {
-                    saveBtn.innerHTML = 'Tạo câu hỏi';
-                    saveBtn.disabled = false;
+            try {
+                const bankRef = db.collection('questionBanks').doc(currentAddingBankId);
+                const doc = await bankRef.get();
+                if (!doc.exists) {
+                    throw new Error('Không tìm thấy đề');
+                }
+                const bank = doc.data();
+                const contents = bank.contents || [];
+                contents.push(newContent);
+                await bankRef.update({
+                    contents: contents,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                showNotification('Đã thêm câu hỏi tự luận vào đề thành công!', 'success');
+                closeCreateEssayModal();
+                openBankManagerModal();
+                loadBankList();
+            } catch (error) {
+                console.error('Lỗi khi thêm câu hỏi tự luận vào đề:', error);
+                showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
+                openBankManagerModal();
+            } finally {
+                saveBtn.innerHTML = 'Tạo câu hỏi';
+                saveBtn.disabled = false;
+            }
         }
         
         async function saveMcqToBank() {
@@ -4178,7 +4185,10 @@
                 return;
             }
             
-            if (!currentAddingBankId) return;
+            if (!currentAddingBankId) {
+                showNotification('Không tìm thấy đề để thêm!', 'error');
+                return;
+            }
             
             const saveBtn = document.getElementById('saveMcqBtn');
             saveBtn.innerHTML = '<div class="loading"></div> Đang tạo...';
@@ -4193,98 +4203,96 @@
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            db.collection('questionBanks').doc(currentAddingBankId).get()
-                .then(doc => {
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    contents.push(newContent);
-                    return db.collection('questionBanks').doc(currentAddingBankId).update({
-                        contents: contents,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    showNotification('Đã thêm câu hỏi trắc nghiệm vào đề thành công!', 'success');
-                    closeCreateMcqModal();
-                    openBankManagerModal();
-                    loadBankList();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm câu hỏi trắc nghiệm vào đề:', error);
-                    showNotification('Lỗi khi thêm nội dung', 'error');
-                    openBankManagerModal();
-                })
-                .finally(() => {
-                    saveBtn.innerHTML = 'Tạo câu hỏi';
-                    saveBtn.disabled = false;
+            try {
+                const bankRef = db.collection('questionBanks').doc(currentAddingBankId);
+                const doc = await bankRef.get();
+                if (!doc.exists) {
+                    throw new Error('Không tìm thấy đề');
+                }
+                const bank = doc.data();
+                const contents = bank.contents || [];
+                contents.push(newContent);
+                await bankRef.update({
+                    contents: contents,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                showNotification('Đã thêm câu hỏi trắc nghiệm vào đề thành công!', 'success');
+                closeCreateMcqModal();
+                openBankManagerModal();
+                loadBankList();
+            } catch (error) {
+                console.error('Lỗi khi thêm câu hỏi trắc nghiệm vào đề:', error);
+                showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
+                openBankManagerModal();
+            } finally {
+                saveBtn.innerHTML = 'Tạo câu hỏi';
+                saveBtn.disabled = false;
+            }
         }
         
         async function saveAiContentToBank(bankId, contentType, jsonContent) {
-            db.collection('questionBanks').doc(bankId).get()
-                .then(doc => {
-                    if (!doc.exists) throw new Error('Không tìm thấy đề');
-                    const bank = doc.data();
-                    const contents = bank.contents || [];
-                    let savedCount = 0;
-                    
-                    if (contentType === 'flashcard' && jsonContent.flashcards) {
-                        for (const flashcard of jsonContent.flashcards) {
-                            contents.push({
-                                type: 'flashcard',
-                                english: flashcard.english,
-                                vietnamese: flashcard.vietnamese,
-                                hint: flashcard.hint || '',
-                                createdBy: currentUserId,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                aiGenerated: true
-                            });
-                            savedCount++;
-                        }
-                    } else if (contentType === 'essay' && jsonContent.essays) {
-                        for (const essay of jsonContent.essays) {
-                            contents.push({
-                                type: 'essay',
-                                question: essay.question,
-                                correctAnswers: essay.answers,
-                                points: 1,
-                                createdBy: currentUserId,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                aiGenerated: true
-                            });
-                            savedCount++;
-                        }
-                    } else if (contentType === 'mcq' && jsonContent.mcqs) {
-                        for (const mcq of jsonContent.mcqs) {
-                            contents.push({
-                                type: 'mcq',
-                                question: mcq.question,
-                                options: mcq.options,
-                                points: 1,
-                                createdBy: currentUserId,
-                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                aiGenerated: true
-                            });
-                            savedCount++;
-                        }
+            try {
+                const bankRef = db.collection('questionBanks').doc(bankId);
+                const doc = await bankRef.get();
+                if (!doc.exists) throw new Error('Không tìm thấy đề');
+                const bank = doc.data();
+                const contents = bank.contents || [];
+                let savedCount = 0;
+                
+                if (contentType === 'flashcard' && jsonContent.flashcards) {
+                    for (const flashcard of jsonContent.flashcards) {
+                        contents.push({
+                            type: 'flashcard',
+                            english: flashcard.english,
+                            vietnamese: flashcard.vietnamese,
+                            hint: flashcard.hint || '',
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true
+                        });
+                        savedCount++;
                     }
-                    
-                    return db.collection('questionBanks').doc(bankId).update({
-                        contents: contents,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    showNotification('Đã thêm nội dung AI vào đề thành công!', 'success');
-                    closeAiGenerateModal();
-                    openBankManagerModal();
-                    loadBankList();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm nội dung AI vào đề:', error);
-                    showNotification('Lỗi khi thêm nội dung', 'error');
-                    openBankManagerModal();
+                } else if (contentType === 'essay' && jsonContent.essays) {
+                    for (const essay of jsonContent.essays) {
+                        contents.push({
+                            type: 'essay',
+                            question: essay.question,
+                            correctAnswers: essay.answers,
+                            points: 1,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true
+                        });
+                        savedCount++;
+                    }
+                } else if (contentType === 'mcq' && jsonContent.mcqs) {
+                    for (const mcq of jsonContent.mcqs) {
+                        contents.push({
+                            type: 'mcq',
+                            question: mcq.question,
+                            options: mcq.options,
+                            points: 1,
+                            createdBy: currentUserId,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            aiGenerated: true
+                        });
+                        savedCount++;
+                    }
+                }
+                
+                await bankRef.update({
+                    contents: contents,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                showNotification(`Đã thêm ${savedCount} nội dung AI vào đề thành công!`, 'success');
+                closeAiGenerateModal();
+                openBankManagerModal();
+                loadBankList();
+            } catch (error) {
+                console.error('Lỗi khi thêm nội dung AI vào đề:', error);
+                showNotification('Lỗi khi thêm nội dung: ' + error.message, 'error');
+                openBankManagerModal();
+            }
         }
         
         function getBankPreview(contents) {
@@ -4310,7 +4318,6 @@
             return previews.join('<br>');
         }
         
-        // Fixed: Removed orderBy to avoid index error, sort manually
         function loadAddBankList() {
             const addBankList = document.getElementById('addBankList');
             addBankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
@@ -4330,7 +4337,6 @@
                         return;
                     }
                     
-                    // Sort manually by createdAt descending
                     const banks = [];
                     snapshot.forEach(doc => {
                         banks.push({ id: doc.id, ...doc.data() });
@@ -4499,7 +4505,6 @@
         };
         
         window.removeContentFromBank = function(index) {
-            window.pendingRemoveIndex = index;
             if (confirm('Bạn có chắc chắn muốn xóa nội dung này khỏi đề?')) {
                 const bankId = document.getElementById('editBankModal').dataset.bankId;
                 db.collection('questionBanks').doc(bankId).get()
@@ -4670,7 +4675,6 @@
             }
         };
         
-        // New functions for Home Bank Selection
         function openHomeBankModal() {
             if (!currentUserId) {
                 showNotification('Vui lòng đợi hệ thống khởi tạo...', 'warning');
@@ -4684,7 +4688,6 @@
             document.getElementById('homeBankModal').classList.remove('active');
         }
         
-        // Fixed: Removed orderBy to avoid index error, sort manually
         function loadHomeBankList() {
             const homeBankList = document.getElementById('homeBankList');
             homeBankList.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
@@ -4704,7 +4707,6 @@
                         return;
                     }
                     
-                    // Sort manually by createdAt descending
                     const banks = [];
                     snapshot.forEach(doc => {
                         banks.push({ id: doc.id, ...doc.data() });
@@ -4803,13 +4805,11 @@
                 if (!roomData.examMode) return;
                 
                 const batch = db.batch();
-                // Update room: set examStarted to true and examStartTime
                 batch.update(roomRef, {
                     examStarted: true,
                     examStartTime: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                // Add exam contents to subcollection
                 const examContents = roomData.examContents || [];
                 if (examContents.length > 0) {
                     const contentsCollectionRef = roomRef.collection('contents');
@@ -4832,7 +4832,6 @@
                 showNotification('Đã bắt đầu thi! Học sinh có thể làm bài ngay bây giờ.', 'success');
                 startBtn.style.display = 'none';
                 startRoomTimer();
-                // Reload contents for teacher as well
                 loadContents();
             })
             .catch(error => {
